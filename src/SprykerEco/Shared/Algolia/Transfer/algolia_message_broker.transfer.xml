@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="MessageAttributes">
+        <property name="storeReference" type="string"/>
+        <property name="tenantIdentifier" type="string"/>
+        <property name="emitter" type="string"/>
+        <property name="actorId" type="string"/>
+    </transfer>
+
+    <transfer name="InitializeCmsPageExport" strict="true">
+        <property name="messageAttributes" type="MessageAttributes"/>
+    </transfer>
+
+    <transfer name="InitializeProductExport">
+        <property name="messageAttributes" type="MessageAttributes"/>
+    </transfer>
+
+</transfers>

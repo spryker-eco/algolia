@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerEco\Zed\Algolia\Business\Updater;
+
+use ArrayObject;
+use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Generated\Shared\Transfer\AlgoliaResponseTransfer;
+use Generated\Shared\Transfer\MessageAttributesTransfer;
+use Generated\Shared\Transfer\ProductDeletedTransfer;
+use Generated\Shared\Transfer\ProductUpdatedTransfer;
+use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
+use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
+use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
+use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
+
+class ProductUpdater implements ProductUpdaterInterface
+{
+    /**
+     * @var string
+     */
+    protected const ALL_STORES = '*';
+
+    /**
+     * @param \SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface $algoliaProductIndexer
+     * @param \SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface $algoliaProductSaver
+     * @param \SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface $productDeleter
+     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface $productConcreteFilter
+     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface $productDataFilterApplier
+     * @param \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver $algoliaConfigResolver
+     */
+    public function __construct(
+        protected ProductIndexerInterface $algoliaProductIndexer,
+        protected ProductSaverInterface $algoliaProductSaver,
+        protected ProductDeleterInterface $productDeleter,
+        protected ProductConcreteFilterInterface $productConcreteFilter,
+        protected ProductDataFilterApplierInterface $productDataFilterApplier,
+        protected AlgoliaConfigResolver $algoliaConfigResolver
+    ) {
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ProductUpdatedTransfer $productUpdatedTransfer
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
+     */
+    public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer
+    {
+        $filteredProductsConcrete = $this->productDataFilterApplier->apply($productUpdatedTransfer->getProductsConcrete());
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
+        if ($algoliaConfigTransfer === null) {
+            return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
+        }
+
+        $notApplicableProductsConcrete = $this->productConcreteFilter->filterNonIndexableProductsConcrete(
+            $filteredProductsConcrete,
+            $algoliaConfigTransfer,
+        );
+
+        if (count($notApplicableProductsConcrete) > 0) {
+            $this->deleteInactiveProductConcrete(
+                $notApplicableProductsConcrete,
+                $productUpdatedTransfer->getMessageAttributes(),
+                $algoliaConfigTransfer,
+            );
+        }
+
+        $applicableProductsConcrete = $this->productConcreteFilter->filterIndexableProductsConcrete(
+            $filteredProductsConcrete,
+            $algoliaConfigTransfer,
+        );
+
+        $indexedAlgoliaProductCollectionTransfer = $this->algoliaProductIndexer->indexProductsConcreteByStoreAndLocale(
+            $applicableProductsConcrete,
+            $productUpdatedTransfer->getMessageAttributesOrFail()->getTenantIdentifier()
+                ?: $productUpdatedTransfer->getMessageAttributesOrFail()->getStoreReferenceOrFail(),
+        );
+
+        return $this->algoliaProductSaver->saveAlgoliaProducts(
+            $indexedAlgoliaProductCollectionTransfer,
+            $algoliaConfigTransfer,
+        );
+    }
+
+    /**
+     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     * @param \Generated\Shared\Transfer\MessageAttributesTransfer $messageAttributesTransfer
+     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
+     *
+     * @return void
+     */
+    protected function deleteInactiveProductConcrete(
+        ArrayObject $productConcreteTransfers,
+        MessageAttributesTransfer $messageAttributesTransfer,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): void {
+        $productDeletedTransfersIndexedByStore = [];
+        foreach ($productConcreteTransfers as $productConcreteTransfer) {
+            if (!count($productConcreteTransfer->getStores())) {
+                $productDeletedTransfersIndexedByStore[static::ALL_STORES][] = (new ProductDeletedTransfer())
+                    ->setSku($productConcreteTransfer->getSku())
+                    ->setMessageAttributes($messageAttributesTransfer);
+
+                continue;
+            }
+            foreach ($productConcreteTransfer->getStores() as $storeTransfer) {
+                $productDeletedTransfersIndexedByStore[$storeTransfer->getName()][] = (new ProductDeletedTransfer())
+                    ->setSku($productConcreteTransfer->getSku())
+                    ->setMessageAttributes($messageAttributesTransfer);
+            }
+        }
+
+        foreach ($productDeletedTransfersIndexedByStore as $storeName => $productDeletedTransfers) {
+            $this->productDeleter->deleteProducts(
+                $productDeletedTransfers,
+                $algoliaConfigTransfer,
+                $storeName !== static::ALL_STORES ? $storeName : null,
+            );
+        }
+    }
+}
