@@ -75,7 +75,7 @@ class SearchIndexResolver implements SearchIndexResolverInterface
         if ($algoliaConfigTransfer === null) {
             throw new AlgoliaConfigNotFoundException('Algolia configuration not found');
         }
-        $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer, true);
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer, true);
 
         return $this->searchIndexClientCreator->createSearchIndexApiClientForSearch($searchClient, (new IndexConfigurationTransfer())->setIndexName($indexName));
     }

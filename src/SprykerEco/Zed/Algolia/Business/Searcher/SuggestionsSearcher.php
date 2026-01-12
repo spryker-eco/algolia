@@ -53,7 +53,7 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
             throw new AlgoliaConfigNotFoundException('Algolia configuration not found.');
         }
 
-        $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer, true);
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer, true);
 
         if ($algoliaConfigTransfer->getIsSearchInFrontendEnabled()) {
             $result = $this->getProductsResult($searchRequestTransfer, $searchClient, $algoliaConfigTransfer, $result);

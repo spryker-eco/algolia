@@ -40,7 +40,7 @@ class CmsPageSaver implements CmsPageSaverInterface
             return $this->createSuccessResponse();
         }
 
-        $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer);
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
         $indexName = $indexData['indexName'];
         $locale = $indexData['locale'] ?? null;
 

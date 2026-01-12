@@ -12,18 +12,16 @@ use Algolia\AlgoliaSearch\Support\UserAgent;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
 class SearchClientCreator implements SearchClientCreatorInterface
 {
     public function __construct(
-        protected AlgoliaConfigResolverInterface $algoliaConfigResolver,
-        protected CredentialsMapperInterface $credentialsMapper
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    public function createSearchClient(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient
+    public function createSearchClientWithCredentials(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient
     {
         UserAgent::addCustomUserAgent(AlgoliaConfig::USER_AGENT_SEGMENT_NAME, AlgoliaConfig::APP_VERSION);
 
@@ -33,25 +31,12 @@ class SearchClientCreator implements SearchClientCreatorInterface
         );
     }
 
-    public function createSearchClientByStoreReference(AlgoliaConfigTransfer $algoliaConfigTransfer, bool $isSearchOnly = false): SearchClient
+    public function createSearchClientFromConfig(AlgoliaConfigTransfer $algoliaConfigTransfer, bool $isSearchOnly = false): SearchClient
     {
-        $algoliaApiCredentialsTransfer = $this->findCredentialsByStoreReference($algoliaConfigTransfer, $isSearchOnly);
+        $algoliaApiCredentialsTransfer = (new AlgoliaApiCredentialsTransfer())
+            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+            ->setApiKey($isSearchOnly ? $algoliaConfigTransfer->getSearchOnlyApiKey() : $algoliaConfigTransfer->getAdminApiKey());
 
-        return $this->createSearchClient($algoliaApiCredentialsTransfer);
-    }
-
-    protected function findCredentialsByStoreReference(AlgoliaConfigTransfer $algoliaConfigTransfer, bool $isSearchOnly = false): ?AlgoliaApiCredentialsTransfer
-    {
-        if ($isSearchOnly) {
-            return $this->credentialsMapper->mapAlgoliaSearchOnlyCredentialsToAlgoliaApiCredentialsTransfer(
-                $algoliaConfigTransfer,
-                new AlgoliaApiCredentialsTransfer(),
-            );
-        } else {
-            return $this->credentialsMapper->mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
-                $algoliaConfigTransfer,
-                new AlgoliaApiCredentialsTransfer(),
-            );
-        }
+        return $this->createSearchClientWithCredentials($algoliaApiCredentialsTransfer);
     }
 }

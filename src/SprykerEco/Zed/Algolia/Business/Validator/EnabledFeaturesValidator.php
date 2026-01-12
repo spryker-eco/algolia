@@ -13,12 +13,10 @@ use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface;
 
 class EnabledFeaturesValidator implements ApiKeyValidatorInterface
 {
     public function __construct(
-        protected CredentialsMapperInterface $credentialsMapper,
         protected SearchClientCreatorInterface $searchClientCreator
     ) {
     }
@@ -31,12 +29,11 @@ class EnabledFeaturesValidator implements ApiKeyValidatorInterface
             return $algoliaApiCredentialsValidationTransfer;
         }
 
-        $algoliaApiCredentialsTransfer = $this->credentialsMapper
-        ->mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
-            $algoliaConfigTransfer,
-            new AlgoliaApiCredentialsTransfer(),
-        );
-        $searchClient = $this->searchClientCreator->createSearchClient($algoliaApiCredentialsTransfer);
+        $algoliaApiCredentialsTransfer = (new AlgoliaApiCredentialsTransfer())
+            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+            ->setApiKey($algoliaConfigTransfer->getAdminApiKey());
+
+        $searchClient = $this->searchClientCreator->createSearchClientWithCredentials($algoliaApiCredentialsTransfer);
 
         try {
             $testIndex = $searchClient->initIndex('test');

@@ -66,8 +66,6 @@ use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapper;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisher;
@@ -195,7 +193,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     {
         return new SearchClientCreator(
             $this->createAlgoliaConfigResolver(),
-            $this->createCredentialsMapper(),
         );
     }
 
@@ -224,15 +221,9 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         return new AlgoliaConfigResolver();
     }
 
-    public function createCredentialsMapper(): CredentialsMapperInterface
-    {
-        return new CredentialsMapper();
-    }
-
     public function createAdminApiKeyValidator(): ApiKeyValidatorInterface
     {
         return new AdminApiKeyValidator(
-            $this->createCredentialsMapper(),
             $this->createSearchClientCreator(),
         );
     }
@@ -240,7 +231,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     public function createSearchOnlyApiKeyValidator(): ApiKeyValidatorInterface
     {
         return new SearchOnlyApiKeyValidator(
-            $this->createCredentialsMapper(),
             $this->createSearchClientCreator(),
         );
     }
@@ -248,7 +238,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     public function createEnabledFeaturesValidator(): ApiKeyValidatorInterface
     {
         return new EnabledFeaturesValidator(
-            $this->createCredentialsMapper(),
             $this->createSearchClientCreator(),
         );
     }

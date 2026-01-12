@@ -11,13 +11,11 @@ use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface;
 use Throwable;
 
 class SearchOnlyApiKeyValidator implements ApiKeyValidatorInterface
 {
     public function __construct(
-        protected CredentialsMapperInterface $credentialsMapper,
         protected SearchClientCreatorInterface $searchClientCreator
     ) {
     }
@@ -30,19 +28,15 @@ class SearchOnlyApiKeyValidator implements ApiKeyValidatorInterface
             return $algoliaApiCredentialsValidationTransfer;
         }
 
-        $algoliaApiCredentialsTransfer = $this->credentialsMapper
-            ->mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
-                $algoliaConfigTransfer,
-                new AlgoliaApiCredentialsTransfer(),
-            );
+        $algoliaAdminApiCredentialsTransfer = (new AlgoliaApiCredentialsTransfer())
+            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+            ->setApiKey($algoliaConfigTransfer->getAdminApiKey());
 
-        $searchClient = $this->searchClientCreator->createSearchClient($algoliaApiCredentialsTransfer);
+        $searchClient = $this->searchClientCreator->createSearchClientWithCredentials($algoliaAdminApiCredentialsTransfer);
 
-        $algoliaSearchOnlyApiCredentialsTransfer = $this->credentialsMapper
-            ->mapAlgoliaSearchOnlyCredentialsToAlgoliaApiCredentialsTransfer(
-                $algoliaConfigTransfer,
-                new AlgoliaApiCredentialsTransfer(),
-            );
+        $algoliaSearchOnlyApiCredentialsTransfer = (new AlgoliaApiCredentialsTransfer())
+            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+            ->setApiKey($algoliaConfigTransfer->getSearchOnlyApiKey());
 
         try {
             $keyData = $searchClient->getApiKey($algoliaSearchOnlyApiCredentialsTransfer->getApiKey());

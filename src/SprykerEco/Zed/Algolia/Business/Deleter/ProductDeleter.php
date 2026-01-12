@@ -50,7 +50,7 @@ class ProductDeleter implements ProductDeleterInterface
      */
     public function deleteProducts(array $productDeletedTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer, ?string $storeName = null): void
     {
-        $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer);
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
 
         $algoliaIndicesCollectionTransfer = $this->indexNameResolver->filterIndicesByIndexNameParts(
             $this->indexReader->getIndices($searchClient),
@@ -59,6 +59,7 @@ class ProductDeleter implements ProductDeleterInterface
             $storeName,
         );
 
+        //TODO: get rid of ProductDeletedTransfer
         $skus = array_map(function (ProductDeletedTransfer $productDeletedTransfer) {
             return $productDeletedTransfer->getSku();
         }, $productDeletedTransfers);

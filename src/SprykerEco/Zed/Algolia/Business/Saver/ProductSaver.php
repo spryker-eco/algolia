@@ -63,7 +63,7 @@ class ProductSaver implements ProductSaverInterface
         $indexName = $indexedAlgoliaProductCollectionTransfer->getIndexName();
 
         try {
-            $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer);
+            $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
         } catch (AlgoliaConfigNotFoundException $exception) {
             return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
         }

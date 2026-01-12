@@ -304,10 +304,10 @@ class ProductMapper implements ProductMapperInterface
         return $merchantReferences;
     }
 
-    protected function offerBelongsToStore(ProductOfferTransfer $productOfferTransfer, string $storeReference): bool
+    protected function offerBelongsToStore(ProductOfferTransfer $productOfferTransfer, string $storeName): bool
     {
         foreach ($productOfferTransfer->getStores() as $store) {
-            if ($store->getName() === $storeReference) {
+            if ($store->getName() === $storeName) {
                 return true;
             }
         }

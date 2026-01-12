@@ -65,8 +65,7 @@ class ProductUpdater implements ProductUpdaterInterface
 
         $indexedAlgoliaProductCollectionTransfer = $this->algoliaProductIndexer->indexProductsConcreteByStoreAndLocale(
             $applicableProductsConcrete,
-            $productUpdatedTransfer->getMessageAttributesOrFail()->getTenantIdentifier()
-                ?: $productUpdatedTransfer->getMessageAttributesOrFail()->getStoreReferenceOrFail(),
+            $algoliaConfigTransfer->getTenantIdentifierOrFail(),
         );
 
         return $this->algoliaProductSaver->saveAlgoliaProducts(
@@ -83,6 +82,8 @@ class ProductUpdater implements ProductUpdaterInterface
         MessageAttributesTransfer $messageAttributesTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): void {
+
+        //TODO: get rid of ProductDeletedTransfer and MessageAttributesTransfer
         $productDeletedTransfersIndexedByStore = [];
         foreach ($productConcreteTransfers as $productConcreteTransfer) {
             if (!count($productConcreteTransfer->getStores())) {

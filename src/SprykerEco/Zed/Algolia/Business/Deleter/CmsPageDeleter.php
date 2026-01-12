@@ -50,7 +50,7 @@ class CmsPageDeleter implements CmsPageDeleterInterface
      */
     public function deleteCmsPages(array $cmsPageUnpublishedTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer, ?string $storeName = null): void
     {
-        $searchClient = $this->searchClientCreator->createSearchClientByStoreReference($algoliaConfigTransfer);
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
 
         $algoliaIndicesCollectionTransfer = $this->indexNameResolver->filterIndicesByIndexNameParts(
             $this->indexReader->getIndices($searchClient),

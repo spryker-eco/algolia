@@ -12,40 +12,24 @@ use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface;
 use Throwable;
 
 class AdminApiKeyValidator implements ApiKeyValidatorInterface
 {
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface
-     */
-    protected $credentialsMapper;
-
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface
-     */
-    protected $searchClientCreator;
-
     public function __construct(
-        CredentialsMapperInterface $credentialsMapper,
-        SearchClientCreatorInterface $searchClientCreator
+        protected SearchClientCreatorInterface $searchClientCreator
     ) {
-        $this->credentialsMapper = $credentialsMapper;
-        $this->searchClientCreator = $searchClientCreator;
     }
 
     public function validate(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer
     ): AlgoliaApiCredentialsValidationTransfer {
-        $algoliaApiCredentialsTransfer = $this->credentialsMapper
-            ->mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
-                $algoliaConfigTransfer,
-                new AlgoliaApiCredentialsTransfer(),
-            );
+        $algoliaApiCredentialsTransfer = (new AlgoliaApiCredentialsTransfer())
+            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+            ->setApiKey($algoliaConfigTransfer->getAdminApiKey());
 
-        $searchClient = $this->searchClientCreator->createSearchClient($algoliaApiCredentialsTransfer);
+        $searchClient = $this->searchClientCreator->createSearchClientWithCredentials($algoliaApiCredentialsTransfer);
 
         try {
             $keyData = $searchClient->getApiKey($algoliaApiCredentialsTransfer->getApiKey());

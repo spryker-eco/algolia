@@ -13,7 +13,7 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 interface SearchClientCreatorInterface
 {
-    public function createSearchClient(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient;
+    public function createSearchClientWithCredentials(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient;
 
-    public function createSearchClientByStoreReference(AlgoliaConfigTransfer $algoliaConfigTransfer, bool $isSearchOnly = false): SearchClient;
+    public function createSearchClientFromConfig(AlgoliaConfigTransfer $algoliaConfigTransfer, bool $isSearchOnly = false): SearchClient;
 }
