@@ -13,24 +13,10 @@ use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 
 class IndexReader implements IndexReaderInterface
 {
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapper
-     */
-    protected $indexMapper;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapper $indexMapper
-     */
-    public function __construct(IndexMapper $indexMapper)
+    public function __construct(protected IndexMapperInterface $indexMapper)
     {
-        $this->indexMapper = $indexMapper;
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer
-     */
     public function getIndices(SearchClient $searchClient): AlgoliaIndicesCollectionTransfer
     {
         $algoliaIndicesCollectionTransfer = new AlgoliaIndicesCollectionTransfer();

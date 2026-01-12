@@ -12,8 +12,6 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 interface FilterConverterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return string
      */
     public function convertFacetCollectionTransferToAlgoliaFiltersString(SearchRequestTransfer $searchRequestTransfer): string;

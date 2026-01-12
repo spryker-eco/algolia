@@ -13,15 +13,12 @@ use Generated\Shared\Transfer\ProductDeletedTransfer;
 interface ProductDeleterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ProductDeletedTransfer $productDeletedTransfer
-     *
      * @return void
      */
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void;
 
     /**
      * @param array<\Generated\Shared\Transfer\ProductDeletedTransfer> $productDeletedTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
      * @param string|null $storeName
      *
      * @return void

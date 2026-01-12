@@ -12,9 +12,6 @@ use Algolia\AlgoliaSearch\SearchClient;
 interface SuggestionIndexHandlerInterface
 {
     /**
-     * @param string $sourceIndex
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
      *
      * @return void
@@ -22,8 +19,6 @@ interface SuggestionIndexHandlerInterface
     public function createSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void;
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
      *
      * @return array
@@ -31,9 +26,6 @@ interface SuggestionIndexHandlerInterface
     public function getAllConfigurations(SearchClient $searchClient): array;
 
     /**
-     * @param string $configurationName
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
      *
      * @return void

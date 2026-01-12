@@ -41,9 +41,6 @@ class CmsPageMapper implements CmsPageMapperInterface
     protected const MAX_TEXT_SIZE_IN_BYTES = 90 * 1024; // 90KB
 
     /**
-     * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-     * @param string $locale
-     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
      * @param array $flattenedLocaleCmsPageData
      *
      * @return array|null
@@ -84,12 +81,6 @@ class CmsPageMapper implements CmsPageMapperInterface
         ];
     }
 
-    /**
-     * @param string $locale
-     * @param \ArrayObject $cmsPageAttributesTransfers
-     *
-     * @return \Generated\Shared\Transfer\CmsPageAttributesTransfer
-     */
     protected function getLocatePagAttribute(string $locale, ArrayObject $cmsPageAttributesTransfers): CmsPageAttributesTransfer
     {
         foreach ($cmsPageAttributesTransfers as $cmsPageAttributesTransfer) {
@@ -101,12 +92,6 @@ class CmsPageMapper implements CmsPageMapperInterface
         return new CmsPageAttributesTransfer();
     }
 
-    /**
-     * @param string $locale
-     * @param \ArrayObject $metaAttributes
-     *
-     * @return \Generated\Shared\Transfer\CmsPageMetaAttributesTransfer
-     */
     protected function getLocaleMetaAttributes(string $locale, ArrayObject $metaAttributes): CmsPageMetaAttributesTransfer
     {
         foreach ($metaAttributes as $metaAttribute) {
@@ -118,11 +103,6 @@ class CmsPageMapper implements CmsPageMapperInterface
         return new CmsPageMetaAttributesTransfer();
     }
 
-    /**
-     * @param string $html
-     *
-     * @return string
-     */
     protected function sanitizeHtmlToText(string $html): string
     {
         // Remove Twig tags: {{ }}, {% %}, and {# #}
@@ -141,8 +121,6 @@ class CmsPageMapper implements CmsPageMapperInterface
 
     /**
      * Truncates text if it exceeds the maximum.
-     *
-     * @param string $text
      *
      * @return string|null
      */
@@ -166,8 +144,6 @@ class CmsPageMapper implements CmsPageMapperInterface
 
     /**
      * @param string|null $validityDate
-     *
-     * @return int
      */
     protected function formatValidityDate(?string $validityDate): int
     {

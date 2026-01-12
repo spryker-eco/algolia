@@ -15,9 +15,6 @@ use Generated\Shared\Transfer\CmsPageTransfer;
 interface CmsPageMapperInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-     * @param string $locale
-     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
      * @param array $flattenedLocaleCmsPageData
      *
      * @return array|null

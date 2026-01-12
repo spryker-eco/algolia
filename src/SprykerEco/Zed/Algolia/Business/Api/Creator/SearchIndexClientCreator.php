@@ -11,29 +11,14 @@ use Algolia\AlgoliaSearch\SearchClient;
 use Generated\Shared\Transfer\IndexConfigurationTransfer;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClient;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
-use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator;
+use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfiguratorInterface;
 
 class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
 {
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator
-     */
-    protected $indexConfigurator;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator $indexConfigurator
-     */
-    public function __construct(IndexConfigurator $indexConfigurator)
+    public function __construct(protected IndexConfiguratorInterface $indexConfigurator)
     {
-        $this->indexConfigurator = $indexConfigurator;
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $client
-     * @param \Generated\Shared\Transfer\IndexConfigurationTransfer $indexConfigurationTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexApiClient(
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer
@@ -47,12 +32,6 @@ class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
         return new SearchIndexClient($index);
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $client
-     * @param \Generated\Shared\Transfer\IndexConfigurationTransfer $indexConfigurationTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexApiClientForSearch(
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer

@@ -12,12 +12,6 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 class CredentialsMapper implements CredentialsMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer
-     */
     public function mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
@@ -27,18 +21,12 @@ class CredentialsMapper implements CredentialsMapperInterface
             ->setApiKey($algoliaConfigTransfer->getAdminApiKey());
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer
-     */
     public function mapAlgoliaSearchOnlyCredentialsToAlgoliaApiCredentialsTransfer(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
     ): AlgoliaApiCredentialsTransfer {
         return $algoliaApiCredentialsTransfer
-            ->setApplicationId($algoliaConfigTransfer->getApplicationId())
-            ->setApiKey($algoliaConfigTransfer->getSearchOnlyApiKey());
+        ->setApplicationId($algoliaConfigTransfer->getApplicationId())
+        ->setApiKey($algoliaConfigTransfer->getSearchOnlyApiKey());
     }
 }

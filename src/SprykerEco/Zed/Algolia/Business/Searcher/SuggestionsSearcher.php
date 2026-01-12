@@ -23,20 +23,20 @@ use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SuggestionsSearchResponseBuilderInterface;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use Throwable;
 
-class SuggestionsSearcher
+class SuggestionsSearcher implements SuggestionsSearcherInterface
 {
     use LoggerTrait;
 
     public function __construct(
-        protected IndexNameResolver $indexNameResolver,
+        protected IndexNameResolverInterface $indexNameResolver,
         protected SearchClientCreatorInterface $searchClientCreator,
         protected SuggestionsSearchResponseBuilderInterface $suggestionsSearchResponseBuilder,
         protected AlgoliaConfig $algoliaConfig,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
@@ -68,12 +68,6 @@ class SuggestionsSearcher
         return $this->suggestionsSearchResponseBuilder->buildSuccessfulResponse($algoliaResponseTransfer, $searchRequestTransfer);
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return void
-     */
     protected function logUnexpectedThrowable(Throwable $throwable, SearchRequestTransfer $searchRequestTransfer): void
     {
         $this->getLogger()->error(
@@ -86,10 +80,6 @@ class SuggestionsSearcher
     }
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     * @param array $result
-     *
      * @return array
      */
     protected function expandResultUsingAdditionalIndexes(
@@ -187,6 +177,9 @@ class SuggestionsSearcher
         return $entities;
     }
 
+    /**
+     * @return array
+     */
     protected function getProductsResult(
         SearchRequestTransfer $searchRequestTransfer,
         SearchClient $searchClient,

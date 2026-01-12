@@ -73,10 +73,7 @@ class PriceProductDataFilter implements ProductDataFilterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\PriceProductTransfer $priceProductTransfer
      * @param list<string> $storeNames
-     *
-     * @return bool
      */
     protected function isPriceProductApplicable(PriceProductTransfer $priceProductTransfer, array $storeNames): bool
     {

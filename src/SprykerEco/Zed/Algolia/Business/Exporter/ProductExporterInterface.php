@@ -13,8 +13,6 @@ use Generated\Shared\Transfer\ProductExportedTransfer;
 interface ProductExporterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ProductExportedTransfer $productExportedTransfer
-     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function exportProducts(ProductExportedTransfer $productExportedTransfer): AlgoliaResponseTransfer;

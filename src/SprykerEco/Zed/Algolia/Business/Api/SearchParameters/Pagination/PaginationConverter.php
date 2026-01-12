@@ -42,8 +42,6 @@ class PaginationConverter implements PaginationConverterInterface
     protected const ALGOLIA_DEFAULT_HITS_COUNT = 20;
 
     /**
-     * @param \Generated\Shared\Transfer\PaginationEntryTransfer $paginationEntryTransfer
-     *
      * @return array<string, string|int>
      */
     public function convertPaginationTransferToAlgoliaPaginationArray(PaginationEntryTransfer $paginationEntryTransfer): array

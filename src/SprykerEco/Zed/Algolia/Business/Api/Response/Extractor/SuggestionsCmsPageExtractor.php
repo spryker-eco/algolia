@@ -13,8 +13,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 class SuggestionsCmsPageExtractor extends CmsPageExtractor implements SearchResponseExtractorInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array<int, array<string, mixed>>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array

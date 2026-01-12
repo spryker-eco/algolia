@@ -9,21 +9,20 @@ namespace SprykerEco\Zed\Algolia\Business\Indexer;
 
 use ArrayObject;
 use Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 
 class ProductIndexer implements ProductIndexerInterface
 {
     public function __construct(
         protected ProductMapperInterface $algoliaProductMapper,
-        protected IndexNameResolver $algoliaIndexNameResolver
+        protected IndexNameResolverInterface $algoliaIndexNameResolver
     ) {
     }
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param string $tenantIdentifier
-     *
+
      * @return array<int, \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
      */
     public function indexProductsConcreteByStoreAndLocale(
@@ -62,8 +61,7 @@ class ProductIndexer implements ProductIndexerInterface
 
     /**
      * @param array<string, array<string, array<\Generated\Shared\Transfer\AlgoliaProductTransfer>>> $algoliaProductTransfersIndexedByStoreAndLocale
-     * @param string $tenantIdentifier
-     *
+
      * @return array<\Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
      */
     protected function getIndexedAlgoliaProductCollectionTransfers(

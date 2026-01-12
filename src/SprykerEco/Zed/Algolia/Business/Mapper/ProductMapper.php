@@ -29,7 +29,6 @@ class ProductMapper implements ProductMapperInterface
     /**
      * {@inheritDoc}
      *
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
      * @param array<string, array<string, array<int, \Generated\Shared\Transfer\AlgoliaProductTransfer>>> $indexedAlgoliaProductTransfersArray
      *
      * @return array<string, array<string, array<int, \Generated\Shared\Transfer\AlgoliaProductTransfer>>>
@@ -57,8 +56,7 @@ class ProductMapper implements ProductMapperInterface
      * {@inheritDoc}
      *
      * @param array<\Generated\Shared\Transfer\AlgoliaProductTransfer> $algoliaProductTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return array<array<string, mixed>>
      */
     public function mapAlgoliaProductTransfersArrayToAlgoliaObjectArray(array $algoliaProductTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer): array
@@ -78,8 +76,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     *
      * @return array
      */
     protected function getStoreToLocaleIndices(ProductConcreteTransfer $productConcreteTransfer): array
@@ -99,8 +95,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     *
      * @return list<string>
      */
     protected function getLocales(ProductConcreteTransfer $productConcreteTransfer): array
@@ -128,13 +122,6 @@ class ProductMapper implements ProductMapperInterface
         return array_unique(array_merge($localesFromAttributes, $localesFromImageSets, $localesFromUrls));
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $storeName
-     * @param string $locale
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaProductTransfer
-     */
     protected function mapProductConcreteToAlgoliaProductTransfer(
         ProductConcreteTransfer $productConcreteTransfer,
         string $storeName,
@@ -191,9 +178,6 @@ class ProductMapper implements ProductMapperInterface
 
     /**
      * @param array $localizedAttributesCollection
-     * @param string $locale
-     *
-     * @return \Generated\Shared\Transfer\LocalizedAttributesTransfer
      */
     protected function getLocalizedAttributesForLocale(array $localizedAttributesCollection, string $locale): LocalizedAttributesTransfer
     {
@@ -209,12 +193,6 @@ class ProductMapper implements ProductMapperInterface
         return new LocalizedAttributesTransfer();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function getProductUrlForLocale(ProductConcreteTransfer $productConcreteTransfer, string $locale): string
     {
         if (!$productConcreteTransfer->getUrl()) {
@@ -234,9 +212,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $locale
-     *
      * @return array<mixed>
      */
     protected function getImageUrlsForLocale(ProductConcreteTransfer $productConcreteTransfer, string $locale): array
@@ -260,8 +235,7 @@ class ProductMapper implements ProductMapperInterface
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\PriceProductTransfer> $priceProductTransfers
-     * @param string $storeName
-     *
+
      * @return \ArrayObject<string, \Generated\Shared\Transfer\AlgoliaProductPriceTransfer>
      */
     protected function getPricesIndexedByCurrency(ArrayObject $priceProductTransfers, string $storeName): ArrayObject
@@ -295,20 +269,12 @@ class ProductMapper implements ProductMapperInterface
         return $pricesPerCurrency;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     *
-     * @return float
-     */
     protected function getRoundedRating(ProductConcreteTransfer $productConcreteTransfer): float
     {
         return round((float)$productConcreteTransfer->getRating(), 1);
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $storeName
-     *
      * @return array<string>
      */
     protected function getMerchantNames(ProductConcreteTransfer $productConcreteTransfer, string $storeName): array
@@ -324,9 +290,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $storeName
-     *
      * @return array<string>
      */
     protected function getMerchantReferences(ProductConcreteTransfer $productConcreteTransfer, string $storeName): array
@@ -341,12 +304,6 @@ class ProductMapper implements ProductMapperInterface
         return $merchantReferences;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductOfferTransfer $productOfferTransfer
-     * @param string $storeReference
-     *
-     * @return bool
-     */
     protected function offerBelongsToStore(ProductOfferTransfer $productOfferTransfer, string $storeReference): bool
     {
         foreach ($productOfferTransfer->getStores() as $store) {
@@ -359,9 +316,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $locale
-     *
      * @return array<string>
      */
     protected function getLabelsForLocale(ProductConcreteTransfer $productConcreteTransfer, string $locale): array
@@ -390,9 +344,6 @@ class ProductMapper implements ProductMapperInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param string $locale
-     *
      * @return array<string> Array of category names grouped by hierarchy (see InstantSearch.js format)
      */
     protected function getHierarchicalCategoriesForLocale(ProductConcreteTransfer $productConcreteTransfer, string $locale): array
@@ -409,10 +360,7 @@ class ProductMapper implements ProductMapperInterface
     /**
      * @param array<string, string|array<string>> $categoryNames
      * @param \ArrayObject<int, \Generated\Shared\Transfer\NodeTransfer> $relatedCategoryTreeNodes
-     * @param string $locale
-     * @param int $level
-     * @param string $namePrefix
-     *
+
      * @return array<string, mixed>
      */
     protected function collectCategoryNamesFromTree(
@@ -455,9 +403,7 @@ class ProductMapper implements ProductMapperInterface
 
     /**
      * @param array<string, mixed> $categoryNames
-     * @param string $categoryName
-     * @param string $levelKey
-     *
+
      * @return array<string, string>
      */
     protected function updateCategoryNamesLevel(array $categoryNames, string $categoryName, string $levelKey): array
@@ -469,12 +415,6 @@ class ProductMapper implements ProductMapperInterface
         return $categoryNames;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\NodeTransfer $nodeTransfer
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function getLocalizedCategoryName(NodeTransfer $nodeTransfer, string $locale): string
     {
         $categoryName = $nodeTransfer->getCategory()->getCategoryKey();
@@ -492,7 +432,6 @@ class ProductMapper implements ProductMapperInterface
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\NodeTransfer> $relatedCategoryTreeNodes
-     * @param string $locale
      * @param array<int, string> $parentCategoryNames
      *
      * @return array<int, string>

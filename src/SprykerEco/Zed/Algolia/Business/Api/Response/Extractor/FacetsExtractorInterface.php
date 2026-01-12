@@ -13,9 +13,6 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 interface FacetsExtractorInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return array<string, mixed>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer, SearchRequestTransfer $searchRequestTransfer): array;

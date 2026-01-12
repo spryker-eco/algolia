@@ -17,9 +17,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class ProductsExtractor implements SearchResponseExtractorInterface
 {
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return AlgoliaEntityNameEnum::PRODUCT->value;
@@ -50,19 +47,12 @@ class ProductsExtractor implements SearchResponseExtractorInterface
      */
     protected const PRICE_FIELD_GROSS = 'gross';
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return bool
-     */
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool
     {
         return $searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array
@@ -73,10 +63,10 @@ class ProductsExtractor implements SearchResponseExtractorInterface
 
         foreach ($hits as $hit) {
             $searchResponseProductTransfer = (new SearchResponseProductTransfer())
-                ->fromArray($hit, true)
-                ->setImages($hit[static::FIELD_IMAGES])
-                ->setPrices($this->extractPrices($hit[static::FIELD_PRICES] ?? []))
-                ->setAttributes($this->extractAttributes($hit[static::FIELD_ATTRIBUTES] ?? []));
+            ->fromArray($hit, true)
+            ->setImages($hit[static::FIELD_IMAGES])
+            ->setPrices($this->extractPrices($hit[static::FIELD_PRICES] ?? []))
+            ->setAttributes($this->extractAttributes($hit[static::FIELD_ATTRIBUTES] ?? []));
 
             $result[] = $searchResponseProductTransfer->toArray();
         }
@@ -110,9 +100,9 @@ class ProductsExtractor implements SearchResponseExtractorInterface
         foreach ($prices as $currency => $price) {
             $searchResponseProductPriceTransferCollection->append(
                 (new SearchResponseProductPriceTransfer())
-                    ->setCurrency($currency)
-                    ->setPriceGross($price[static::PRICE_FIELD_GROSS])
-                    ->setPriceNet($price[static::PRICE_FIELD_NET]),
+                ->setCurrency($currency)
+                ->setPriceGross($price[static::PRICE_FIELD_GROSS])
+                ->setPriceNet($price[static::PRICE_FIELD_NET]),
             );
         }
 
@@ -132,8 +122,8 @@ class ProductsExtractor implements SearchResponseExtractorInterface
             $searchResponseProductAttributeTransferCollection->offsetSet(
                 $key,
                 (new SearchResponseProductAttributeTransfer())
-                    ->setName($key)
-                    ->setValue($value),
+                ->setName($key)
+                ->setValue($value),
             );
         }
 

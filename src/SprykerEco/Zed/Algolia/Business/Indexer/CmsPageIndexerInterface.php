@@ -13,10 +13,6 @@ use Generated\Shared\Transfer\CmsPageTransfer;
 interface CmsPageIndexerInterface
 {
  /**
-  * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-  * @param string $locale
-  * @param string $tenantIdentifier
-  * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
   * @param array $flattenedLocaleCmsPageData
   *
   * @return array

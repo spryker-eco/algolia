@@ -12,32 +12,20 @@ use Generated\Shared\Transfer\ProductCreatedTransfer;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
 
 class ProductCreator implements ProductCreatorInterface
 {
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface $algoliaProductIndexer
-     * @param \SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface $algoliaProductSaver
-     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface $productConcreteFilter
-     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface $productDataFilterApplier
-     * @param \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver $algoliaConfigResolver
-     */
     public function __construct(
         protected ProductIndexerInterface $algoliaProductIndexer,
         protected ProductSaverInterface $algoliaProductSaver,
         protected ProductConcreteFilterInterface $productConcreteFilter,
         protected ProductDataFilterApplierInterface $productDataFilterApplier,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductCreatedTransfer $productCreatedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     public function createProducts(ProductCreatedTransfer $productCreatedTransfer): AlgoliaResponseTransfer
     {
         $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();

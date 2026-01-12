@@ -16,34 +16,12 @@ use Throwable;
 
 class SearchOnlyApiKeyValidator implements ApiKeyValidatorInterface
 {
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface
-     */
-    protected $credentialsMapper;
-
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface
-     */
-    protected $searchClientCreator;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface $credentialsMapper
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface $searchClientCreator
-     */
     public function __construct(
-        CredentialsMapperInterface $credentialsMapper,
-        SearchClientCreatorInterface $searchClientCreator
+        protected CredentialsMapperInterface $credentialsMapper,
+        protected SearchClientCreatorInterface $searchClientCreator
     ) {
-        $this->credentialsMapper = $credentialsMapper;
-        $this->searchClientCreator = $searchClientCreator;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer
-     */
     public function validate(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer

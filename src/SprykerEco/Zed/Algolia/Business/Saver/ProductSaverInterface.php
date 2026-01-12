@@ -14,8 +14,7 @@ interface ProductSaverInterface
 {
     /**
      * @param array<\Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer> $indexedAlgoliaProductCollections
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function saveAlgoliaProducts(array $indexedAlgoliaProductCollections, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer;

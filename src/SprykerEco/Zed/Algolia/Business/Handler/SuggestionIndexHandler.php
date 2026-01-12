@@ -26,25 +26,10 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
      */
     protected const QUERY_SUGGESTION_BASE_URL_EU = 'query-suggestions.eu.algolia.com';
 
-    /**
-     * @var \SprykerEco\Zed\Algolia\AlgoliaConfig
-     */
-    protected AlgoliaConfig $algoliaConfig;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $algoliaConfig
-     */
-    public function __construct(AlgoliaConfig $algoliaConfig)
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
-        $this->algoliaConfig = $algoliaConfig;
     }
 
-    /**
-     * @param string $sourceIndex
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return void
-     */
     public function createSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
         $suggestionIndexName = sprintf('%s_%s', $sourceIndex, $this->algoliaConfig->getQuerySuggestionsSuffix());
@@ -75,12 +60,7 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
     }
 
     /**
-     * @param string $configurationName
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return bool
      */
     protected function checkSuggestionIndexConfigurationExist(string $configurationName, SearchClient $searchClient): bool
     {
@@ -98,8 +78,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
     }
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
      * @return array
      */
     public function getAllConfigurations(SearchClient $searchClient): array
@@ -107,21 +85,12 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
         return $this->executeSearchClientCall($searchClient, 'GET', '/1/configs');
     }
 
-    /**
-     * @param string $configurationName
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return void
-     */
     public function deleteConfiguration(string $configurationName, SearchClient $searchClient): void
     {
         $this->executeSearchClientCall($searchClient, 'DELETE', '/1/configs/' . $configurationName);
     }
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     * @param string $method
-     * @param string $url
      * @param array $options
      *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
@@ -153,10 +122,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
      * Right now Algolia respond as:
      * - GET requests: `<a href="https://query-suggestions.eu.algolia.com/1/configs">Temporary Redirect</a>.`
      * - DELETE/POST requests: empty string
-     *
-     * @param \Throwable $exception
-     *
-     * @return bool
      */
     protected function isExceptionRelatedToIncorrectProcessingRegion(Throwable $exception): bool
     {

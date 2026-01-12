@@ -34,8 +34,6 @@ class SearchResponseBuilder implements SearchResponseBuilderInterface
 
     /**
      * @param array<\SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface> $sourceIdentifierExtractors
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\PaginationExtractorInterface $paginationExtractor
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\FacetsExtractorInterface $facetsExtractor
      */
     public function __construct(
         array $sourceIdentifierExtractors,
@@ -47,12 +45,6 @@ class SearchResponseBuilder implements SearchResponseBuilderInterface
         $this->facetsExtractor = $facetsExtractor;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
-     */
     public function buildSuccessfulResponse(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer
@@ -65,12 +57,6 @@ class SearchResponseBuilder implements SearchResponseBuilderInterface
             ->setFacets($this->facetsExtractor->extract($algoliaSearchResponseTransfer, $searchRequestTransfer));
     }
 
-    /**
-     * @param string $errorMessage
-     * @param int $statusCode
-     *
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
-     */
     public function buildUnsuccessfulResponse(string $errorMessage, int $statusCode): SearchResponseTransfer
     {
         return (new SearchResponseTransfer())
@@ -84,9 +70,6 @@ class SearchResponseBuilder implements SearchResponseBuilderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return array
      */
     protected function getSourceIdentifierItems(

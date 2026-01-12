@@ -27,8 +27,6 @@ class CategoryExtractor extends AbstractFeatureExtractor
     protected const FIELD_VALUE = 'value';
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array<int, mixed>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array

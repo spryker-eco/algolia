@@ -13,8 +13,7 @@ interface ProductIndexerInterface
 {
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param string $tenantIdentifier
-     *
+
      * @return array<int, \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
      */
     public function indexProductsConcreteByStoreAndLocale(ArrayObject $productsConcrete, string $tenantIdentifier): array;

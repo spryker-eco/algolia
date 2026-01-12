@@ -13,9 +13,6 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 interface CredentialsMapperInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
-     *
      * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer
      */
     public function mapAlgoliaAdminCredentialsToAlgoliaApiCredentialsTransfer(
@@ -24,9 +21,6 @@ interface CredentialsMapperInterface
     ): AlgoliaApiCredentialsTransfer;
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer $algoliaApiCredentialsTransfer
-     *
      * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer
      */
     public function mapAlgoliaSearchOnlyCredentialsToAlgoliaApiCredentialsTransfer(

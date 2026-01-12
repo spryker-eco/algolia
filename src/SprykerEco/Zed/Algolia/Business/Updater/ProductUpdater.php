@@ -17,7 +17,7 @@ use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
 
 class ProductUpdater implements ProductUpdaterInterface
@@ -27,29 +27,16 @@ class ProductUpdater implements ProductUpdaterInterface
      */
     protected const ALL_STORES = '*';
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface $algoliaProductIndexer
-     * @param \SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface $algoliaProductSaver
-     * @param \SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface $productDeleter
-     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface $productConcreteFilter
-     * @param \SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface $productDataFilterApplier
-     * @param \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver $algoliaConfigResolver
-     */
     public function __construct(
         protected ProductIndexerInterface $algoliaProductIndexer,
         protected ProductSaverInterface $algoliaProductSaver,
         protected ProductDeleterInterface $productDeleter,
         protected ProductConcreteFilterInterface $productConcreteFilter,
         protected ProductDataFilterApplierInterface $productDataFilterApplier,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductUpdatedTransfer $productUpdatedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer
     {
         $filteredProductsConcrete = $this->productDataFilterApplier->apply($productUpdatedTransfer->getProductsConcrete());
@@ -90,10 +77,6 @@ class ProductUpdater implements ProductUpdaterInterface
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     * @param \Generated\Shared\Transfer\MessageAttributesTransfer $messageAttributesTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return void
      */
     protected function deleteInactiveProductConcrete(
         ArrayObject $productConcreteTransfers,

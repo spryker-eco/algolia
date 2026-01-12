@@ -226,8 +226,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getQuerySuggestionsSuffix(): string
     {
@@ -315,11 +313,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @param string $fieldKey
-     * @param \Generated\Shared\Transfer\FacetCollectionTransfer $facetCollectionTransfer
-     *
-     * @return string
      */
     public function getAlgoliaFacetFieldKey(string $fieldKey, FacetCollectionTransfer $facetCollectionTransfer): string
     {
@@ -342,11 +335,6 @@ class AlgoliaConfig extends AbstractBundleConfig
         return static::ATTRIBUTE_PREFIX . $fieldKey;
     }
 
-    /**
-     * @param string $fieldKey
-     *
-     * @return string
-     */
     protected function transformSearchMetadataFacetKey(string $fieldKey): string
     {
         // This is needed to support SCOS request format coming from different applications
@@ -355,10 +343,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @param \Generated\Shared\Transfer\FacetCollectionTransfer $facetCollectionTransfer
-     *
-     * @return string
      */
     public function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
     {
@@ -419,8 +403,6 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * @api
      *
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
      * @return array<string>
      */
     public function getFilterableNameAttributes(AlgoliaConfigTransfer $algoliaConfigTransfer): array
@@ -440,8 +422,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
      *
      * @return array<string>
      */

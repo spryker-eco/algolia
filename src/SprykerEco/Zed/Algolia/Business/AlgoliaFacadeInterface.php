@@ -28,10 +28,6 @@ interface AlgoliaFacadeInterface
      * - Responds with validator response transfer with success on failure
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer
      */
     public function validateApiCredentials(
         AlgoliaConfigTransfer $algoliaConfigTransfer
@@ -45,10 +41,6 @@ interface AlgoliaFacadeInterface
      * - Creates an index in Algolia if the one does not exist.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\ProductExportedTransfer $productExportedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function exportProducts(ProductExportedTransfer $productExportedTransfer): AlgoliaResponseTransfer;
 
@@ -60,10 +52,6 @@ interface AlgoliaFacadeInterface
      * - Creates an index in Algolia if the one does not exist.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\ProductCreatedTransfer $productCreatedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function createProducts(ProductCreatedTransfer $productCreatedTransfer): AlgoliaResponseTransfer;
 
@@ -75,10 +63,6 @@ interface AlgoliaFacadeInterface
      * - Creates an index in Algolia if the one does not exist.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\ProductUpdatedTransfer $productUpdatedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer;
 
@@ -90,10 +74,6 @@ interface AlgoliaFacadeInterface
      * - Stops and returns response on first error encountered
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\ProductDeletedTransfer $productDeletedTransfer
-     *
-     * @return void
      */
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void;
 
@@ -103,12 +83,8 @@ interface AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
      * @throws \Algolia\AlgoliaSearch\Exceptions\NotFoundException
-     *
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
      */
     public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer;
 
@@ -120,12 +96,8 @@ interface AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
      * @throws \Algolia\AlgoliaSearch\Exceptions\NotFoundException
-     *
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
      */
     public function searchSuggestions(SearchRequestTransfer $searchRequestTransfer): SuggestionsSearchResponseTransfer;
 
@@ -134,10 +106,6 @@ interface AlgoliaFacadeInterface
      * - Publishes CMS page data to Algolia.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function publishedCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer;
 
@@ -146,10 +114,6 @@ interface AlgoliaFacadeInterface
      * - Deletes CMS page data from Algolia.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer
-     *
-     * @return void
      */
     public function deleteCmsPage(CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer): void;
 }

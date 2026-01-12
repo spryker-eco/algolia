@@ -7,13 +7,15 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexReader;
 
-use Algolia\AlgoliaSearch\SearchClient;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 
-interface IndexReaderInterface
+interface IndexMapperInterface
 {
     /**
-     * @return \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer
+     * @param array<string, mixed> $algoliaResponse
      */
-    public function getIndices(SearchClient $searchClient): AlgoliaIndicesCollectionTransfer;
+    public function mapAlgoliaListIndicesResponseToAlgoliaIndicesCollectionTransfer(
+        array $algoliaResponse,
+        AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer
+    ): AlgoliaIndicesCollectionTransfer;
 }

@@ -13,15 +13,12 @@ use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
 interface CmsPageDeleterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer
-     *
      * @return void
      */
     public function deleteCmsPage(CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer): void;
 
     /**
      * @param array<\Generated\Shared\Transfer\CmsPageUnpublishedTransfer> $cmsPageUnpublishedTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
      * @param string|null $storeName
      *
      * @return void

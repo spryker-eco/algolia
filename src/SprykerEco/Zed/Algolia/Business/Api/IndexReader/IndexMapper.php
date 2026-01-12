@@ -10,13 +10,10 @@ namespace SprykerEco\Zed\Algolia\Business\Api\IndexReader;
 use Generated\Shared\Transfer\AlgoliaIndexTransfer;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 
-class IndexMapper
+class IndexMapper implements IndexMapperInterface
 {
     /**
      * @param array<string, mixed> $algoliaResponse
-     * @param \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer
      */
     public function mapAlgoliaListIndicesResponseToAlgoliaIndicesCollectionTransfer(
         array $algoliaResponse,

@@ -14,8 +14,8 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Exception\FacetTypeUnknownException;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class FilterConverter implements FilterConverterInterface
@@ -42,17 +42,12 @@ class FilterConverter implements FilterConverterInterface
 
     public function __construct(
         protected AlgoliaConfig $algoliaConfig,
-        protected AlgoliaConfigResolver $configResolver,
-        protected SearchIndexResolver $searchIndexResolver,
+        protected AlgoliaConfigResolverInterface $configResolver,
+        protected SearchIndexResolverInterface $searchIndexResolver,
         protected AbstractAdapter $cache
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return string
-     */
     public function convertFacetCollectionTransferToAlgoliaFiltersString(SearchRequestTransfer $searchRequestTransfer): string
     {
         $facetCollectionTransfer = $searchRequestTransfer->getFacets();
@@ -88,12 +83,7 @@ class FilterConverter implements FilterConverterInterface
     }
 
     /**
-     * @param string $fieldKey
-     * @param \Generated\Shared\Transfer\FacetEntryTransfer $facetEntryTransfer
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\FacetTypeUnknownException
-     *
-     * @return string
      */
     public function getFilter(string $fieldKey, FacetEntryTransfer $facetEntryTransfer): string
     {
@@ -109,8 +99,6 @@ class FilterConverter implements FilterConverterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return array
      */
     protected function getFacetWhiteList(SearchRequestTransfer $searchRequestTransfer): array
@@ -146,12 +134,6 @@ class FilterConverter implements FilterConverterInterface
         return $facetNames;
     }
 
-    /**
-     * @param string $fieldKey
-     * @param \Generated\Shared\Transfer\FacetParametersTransfer $facetParametersTransfer
-     *
-     * @return string
-     */
     protected function getRangeFilter(string $fieldKey, FacetParametersTransfer $facetParametersTransfer): string
     {
         if (!$facetParametersTransfer->getTo() && $facetParametersTransfer->getFrom() > $facetParametersTransfer->getTo()) {
@@ -161,12 +143,6 @@ class FilterConverter implements FilterConverterInterface
         return sprintf('%s:%f TO %f', $fieldKey, $facetParametersTransfer->getFrom(), $facetParametersTransfer->getTo());
     }
 
-    /**
-     * @param string $fieldKey
-     * @param \Generated\Shared\Transfer\FacetParametersTransfer $facetParametersTransfer
-     *
-     * @return string
-     */
     protected function getValueFilter(string $fieldKey, FacetParametersTransfer $facetParametersTransfer): string
     {
         if (!count($facetParametersTransfer->getValues())) {

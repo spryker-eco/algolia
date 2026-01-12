@@ -13,7 +13,9 @@ use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreator;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator;
+use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfiguratorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapper;
+use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReader;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReaderInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilder;
@@ -59,7 +61,9 @@ use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexer;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapper;
@@ -69,16 +73,20 @@ use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisher;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface;
 use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaver;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaver;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
 use SprykerEco\Zed\Algolia\Business\Searcher\Searcher;
+use SprykerEco\Zed\Algolia\Business\Searcher\SearcherInterface;
 use SprykerEco\Zed\Algolia\Business\Searcher\SuggestionsSearcher;
+use SprykerEco\Zed\Algolia\Business\Searcher\SuggestionsSearcherInterface;
 use SprykerEco\Zed\Algolia\Business\Updater\ProductUpdater;
 use SprykerEco\Zed\Algolia\Business\Updater\ProductUpdaterInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\AdminApiKeyValidator;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidator;
+use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiKeyValidatorInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\EnabledFeaturesValidator;
 use SprykerEco\Zed\Algolia\Business\Validator\SearchOnlyApiKeyValidator;
@@ -90,9 +98,6 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
  */
 class AlgoliaBusinessFactory extends AbstractBusinessFactory
 {
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Exporter\ProductExporterInterface
-     */
     public function createProductExporter(): ProductExporterInterface
     {
         return new ProductExporter(
@@ -104,9 +109,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Creator\ProductCreatorInterface
-     */
     public function createProductCreator(): ProductCreatorInterface
     {
         return new ProductCreator(
@@ -118,7 +120,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    public function createApiCredentialsValidator(): ApiCredentialsValidator
+    public function createApiCredentialsValidator(): ApiCredentialsValidatorInterface
     {
         return new ApiCredentialsValidator(
             [
@@ -129,9 +131,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Updater\ProductUpdaterInterface
-     */
     public function createProductUpdater(): ProductUpdaterInterface
     {
         return new ProductUpdater(
@@ -144,9 +143,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface
-     */
     public function createProductDeleter(): ProductDeleterInterface
     {
         return new ProductDeleter(
@@ -158,9 +154,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface
-     */
     public function createProductSaver(): ProductSaverInterface
     {
         return new ProductSaver(
@@ -170,9 +163,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface
-     */
     public function createProductIndexer(): ProductIndexerInterface
     {
         return new ProductIndexer(
@@ -181,41 +171,26 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReaderInterface
-     */
     public function createIndexReader(): IndexReaderInterface
     {
         return new IndexReader($this->createIndexMapper());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface
-     */
     public function createSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
         return new SuggestionIndexHandler($this->getConfig());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver
-     */
-    public function createIndexNameResolver(): IndexNameResolver
+    public function createIndexNameResolver(): IndexNameResolverInterface
     {
         return new IndexNameResolver($this->getConfig());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface
-     */
     public function createSearchIndexClientCreator(): SearchIndexClientCreatorInterface
     {
         return new SearchIndexClientCreator($this->createIndexConfigurator());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface
-     */
     public function createSearchClientCreator(): SearchClientCreatorInterface
     {
         return new SearchClientCreator(
@@ -224,57 +199,36 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface
-     */
     public function createProductMapper(): ProductMapperInterface
     {
         return new ProductMapper();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapper
-     */
-    public function createIndexMapper(): IndexMapper
+    public function createIndexMapper(): IndexMapperInterface
     {
         return new IndexMapper();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator
-     */
-    public function createIndexConfigurator(): IndexConfigurator
+    public function createIndexConfigurator(): IndexConfiguratorInterface
     {
         return new IndexConfigurator($this->createSuggestionIndexHandler(), $this->getConfig());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface
-     */
     public function createProductConcreteFilter(): ProductConcreteFilterInterface
     {
         return new ProductConcreteFilter();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver
-     */
-    public function createAlgoliaConfigResolver(): AlgoliaConfigResolver
+    public function createAlgoliaConfigResolver(): AlgoliaConfigResolverInterface
     {
         return new AlgoliaConfigResolver();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface
-     */
     public function createCredentialsMapper(): CredentialsMapperInterface
     {
         return new CredentialsMapper();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Validator\ApiKeyValidatorInterface
-     */
     public function createAdminApiKeyValidator(): ApiKeyValidatorInterface
     {
         return new AdminApiKeyValidator(
@@ -283,9 +237,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Validator\ApiKeyValidatorInterface
-     */
     public function createSearchOnlyApiKeyValidator(): ApiKeyValidatorInterface
     {
         return new SearchOnlyApiKeyValidator(
@@ -302,10 +253,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Searcher\Searcher
-     */
-    public function createSearcher(): Searcher
+    public function createSearcher(): SearcherInterface
     {
         return new Searcher(
             $this->createSearchIndexResolver(),
@@ -316,7 +264,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    public function createSuggestionsSearcher(): SuggestionsSearcher
+    public function createSuggestionsSearcher(): SuggestionsSearcherInterface
     {
         return new SuggestionsSearcher(
             $this->createIndexNameResolver(),
@@ -327,7 +275,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    public function createSearchIndexResolver(): SearchIndexResolver
+    public function createSearchIndexResolver(): SearchIndexResolverInterface
     {
         return new SearchIndexResolver(
             $this->createIndexNameResolver(),
@@ -337,9 +285,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface
-     */
     public function createSearchParametersResolver(): SearchParametersResolverInterface
     {
         return new SearchParametersResolver(
@@ -351,9 +296,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverterInterface
-     */
     public function createFilterConverter(): FilterConverterInterface
     {
         return new FilterConverter(
@@ -364,25 +306,16 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\Cache\Adapter\FilesystemAdapter
-     */
     public function createCache(): AbstractAdapter
     {
         return new FilesystemAdapter();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface
-     */
     public function createPaginationConverter(): PaginationConverterInterface
     {
         return new PaginationConverter();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilderInterface
-     */
     public function createSearchResponseBuilder(): SearchResponseBuilderInterface
     {
         return new SearchResponseBuilder(
@@ -395,9 +328,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SuggestionsSearchResponseBuilderInterface
-     */
     public function createSuggestionsSearchResponseBuilder(): SuggestionsSearchResponseBuilderInterface
     {
         return new SuggestionsSearchResponseBuilder(
@@ -410,65 +340,41 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createProductsExtractor(): SearchResponseExtractorInterface
     {
         return new ProductsExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createSuggestionProductsExtractor(): SearchResponseExtractorInterface
     {
         return new SuggestionsProductsExtractor($this->getConfig());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createSuggestionsCmsPageExtractor(): SearchResponseExtractorInterface
     {
         return new SuggestionsCmsPageExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\PaginationExtractorInterface
-     */
     public function createPaginationExtractor(): PaginationExtractorInterface
     {
         return new PaginationExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createCompletionsExtractor(): SearchResponseExtractorInterface
     {
         return new CompletionsExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createCategoryExtractor(): SearchResponseExtractorInterface
     {
         return new CategoryExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\FacetsExtractorInterface
-     */
     public function createFacetsExtractor(): FacetsExtractorInterface
     {
         return new FacetsExtractor($this->getConfig(), $this->createAlgoliaConfigResolver());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface
-     */
     public function createProductDataFilterApplier(): ProductDataFilterApplierInterface
     {
         return new ProductDataFilterApplier(
@@ -478,17 +384,11 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface
-     */
     public function createCmsPageMapper(): CmsPageMapperInterface
     {
         return new CmsPageMapper();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface
-     */
     public function createCmsPageIndexer(): CmsPageIndexerInterface
     {
         return new CmsPageIndexer(
@@ -497,9 +397,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface
-     */
     public function createCmsPageSaver(): CmsPageSaverInterface
     {
         return new CmsPageSaver(
@@ -510,9 +407,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface
-     */
     public function createCmsPageDeleter(): CmsPageDeleterInterface
     {
         return new CmsPageDeleter(
@@ -524,9 +418,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface
-     */
     public function createCmsPagePublisher(): CmsPagePublisherInterface
     {
         return new CmsPagePublisher(
@@ -536,17 +427,11 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
     public function createCmsPageExtractor(): SearchResponseExtractorInterface
     {
         return new CmsPageExtractor();
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Expander\SearchParametersExpanderInterface
-     */
     public function createCmsPageSearchParametersExpander(): SearchParametersExpanderInterface
     {
         return new CmsPageSearchParametersExpander($this->getConfig());

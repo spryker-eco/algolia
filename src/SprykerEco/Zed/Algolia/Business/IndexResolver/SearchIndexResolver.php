@@ -19,23 +19,18 @@ use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
-class SearchIndexResolver
+class SearchIndexResolver implements SearchIndexResolverInterface
 {
     public function __construct(
-        protected IndexNameResolver $indexNameResolver,
+        protected IndexNameResolverInterface $indexNameResolver,
         protected SearchClientCreatorInterface $searchClientCreator,
         protected SearchIndexClientCreatorInterface $searchIndexClientCreator,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function getSearchIndexClientForSearchRequest(
         SearchRequestTransfer $searchRequestTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
@@ -55,11 +50,6 @@ class SearchIndexResolver
         return $this->createSearchIndexClientWithIndexName($searchRequestTransfer, $indexName);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function getSearchIndexClientWithPrimarySearchIndex(
         SearchRequestTransfer $searchRequestTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
@@ -75,12 +65,7 @@ class SearchIndexResolver
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     * @param string $indexName
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
      */
     protected function createSearchIndexClientWithIndexName(
         SearchRequestTransfer $searchRequestTransfer,

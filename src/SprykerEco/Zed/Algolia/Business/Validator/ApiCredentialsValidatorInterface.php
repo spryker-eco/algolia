@@ -10,13 +10,7 @@ namespace SprykerEco\Zed\Algolia\Business\Validator;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
-interface ApiKeyValidatorInterface
+interface ApiCredentialsValidatorInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer
-     */
-    public function validate(
-        AlgoliaConfigTransfer $algoliaConfigTransfer,
-        AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer
-    ): AlgoliaApiCredentialsValidationTransfer;
+    public function validate(AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaApiCredentialsValidationTransfer;
 }

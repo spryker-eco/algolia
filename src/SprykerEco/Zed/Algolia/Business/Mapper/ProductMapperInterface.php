@@ -25,7 +25,6 @@ interface ProductMapperInterface
      *      ],
      *  ]
      *
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
      * @param array<string, array<string, array<int, \Generated\Shared\Transfer\AlgoliaProductTransfer>>> $indexedAlgoliaProductTransfersArray
      *
      * @return array<string, array<string, array<int, \Generated\Shared\Transfer\AlgoliaProductTransfer>>>
@@ -42,8 +41,7 @@ interface ProductMapperInterface
      * - Exclude Price from data if configuration uses product without prices
      *
      * @param array<\Generated\Shared\Transfer\AlgoliaProductTransfer> $algoliaProductTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return array<array<string, mixed>>
      */
     public function mapAlgoliaProductTransfersArrayToAlgoliaObjectArray(array $algoliaProductTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer): array;

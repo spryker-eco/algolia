@@ -20,41 +20,15 @@ use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtract
 class SuggestionsSearchResponseBuilder implements SuggestionsSearchResponseBuilderInterface
 {
     /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
-    protected SearchResponseExtractorInterface $completionsExtractor;
-
-    /**
-     * @var array<\SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface>
-     */
-    protected array $suggestionsExtractors;
-
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface
-     */
-    protected SearchResponseExtractorInterface $categoryExtractor;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface $completionsExtractor
      * @param array<\SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface> $suggestionsExtractors
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface $categoryExtractor
      */
     public function __construct(
-        SearchResponseExtractorInterface $completionsExtractor,
-        array $suggestionsExtractors,
-        SearchResponseExtractorInterface $categoryExtractor
+        protected SearchResponseExtractorInterface $completionsExtractor,
+        protected array $suggestionsExtractors,
+        protected SearchResponseExtractorInterface $categoryExtractor
     ) {
-        $this->completionsExtractor = $completionsExtractor;
-        $this->suggestionsExtractors = $suggestionsExtractors;
-        $this->categoryExtractor = $categoryExtractor;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
-     */
     public function buildSuccessfulResponse(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer
@@ -94,12 +68,6 @@ class SuggestionsSearchResponseBuilder implements SuggestionsSearchResponseBuild
             );
     }
 
-    /**
-     * @param string $errorMessage
-     * @param int $statusCode
-     *
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
-     */
     public function buildUnsuccessfulResponse(string $errorMessage, int $statusCode): SuggestionsSearchResponseTransfer
     {
         return (new SuggestionsSearchResponseTransfer())

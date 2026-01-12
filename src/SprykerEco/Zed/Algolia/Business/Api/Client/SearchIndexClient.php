@@ -16,23 +16,12 @@ class SearchIndexClient implements SearchIndexClientInterface
 {
     use LoggerTrait;
 
-    /**
-     * @var \Algolia\AlgoliaSearch\SearchIndex
-     */
-    protected $searchIndex;
-
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchIndex $searchIndex
-     */
-    public function __construct(SearchIndex $searchIndex)
+    public function __construct(protected SearchIndex $searchIndex)
     {
-        $this->searchIndex = $searchIndex;
     }
 
     /**
      * @param array<array<string, mixed>> $algoliaObjectTransfers
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function saveObjects(array $algoliaObjectTransfers): AlgoliaResponseTransfer
     {
@@ -43,8 +32,6 @@ class SearchIndexClient implements SearchIndexClientInterface
 
     /**
      * @param array<string> $objectIds
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function deleteObjects(array $objectIds): AlgoliaResponseTransfer
     {
@@ -54,10 +41,7 @@ class SearchIndexClient implements SearchIndexClientInterface
     }
 
     /**
-     * @param string $query
      * @param array<string, mixed> $searchParameters
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
      */
     public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
     {
@@ -68,25 +52,16 @@ class SearchIndexClient implements SearchIndexClientInterface
             ->setIsSuccessful(true);
     }
 
-    /**
-     * @return bool
-     */
     public function indexExists(): bool
     {
         return $this->searchIndex->exists();
     }
 
-    /**
-     * @return string
-     */
     public function getIndexName(): string
     {
         return $this->searchIndex->getIndexName();
     }
 
-    /**
-     * @return array
-     */
     public function getSettings(): array
     {
         return $this->searchIndex->getSettings();
@@ -94,8 +69,6 @@ class SearchIndexClient implements SearchIndexClientInterface
 
     /**
      * @param array<string, mixed> $settings
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function setSettings(array $settings): AlgoliaResponseTransfer
     {
@@ -104,17 +77,11 @@ class SearchIndexClient implements SearchIndexClientInterface
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
 
-    /**
-     * @return \Algolia\AlgoliaSearch\SearchIndex
-     */
     public function getSearchIndex(): SearchIndex
     {
         return $this->searchIndex;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     protected function createSuccessfulAlgoliaResponseTransfer(): AlgoliaResponseTransfer
     {
         return (new AlgoliaResponseTransfer())

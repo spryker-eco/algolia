@@ -34,8 +34,6 @@ class SearchParametersResolver implements SearchParametersResolverInterface
     protected array $searchParametersExpanders;
 
     /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverterInterface $filterConverter
-     * @param \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface $paginationConverter
      * @param array<\SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Expander\SearchParametersExpanderInterface> $searchParametersExpander
      */
     public function __construct(
@@ -87,8 +85,6 @@ class SearchParametersResolver implements SearchParametersResolverInterface
     }
 
     /**
-     * @param string $sourceIdentifier
-     *
      * @return \SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Expander\SearchParametersExpanderInterface|null
      */
     protected function getSearchParametersExpanders(string $sourceIdentifier): ?SearchParametersExpanderInterface

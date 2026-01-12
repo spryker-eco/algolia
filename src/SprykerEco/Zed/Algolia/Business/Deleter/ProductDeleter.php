@@ -15,8 +15,8 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReaderInterface;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
 class ProductDeleter implements ProductDeleterInterface
 {
@@ -26,16 +26,11 @@ class ProductDeleter implements ProductDeleterInterface
         protected SearchClientCreatorInterface $searchClientCreator,
         protected SearchIndexClientCreatorInterface $searchIndexClientCreator,
         protected IndexReaderInterface $indexReader,
-        protected IndexNameResolver $indexNameResolver,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected IndexNameResolverInterface $indexNameResolver,
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductDeletedTransfer $productDeletedTransfer
-     *
-     * @return void
-     */
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void
     {
         $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
@@ -51,10 +46,7 @@ class ProductDeleter implements ProductDeleterInterface
 
     /**
      * @param array<\Generated\Shared\Transfer\ProductDeletedTransfer> $productDeletedTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
      * @param string|null $storeName
-     *
-     * @return void
      */
     public function deleteProducts(array $productDeletedTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer, ?string $storeName = null): void
     {

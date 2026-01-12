@@ -14,9 +14,6 @@ use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 interface SuggestionsSearchResponseBuilderInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
      */
     public function buildSuccessfulResponse(
@@ -25,9 +22,6 @@ interface SuggestionsSearchResponseBuilderInterface
     ): SuggestionsSearchResponseTransfer;
 
     /**
-     * @param string $errorMessage
-     * @param int $statusCode
-     *
      * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
      */
     public function buildUnsuccessfulResponse(string $errorMessage, int $statusCode): SuggestionsSearchResponseTransfer;

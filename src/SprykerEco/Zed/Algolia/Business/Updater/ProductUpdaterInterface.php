@@ -13,8 +13,6 @@ use Generated\Shared\Transfer\ProductUpdatedTransfer;
 interface ProductUpdaterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ProductUpdatedTransfer $productUpdatedTransfer
-     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer;

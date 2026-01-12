@@ -21,11 +21,11 @@ use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use Throwable;
 
-class Searcher
+class Searcher implements SearcherInterface
 {
     use LoggerTrait;
 
@@ -40,20 +40,16 @@ class Searcher
     protected const ERROR_CODE = 424;
 
     public function __construct(
-        protected SearchIndexResolver $searchIndexResolver,
+        protected SearchIndexResolverInterface $searchIndexResolver,
         protected SearchParametersResolverInterface $searchParametersResolver,
         protected SearchResponseBuilderInterface $searchResponseBuilder,
         protected SearchClientCreatorInterface $searchClientCreator,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     *
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
      */
     public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer
     {
@@ -150,12 +146,6 @@ class Searcher
         return $this->searchResponseBuilder->buildSuccessfulResponse($algoliaResponseTransfer, $searchRequestTransfer);
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return void
-     */
     protected function logUnexpectedThrowable(
         Throwable $throwable,
         SearchRequestTransfer $searchRequestTransfer

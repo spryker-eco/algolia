@@ -28,12 +28,6 @@ class PaginationExtractor implements PaginationExtractorInterface
      */
     protected const FIELD_HITS_PER_PAGE = 'hitsPerPage';
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\SearchResponsePaginationTransfer
-     */
     public function extract(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer
@@ -46,8 +40,6 @@ class PaginationExtractor implements PaginationExtractorInterface
 
     /**
      * @param array<mixed> $searchResults
-     *
-     * @return int
      */
     protected function getNumFound(array $searchResults): int
     {
@@ -56,8 +48,6 @@ class PaginationExtractor implements PaginationExtractorInterface
 
     /**
      * @param array<mixed> $searchResults
-     *
-     * @return int
      */
     protected function getCurrentPage(array $searchResults): int
     {
@@ -66,9 +56,6 @@ class PaginationExtractor implements PaginationExtractorInterface
 
     /**
      * @param array<string, mixed> $searchResults
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return int
      */
     protected function getCurrentItemsPerPage(array $searchResults, SearchRequestTransfer $searchRequestTransfer): int
     {

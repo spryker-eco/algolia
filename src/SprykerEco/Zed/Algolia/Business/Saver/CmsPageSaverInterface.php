@@ -14,8 +14,7 @@ interface CmsPageSaverInterface
 {
     /**
      * @param array $indexData
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function saveCmsPage(array $indexData, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer;

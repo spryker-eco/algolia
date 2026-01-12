@@ -9,7 +9,7 @@ namespace SprykerEco\Zed\Algolia\Business\Resolver;
 
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
-class AlgoliaConfigResolver
+class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
 {
     public function __construct()
     {

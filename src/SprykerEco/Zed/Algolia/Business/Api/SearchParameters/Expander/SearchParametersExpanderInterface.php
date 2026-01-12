@@ -14,24 +14,18 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 interface SearchParametersExpanderInterface
 {
     /**
-     * @param string $sourceIdentifier
-     *
      * @return bool
      */
     public function isApplicable(string $sourceIdentifier): bool;
 
     /**
-     * @param string $filters
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return string
      */
     public function expandFilters(string $filters, SearchRequestTransfer $searchRequestTransfer): string;
 
     /**
      * @param array<string, mixed> $additionalParameters
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
+
      * @return array<string, mixed>
      */
     public function expandSourceIdentifierParameters(array $additionalParameters, SearchRequestTransfer $searchRequestTransfer): array;

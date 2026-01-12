@@ -11,7 +11,7 @@ use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
 class FacetsExtractor implements FacetsExtractorInterface
 {
@@ -50,18 +50,11 @@ class FacetsExtractor implements FacetsExtractorInterface
      */
     protected const RESPONSE_FIELD_PREFIX_ATTRIBUTES = 'attributes.';
 
-     /**
-      * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $algoliaConfig
-      * @param \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver $algoliaConfigResolver
-      */
-    public function __construct(protected AlgoliaConfig $algoliaConfig, protected AlgoliaConfigResolver $algoliaConfigResolver)
+    public function __construct(protected AlgoliaConfig $algoliaConfig, protected AlgoliaConfigResolverInterface $algoliaConfigResolver)
     {
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return array<string, mixed>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer, SearchRequestTransfer $searchRequestTransfer): array
@@ -144,8 +137,7 @@ class FacetsExtractor implements FacetsExtractorInterface
 
     /**
      * @param array<string, mixed> $searchResults
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
+
      * @return array<string, array<string, int>>
      */
     protected function extractFacetsStats(array $searchResults, SearchRequestTransfer $searchRequestTransfer): array
@@ -186,11 +178,6 @@ class FacetsExtractor implements FacetsExtractorInterface
         ];
     }
 
-    /**
-     * @param string $facetKey
-     *
-     * @return string
-     */
     protected function adjustFacetKey(string $facetKey): string
     {
         if (str_starts_with($facetKey, static::RESPONSE_FIELD_PREFIX_ATTRIBUTES)) {
@@ -200,11 +187,6 @@ class FacetsExtractor implements FacetsExtractorInterface
         return $facetKey;
     }
 
-    /**
-     * @param string $facetKey
-     *
-     * @return bool
-     */
     protected function isFacetRestricted(string $facetKey): bool
     {
         foreach ($this->algoliaConfig->getRestrictedFacetKeys() as $restrictedFacetKey) {
@@ -218,8 +200,7 @@ class FacetsExtractor implements FacetsExtractorInterface
 
     /**
      * @param array<string, mixed> $facetsStats
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
+
      * @return array<int>
      */
     protected function getCurrentPriceFacetStats(array $facetsStats, SearchRequestTransfer $searchRequestTransfer): array

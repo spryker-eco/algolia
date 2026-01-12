@@ -29,11 +29,6 @@ class ProductSaver implements ProductSaverInterface
      */
     protected const ERROR_MESSAGE_INDEX_NAME_TEMPLATE = 'Error happened when saving products in Algolia index %s';
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface $searchClientCreator
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface $searchIndexClientCreator
-     * @param \SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface $productMapper
-     */
     public function __construct(
         protected SearchClientCreatorInterface $searchClientCreator,
         protected SearchIndexClientCreatorInterface $searchIndexClientCreator,
@@ -43,9 +38,6 @@ class ProductSaver implements ProductSaverInterface
 
     /**
      * @param array<\Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer> $indexedAlgoliaProductCollections
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function saveAlgoliaProducts(array $indexedAlgoliaProductCollections, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer
     {
@@ -63,12 +55,6 @@ class ProductSaver implements ProductSaverInterface
         return $algoliaResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer $indexedAlgoliaProductCollectionTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaResponseTransfer $algoliaResponseTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     protected function saveIndexedAlgoliaProductCollection(
         IndexedAlgoliaProductCollectionTransfer $indexedAlgoliaProductCollectionTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer,
@@ -112,10 +98,7 @@ class ProductSaver implements ProductSaverInterface
     }
 
     /**
-     * @param string $indexName
      * @param string|null $errorResponse
-     *
-     * @return string
      */
     protected function addIndexNameToErrorResponse(string $indexName, ?string $errorResponse): string
     {
@@ -127,11 +110,7 @@ class ProductSaver implements ProductSaverInterface
     }
 
     /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClient
      * @param array<\Generated\Shared\Transfer\AlgoliaProductTransfer> $algoliaProductTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     protected function saveObjects(
         SearchIndexClientInterface $searchIndexClient,

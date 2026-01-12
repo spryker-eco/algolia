@@ -13,8 +13,6 @@ use Generated\Shared\Transfer\ProductCreatedTransfer;
 interface ProductCreatorInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\ProductCreatedTransfer $productCreatedTransfer
-     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function createProducts(ProductCreatedTransfer $productCreatedTransfer): AlgoliaResponseTransfer;

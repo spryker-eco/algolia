@@ -13,23 +13,11 @@ use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 
 interface SearchIndexClientCreatorInterface
 {
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $client
-     * @param \Generated\Shared\Transfer\IndexConfigurationTransfer $indexConfigurationTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexApiClient(
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer
     ): SearchIndexClientInterface;
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $client
-     * @param \Generated\Shared\Transfer\IndexConfigurationTransfer $indexConfigurationTransfer
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexApiClientForSearch(
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer

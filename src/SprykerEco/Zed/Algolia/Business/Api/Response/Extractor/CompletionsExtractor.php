@@ -22,8 +22,6 @@ class CompletionsExtractor extends AbstractFeatureExtractor
     protected const FIELD_QUERY = 'query';
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array<int, mixed>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array

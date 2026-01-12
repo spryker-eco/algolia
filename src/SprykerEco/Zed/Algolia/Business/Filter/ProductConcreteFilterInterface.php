@@ -14,16 +14,14 @@ interface ProductConcreteFilterInterface
 {
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject;
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterNonIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject;

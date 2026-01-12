@@ -26,27 +26,17 @@ class CmsPageExtractor implements SearchResponseExtractorInterface
      */
     protected const FIELD_HIGHLIGHT_RESULT = '_highlightResult';
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return AlgoliaEntityNameEnum::CMS_PAGE->value;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return bool
-     */
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool
     {
         return $searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::CMS_PAGE->value;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array<int, array<string, mixed>>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array

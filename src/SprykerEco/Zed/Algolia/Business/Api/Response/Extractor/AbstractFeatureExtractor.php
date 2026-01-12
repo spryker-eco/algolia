@@ -12,35 +12,23 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 
 abstract class AbstractFeatureExtractor implements SearchResponseExtractorInterface
 {
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return '';
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
-     * @return bool
-     */
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool
     {
         return true;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array
      */
     abstract public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array;
 
     /**
      * Specific case for Query Categorization extension to extract prediction category.
-     *
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
      *
      * @return array<string>
      */

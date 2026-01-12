@@ -27,10 +27,6 @@ class AdminApiKeyValidator implements ApiKeyValidatorInterface
      */
     protected $searchClientCreator;
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Mapper\CredentialsMapperInterface $credentialsMapper
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface $searchClientCreator
-     */
     public function __construct(
         CredentialsMapperInterface $credentialsMapper,
         SearchClientCreatorInterface $searchClientCreator
@@ -39,12 +35,6 @@ class AdminApiKeyValidator implements ApiKeyValidatorInterface
         $this->searchClientCreator = $searchClientCreator;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer
-     */
     public function validate(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer

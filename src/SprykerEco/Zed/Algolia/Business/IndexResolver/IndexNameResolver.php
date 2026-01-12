@@ -15,7 +15,7 @@ use Generated\Shared\Transfer\SortingEntryTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 
-class IndexNameResolver
+class IndexNameResolver implements IndexNameResolverInterface
 {
     /**
      * @var string
@@ -32,21 +32,11 @@ class IndexNameResolver
      */
     protected $algoliaConfig;
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $algoliaConfig
-     */
     public function __construct(AlgoliaConfig $algoliaConfig)
     {
         $this->algoliaConfig = $algoliaConfig;
     }
 
-    /**
-     * @param string $tenantIdentifier
-     * @param string $storeName
-     * @param string $locale
-     *
-     * @return string
-     */
     public function resolveProductIndexName(
         string $tenantIdentifier,
         string $storeName,
@@ -59,22 +49,11 @@ class IndexNameResolver
         ));
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return string
-     */
     public function resolveProductsSuggestionIndexNameFromProductIndexName(string $indexName): string
     {
         return strtolower($this->createSuggestionIndexFromTemplate($indexName));
     }
 
-    /**
-     * @param string $locale
-     * @param string $tenantIdentifier
-     *
-     * @return string
-     */
     public function resolveCmsPageIndexName(
         string $locale,
         string $tenantIdentifier
@@ -86,12 +65,8 @@ class IndexNameResolver
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer
-     * @param string $tenantIdentifier
      * @param string|null $entityName
      * @param string|null $storeName
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer
      */
     public function filterIndicesByIndexNameParts(
         AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer,
@@ -122,13 +97,6 @@ class IndexNameResolver
         return $filteredAlgoliaIndicesCollectionTransfer;
     }
 
-    /**
-     * @param string $indexName
-     * @param \Generated\Shared\Transfer\SortingEntryTransfer $sortingEntryTransfer
-     * @param \Generated\Shared\Transfer\FacetCollectionTransfer $facetCollectionTransfer
-     *
-     * @return string
-     */
     public function getIndexReplicaNameForSorting(
         string $indexName,
         SortingEntryTransfer $sortingEntryTransfer,
@@ -147,13 +115,6 @@ class IndexNameResolver
         return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC, $indexName, $fieldKey);
     }
 
-    /**
-     * @param string $tenantIdentifier
-     * @param string $storeName
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function createProductIndexFromTemplate(
         string $tenantIdentifier,
         string $storeName,
@@ -168,12 +129,6 @@ class IndexNameResolver
         );
     }
 
-    /**
-     * @param string $tenantIdentifier
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function createCmsPageIndexFromTemplate(
         string $tenantIdentifier,
         string $locale
@@ -186,11 +141,6 @@ class IndexNameResolver
         );
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return string
-     */
     protected function createSuggestionIndexFromTemplate(string $indexName): string
     {
         return sprintf(

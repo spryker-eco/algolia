@@ -18,15 +18,11 @@ interface SearchResponseExtractorInterface
     public const FIELD_HITS = 'hits';
 
     /**
-     * @param \Generated\Shared\Transfer\SearchRequestTransfer $searchRequestTransfer
-     *
      * @return bool
      */
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool;
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array;

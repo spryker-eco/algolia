@@ -24,17 +24,12 @@ class SuggestionsProductsExtractor extends ProductsExtractor implements SearchRe
      */
     protected AlgoliaConfig $algoliaConfig;
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $algoliaConfig
-     */
     public function __construct(AlgoliaConfig $algoliaConfig)
     {
         $this->algoliaConfig = $algoliaConfig;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer
-     *
      * @return array<string, mixed>
      */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array

@@ -12,8 +12,6 @@ use Generated\Shared\Transfer\PaginationEntryTransfer;
 interface PaginationConverterInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\PaginationEntryTransfer $paginationEntryTransfer
-     *
      * @return array<string, string|int>
      */
     public function convertPaginationTransferToAlgoliaPaginationArray(PaginationEntryTransfer $paginationEntryTransfer): array;

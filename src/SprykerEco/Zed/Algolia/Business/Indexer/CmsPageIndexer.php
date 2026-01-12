@@ -13,7 +13,7 @@ use Exception;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageTransfer;
 use Spryker\Shared\Log\LoggerTrait;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
 
 class CmsPageIndexer implements CmsPageIndexerInterface
@@ -22,15 +22,11 @@ class CmsPageIndexer implements CmsPageIndexerInterface
 
     public function __construct(
         protected CmsPageMapperInterface $cmsPageMapper,
-        protected IndexNameResolver $indexNameResolver
+        protected IndexNameResolverInterface $indexNameResolver
     ) {
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-     * @param string $locale
-     * @param string $tenantIdentifier
-     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
      * @param array $flattenedLocaleCmsPageData
      *
      * @return array

@@ -21,8 +21,7 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
@@ -48,8 +47,7 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
 
     /**
      * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
+
      * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterNonIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
@@ -73,13 +71,6 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
         return $filteredProductsConcrete;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return bool
-     */
     protected function canBeIndexed(
         ProductConcreteTransfer $productConcreteTransfer,
         StoreTransfer $storeTransfer,
@@ -91,13 +82,6 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
             && $this->assertPricesAreValid($productConcreteTransfer, $storeTransfer, $algoliaConfigTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return bool
-     */
     protected function assertPricesAreValid(
         ProductConcreteTransfer $productConcreteTransfer,
         StoreTransfer $storeTransfer,

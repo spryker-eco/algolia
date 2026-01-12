@@ -16,7 +16,7 @@ use Locale;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 
-class IndexConfigurator
+class IndexConfigurator implements IndexConfiguratorInterface
 {
     /**
      * @var string
@@ -33,34 +33,10 @@ class IndexConfigurator
      */
     protected const ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
 
-    /**
-     * @var \SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface
-     */
-    protected SuggestionIndexHandlerInterface $suggestionIndexHandler;
-
-    /**
-     * @var \SprykerEco\Zed\Algolia\AlgoliaConfig
-     */
-    protected AlgoliaConfig $algoliaConfig;
-
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface $suggestionIndexHandler
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $algoliaConfig
-     */
-    public function __construct(SuggestionIndexHandlerInterface $suggestionIndexHandler, AlgoliaConfig $algoliaConfig)
+    public function __construct(protected SuggestionIndexHandlerInterface $suggestionIndexHandler, protected AlgoliaConfig $algoliaConfig)
     {
-        $this->suggestionIndexHandler = $suggestionIndexHandler;
-        $this->algoliaConfig = $algoliaConfig;
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchIndex $index
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     * @param string $locale
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return void
-     */
     public function configureIndex(SearchIndex $index, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void
     {
         $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($index, $algoliaConfigTransfer);
@@ -88,9 +64,6 @@ class IndexConfigurator
     }
 
     /**
-     * @param string $locale
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
      * @return array<string, mixed>
      */
     public function getSettings(string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): array
@@ -125,9 +98,6 @@ class IndexConfigurator
     }
 
     /**
-     * @param string $indexName
-     * @param string $attributeName
-     *
      * @return array<array>
      */
     public function getReplicaNameWithRankingAttributes(string $indexName, string $attributeName): array
@@ -148,9 +118,6 @@ class IndexConfigurator
     }
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchIndex $index
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
      * @return array<array>
      */
     protected function getReplicaNamesWithRankingAttributes(SearchIndex $index, AlgoliaConfigTransfer $algoliaConfigTransfer): array
@@ -203,9 +170,6 @@ class IndexConfigurator
 
     /**
      * @param array<string, array<string>> $replicaNamesWithRankingAttributes
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \Generated\Shared\Transfer\IndexConfigurationResponseTransfer
      */
     protected function configureReplicasRankingAttributes(
         array $replicaNamesWithRankingAttributes,
@@ -231,43 +195,21 @@ class IndexConfigurator
         return $indexConfigurationResponse;
     }
 
-    /**
-     * @param string $indexName
-     * @param string $attributeName
-     *
-     * @return string
-     */
     protected function getReplicaNameAttributeDesc(string $indexName, string $attributeName): string
     {
         return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC, $indexName, $attributeName);
     }
 
-    /**
-     * @param string $indexName
-     * @param string $attributeName
-     *
-     * @return string
-     */
     protected function getReplicaNameAttributeAsc(string $indexName, string $attributeName): string
     {
         return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_ASC, $indexName, $attributeName);
     }
 
-    /**
-     * @param string $attributeName
-     *
-     * @return string
-     */
     protected function getRankingByAttributeDesc(string $attributeName): string
     {
         return sprintf('desc(%s)', $attributeName);
     }
 
-    /**
-     * @param string $attributeName
-     *
-     * @return string
-     */
     protected function getRankingByAttributeAsc(string $attributeName): string
     {
         return sprintf('asc(%s)', $attributeName);
@@ -291,11 +233,8 @@ class IndexConfigurator
     }
 
     /**
-     * @param \Algolia\AlgoliaSearch\SearchIndex $index
      * @param array<string, mixed> $settings
      * @param array<string, mixed> $requestOptions
-     *
-     * @return \Generated\Shared\Transfer\IndexConfigurationResponseTransfer
      */
     protected function setIndexSettings(SearchIndex $index, array $settings, array $requestOptions = []): IndexConfigurationResponseTransfer
     {
@@ -313,22 +252,11 @@ class IndexConfigurator
         return $indexConfigurationResponseTransfer;
     }
 
-    /**
-     * @param string $indexName
-     * @param string $errorMessage
-     *
-     * @return string
-     */
     protected function getFormattedErrorMessage(string $indexName, string $errorMessage): string
     {
         return sprintf(static::ERROR_MESSAGE_TEMPLATE, $indexName, $errorMessage);
     }
 
-    /**
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function extractLanguageFromLocale(string $locale): string
     {
         return Locale::parseLocale($locale)[Locale::LANG_TAG];

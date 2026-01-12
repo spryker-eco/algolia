@@ -10,28 +10,18 @@ namespace SprykerEco\Zed\Algolia\Business\Publisher;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface;
 
 class CmsPagePublisher implements CmsPagePublisherInterface
 {
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface $cmsPageIndexer
-     * @param \SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface $cmsPageSaver
-     * @param \SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver $algoliaConfigResolver
-     */
     public function __construct(
         protected CmsPageIndexerInterface $cmsPageIndexer,
         protected CmsPageSaverInterface $cmsPageSaver,
-        protected AlgoliaConfigResolver $algoliaConfigResolver
+        protected AlgoliaConfigResolverInterface $algoliaConfigResolver
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CmsPagePublishedTransfer $cmsPagePublishedTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     public function publishCmsPages(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
     {
         $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
@@ -60,9 +50,6 @@ class CmsPagePublisher implements CmsPagePublisherInterface
         return $this->createSuccessResponse();
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     protected function createSuccessResponse(): AlgoliaResponseTransfer
     {
         return (new AlgoliaResponseTransfer())->setIsSuccessful(true);

@@ -19,29 +19,20 @@ use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator;
+use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfiguratorInterface;
 
 class CmsPageSaver implements CmsPageSaverInterface
 {
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface $searchClientCreator
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface $searchIndexClientCreator
-     * @param \SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator $indexConfigurator
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $config
-     */
     public function __construct(
         protected readonly SearchClientCreatorInterface $searchClientCreator,
         protected readonly SearchIndexClientCreatorInterface $searchIndexClientCreator,
-        protected readonly IndexConfigurator $indexConfigurator,
+        protected readonly IndexConfiguratorInterface $indexConfigurator,
         protected readonly AlgoliaConfig $config
     ) {
     }
 
     /**
      * @param array $indexData
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function saveCmsPage(array $indexData, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer
     {
@@ -76,12 +67,6 @@ class CmsPageSaver implements CmsPageSaverInterface
 
     /**
      * Configures the Algolia index settings for CMS pages.
-     *
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClient
-     * @param string $indexName
-     *
-     * @return void
      */
     protected function configureIndexSettings(
         SearchClient $searchClient,
@@ -109,11 +94,8 @@ class CmsPageSaver implements CmsPageSaverInterface
     /**
      * Configure replicas with base settings plus specific ranking
      *
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
      * @param array $replicaNames
      * @param array $baseSettings
-     *
-     * @return void
      */
     protected function configureReplicas(SearchClient $searchClient, array $replicaNames, array $baseSettings): void
     {
@@ -131,8 +113,6 @@ class CmsPageSaver implements CmsPageSaverInterface
     /**
      * Merges existing attributesForFaceting from Algolia with required CMS page faceting attributes.
      * This preserves custom facets created in Algolia dashboard while ensuring required facets are present.
-     *
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClient
      *
      * @return array<string>
      */
@@ -159,8 +139,6 @@ class CmsPageSaver implements CmsPageSaverInterface
     }
 
     /**
-     * @param string $indexName
-     *
      * @return array
      */
     protected function getCmsPageReplicaNames(string $indexName): array
@@ -175,9 +153,6 @@ class CmsPageSaver implements CmsPageSaverInterface
         return $cmsPageReplicaNames;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     protected function createSuccessResponse(): AlgoliaResponseTransfer
     {
         return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
