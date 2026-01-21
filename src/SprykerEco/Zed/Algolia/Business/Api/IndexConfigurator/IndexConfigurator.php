@@ -141,7 +141,7 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ],
         ];
 
-        if (!$algoliaConfigTransfer->getProductsWithoutPrice()) {
+        if ($algoliaConfigTransfer->getIsProductPriceSynced()) {
             $replicaNamesWithRankingAttributes = array_merge(
                 $replicaNamesWithRankingAttributes,
                 [

@@ -55,7 +55,7 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
 
         $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer, true);
 
-        if ($algoliaConfigTransfer->getIsSearchInFrontendEnabled()) {
+        if ($algoliaConfigTransfer->getIsSearchInFrontendEnabledForProducts()) {
             $result = $this->getProductsResult($searchRequestTransfer, $searchClient, $algoliaConfigTransfer, $result);
         }
 

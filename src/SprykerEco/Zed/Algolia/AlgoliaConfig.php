@@ -14,6 +14,9 @@ use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
+/**
+ * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
+ */
 class AlgoliaConfig extends AbstractBundleConfig
 {
     /**
@@ -435,7 +438,7 @@ class AlgoliaConfig extends AbstractBundleConfig
             static::ATTRIBUTE_NAME_BRAND,
             static::ATTRIBUTE_NAME_MERCHANT_NAME,
         ];
-        if (!$algoliaConfigTransfer->getProductsWithoutPrice()) {
+        if ($algoliaConfigTransfer->getIsProductPriceSynced()) {
             $attributes[] = static::ATTRIBUTE_NAME_PRICES;
         }
 
@@ -501,5 +504,83 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getCmsPageSortingAttributes(): array
     {
         return [AlgoliaCmsPageObjectEnum::NAME->value];
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getTenantIdentifier(): string
+    {
+        return $this->getSharedConfig()->getTenantIdentifier();
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getApplicationId(): string
+    {
+        return $this->getSharedConfig()->getApplicationId();
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getAdminApiKey(): string
+    {
+        return $this->getSharedConfig()->getAdminApiKey();
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getSearchOnlyApiKey(): string
+    {
+        return $this->getSharedConfig()->getSearchOnlyApiKey();
+    }
+
+    /**
+     * @api
+     *
+     * @return bool
+     */
+    public function isSearchInFrontendEnabledForProducts(): bool
+    {
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+    }
+
+    /**
+     * @api
+     *
+     * @return bool
+     */
+    public function getIsProductPriceSynced(): bool
+    {
+        return $this->getSharedConfig()->getIsProductPriceSynced();
+    }
+
+    /**
+     * @api
+     *
+     * @return bool
+     */
+    public function isSearchInFrontendEnabledForCmsPages(): bool
+    {
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+    }
+
+    /**
+     * @api
+     */
+    public function getEntityToIndexMappings(): array
+    {
+        return $this->getSharedConfig()->getEntityToIndexMappings();
     }
 }

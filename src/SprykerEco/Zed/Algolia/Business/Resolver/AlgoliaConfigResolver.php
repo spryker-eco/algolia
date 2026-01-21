@@ -7,20 +7,30 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Resolver;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 
 class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
 {
-    public function __construct()
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
     }
 
+    /**
+     * @return \Generated\Shared\Transfer\AlgoliaConfigTransfer|null
+     */
     public function findConfig(): ?AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigTransfer())
-            ->setTenantIdentifier('')
-            ->setAdminApiKey('')
-            ->setSearchOnlyApiKey('')
-            ->setApplicationId('');
+            ->setTenantIdentifier($this->algoliaConfig->getTenantIdentifier())
+            ->setApplicationId($this->algoliaConfig->getApplicationId())
+            ->setAdminApiKey($this->algoliaConfig->getAdminApiKey())
+            ->setSearchOnlyApiKey($this->algoliaConfig->getSearchOnlyApiKey())
+            ->setIsProductPriceSynced($this->algoliaConfig->getIsProductPriceSynced())
+            ->setIsSearchInFrontendEnabledForProducts($this->algoliaConfig->isSearchInFrontendEnabledForProducts())
+            ->setIsSearchInFrontendEnabledForCmsPages($this->algoliaConfig->isSearchInFrontendEnabledForCmsPages())
+            ->setIsIndexMappingEnabled($this->algoliaConfig->getEntityToIndexMappings() !== [])
+            ->setEntityToIndexMappings(new ArrayObject($this->algoliaConfig->getEntityToIndexMappings()));
     }
 }

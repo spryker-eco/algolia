@@ -87,7 +87,7 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
         StoreTransfer $storeTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): bool {
-        if ($algoliaConfigTransfer->getProductsWithoutPrice()) {
+        if (!$algoliaConfigTransfer->getIsProductPriceSynced()) {
             return true;
         }
 

@@ -122,7 +122,7 @@ class Searcher implements SearcherInterface
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): SearchResponseTransfer {
         if (!$algoliaConfigTransfer->getIsIndexMappingEnabled()) {
-            return $this->searchResponseBuilder->buildUnsuccessfulResponse(sprintf('Index mapping is not enabled. Please configure it for %s on the App configuration page.', $searchRequestTransfer->getSourceIdentifier()), static::ERROR_CODE);
+            return $this->searchResponseBuilder->buildUnsuccessfulResponse(sprintf('Index mapping is not enabled. Please configure it for %s on the module configuration.', $searchRequestTransfer->getSourceIdentifier()), static::ERROR_CODE);
         }
 
         try {

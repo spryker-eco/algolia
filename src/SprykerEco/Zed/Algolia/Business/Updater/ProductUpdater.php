@@ -82,7 +82,6 @@ class ProductUpdater implements ProductUpdaterInterface
         MessageAttributesTransfer $messageAttributesTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): void {
-
         //TODO: get rid of ProductDeletedTransfer and MessageAttributesTransfer
         $productDeletedTransfersIndexedByStore = [];
         foreach ($productConcreteTransfers as $productConcreteTransfer) {

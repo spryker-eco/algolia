@@ -218,7 +218,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
 
     public function createAlgoliaConfigResolver(): AlgoliaConfigResolverInterface
     {
-        return new AlgoliaConfigResolver();
+        return new AlgoliaConfigResolver($this->getConfig());
     }
 
     public function createAdminApiKeyValidator(): ApiKeyValidatorInterface

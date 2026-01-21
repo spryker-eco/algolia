@@ -9,6 +9,9 @@ namespace SprykerEco\Client\Algolia;
 
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 
+/**
+ * @method \SprykerEco\Client\Algolia\AlgoliaConfig getConfig()
+ */
 class AlgoliaDependencyProvider extends AbstractDependencyProvider
 {
 }

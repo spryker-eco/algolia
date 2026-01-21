@@ -66,7 +66,7 @@ class ProductMapper implements ProductMapperInterface
             $arrayData['objectID'] = $arrayData['object_id'];
             unset($arrayData['object_id']);
 
-            if ($algoliaConfigTransfer->getProductsWithoutPrice()) {
+            if (!$algoliaConfigTransfer->getIsProductPriceSynced()) {
                 unset($arrayData['concrete_prices']);
                 unset($arrayData['prices']);
             }

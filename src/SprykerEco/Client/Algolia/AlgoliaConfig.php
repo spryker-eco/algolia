@@ -5,10 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Shared\Algolia;
+namespace SprykerEco\Client\Algolia;
 
-use Spryker\Shared\Kernel\AbstractBundleConfig;
+use Spryker\Client\Kernel\AbstractBundleConfig;
 
+/**
+ * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
+ */
 class AlgoliaConfig extends AbstractBundleConfig
 {
     /**
@@ -18,7 +21,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getTenantIdentifier(): string
     {
-        return $this->get(AlgoliaConstants::TENANT_IDENTIFIER, 'production');
+        return $this->getSharedConfig()->getTenantIdentifier();
     }
 
     /**
@@ -28,17 +31,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getApplicationId(): string
     {
-        return $this->get(AlgoliaConstants::APPLICATION_ID, '');
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getAdminApiKey(): string
-    {
-        return $this->get(AlgoliaConstants::ADMIN_API_KEY, '');
+        return $this->getSharedConfig()->getApplicationId();
     }
 
     /**
@@ -48,7 +41,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getSearchOnlyApiKey(): string
     {
-        return $this->get(AlgoliaConstants::SEARCH_ONLY_API_KEY, '');
+        return $this->getSharedConfig()->getSearchOnlyApiKey();
     }
 
     /**
@@ -58,17 +51,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->get(AlgoliaConstants::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS, false);
-    }
-
-    /**
-     * @api
-     *
-     * @return bool
-     */
-    public function getIsProductPriceSynced(): bool
-    {
-        return $this->get(AlgoliaConstants::IS_PRODUCT_PRICE_SYNCED, false);
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
     }
 
     /**
@@ -78,7 +61,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->get(AlgoliaConstants::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_CMS_PAGES, false);
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
     }
 
     /**
@@ -86,6 +69,6 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getEntityToIndexMappings(): array
     {
-        return $this->get(AlgoliaConstants::ENTITY_TO_INDEX_MAPPING, []);
+        return $this->getSharedConfig()->getEntityToIndexMappings();
     }
 }
