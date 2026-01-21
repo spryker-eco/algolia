@@ -52,40 +52,48 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
-     * @api
+     * Specification:
+     *  - Defines whether Algolia search is enabled for products in the frontend.
      *
-     * @return bool
+     * @api
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->get(AlgoliaConstants::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS, false);
+        return true;
     }
 
     /**
-     * @api
+     * Specification:
+     * - Defines whether product prices are indexed (if your products do not have prices should be `false`).
      *
-     * @return bool
+     * @api
      */
     public function getIsProductPriceSynced(): bool
     {
-        return $this->get(AlgoliaConstants::IS_PRODUCT_PRICE_SYNCED, false);
+        return true;
     }
 
     /**
-     * @api
+     *  Specification:
+     *  - Defines whether Algolia search is enabled for CMS pages in the frontend.
      *
-     * @return bool
+     * @api
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->get(AlgoliaConstants::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_CMS_PAGES, false);
+        return true;
     }
 
     /**
+     *  Specification:
+     *  - Defines Spryker custom entities to Algolia index mapping.
+     *
+     * @example TODO: see EntityToIndexMappingTransfer for structure of arrays
+     *
      * @api
      */
     public function getEntityToIndexMappings(): array
     {
-        return $this->get(AlgoliaConstants::ENTITY_TO_INDEX_MAPPING, []);
+        return [];
     }
 }

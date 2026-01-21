@@ -51,44 +51,4 @@ interface AlgoliaConstants
      * @var string
      */
     public const SEARCH_ONLY_API_KEY = 'ALGOLIA:SEARCH_ONLY_API_KEY';
-
-    /**
-     * Specification:
-     * - Defines whether Algolia search is enabled for products in the frontend.
-     *
-     * @api
-     *
-     * @var string
-     */
-    public const IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS = 'ALGOLIA:IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS';
-
-    /**
-     * Specification:
-     * - Defines whether products without price should be indexed.
-     *
-     * @api
-     *
-     * @var string
-     */
-    public const IS_PRODUCT_PRICE_SYNCED = 'ALGOLIA:IS_PRODUCT_PRICE_SYNCED';
-
-    /**
-     * Specification:
-     * - Defines whether Algolia search is enabled for CMS pages in the frontend.
-     *
-     * @api
-     *
-     * @var string
-     */
-    public const IS_SEARCH_IN_FRONTEND_ENABLED_FOR_CMS_PAGES = 'ALGOLIA:IS_SEARCH_IN_FRONTEND_ENABLED_FOR_CMS_PAGES';
-
-    /**
-     * Specification:
-     * - Defines whether Algolia index mapping is enabled.
-     *
-     * @api
-     *
-     * @var string
-     */
-    public const ENTITY_TO_INDEX_MAPPING = 'ALGOLIA:ENTITY_TO_INDEX_MAPPING';
 }
