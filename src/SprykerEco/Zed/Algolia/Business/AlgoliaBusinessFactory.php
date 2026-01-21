@@ -7,7 +7,10 @@
 
 namespace SprykerEco\Zed\Algolia\Business;
 
+use Spryker\Zed\Cms\Business\CmsFacadeInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
+use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreator;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreator;
@@ -47,6 +50,8 @@ use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
+use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporter;
+use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporterInterface;
 use SprykerEco\Zed\Algolia\Business\Exporter\ProductExporter;
 use SprykerEco\Zed\Algolia\Business\Exporter\ProductExporterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\PriceProductDataFilter;
@@ -424,5 +429,34 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     public function createCmsPageSearchParametersExpander(): SearchParametersExpanderInterface
     {
         return new CmsPageSearchParametersExpander($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporterInterface
+     */
+    public function createAlgoliaEntityExporter(): AlgoliaEntityExporterInterface
+    {
+        return new AlgoliaEntityExporter(
+            $this->getAlgoliaEntityExporterPlugins(),
+            $this->getConfig(),
+        );
+    }
+
+    /**
+     * @return array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface>
+     */
+    public function getAlgoliaEntityExporterPlugins(): array
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::PLUGINS_ALGOLIA_ENTITY_EXPORTER);
+    }
+
+    public function getProductFacade(): ProductFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_PRODUCT);
+    }
+
+    public function getCmsFacade(): CmsFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_CMS);
     }
 }

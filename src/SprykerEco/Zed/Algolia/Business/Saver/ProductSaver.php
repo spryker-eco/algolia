@@ -14,7 +14,6 @@ use Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 
 class ProductSaver implements ProductSaverInterface
@@ -61,12 +60,7 @@ class ProductSaver implements ProductSaverInterface
         AlgoliaResponseTransfer $algoliaResponseTransfer
     ): AlgoliaResponseTransfer {
         $indexName = $indexedAlgoliaProductCollectionTransfer->getIndexName();
-
-        try {
-            $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
-        } catch (AlgoliaConfigNotFoundException $exception) {
-            return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
-        }
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
 
         $searchIndexClient = $this->searchIndexClientCreator->createSearchIndexApiClient(
             $searchClient,

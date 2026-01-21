@@ -20,9 +20,9 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
     public const STATUS_APPROVED = 'approved';
 
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
 
-     * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
+     * @return \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
     {
@@ -46,9 +46,9 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
     }
 
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
 
-     * @return \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer>
+     * @return \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     public function filterNonIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
     {

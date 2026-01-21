@@ -8,10 +8,76 @@
 namespace SprykerEco\Zed\Algolia;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Container;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\CmsPageAlgoliaEntityExporterPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\ProductAlgoliaEntityExporterPlugin;
 
 /**
  * @method \SprykerEco\Zed\Algolia\AlgoliaConfig getConfig()
  */
 class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
 {
+    public const string PLUGINS_ALGOLIA_ENTITY_EXPORTER = 'PLUGINS_ALGOLIA_ENTITY_EXPORTER';
+
+    public const FACADE_PRODUCT = 'FACADE_PRODUCT';
+
+    public const FACADE_CMS = 'FACADE_CMS';
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    public function provideBusinessLayerDependencies(Container $container): Container
+    {
+        $container = parent::provideBusinessLayerDependencies($container);
+        $container = $this->addAlgoliaEntityExporterPlugins($container);
+        $container = $this->addProductFacade($container);
+        $container = $this->addCmsFacade($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addAlgoliaEntityExporterPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_ALGOLIA_ENTITY_EXPORTER, function () {
+            return $this->getAlgoliaEntityExporterPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface>
+     */
+    protected function getAlgoliaEntityExporterPlugins(): array
+    {
+        return [
+             new ProductAlgoliaEntityExporterPlugin(),
+             new CmsPageAlgoliaEntityExporterPlugin(),
+        ];
+    }
+
+    protected function addProductFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_PRODUCT, function (Container $container) {
+            return $container->getLocator()->product()->facade();
+        });
+
+        return $container;
+    }
+
+    protected function addCmsFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_CMS, function (Container $container) {
+            return $container->getLocator()->cms()->facade();
+        });
+
+        return $container;
+    }
 }

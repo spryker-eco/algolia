@@ -12,7 +12,7 @@ use ArrayObject;
 interface ProductIndexerInterface
 {
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
 
      * @return array<int, \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
      */

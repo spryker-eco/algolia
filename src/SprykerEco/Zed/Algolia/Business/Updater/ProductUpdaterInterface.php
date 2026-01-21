@@ -7,13 +7,15 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Updater;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\ProductUpdatedTransfer;
 
 interface ProductUpdaterInterface
 {
     /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer;
+    public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer;
 }

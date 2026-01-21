@@ -7,13 +7,15 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Creator;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\ProductCreatedTransfer;
 
 interface ProductCreatorInterface
 {
     /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function createProducts(ProductCreatedTransfer $productCreatedTransfer): AlgoliaResponseTransfer;
+    public function createProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer;
 }

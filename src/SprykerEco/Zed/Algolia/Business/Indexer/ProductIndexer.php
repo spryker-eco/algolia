@@ -21,7 +21,7 @@ class ProductIndexer implements ProductIndexerInterface
     }
 
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
 
      * @return array<int, \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
      */
@@ -40,7 +40,7 @@ class ProductIndexer implements ProductIndexerInterface
     }
 
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
      *
      * @return array<string, array<string, array<\Generated\Shared\Transfer\AlgoliaProductTransfer>>>
      */

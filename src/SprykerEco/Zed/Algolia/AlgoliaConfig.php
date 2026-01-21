@@ -583,4 +583,18 @@ class AlgoliaConfig extends AbstractBundleConfig
     {
         return $this->getSharedConfig()->getEntityToIndexMappings();
     }
+
+    /**
+     * Specification:
+     * - Returns the default chunk size for entity export operations.
+     * - This value is used when no chunk size is specified in the console command.
+     *
+     * @api
+     *
+     * @return int
+     */
+    public function getDefaultExportChunkSize(): int
+    {
+        return 100;
+    }
 }

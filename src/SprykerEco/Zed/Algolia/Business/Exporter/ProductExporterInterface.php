@@ -7,13 +7,15 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Exporter;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\ProductExportedTransfer;
 
 interface ProductExporterInterface
 {
     /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function exportProducts(ProductExportedTransfer $productExportedTransfer): AlgoliaResponseTransfer;
+    public function exportProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer;
 }

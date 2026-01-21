@@ -7,15 +7,13 @@
 
 namespace SprykerEco\Zed\Algolia\Business;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
-use Generated\Shared\Transfer\ProductCreatedTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
-use Generated\Shared\Transfer\ProductExportedTransfer;
-use Generated\Shared\Transfer\ProductUpdatedTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SearchResponseTransfer;
 use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
@@ -41,36 +39,48 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      * {@inheritDoc}
      *
      * @api
+     *
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function exportProducts(ProductExportedTransfer $productExportedTransfer): AlgoliaResponseTransfer
+    public function exportProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
         return $this->getFactory()
             ->createProductExporter()
-            ->exportProducts($productExportedTransfer);
+            ->exportProducts($productConcreteTransfers);
     }
 
     /**
      * {@inheritDoc}
      *
      * @api
+     *
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function createProducts(ProductCreatedTransfer $productCreatedTransfer): AlgoliaResponseTransfer
+    public function createProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
         return $this->getFactory()
             ->createProductCreator()
-            ->createProducts($productCreatedTransfer);
+            ->createProducts($productConcreteTransfers);
     }
 
     /**
      * {@inheritDoc}
      *
      * @api
+     *
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer
+    public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
         return $this->getFactory()
             ->createProductUpdater()
-            ->updateProducts($productUpdatedTransfer);
+            ->updateProducts($productConcreteTransfers);
     }
 
     /**

@@ -10,9 +10,7 @@ namespace SprykerEco\Zed\Algolia\Business\Updater;
 use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\MessageAttributesTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
-use Generated\Shared\Transfer\ProductUpdatedTransfer;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
@@ -37,9 +35,14 @@ class ProductUpdater implements ProductUpdaterInterface
     ) {
     }
 
-    public function updateProducts(ProductUpdatedTransfer $productUpdatedTransfer): AlgoliaResponseTransfer
+    /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
+     */
+    public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
-        $filteredProductsConcrete = $this->productDataFilterApplier->apply($productUpdatedTransfer->getProductsConcrete());
+        $filteredProductsConcrete = $this->productDataFilterApplier->apply($productConcreteTransfers);
         $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
         if ($algoliaConfigTransfer === null) {
             return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
@@ -53,7 +56,6 @@ class ProductUpdater implements ProductUpdaterInterface
         if (count($notApplicableProductsConcrete) > 0) {
             $this->deleteInactiveProductConcrete(
                 $notApplicableProductsConcrete,
-                $productUpdatedTransfer->getMessageAttributes(),
                 $algoliaConfigTransfer,
             );
         }
@@ -75,27 +77,26 @@ class ProductUpdater implements ProductUpdaterInterface
     }
 
     /**
-     * @param \ArrayObject<int, \Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
+     *
+     * @return void
      */
     protected function deleteInactiveProductConcrete(
         ArrayObject $productConcreteTransfers,
-        MessageAttributesTransfer $messageAttributesTransfer,
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): void {
-        //TODO: get rid of ProductDeletedTransfer and MessageAttributesTransfer
         $productDeletedTransfersIndexedByStore = [];
         foreach ($productConcreteTransfers as $productConcreteTransfer) {
             if (!count($productConcreteTransfer->getStores())) {
                 $productDeletedTransfersIndexedByStore[static::ALL_STORES][] = (new ProductDeletedTransfer())
-                    ->setSku($productConcreteTransfer->getSku())
-                    ->setMessageAttributes($messageAttributesTransfer);
+                    ->setSku($productConcreteTransfer->getSku());
 
                 continue;
             }
             foreach ($productConcreteTransfer->getStores() as $storeTransfer) {
                 $productDeletedTransfersIndexedByStore[$storeTransfer->getName()][] = (new ProductDeletedTransfer())
-                    ->setSku($productConcreteTransfer->getSku())
-                    ->setMessageAttributes($messageAttributesTransfer);
+                    ->setSku($productConcreteTransfer->getSku());
             }
         }
 
