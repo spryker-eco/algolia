@@ -23,6 +23,8 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
 
     public const FACADE_CMS = 'FACADE_CMS';
 
+    public const string QUERY_CONTAINER_CMS = 'QUERY_CONTAINER_CMS';
+
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
@@ -34,6 +36,7 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addAlgoliaEntityExporterPlugins($container);
         $container = $this->addProductFacade($container);
         $container = $this->addCmsFacade($container);
+        $container = $this->addCmsQueryContainer($container);
 
         return $container;
     }
@@ -76,6 +79,15 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::FACADE_CMS, function (Container $container) {
             return $container->getLocator()->cms()->facade();
+        });
+
+        return $container;
+    }
+
+    protected function addCmsQueryContainer(Container $container): Container
+    {
+        $container->set(static::QUERY_CONTAINER_CMS, function (Container $container) {
+            return $container->getLocator()->cms()->queryContainer();
         });
 
         return $container;

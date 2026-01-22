@@ -22,7 +22,7 @@ class CmsPagePublisher implements CmsPagePublisherInterface
     ) {
     }
 
-    public function publishCmsPages(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
+    public function publishCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
     {
         $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
         if ($algoliaConfigTransfer === null) {

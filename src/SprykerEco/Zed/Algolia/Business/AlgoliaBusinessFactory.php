@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Algolia\Business;
 
 use Spryker\Zed\Cms\Business\CmsFacadeInterface;
+use Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
 use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
@@ -52,6 +53,8 @@ use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporter;
 use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporterInterface;
+use SprykerEco\Zed\Algolia\Business\Exporter\CmsPageExporter;
+use SprykerEco\Zed\Algolia\Business\Exporter\CmsPageExporterInterface;
 use SprykerEco\Zed\Algolia\Business\Exporter\ProductExporter;
 use SprykerEco\Zed\Algolia\Business\Exporter\ProductExporterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\PriceProductDataFilter;
@@ -109,6 +112,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
             $this->createProductConcreteFilter(),
             $this->createProductDataFilterApplier(),
             $this->createAlgoliaConfigResolver(),
+            $this->getProductFacade(),
         );
     }
 
@@ -421,6 +425,15 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
+    public function createCmsPageExporter(): CmsPageExporterInterface
+    {
+        return new CmsPageExporter(
+            $this->createCmsPagePublisher(),
+            $this->getCmsFacade(),
+            $this->getCmsQueryContainer(),
+        );
+    }
+
     public function createCmsPageExtractor(): SearchResponseExtractorInterface
     {
         return new CmsPageExtractor();
@@ -458,5 +471,10 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     public function getCmsFacade(): CmsFacadeInterface
     {
         return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_CMS);
+    }
+
+    public function getCmsQueryContainer(): CmsQueryContainerInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::QUERY_CONTAINER_CMS);
     }
 }

@@ -10,6 +10,8 @@ namespace SprykerEco\Zed\Algolia\Business;
 use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
+use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
@@ -18,6 +20,7 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SearchResponseTransfer;
 use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \SprykerEco\Zed\Algolia\Business\AlgoliaBusinessFactory getFactory()
@@ -40,15 +43,18 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
+     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
+     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
      *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
+     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
-    public function exportProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
-    {
+    public function exportProducts(
+        AlgoliaExportCriteriaTransfer $criteriaTransfer,
+        ?OutputInterface $output = null
+    ): AlgoliaExportResultTransfer {
         return $this->getFactory()
             ->createProductExporter()
-            ->exportProducts($productConcreteTransfers);
+            ->exportProducts($criteriaTransfer, $output);
     }
 
     /**
@@ -120,11 +126,11 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      *
      * @api
      */
-    public function publishedCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
+    public function publishCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
     {
         return $this->getFactory()
             ->createCmsPagePublisher()
-            ->publishCmsPages($cmsPagePublishedTransfer);
+            ->publishCmsPage($cmsPagePublishedTransfer);
     }
 
     /**
@@ -137,5 +143,24 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
         $this->getFactory()
             ->createCmsPageDeleter()
             ->deleteCmsPage($cmsPageUnpublishedTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
+     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
+     */
+    public function exportCmsPages(
+        AlgoliaExportCriteriaTransfer $criteriaTransfer,
+        ?OutputInterface $output = null
+    ): AlgoliaExportResultTransfer {
+        return $this->getFactory()
+            ->createCmsPageExporter()
+            ->exportCmsPages($criteriaTransfer, $output);
     }
 }

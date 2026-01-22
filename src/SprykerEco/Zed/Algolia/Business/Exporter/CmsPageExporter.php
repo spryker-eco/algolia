@@ -1,0 +1,232 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerEco\Zed\Algolia\Business\Exporter;
+
+use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
+use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
+use Generated\Shared\Transfer\CmsPagePublishedTransfer;
+use Generated\Shared\Transfer\CmsPageTransfer;
+use Generated\Shared\Transfer\LocaleTransfer;
+use Generator;
+use Orm\Zed\Cms\Persistence\Map\SpyCmsPageTableMap;
+use Spryker\Zed\Cms\Business\CmsFacadeInterface;
+use Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface;
+use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class CmsPageExporter implements CmsPageExporterInterface
+{
+    /**
+     * @param \SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface $cmsPagePublisher
+     * @param \Spryker\Zed\Cms\Business\CmsFacadeInterface $cmsFacade
+     * @param \Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface $cmsQueryContainer
+     */
+    public function __construct(
+        protected CmsPagePublisherInterface $cmsPagePublisher,
+        protected CmsFacadeInterface $cmsFacade,
+        protected CmsQueryContainerInterface $cmsQueryContainer
+    ) {
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
+     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
+     *
+     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
+     */
+    public function exportCmsPages(
+        AlgoliaExportCriteriaTransfer $criteriaTransfer,
+        ?OutputInterface $output = null
+    ): AlgoliaExportResultTransfer {
+        $criteriaTransfer->requireChunkSize();
+
+        $resultTransfer = (new AlgoliaExportResultTransfer())
+            ->setEntityType($criteriaTransfer->getEntityType())
+            ->setIsSuccessful(true)
+            ->setTotalCount(0)
+            ->setExportedCount(0)
+            ->setFailedCount(0);
+
+        $query = $this->createCmsPageQuery($criteriaTransfer);
+        $totalCount = $query->count();
+        $resultTransfer->setTotalCount($totalCount);
+
+        if ($totalCount === 0) {
+            $resultTransfer->addMessage('No CMS pages found matching the criteria');
+
+            return $resultTransfer;
+        }
+
+        $offset = 0;
+        $chunkNumber = 0;
+
+        foreach ($this->getCmsPageIdChunks($criteriaTransfer) as $cmsPageIds) {
+            $chunkNumber++;
+            $processedInChunk = 0;
+
+            foreach ($cmsPageIds as $cmsPageId) {
+                $cmsPageTransfer = $this->cmsFacade->findCmsPageById($cmsPageId);
+                if ($cmsPageTransfer === null) {
+                    $resultTransfer->setFailedCount($resultTransfer->getFailedCount() + 1);
+
+                    continue;
+                }
+
+                if ($cmsPageTransfer->getIsActive() && $cmsPageTransfer->getIsSearchable()) {
+                    $cmsPagePublishedTransfer = $this->createCmsPagePublishedTransfer($cmsPageTransfer);
+                    $algoliaResponseTransfer = $this->cmsPagePublisher->publishCmsPage($cmsPagePublishedTransfer);
+
+                    if ($algoliaResponseTransfer->getIsSuccessful()) {
+                        $resultTransfer->setExportedCount($resultTransfer->getExportedCount() + 1);
+                        $processedInChunk++;
+                    } else {
+                        $resultTransfer->setFailedCount($resultTransfer->getFailedCount() + 1);
+                    }
+                }
+            }
+
+            if ($output !== null && $processedInChunk > 0) {
+                $output->writeln(sprintf(
+                    'Processed %d CMS page(s) (offset: %d)',
+                    $processedInChunk,
+                    $offset,
+                ));
+            }
+
+            $offset += $criteriaTransfer->getChunkSize();
+        }
+
+        if ($resultTransfer->getFailedCount() > 0) {
+            $resultTransfer
+                ->setIsSuccessful(false)
+                ->addMessage(sprintf(
+                    '%d CMS page(s) failed to export',
+                    $resultTransfer->getFailedCount(),
+                ));
+        }
+
+        $resultTransfer->addMessage(sprintf(
+            '%d of %d CMS page(s) successfully exported to Algolia',
+            $resultTransfer->getExportedCount(),
+            $resultTransfer->getTotalCount(),
+        ));
+
+        return $resultTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Orm\Zed\Cms\Persistence\SpyCmsPageQuery
+     */
+    protected function createCmsPageQuery(AlgoliaExportCriteriaTransfer $criteriaTransfer)
+    {
+        $query = $this->cmsQueryContainer->queryPages();
+
+        if ($criteriaTransfer->getStoreName()) {
+            $query
+                ->useSpyCmsPageStoreQuery()
+                    ->joinWithSpyStore()
+                    ->useSpyStoreQuery()
+                        ->filterByName($criteriaTransfer->getStoreName())
+                    ->endUse()
+                ->endUse();
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Generator<array<int>>
+     */
+    protected function getCmsPageIdChunks(AlgoliaExportCriteriaTransfer $criteriaTransfer): Generator
+    {
+        $chunkSize = $criteriaTransfer->getChunkSize();
+        $offset = 0;
+
+        do {
+            $query = $this->createCmsPageQuery($criteriaTransfer)
+                ->select([SpyCmsPageTableMap::COL_ID_CMS_PAGE])
+                ->limit($chunkSize)
+                ->offset($offset);
+
+            // Ensure distinct results when joining with store relation
+            if ($criteriaTransfer->getStoreName()) {
+                $query->distinct();
+            }
+
+            $cmsPageIds = $query->find()->getData();
+
+            if (count($cmsPageIds) > 0) {
+                yield $cmsPageIds;
+            }
+
+            $offset += $chunkSize;
+        } while (count($cmsPageIds) === $chunkSize);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
+     *
+     * @return \Generated\Shared\Transfer\CmsPagePublishedTransfer
+     */
+    protected function createCmsPagePublishedTransfer(CmsPageTransfer $cmsPageTransfer): CmsPagePublishedTransfer
+    {
+        $cmsVersionTransfer = $this->cmsFacade->findLatestCmsVersionByIdCmsPage($cmsPageTransfer->getFkPage());
+
+        $cmsPagePublishedTransfer = new CmsPagePublishedTransfer();
+        $cmsPagePublishedTransfer->setId($cmsPageTransfer->getFkPage());
+        $cmsPagePublishedTransfer->setCmsPage($cmsPageTransfer);
+        $cmsPagePublishedTransfer->setCreatedAt($this->getCmsPageCreatedAt($cmsPageTransfer->getFkPage()));
+        $cmsPagePublishedTransfer->setUpdatedAt($cmsVersionTransfer->getCreatedAt());
+        $cmsPagePublishedTransfer->setFlattenedLocaleCmsPageDatum($this->getFlattenedLocaleCmsPageDatum($cmsPageTransfer));
+
+        return $cmsPagePublishedTransfer;
+    }
+
+    /**
+     * @param int $idCmsPage
+     *
+     * @return string|null
+     */
+    protected function getCmsPageCreatedAt(int $idCmsPage): ?string
+    {
+        $firstCmsVersionTransfer = $this->cmsFacade->findCmsVersionByIdCmsPageAndVersion($idCmsPage, 1);
+        if ($firstCmsVersionTransfer === null) {
+            return null;
+        }
+
+        return $firstCmsVersionTransfer->getCreatedAt();
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
+     *
+     * @return array<string, array>
+     */
+    protected function getFlattenedLocaleCmsPageDatum(CmsPageTransfer $cmsPageTransfer): array
+    {
+        $localeCmsPageData = [];
+        $cmsVersionDataTransfer = $this->cmsFacade->getCmsVersionData($cmsPageTransfer->getFkPage());
+
+        foreach ($cmsPageTransfer->getPageAttributes() as $pageAttribute) {
+            $localeTransfer = (new LocaleTransfer())
+                ->setLocaleName($pageAttribute->getLocaleName())
+                ->setIdLocale($pageAttribute->getFkLocale());
+
+            $localeCmsPageDataTransfer = $this->cmsFacade->extractLocaleCmsPageDataTransfer($cmsVersionDataTransfer, $localeTransfer);
+            $flattenedLocaleCmsPageData = $this->cmsFacade->calculateFlattenedLocaleCmsPageData($localeCmsPageDataTransfer, $localeTransfer);
+
+            $localeCmsPageData[$pageAttribute->getLocaleName()] = $flattenedLocaleCmsPageData;
+        }
+
+        return $localeCmsPageData;
+    }
+}

@@ -63,18 +63,19 @@ class CmsPageAlgoliaEntityExporterPlugin extends AbstractPlugin implements Algol
 
         try {
             if ($criteriaTransfer->getIsDryRun()) {
-                $output->writeln('<comment>DRY RUN: Would trigger CMS page export events</comment>');
+                $output->writeln('<comment>DRY RUN: Would trigger CMS page export</comment>');
                 $resultTransfer->addMessage('Dry run completed - no actual export performed');
 
                 return $resultTransfer;
             }
 
-            $output->writeln('Triggering CMS page export events...');
+            $output->writeln('Publishing CMS pages...');
 
-            $this->getBusinessFactory()->getCmsFacade()->publishExportEvents();
+            $resultTransfer = $this->getFacade()->exportCmsPages($criteriaTransfer, $output);
 
-            $output->writeln('<info>CMS page export events triggered successfully</info>');
-            $resultTransfer->addMessage('CMS page export events triggered');
+            foreach ($resultTransfer->getMessages() as $message) {
+                $output->writeln($message);
+            }
         } catch (Exception $exception) {
             $resultTransfer
                 ->setIsSuccessful(false)

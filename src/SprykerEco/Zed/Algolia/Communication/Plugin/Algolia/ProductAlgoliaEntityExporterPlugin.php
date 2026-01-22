@@ -10,9 +10,6 @@ namespace SprykerEco\Zed\Algolia\Communication\Plugin\Algolia;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
 use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
-use Generated\Shared\Transfer\PaginationTransfer;
-use Generated\Shared\Transfer\ProductConcreteConditionsTransfer;
-use Generated\Shared\Transfer\ProductConcreteCriteriaTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,68 +59,18 @@ class ProductAlgoliaEntityExporterPlugin extends AbstractPlugin implements Algol
 
         try {
             if ($criteriaTransfer->getIsDryRun()) {
-                $output->writeln('<comment>DRY RUN: Would trigger product export events</comment>');
+                $output->writeln('<comment>DRY RUN: Would trigger product export</comment>');
                 $resultTransfer->addMessage('Dry run completed - no actual export performed');
 
                 return $resultTransfer;
             }
 
-            $output->writeln('Publishing products to the Algolia queue...');
+            $output->writeln('Publishing products...');
 
-            $chunkSize = $criteriaTransfer->getChunkSize(); // Default chunk size is configured in AlgoliaConfig::getDefaultExportChunkSize().
-            $offset = 0;
-            $totalExported = 0;
-            $totalProcessed = 0;
+            $resultTransfer = $this->getFacade()->exportProducts($criteriaTransfer, $output);
 
-            $productConcreteConditionsTransfer = new ProductConcreteConditionsTransfer();
-            if ($criteriaTransfer->getLocale()) {
-                $productConcreteConditionsTransfer->setLocaleNames([$criteriaTransfer->getLocale()]);
-            }
-
-            do {
-                $paginationTransfer = (new PaginationTransfer())
-                    ->setLimit($chunkSize)
-                    ->setOffset($offset);
-
-                $productConcreteCriteriaTransfer = (new ProductConcreteCriteriaTransfer())
-                    ->setProductConcreteConditions($productConcreteConditionsTransfer)
-                    ->setPagination($paginationTransfer)
-                    ->setWithProductAbstractData(true);
-
-                $productConcreteCollectionTransfer = $this->getBusinessFactory()
-                    ->getProductFacade()
-                    ->getProductConcreteCollection($productConcreteCriteriaTransfer);
-
-                $productConcreteTransfers = $productConcreteCollectionTransfer->getProducts();
-                $productsCount = $productConcreteTransfers->count();
-
-                if ($productsCount > 0) {
-                    $response = $this->getFacade()->exportProducts($productConcreteTransfers);
-                    if ($response->getIsSuccessful()) {
-                        $totalExported += $productsCount;
-                    }
-
-                    $totalProcessed += $productsCount;
-
-                    $output->writeln(sprintf(
-                        'Processed %d products (offset: %d)',
-                        $productsCount,
-                        $offset,
-                    ));
-                }
-
-                $offset += $chunkSize;
-            } while ($productsCount === $chunkSize);
-
-            $resultTransfer
-                ->addMessage(sprintf('%d products are sent to Algolia.', $totalProcessed))
-                ->setTotalCount($totalProcessed)
-                ->setExportedCount($totalExported);
-
-            if ($totalExported !== $totalProcessed) {
-                $resultTransfer
-                    ->setIsSuccessful(false)
-                    ->addMessage('Error: some products are not exported successfully.');
+            foreach ($resultTransfer->getMessages() as $message) {
+                $output->writeln($message);
             }
         } catch (Exception $exception) {
             $resultTransfer

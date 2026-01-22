@@ -15,5 +15,5 @@ interface CmsPagePublisherInterface
     /**
      * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
-    public function publishCmsPages(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer;
+    public function publishCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer;
 }

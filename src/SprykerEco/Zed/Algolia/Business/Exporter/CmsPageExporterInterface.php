@@ -11,7 +11,7 @@ use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
 use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Symfony\Component\Console\Output\OutputInterface;
 
-interface ProductExporterInterface
+interface CmsPageExporterInterface
 {
     /**
      * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
@@ -19,7 +19,7 @@ interface ProductExporterInterface
      *
      * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
-    public function exportProducts(
+    public function exportCmsPages(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null
     ): AlgoliaExportResultTransfer;
