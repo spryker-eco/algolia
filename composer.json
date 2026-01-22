@@ -11,6 +11,8 @@
         "algolia/algoliasearch-client-php": "^3.4.2",
         "spryker/kernel": "^3.76.0",
         "spryker/log": "^3.18.0",
+        "spryker/product": "^6.53.0",
+        "spryker/product-category": "^4.28.1",
         "spryker/transfer": "^3.42.0",
         "symfony/cache": "^6.4 || ^7.4"
     },
@@ -20,8 +22,6 @@
         "spryker/testify": "^3.62.0"
     },
     "suggest": {
-        "spryker/product": "Required for Product search functionality.",
-        "spryker/product-category": "Required for Product search functionality.",
         "spryker/product-review": "Required for Product search functionality.",
         "spryker/price-product": "Optional for Product search functionality.",
         "spryker/merchant-product": "Optional for Product search functionality.",

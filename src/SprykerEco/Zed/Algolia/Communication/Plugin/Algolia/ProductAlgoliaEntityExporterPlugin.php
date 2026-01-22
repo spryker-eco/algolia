@@ -87,7 +87,8 @@ class ProductAlgoliaEntityExporterPlugin extends AbstractPlugin implements Algol
 
                 $productConcreteCriteriaTransfer = (new ProductConcreteCriteriaTransfer())
                     ->setProductConcreteConditions($productConcreteConditionsTransfer)
-                    ->setPagination($paginationTransfer);
+                    ->setPagination($paginationTransfer)
+                    ->setWithProductAbstractData(true);
 
                 $productConcreteCollectionTransfer = $this->getBusinessFactory()
                     ->getProductFacade()
