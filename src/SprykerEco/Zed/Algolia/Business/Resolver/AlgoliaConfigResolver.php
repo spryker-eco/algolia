@@ -23,6 +23,7 @@ class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
     public function findConfig(): ?AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigTransfer())
+            ->setIsActive($this->algoliaConfig->getIsActive())
             ->setTenantIdentifier($this->algoliaConfig->getTenantIdentifier())
             ->setApplicationId($this->algoliaConfig->getApplicationId())
             ->setAdminApiKey($this->algoliaConfig->getAdminApiKey())

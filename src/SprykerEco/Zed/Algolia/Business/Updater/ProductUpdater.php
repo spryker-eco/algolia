@@ -37,8 +37,6 @@ class ProductUpdater implements ProductUpdaterInterface
 
     /**
      * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
@@ -78,9 +76,6 @@ class ProductUpdater implements ProductUpdaterInterface
 
     /**
      * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     * @param \Generated\Shared\Transfer\AlgoliaConfigTransfer $algoliaConfigTransfer
-     *
-     * @return void
      */
     protected function deleteInactiveProductConcrete(
         ArrayObject $productConcreteTransfers,

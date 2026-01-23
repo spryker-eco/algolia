@@ -31,8 +31,6 @@ class CmsPageAlgoliaEntityExporterPlugin extends AbstractPlugin implements Algol
      * {@inheritDoc}
      *
      * @api
-     *
-     * @return string
      */
     public function getEntityType(): string
     {
@@ -47,11 +45,6 @@ class CmsPageAlgoliaEntityExporterPlugin extends AbstractPlugin implements Algol
      * - Returns export statistics.
      *
      * @api
-     *
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
     public function export(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,

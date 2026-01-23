@@ -32,7 +32,6 @@ class AlgoliaEntityExporter implements AlgoliaEntityExporterInterface
 
     /**
      * @param array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface> $entityExporterPlugins
-     * @param \SprykerEco\Zed\Algolia\AlgoliaConfig $config
      */
     public function __construct(
         array $entityExporterPlugins,
@@ -43,17 +42,18 @@ class AlgoliaEntityExporter implements AlgoliaEntityExporterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @throws \SprykerEco\Zed\Algolia\Business\Exception\AlgoliaEntityExporterNotFoundException
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
     public function exportEntities(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         OutputInterface $output
     ): AlgoliaExportResultTransfer {
+        if (!$this->config->getIsActive()) {
+            return (new AlgoliaExportResultTransfer())
+                ->addMessage('Algolia module is not active. Please enable it in the configuration.')
+                ->setIsSuccessful(false);
+        }
+
         $criteriaTransfer->requireEntityType();
 
         $entityType = $criteriaTransfer->getEntityTypeOrFail();
@@ -85,8 +85,6 @@ class AlgoliaEntityExporter implements AlgoliaEntityExporterInterface
     }
 
     /**
-     * @param string $entityType
-     *
      * @return \SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface|null
      */
     protected function findEntityExporterPlugin(string $entityType): ?object
@@ -96,9 +94,6 @@ class AlgoliaEntityExporter implements AlgoliaEntityExporterInterface
         return $this->entityExporterPluginMap[$entityType] ?? null;
     }
 
-    /**
-     * @return void
-     */
     protected function buildEntityExporterPluginMap(): void
     {
         if ($this->entityExporterPluginMap !== null) {
@@ -111,11 +106,6 @@ class AlgoliaEntityExporter implements AlgoliaEntityExporterInterface
         }
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer
-     */
     protected function ensureDefaultChunkSize(AlgoliaExportCriteriaTransfer $criteriaTransfer): AlgoliaExportCriteriaTransfer
     {
         if ($criteriaTransfer->getChunkSize() === null) {

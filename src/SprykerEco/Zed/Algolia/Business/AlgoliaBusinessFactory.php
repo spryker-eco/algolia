@@ -45,8 +45,6 @@ use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationCo
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolver;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface;
-use SprykerEco\Zed\Algolia\Business\Creator\ProductCreator;
-use SprykerEco\Zed\Algolia\Business\Creator\ProductCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
@@ -113,17 +111,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
             $this->createProductDataFilterApplier(),
             $this->createAlgoliaConfigResolver(),
             $this->getProductFacade(),
-        );
-    }
-
-    public function createProductCreator(): ProductCreatorInterface
-    {
-        return new ProductCreator(
-            $this->createProductIndexer(),
-            $this->createProductSaver(),
-            $this->createProductConcreteFilter(),
-            $this->createProductDataFilterApplier(),
-            $this->createAlgoliaConfigResolver(),
         );
     }
 
@@ -444,9 +431,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         return new CmsPageSearchParametersExpander($this->getConfig());
     }
 
-    /**
-     * @return \SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporterInterface
-     */
     public function createAlgoliaEntityExporter(): AlgoliaEntityExporterInterface
     {
         return new AlgoliaEntityExporter(

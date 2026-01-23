@@ -45,7 +45,6 @@ interface AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
      *
      * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
@@ -54,21 +53,6 @@ interface AlgoliaFacadeInterface
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null
     ): AlgoliaExportResultTransfer;
-
-    /**
-     * Specification:
-     * - Transforms data to the appropriate format.
-     * - Prepares a request for Algolia API.
-     * - Sends the prepared request to Algolia API to create a new entity (saveObjects action).
-     * - Creates an index in Algolia if the one does not exist.
-     *
-     * @api
-     *
-     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
-    public function createProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer;
 
     /**
      * Specification:
@@ -148,7 +132,6 @@ interface AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
      *
      * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer

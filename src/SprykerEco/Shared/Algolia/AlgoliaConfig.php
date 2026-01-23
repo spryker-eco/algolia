@@ -11,10 +11,19 @@ use Spryker\Shared\Kernel\AbstractBundleConfig;
 
 class AlgoliaConfig extends AbstractBundleConfig
 {
+ /**
+  * Specification:
+  * - Returns whether Algolia integration is active.
+  *
+  * @api
+  */
+    public function getIsActive(): bool
+    {
+        return false;
+    }
+
     /**
      * @api
-     *
-     * @return string
      */
     public function getTenantIdentifier(): string
     {
@@ -23,8 +32,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getApplicationId(): string
     {
@@ -33,8 +40,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getAdminApiKey(): string
     {
@@ -43,8 +48,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return string
      */
     public function getSearchOnlyApiKey(): string
     {

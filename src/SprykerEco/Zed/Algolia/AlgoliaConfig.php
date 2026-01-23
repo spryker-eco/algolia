@@ -11,7 +11,15 @@ namespace SprykerEco\Zed\Algolia;
 
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
+use Spryker\Shared\ProductBundleStorage\ProductBundleStorageConfig;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
+use Spryker\Zed\PriceProduct\Dependency\PriceProductEvents;
+use Spryker\Zed\Product\Dependency\ProductEvents;
+use Spryker\Zed\ProductCategory\Dependency\ProductCategoryEvents;
+use Spryker\Zed\ProductImage\Dependency\ProductImageEvents;
+use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
+use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
+use Spryker\Zed\ProductSearch\Dependency\ProductSearchEvents;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
 /**
@@ -228,6 +236,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     ];
 
     /**
+     * Specification:
+     * - Returns the suffix used for query suggestions index names.
+     * - Used to distinguish query suggestion indices from main product indices.
+     *
      * @api
      */
     public function getQuerySuggestionsSuffix(): string
@@ -315,6 +327,262 @@ class AlgoliaConfig extends AbstractBundleConfig
     ];
 
     /**
+     * Specification:
+     * - Returns whether Algolia integration is active.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getIsActive(): bool
+    {
+        return $this->getSharedConfig()->getIsActive();
+    }
+
+    /**
+     * Specification:
+     * - Returns the tenant identifier for Algolia.
+     * - Used to namespace indices when Application ID is used by multiple Spryker instances.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getTenantIdentifier(): string
+    {
+        return $this->getSharedConfig()->getTenantIdentifier();
+    }
+
+    /**
+     * Specification:
+     * - Returns the Algolia application ID.
+     * - Used to identify the Algolia application in API requests.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getApplicationId(): string
+    {
+        return $this->getSharedConfig()->getApplicationId();
+    }
+
+    /**
+     * Specification:
+     * - Returns the admin API key for Algolia.
+     * - This key has write access and should be kept secure on the backend.
+     * - Used for indexing and administrative operations.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getAdminApiKey(): string
+    {
+        return $this->getSharedConfig()->getAdminApiKey();
+    }
+
+    /**
+     * Specification:
+     * - Returns the search-only API key for Algolia.
+     * - This key has read-only access and can be safely exposed to frontend.
+     * - Used for search operations in client-side code.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getSearchOnlyApiKey(): string
+    {
+        return $this->getSharedConfig()->getSearchOnlyApiKey();
+    }
+
+    /**
+     * Specification:
+     * - Returns whether frontend search is enabled for products.
+     * - When enabled, product searches are performed directly from frontend using Algolia.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function isSearchInFrontendEnabledForProducts(): bool
+    {
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+    }
+
+    /**
+     * Specification:
+     * - Returns whether product prices are synchronized to Algolia.
+     * - When enabled, product prices are included in the indexed data.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getIsProductPriceSynced(): bool
+    {
+        return $this->getSharedConfig()->getIsProductPriceSynced();
+    }
+
+    /**
+     * Specification:
+     * - Returns whether frontend search is enabled for CMS pages.
+     * - When enabled, CMS page searches are performed directly from frontend using Algolia.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function isSearchInFrontendEnabledForCmsPages(): bool
+    {
+        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+    }
+
+    /**
+     * Specification:
+     * - Returns the mappings between entities and Algolia indices.
+     * - Used to determine which index to use for each entity type.
+     * - Value is retrieved from shared configuration.
+     *
+     * @api
+     */
+    public function getEntityToIndexMappings(): array
+    {
+        return $this->getSharedConfig()->getEntityToIndexMappings();
+    }
+
+    /**
+     * Specification:
+     * - Returns the default chunk size for entity export operations.
+     * - This value is used when no chunk size is specified in the console command.
+     *
+     * @api
+     */
+    public function getDefaultExportChunkSize(): int
+    {
+        return 100;
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of events that trigger product concrete publishing to Algolia.
+     * - Can be overridden in project-level config to add or remove events.
+     * - Includes events from ProductBundleStorage, PriceProduct, and ProductSearch modules if available.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getProductConcreteSubscribedEvents(): array
+    {
+        $events = [
+            ProductEvents::PRODUCT_CONCRETE_PUBLISH,
+            ProductEvents::PRODUCT_CONCRETE_UPDATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_CREATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_UPDATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_LOCALIZED_ATTRIBUTES_CREATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_LOCALIZED_ATTRIBUTES_UPDATE,
+            ProductImageEvents::PRODUCT_IMAGE_PRODUCT_CONCRETE_PUBLISH,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_CREATE,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_UPDATE,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_TO_PRODUCT_IMAGE_CREATE,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_TO_PRODUCT_IMAGE_UPDATE,
+        ];
+
+        // Add ProductBundleStorage events if module exists
+        if (class_exists('Spryker\Shared\ProductBundleStorage\ProductBundleStorageConfig')) {
+            $events[] = ProductBundleStorageConfig::PRODUCT_BUNDLE_PUBLISH;
+            $events[] = ProductBundleStorageConfig::ENTITY_SPY_PRODUCT_BUNDLE_CREATE;
+            $events[] = ProductBundleStorageConfig::ENTITY_SPY_PRODUCT_BUNDLE_UPDATE;
+        }
+
+        // Add PriceProduct events if module exists
+        if (class_exists('Spryker\Zed\PriceProduct\Dependency\PriceProductEvents')) {
+            $events[] = PriceProductEvents::PRICE_CONCRETE_PUBLISH;
+            $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_CREATE;
+            $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_UPDATE;
+        }
+
+        // Add ProductSearch events if module exists
+        if (class_exists('Spryker\Zed\ProductSearch\Dependency\ProductSearchEvents')) {
+            $events[] = ProductSearchEvents::ENTITY_SPY_PRODUCT_SEARCH_CREATE;
+            $events[] = ProductSearchEvents::ENTITY_SPY_PRODUCT_SEARCH_UPDATE;
+        }
+
+        return $events;
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of events that trigger product abstract publishing to Algolia.
+     * - Can be overridden in project-level config to add or remove events.
+     * - Includes events from PriceProduct, ProductCategory, ProductLabel, ProductReview, and ProductImage modules if available.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getProductAbstractSubscribedEvents(): array
+    {
+        $events = [
+            ProductEvents::PRODUCT_ABSTRACT_PUBLISH,
+            ProductEvents::PRODUCT_ABSTRACT_UPDATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_ABSTRACT_UPDATE,
+            ProductEvents::ENTITY_SPY_URL_CREATE,
+            ProductEvents::ENTITY_SPY_URL_UPDATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_ABSTRACT_STORE_CREATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_ABSTRACT_STORE_UPDATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_ABSTRACT_LOCALIZED_ATTRIBUTES_CREATE,
+            ProductEvents::ENTITY_SPY_PRODUCT_ABSTRACT_LOCALIZED_ATTRIBUTES_UPDATE,
+            ProductCategoryEvents::PRODUCT_CATEGORY_PUBLISH,
+            ProductCategoryEvents::ENTITY_SPY_PRODUCT_CATEGORY_CREATE,
+            ProductCategoryEvents::ENTITY_SPY_PRODUCT_CATEGORY_DELETE,
+            ProductImageEvents::PRODUCT_IMAGE_PRODUCT_ABSTRACT_PUBLISH,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_CREATE,
+            ProductImageEvents::ENTITY_SPY_PRODUCT_IMAGE_SET_UPDATE,
+        ];
+
+        // Add PriceProduct events if module exists
+        if (class_exists('Spryker\Zed\PriceProduct\Dependency\PriceProductEvents')) {
+            $events[] = PriceProductEvents::PRICE_ABSTRACT_PUBLISH;
+            $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_CREATE;
+            $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_UPDATE;
+        }
+
+        // Add ProductLabel events if module exists
+        if (class_exists('Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents')) {
+            $events[] = ProductLabelEvents::ENTITY_SPY_PRODUCT_LABEL_PRODUCT_ABSTRACT_CREATE;
+            $events[] = ProductLabelEvents::ENTITY_SPY_PRODUCT_LABEL_PRODUCT_ABSTRACT_DELETE;
+        }
+
+        // Add ProductReview events if module exists
+        if (class_exists('Spryker\Zed\ProductReview\Dependency\ProductReviewEvents')) {
+            $events[] = ProductReviewEvents::PRODUCT_ABSTRACT_REVIEW_PUBLISH;
+            $events[] = ProductReviewEvents::ENTITY_SPY_PRODUCT_REVIEW_CREATE;
+            $events[] = ProductReviewEvents::ENTITY_SPY_PRODUCT_REVIEW_UPDATE;
+        }
+
+        return $events;
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of events that trigger product unpublishing from Algolia.
+     * - Can be overridden in project-level config to add or remove events.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getProductConcreteUnpublishSubscribedEvents(): array
+    {
+        return [
+            ProductEvents::PRODUCT_CONCRETE_UNPUBLISH,
+            ProductEvents::ENTITY_SPY_PRODUCT_DELETE,
+        ];
+    }
+
+    /**
+     * Specification:
+     * - Transforms a field key into the corresponding Algolia facet field key.
+     * - Handles special cases like price facets with currency and pricing mode.
+     * - Adds 'attributes.' prefix for attribute fields.
+     * - Transforms search_metadata fields to use dot notation.
+     * - Returns the field key as-is for non-attribute fields.
+     *
      * @api
      */
     public function getAlgoliaFacetFieldKey(string $fieldKey, FacetCollectionTransfer $facetCollectionTransfer): string
@@ -345,6 +613,11 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the price facet key based on currency and pricing mode.
+     * - Formats the key as 'prices.{currency}.{price_mode}' when currency and pricing mode are available.
+     * - Falls back to 'price' if currency or pricing mode facets are not present.
+     *
      * @api
      */
     public function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
@@ -365,6 +638,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of field names that are restricted from being used as facets.
+     * - These fields cannot be used for filtering due to their data structure or purpose.
+     *
      * @api
      *
      * @return array<string>
@@ -375,6 +652,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of attributes that should be highlighted in search results.
+     * - Highlighted attributes show matching search terms in bold or with special formatting.
+     *
      * @api
      *
      * @return array<string>
@@ -385,6 +666,11 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of attributes that are searchable in Algolia.
+     * - These attributes are indexed and can be searched by users.
+     * - Order determines the priority of attributes in search ranking.
+     *
      * @api
      *
      * @return array<string>
@@ -404,6 +690,11 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of filterable attribute names extracted from filterable attributes.
+     * - Excludes non-display attributes from the result.
+     * - Extracts attribute names from the filterable attributes format.
+     *
      * @api
      *
      * @return array<string>
@@ -424,6 +715,12 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of attributes that can be used for filtering.
+     * - Includes afterDistinct wrapper for attributes to handle product variants.
+     * - Conditionally includes price attribute based on configuration.
+     * - Includes non-display attributes for internal filtering purposes.
+     *
      * @api
      *
      * @return array<string>
@@ -454,6 +751,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the list of attributes that should not be displayed to users.
+     * - These attributes are used internally for filtering but hidden from UI.
+     *
      * @api
      *
      * @return array<string>
@@ -464,7 +765,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
-     * Returns the searchable attributes for CMS pages.
+     * Specification:
+     * - Returns the searchable attributes for CMS pages.
+     * - These attributes are indexed and can be searched by users.
+     * - Includes content, metadata, and SEO-related fields.
      *
      * @api
      *
@@ -483,7 +787,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
-     * Returns the custom ranking attributes for CMS pages.
+     * Specification:
+     * - Returns the custom ranking attributes for CMS pages.
+     * - Used to determine the order of CMS pages in search results.
+     * - Currently ranks by last updated date in descending order.
      *
      * @api
      *
@@ -497,6 +804,10 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Specification:
+     * - Returns the sorting attributes available for CMS pages.
+     * - These attributes can be used to create replica indices for different sort orders.
+     *
      * @api
      *
      * @return array<string>
@@ -504,97 +815,5 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getCmsPageSortingAttributes(): array
     {
         return [AlgoliaCmsPageObjectEnum::NAME->value];
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getTenantIdentifier(): string
-    {
-        return $this->getSharedConfig()->getTenantIdentifier();
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getApplicationId(): string
-    {
-        return $this->getSharedConfig()->getApplicationId();
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getAdminApiKey(): string
-    {
-        return $this->getSharedConfig()->getAdminApiKey();
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
-    public function getSearchOnlyApiKey(): string
-    {
-        return $this->getSharedConfig()->getSearchOnlyApiKey();
-    }
-
-    /**
-     * @api
-     *
-     * @return bool
-     */
-    public function isSearchInFrontendEnabledForProducts(): bool
-    {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
-    }
-
-    /**
-     * @api
-     *
-     * @return bool
-     */
-    public function getIsProductPriceSynced(): bool
-    {
-        return $this->getSharedConfig()->getIsProductPriceSynced();
-    }
-
-    /**
-     * @api
-     *
-     * @return bool
-     */
-    public function isSearchInFrontendEnabledForCmsPages(): bool
-    {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
-    }
-
-    /**
-     * @api
-     */
-    public function getEntityToIndexMappings(): array
-    {
-        return $this->getSharedConfig()->getEntityToIndexMappings();
-    }
-
-    /**
-     * Specification:
-     * - Returns the default chunk size for entity export operations.
-     * - This value is used when no chunk size is specified in the console command.
-     *
-     * @api
-     *
-     * @return int
-     */
-    public function getDefaultExportChunkSize(): int
-    {
-        return 100;
     }
 }

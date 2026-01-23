@@ -8,6 +8,8 @@
 namespace SprykerEco\Zed\Algolia\Communication;
 
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
+use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
 
 /**
  * @method \SprykerEco\Zed\Algolia\AlgoliaConfig getConfig()
@@ -15,4 +17,8 @@ use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
  */
 class AlgoliaCommunicationFactory extends AbstractCommunicationFactory
 {
+    public function getProductFacade(): ProductFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_PRODUCT);
+    }
 }

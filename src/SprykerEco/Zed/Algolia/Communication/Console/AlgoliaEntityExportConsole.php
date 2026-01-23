@@ -63,9 +63,6 @@ class AlgoliaEntityExportConsole extends Console
      */
     protected const OPTION_DRY_RUN = 'dry-run';
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setName(static::COMMAND_NAME)
@@ -109,12 +106,6 @@ class AlgoliaEntityExportConsole extends Console
         parent::configure();
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption(static::OPTION_ALL)) {
@@ -133,12 +124,6 @@ class AlgoliaEntityExportConsole extends Console
         return $this->exportEntityType($entityType, $input, $output);
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function exportAllEntityTypes(InputInterface $input, OutputInterface $output): int
     {
         $availableEntityTypes = $this->getBusinessFactory()->createAlgoliaEntityExporter()->getAvailableEntityTypes();
@@ -167,13 +152,6 @@ class AlgoliaEntityExportConsole extends Console
         return $hasFailures ? static::CODE_ERROR : static::CODE_SUCCESS;
     }
 
-    /**
-     * @param string $entityType
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function exportEntityType(
         string $entityType,
         InputInterface $input,
@@ -196,12 +174,6 @@ class AlgoliaEntityExportConsole extends Console
         }
     }
 
-    /**
-     * @param string $entityType
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer
-     */
     protected function buildCriteriaTransfer(string $entityType, InputInterface $input): AlgoliaExportCriteriaTransfer
     {
         $criteriaTransfer = new AlgoliaExportCriteriaTransfer();
@@ -230,11 +202,6 @@ class AlgoliaEntityExportConsole extends Console
         return $criteriaTransfer;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     protected function showAvailableEntityTypes(OutputInterface $output): void
     {
         $availableEntityTypes = $this->getBusinessFactory()->createAlgoliaEntityExporter()->getAvailableEntityTypes();
@@ -255,12 +222,6 @@ class AlgoliaEntityExportConsole extends Console
         $this->info(sprintf('   or: %s --all [options]', static::COMMAND_NAME));
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     protected function showExportHeader(AlgoliaExportCriteriaTransfer $criteriaTransfer, OutputInterface $output): void
     {
         $output->writeln(sprintf(
@@ -282,12 +243,6 @@ class AlgoliaEntityExportConsole extends Console
         }
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportResultTransfer $resultTransfer
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     protected function showExportSummary(AlgoliaExportResultTransfer $resultTransfer, OutputInterface $output): void
     {
         $output->writeln('');

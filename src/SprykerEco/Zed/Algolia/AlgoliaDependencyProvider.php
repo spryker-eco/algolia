@@ -25,11 +25,6 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
 
     public const string QUERY_CONTAINER_CMS = 'QUERY_CONTAINER_CMS';
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = parent::provideBusinessLayerDependencies($container);
@@ -41,11 +36,14 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
+    public function provideCommunicationLayerDependencies(Container $container): Container
+    {
+        $container = parent::provideCommunicationLayerDependencies($container);
+        $container = $this->addProductFacade($container);
+
+        return $container;
+    }
+
     protected function addAlgoliaEntityExporterPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_ALGOLIA_ENTITY_EXPORTER, function () {

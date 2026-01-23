@@ -43,10 +43,7 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
     public function exportProducts(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
@@ -63,24 +60,6 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      * @api
      *
      * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
-    public function createProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
-    {
-        return $this->getFactory()
-            ->createProductCreator()
-            ->createProducts($productConcreteTransfers);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productConcreteTransfers
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
      */
     public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
@@ -150,10 +129,7 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
     public function exportCmsPages(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,

@@ -21,11 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CmsPageExporter implements CmsPageExporterInterface
 {
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface $cmsPagePublisher
-     * @param \Spryker\Zed\Cms\Business\CmsFacadeInterface $cmsFacade
-     * @param \Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface $cmsQueryContainer
-     */
     public function __construct(
         protected CmsPagePublisherInterface $cmsPagePublisher,
         protected CmsFacadeInterface $cmsFacade,
@@ -34,10 +29,7 @@ class CmsPageExporter implements CmsPageExporterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
      */
     public function exportCmsPages(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
@@ -46,11 +38,11 @@ class CmsPageExporter implements CmsPageExporterInterface
         $criteriaTransfer->requireChunkSize();
 
         $resultTransfer = (new AlgoliaExportResultTransfer())
-            ->setEntityType($criteriaTransfer->getEntityType())
-            ->setIsSuccessful(true)
-            ->setTotalCount(0)
-            ->setExportedCount(0)
-            ->setFailedCount(0);
+        ->setEntityType($criteriaTransfer->getEntityType())
+        ->setIsSuccessful(true)
+        ->setTotalCount(0)
+        ->setExportedCount(0)
+        ->setFailedCount(0);
 
         $query = $this->createCmsPageQuery($criteriaTransfer);
         $totalCount = $query->count();
@@ -103,11 +95,11 @@ class CmsPageExporter implements CmsPageExporterInterface
 
         if ($resultTransfer->getFailedCount() > 0) {
             $resultTransfer
-                ->setIsSuccessful(false)
-                ->addMessage(sprintf(
-                    '%d CMS page(s) failed to export',
-                    $resultTransfer->getFailedCount(),
-                ));
+            ->setIsSuccessful(false)
+            ->addMessage(sprintf(
+                '%d CMS page(s) failed to export',
+                $resultTransfer->getFailedCount(),
+            ));
         }
 
         $resultTransfer->addMessage(sprintf(
@@ -120,8 +112,6 @@ class CmsPageExporter implements CmsPageExporterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     *
      * @return \Orm\Zed\Cms\Persistence\SpyCmsPageQuery
      */
     protected function createCmsPageQuery(AlgoliaExportCriteriaTransfer $criteriaTransfer)
@@ -130,20 +120,18 @@ class CmsPageExporter implements CmsPageExporterInterface
 
         if ($criteriaTransfer->getStoreName()) {
             $query
-                ->useSpyCmsPageStoreQuery()
-                    ->joinWithSpyStore()
-                    ->useSpyStoreQuery()
-                        ->filterByName($criteriaTransfer->getStoreName())
-                    ->endUse()
-                ->endUse();
+            ->useSpyCmsPageStoreQuery()
+                ->joinWithSpyStore()
+                ->useSpyStoreQuery()
+                    ->filterByName($criteriaTransfer->getStoreName())
+                ->endUse()
+            ->endUse();
         }
 
         return $query;
     }
 
     /**
-     * @param \Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer $criteriaTransfer
-     *
      * @return \Generator<array<int>>
      */
     protected function getCmsPageIdChunks(AlgoliaExportCriteriaTransfer $criteriaTransfer): Generator
@@ -153,9 +141,9 @@ class CmsPageExporter implements CmsPageExporterInterface
 
         do {
             $query = $this->createCmsPageQuery($criteriaTransfer)
-                ->select([SpyCmsPageTableMap::COL_ID_CMS_PAGE])
-                ->limit($chunkSize)
-                ->offset($offset);
+            ->select([SpyCmsPageTableMap::COL_ID_CMS_PAGE])
+            ->limit($chunkSize)
+            ->offset($offset);
 
             // Ensure distinct results when joining with store relation
             if ($criteriaTransfer->getStoreName()) {
@@ -172,11 +160,6 @@ class CmsPageExporter implements CmsPageExporterInterface
         } while (count($cmsPageIds) === $chunkSize);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
-     *
-     * @return \Generated\Shared\Transfer\CmsPagePublishedTransfer
-     */
     protected function createCmsPagePublishedTransfer(CmsPageTransfer $cmsPageTransfer): CmsPagePublishedTransfer
     {
         $cmsVersionTransfer = $this->cmsFacade->findLatestCmsVersionByIdCmsPage($cmsPageTransfer->getFkPage());
@@ -192,8 +175,6 @@ class CmsPageExporter implements CmsPageExporterInterface
     }
 
     /**
-     * @param int $idCmsPage
-     *
      * @return string|null
      */
     protected function getCmsPageCreatedAt(int $idCmsPage): ?string
@@ -207,8 +188,6 @@ class CmsPageExporter implements CmsPageExporterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CmsPageTransfer $cmsPageTransfer
-     *
      * @return array<string, array>
      */
     protected function getFlattenedLocaleCmsPageDatum(CmsPageTransfer $cmsPageTransfer): array
@@ -218,8 +197,8 @@ class CmsPageExporter implements CmsPageExporterInterface
 
         foreach ($cmsPageTransfer->getPageAttributes() as $pageAttribute) {
             $localeTransfer = (new LocaleTransfer())
-                ->setLocaleName($pageAttribute->getLocaleName())
-                ->setIdLocale($pageAttribute->getFkLocale());
+            ->setLocaleName($pageAttribute->getLocaleName())
+            ->setIdLocale($pageAttribute->getFkLocale());
 
             $localeCmsPageDataTransfer = $this->cmsFacade->extractLocaleCmsPageDataTransfer($cmsVersionDataTransfer, $localeTransfer);
             $flattenedLocaleCmsPageData = $this->cmsFacade->calculateFlattenedLocaleCmsPageData($localeCmsPageDataTransfer, $localeTransfer);
