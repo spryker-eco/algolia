@@ -7,21 +7,12 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Deleter;
 
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
-use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
-
 interface CmsPageDeleterInterface
 {
     /**
-     * @return void
-     */
-    public function deleteCmsPage(CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer): void;
-
-    /**
-     * @param array<\Generated\Shared\Transfer\CmsPageUnpublishedTransfer> $cmsPageUnpublishedTransfers
-     * @param string|null $storeName
+     * @param array<int> $cmsPageIds
      *
      * @return void
      */
-    public function deleteCmsPages(array $cmsPageUnpublishedTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer, ?string $storeName = null): void;
+    public function deleteCmsPagesByIds(array $cmsPageIds): void;
 }

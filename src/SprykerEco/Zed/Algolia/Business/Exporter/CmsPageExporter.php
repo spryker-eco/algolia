@@ -9,13 +9,11 @@ namespace SprykerEco\Zed\Algolia\Business\Exporter;
 
 use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
 use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
-use Generated\Shared\Transfer\CmsPagePublishedTransfer;
-use Generated\Shared\Transfer\CmsPageTransfer;
-use Generated\Shared\Transfer\LocaleTransfer;
 use Generator;
 use Orm\Zed\Cms\Persistence\Map\SpyCmsPageTableMap;
 use Spryker\Zed\Cms\Business\CmsFacadeInterface;
 use Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface;
+use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,7 +22,8 @@ class CmsPageExporter implements CmsPageExporterInterface
     public function __construct(
         protected CmsPagePublisherInterface $cmsPagePublisher,
         protected CmsFacadeInterface $cmsFacade,
-        protected CmsQueryContainerInterface $cmsQueryContainer
+        protected CmsQueryContainerInterface $cmsQueryContainer,
+        protected CmsPagePublishedTransferBuilderInterface $cmsPagePublishedTransferBuilder
     ) {
     }
 
@@ -55,10 +54,8 @@ class CmsPageExporter implements CmsPageExporterInterface
         }
 
         $offset = 0;
-        $chunkNumber = 0;
 
         foreach ($this->getCmsPageIdChunks($criteriaTransfer) as $cmsPageIds) {
-            $chunkNumber++;
             $processedInChunk = 0;
 
             foreach ($cmsPageIds as $cmsPageId) {
@@ -70,7 +67,17 @@ class CmsPageExporter implements CmsPageExporterInterface
                 }
 
                 if ($cmsPageTransfer->getIsActive() && $cmsPageTransfer->getIsSearchable()) {
-                    $cmsPagePublishedTransfer = $this->createCmsPagePublishedTransfer($cmsPageTransfer);
+                    $cmsVersionTransfer = $this->cmsFacade->findLatestCmsVersionByIdCmsPage($cmsPageTransfer->getFkPage());
+                    if ($cmsVersionTransfer === null) {
+                        $resultTransfer->setFailedCount($resultTransfer->getFailedCount() + 1);
+
+                        continue;
+                    }
+
+                    $cmsPagePublishedTransfer = $this->cmsPagePublishedTransferBuilder->buildCmsPagePublishedTransfer(
+                        $cmsPageTransfer,
+                        $cmsVersionTransfer,
+                    );
                     $algoliaResponseTransfer = $this->cmsPagePublisher->publishCmsPage($cmsPagePublishedTransfer);
 
                     if ($algoliaResponseTransfer->getIsSuccessful()) {
@@ -158,54 +165,5 @@ class CmsPageExporter implements CmsPageExporterInterface
 
             $offset += $chunkSize;
         } while (count($cmsPageIds) === $chunkSize);
-    }
-
-    protected function createCmsPagePublishedTransfer(CmsPageTransfer $cmsPageTransfer): CmsPagePublishedTransfer
-    {
-        $cmsVersionTransfer = $this->cmsFacade->findLatestCmsVersionByIdCmsPage($cmsPageTransfer->getFkPage());
-
-        $cmsPagePublishedTransfer = new CmsPagePublishedTransfer();
-        $cmsPagePublishedTransfer->setId($cmsPageTransfer->getFkPage());
-        $cmsPagePublishedTransfer->setCmsPage($cmsPageTransfer);
-        $cmsPagePublishedTransfer->setCreatedAt($this->getCmsPageCreatedAt($cmsPageTransfer->getFkPage()));
-        $cmsPagePublishedTransfer->setUpdatedAt($cmsVersionTransfer->getCreatedAt());
-        $cmsPagePublishedTransfer->setFlattenedLocaleCmsPageDatum($this->getFlattenedLocaleCmsPageDatum($cmsPageTransfer));
-
-        return $cmsPagePublishedTransfer;
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getCmsPageCreatedAt(int $idCmsPage): ?string
-    {
-        $firstCmsVersionTransfer = $this->cmsFacade->findCmsVersionByIdCmsPageAndVersion($idCmsPage, 1);
-        if ($firstCmsVersionTransfer === null) {
-            return null;
-        }
-
-        return $firstCmsVersionTransfer->getCreatedAt();
-    }
-
-    /**
-     * @return array<string, array>
-     */
-    protected function getFlattenedLocaleCmsPageDatum(CmsPageTransfer $cmsPageTransfer): array
-    {
-        $localeCmsPageData = [];
-        $cmsVersionDataTransfer = $this->cmsFacade->getCmsVersionData($cmsPageTransfer->getFkPage());
-
-        foreach ($cmsPageTransfer->getPageAttributes() as $pageAttribute) {
-            $localeTransfer = (new LocaleTransfer())
-            ->setLocaleName($pageAttribute->getLocaleName())
-            ->setIdLocale($pageAttribute->getFkLocale());
-
-            $localeCmsPageDataTransfer = $this->cmsFacade->extractLocaleCmsPageDataTransfer($cmsVersionDataTransfer, $localeTransfer);
-            $flattenedLocaleCmsPageData = $this->cmsFacade->calculateFlattenedLocaleCmsPageData($localeCmsPageDataTransfer, $localeTransfer);
-
-            $localeCmsPageData[$pageAttribute->getLocaleName()] = $flattenedLocaleCmsPageData;
-        }
-
-        return $localeCmsPageData;
     }
 }

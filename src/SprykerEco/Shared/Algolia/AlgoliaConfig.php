@@ -19,7 +19,7 @@ class AlgoliaConfig extends AbstractBundleConfig
   */
     public function getIsActive(): bool
     {
-        return false;
+        return true;
     }
 
     /**

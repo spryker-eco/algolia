@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Deleter;
 
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
-use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
 use Generated\Shared\Transfer\IndexConfigurationTransfer;
 use Spryker\Shared\Log\LoggerTrait;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
@@ -31,37 +29,23 @@ class CmsPageDeleter implements CmsPageDeleterInterface
     ) {
     }
 
-    public function deleteCmsPage(CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer): void
+    /**
+     * @param array<int> $cmsPageIds
+     */
+    public function deleteCmsPagesByIds(array $cmsPageIds): void
     {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
+        if ($cmsPageIds === []) {
             return;
         }
 
-        $this->deleteCmsPages(
-            [$cmsPageUnpublishedTransfer],
-            $algoliaConfigTransfer,
-        );
-    }
-
-    /**
-     * @param array<\Generated\Shared\Transfer\CmsPageUnpublishedTransfer> $cmsPageUnpublishedTransfers
-     * @param string|null $storeName
-     */
-    public function deleteCmsPages(array $cmsPageUnpublishedTransfers, AlgoliaConfigTransfer $algoliaConfigTransfer, ?string $storeName = null): void
-    {
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
         $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
 
         $algoliaIndicesCollectionTransfer = $this->indexNameResolver->filterIndicesByIndexNameParts(
             $this->indexReader->getIndices($searchClient),
             $algoliaConfigTransfer->getTenantIdentifier(),
             AlgoliaEntityNameEnum::CMS_PAGE->value,
-            $storeName,
         );
-
-        $cmsPageIds = array_map(function (CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer) {
-            return $cmsPageUnpublishedTransfer->getId();
-        }, $cmsPageUnpublishedTransfers);
 
         $searchIndexClients = [];
         foreach ($algoliaIndicesCollectionTransfer->getIndices() as $index) {

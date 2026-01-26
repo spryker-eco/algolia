@@ -12,6 +12,7 @@ namespace SprykerEco\Zed\Algolia;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Spryker\Shared\ProductBundleStorage\ProductBundleStorageConfig;
+use Spryker\Zed\Cms\Dependency\CmsEvents;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 use Spryker\Zed\PriceProduct\Dependency\PriceProductEvents;
 use Spryker\Zed\Product\Dependency\ProductEvents;
@@ -815,5 +816,38 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getCmsPageSortingAttributes(): array
     {
         return [AlgoliaCmsPageObjectEnum::NAME->value];
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of events that trigger CMS page update/publish to Algolia.
+     * - Can be overridden in project-level config to add or remove events.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getCmsPageUpdateSubscribedEvents(): array
+    {
+        return [
+            CmsEvents::ENTITY_SPY_CMS_PAGE_UPDATE,
+        ];
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of events that trigger CMS page version publish to Algolia.
+     * - Can be overridden in project-level config to add or remove events.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getCmsPageVersionPublishSubscribedEvents(): array
+    {
+        return [
+            CmsEvents::CMS_VERSION_PUBLISH,
+            CmsEvents::ENTITY_SPY_CMS_VERSION_CREATE,
+        ];
     }
 }

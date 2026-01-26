@@ -19,9 +19,11 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const string PLUGINS_ALGOLIA_ENTITY_EXPORTER = 'PLUGINS_ALGOLIA_ENTITY_EXPORTER';
 
-    public const FACADE_PRODUCT = 'FACADE_PRODUCT';
+    public const string FACADE_PRODUCT = 'FACADE_PRODUCT';
 
-    public const FACADE_CMS = 'FACADE_CMS';
+    public const string FACADE_CMS = 'FACADE_CMS';
+
+    public const string FACADE_EVENT_BEHAVIOR = 'FACADE_EVENT_BEHAVIOR';
 
     public const string QUERY_CONTAINER_CMS = 'QUERY_CONTAINER_CMS';
 
@@ -40,6 +42,8 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = parent::provideCommunicationLayerDependencies($container);
         $container = $this->addProductFacade($container);
+        $container = $this->addCmsFacade($container);
+        $container = $this->addEventBehaviorFacade($container);
 
         return $container;
     }
@@ -86,6 +90,15 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::QUERY_CONTAINER_CMS, function (Container $container) {
             return $container->getLocator()->cms()->queryContainer();
+        });
+
+        return $container;
+    }
+
+    protected function addEventBehaviorFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_EVENT_BEHAVIOR, function (Container $container) {
+            return $container->getLocator()->eventBehavior()->facade();
         });
 
         return $container;

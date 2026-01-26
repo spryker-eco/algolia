@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Zed\Algolia\Communication;
 
+use Spryker\Zed\Cms\Business\CmsFacadeInterface;
+use Spryker\Zed\EventBehavior\Business\EventBehaviorFacadeInterface;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
 use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
@@ -20,5 +22,15 @@ class AlgoliaCommunicationFactory extends AbstractCommunicationFactory
     public function getProductFacade(): ProductFacadeInterface
     {
         return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_PRODUCT);
+    }
+
+    public function getCmsFacade(): CmsFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_CMS);
+    }
+
+    public function getEventBehaviorFacade(): EventBehaviorFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_EVENT_BEHAVIOR);
     }
 }

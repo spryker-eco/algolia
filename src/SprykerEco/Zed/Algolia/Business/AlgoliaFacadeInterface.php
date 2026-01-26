@@ -14,7 +14,6 @@ use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
 use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
-use Generated\Shared\Transfer\CmsPageUnpublishedTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SearchResponseTransfer;
@@ -114,11 +113,15 @@ interface AlgoliaFacadeInterface
 
     /**
      * Specification:
-     * - Deletes CMS page data from Algolia.
+     * - Deletes CMS pages from Algolia by their IDs.
      *
      * @api
+     *
+     * @param array<int> $cmsPageIds
+     *
+     * @return void
      */
-    public function deleteCmsPage(CmsPageUnpublishedTransfer $cmsPageUnpublishedTransfer): void;
+    public function deleteCmsPages(array $cmsPageIds): void;
 
     /**
      * Specification:

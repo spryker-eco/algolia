@@ -45,6 +45,8 @@ use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationCo
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolver;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilder;
+use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
@@ -418,6 +420,14 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
             $this->createCmsPagePublisher(),
             $this->getCmsFacade(),
             $this->getCmsQueryContainer(),
+            $this->createCmsPagePublishedTransferBuilder(),
+        );
+    }
+
+    public function createCmsPagePublishedTransferBuilder(): CmsPagePublishedTransferBuilderInterface
+    {
+        return new CmsPagePublishedTransferBuilder(
+            $this->getCmsFacade(),
         );
     }
 
