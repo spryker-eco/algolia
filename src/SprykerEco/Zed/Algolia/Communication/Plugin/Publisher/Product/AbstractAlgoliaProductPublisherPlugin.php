@@ -20,10 +20,11 @@ use Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface;
  */
 abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin implements PublisherPluginInterface
 {
-    /**
-     * @var int
-     */
-    protected const CHUNK_SIZE = 100;
+    protected const string KEY_FK_PRODUCT_ABSTRACT = 'fk_product_abstract';
+
+    protected const string KEY_FK_RESOURCE_PRODUCT_ABSTRACT = 'fk_resource_product_abstract';
+
+    protected const string KEY_FK_PRODUCT = 'fk_product';
 
     /**
      * @param array<\Generated\Shared\Transfer\EventEntityTransfer> $eventEntityTransfers
@@ -31,10 +32,9 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
      * @return \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
     protected function getProductConcreteTransfersByEventEntityTransfers(
-        array $eventEntityTransfers,
-        string $idFieldName = 'id_product'
+        array $eventEntityTransfers
     ): ArrayObject {
-        $productIds = $this->extractProductIdsFromEventEntityTransfers($eventEntityTransfers, $idFieldName);
+        $productIds = $this->extractProductIdsFromEventEntityTransfers($eventEntityTransfers);
 
         if (!$productIds) {
             return new ArrayObject();
@@ -49,26 +49,28 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
      * @return array<int>
      */
     protected function extractProductIdsFromEventEntityTransfers(
-        array $eventEntityTransfers,
-        string $idFieldName = 'id_product'
+        array $eventEntityTransfers
     ): array {
         $productIds = [];
+        $fkProductIds = [];
 
         foreach ($eventEntityTransfers as $eventEntityTransfer) {
-            $productId = $eventEntityTransfer->getId();
-            if ($productId !== null) {
-                $productIds[] = $productId;
+            $foreignKeys = $eventEntityTransfer->getForeignKeys();
+
+            // checking if event has foreign key for product, the format is {table_name}.fk_product
+            $key = sprintf('%s.%s', $eventEntityTransfer->getName(), static::KEY_FK_PRODUCT);
+            if (!empty($foreignKeys[$key])) {
+                $fkProductIds[$foreignKeys[$key]] = $foreignKeys[$key];
 
                 continue;
             }
 
-            $foreignKeys = $eventEntityTransfer->getForeignKeys();
-            if (isset($foreignKeys[$idFieldName])) {
-                $productIds[] = $foreignKeys[$idFieldName];
+            if ($eventEntityTransfer->getId() !== null) {
+                $productIds[] = $eventEntityTransfer->getId();
             }
         }
 
-        return array_unique($productIds);
+        return array_unique(array_merge($productIds, $fkProductIds));
     }
 
     /**
@@ -78,18 +80,8 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
      */
     protected function getProductConcretesByIds(array $productIds): ArrayObject
     {
-        // Convert product IDs to SKUs
-        $skus = $this->getFactory()
-            ->getProductFacade()
-            ->getProductConcreteSkusByConcreteIds($productIds);
-
-        if (!$skus) {
-            return new ArrayObject();
-        }
-
-        // Fetch full product data with abstract data using getProductConcreteCollection
         $productConcreteConditionsTransfer = (new ProductConcreteConditionsTransfer())
-            ->setSkus($skus);
+            ->setIds($productIds);
 
         $productConcreteCriteriaTransfer = (new ProductConcreteCriteriaTransfer())
             ->setProductConcreteConditions($productConcreteConditionsTransfer)
@@ -110,16 +102,32 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
     protected function extractProductAbstractIds(array $eventEntityTransfers): array
     {
         $productAbstractIds = [];
+        $fkProductAbstractIds = [];
 
         foreach ($eventEntityTransfers as $eventEntityTransfer) {
+            // checking if event has foreign key for product abstract, the format is {table_name}.fk_product_abstract
             $foreignKeys = $eventEntityTransfer->getForeignKeys();
+            $key = sprintf('%s.%s', $eventEntityTransfer->getName(), static::KEY_FK_PRODUCT_ABSTRACT);
+            if (!empty($foreignKeys[$key])) {
+                $fkProductAbstractIds[$foreignKeys[$key]] = $foreignKeys[$key];
 
-            if (isset($foreignKeys['fk_product_abstract'])) {
-                $productAbstractIds[] = $foreignKeys['fk_product_abstract'];
+                continue;
+            }
+
+            // for URLs events
+            $key = sprintf('%s.%s', $eventEntityTransfer->getName(), static::KEY_FK_RESOURCE_PRODUCT_ABSTRACT);
+            if (!empty($foreignKeys[$key])) {
+                $fkProductAbstractIds[$foreignKeys[$key]] = $foreignKeys[$key];
+
+                continue;
+            }
+
+            if ($eventEntityTransfer->getId() !== null) {
+                $productAbstractIds[] = $eventEntityTransfer->getId();
             }
         }
 
-        return array_unique($productAbstractIds);
+        return array_unique(array_merge($productAbstractIds, $fkProductAbstractIds));
     }
 
     /**
@@ -129,31 +137,8 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
      */
     protected function getProductConcretesByAbstractIds(array $productAbstractIds): ArrayObject
     {
-        // Get all product IDs for these abstract IDs
-        $productIds = [];
-        foreach ($productAbstractIds as $productAbstractId) {
-            $concreteIds = $this->getFactory()
-                ->getProductFacade()
-                ->findProductConcreteIdsByAbstractProductId($productAbstractId);
-            $productIds = array_merge($productIds, $concreteIds);
-        }
-
-        if (!$productIds) {
-            return new ArrayObject();
-        }
-
-        // Convert product IDs to SKUs
-        $skus = $this->getFactory()
-            ->getProductFacade()
-            ->getProductConcreteSkusByConcreteIds($productIds);
-
-        if (!$skus) {
-            return new ArrayObject();
-        }
-
-        // Fetch full product data with abstract data using getProductConcreteCollection
         $productConcreteConditionsTransfer = (new ProductConcreteConditionsTransfer())
-            ->setSkus($skus);
+            ->setProductAbstractIds($productAbstractIds);
 
         $productConcreteCriteriaTransfer = (new ProductConcreteCriteriaTransfer())
             ->setProductConcreteConditions($productConcreteConditionsTransfer)

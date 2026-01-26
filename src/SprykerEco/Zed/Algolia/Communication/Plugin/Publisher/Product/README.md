@@ -53,9 +53,10 @@ new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProduc
 - ENTITY_SPY_PRODUCT_DELETE
 
 **Usage**:
+
 ```php
 // In Pyz\Zed\Publisher\PublisherDependencyProvider::getPublisherPlugins()
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteUnpublisherPlugin(),
+new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin(),
 ```
 
 ## Configuration
@@ -174,7 +175,7 @@ namespace Pyz\Zed\Publisher;
 use Spryker\Zed\Publisher\PublisherDependencyProvider as SprykerPublisherDependencyProvider;
 use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductAbstractPublisherPlugin;
 use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcretePublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteUnpublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin;
 
 class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
 {
@@ -186,7 +187,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
             // Algolia product publishers - events configured via AlgoliaConfig
             new AlgoliaProductConcretePublisherPlugin(),
             new AlgoliaProductAbstractPublisherPlugin(),
-            new AlgoliaProductConcreteUnpublisherPlugin(),
+            new AlgoliaProductConcreteDeletePublisherPlugin(),
         ];
     }
 }

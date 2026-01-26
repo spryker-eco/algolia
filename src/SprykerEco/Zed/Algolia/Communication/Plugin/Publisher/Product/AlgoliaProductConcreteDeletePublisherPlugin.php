@@ -18,7 +18,7 @@ use Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface;
  * @method \SprykerEco\Zed\Algolia\AlgoliaConfig getConfig()
  * @method \SprykerEco\Zed\Algolia\Communication\AlgoliaCommunicationFactory getFactory()
  */
-class AlgoliaProductConcreteUnpublisherPlugin extends AbstractPlugin implements PublisherPluginInterface
+class AlgoliaProductConcreteDeletePublisherPlugin extends AbstractPlugin implements PublisherPluginInterface
 {
     /**
      * {@inheritDoc}

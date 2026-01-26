@@ -32,10 +32,7 @@ class AlgoliaProductConcretePublisherPlugin extends AbstractAlgoliaProductPublis
      */
     public function handleBulk(array $eventEntityTransfers, $eventName)
     {
-        $productConcreteTransfers = $this->getProductConcreteTransfersByEventEntityTransfers(
-            $eventEntityTransfers,
-            'fk_product',
-        );
+        $productConcreteTransfers = $this->getProductConcreteTransfersByEventEntityTransfers($eventEntityTransfers);
 
         if ($productConcreteTransfers->count() === 0) {
             return;
