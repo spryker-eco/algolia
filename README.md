@@ -242,17 +242,45 @@ class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
 console algolia:entity:export product
 
 # Export all CMS pages
-console algolia:entity:export cms-page
+console algolia:entity:export cms-page --store=DE
 
 # Export for specific store
-console algolia:entity:export product --store=DE
+console algolia:entity:export product --locale=en_US
 
 # Export with custom chunk size
 console algolia:entity:export product --chunk-size=200
 
-# Dry run to preview
-console algolia:entity:export cms-page --dry-run
 ```
+
+### Step 4: Schedule Automatic Exports (Recommended)
+
+For periodic full re-indexing, add a cron job to export entities to Algolia on a scheduled basis.
+
+File: `config/Zed/cronjobs/jenkins.php`
+
+```php
+/* Algolia - Weekly full export */
+$jobs[] = [
+    'name' => 'algolia-export-products',
+    'command' => $logger . '$PHP_BIN vendor/bin/console algolia:entity:export product',
+    'schedule' => '0 2 * * 0',
+    'enable' => true,
+];
+
+$jobs[] = [
+    'name' => 'algolia-export-cms-pages',
+    'command' => $logger . '$PHP_BIN vendor/bin/console algolia:entity:export cms-page',
+    'schedule' => '30 2 * * 0',
+    'enable' => true,
+];
+```
+
+**Schedule explanation:**
+- `0 2 * * 0` - Runs at 2:00 AM every Sunday (weekly)
+- `30 2 * * 0` - Runs at 2:30 AM every Sunday (weekly)
+
+**Note:** These cron jobs complement the real-time publisher plugins. The publishers handle incremental updates,
+while the cron jobs ensure full data consistency by performing periodic complete exports.
 
 ---
 
