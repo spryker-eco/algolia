@@ -447,9 +447,9 @@ If migrating from MessageBroker-based Algolia publishing:
 
 ### Step 1: Remove Old Plugins
 
-```php
-// Remove from Pyz\Zed\Publisher\PublisherDependencyProvider
+#### Remove from Pyz\Zed\Publisher\PublisherDependencyProvider
 
+```php
 // - CmsPageVersionPublishedMessageBrokerPublisherPlugin
 // - CmsPageUpdateMessageBrokerPublisherPlugin
 // - ProductAbstractUpdatedMessageBrokerPublisherPlugin
@@ -459,6 +459,14 @@ If migrating from MessageBroker-based Algolia publishing:
 // - ProductConcreteUpdatedMessageBrokerPublisherPlugin
 ```
 
+#### Remove form \Pyz\Zed\MessageBroker\MessageBrokerDependencyProvider
+
+```php
+// - SearchEndpointMessageHandlerPlugin
+// - ProductExportMessageHandlerPlugin
+// - CmsPageMessageHandlerPlugin
+```
+
 ### Step 2: Add New Algolia Plugins, Console command, Jenkins job(s)
 
 See [Installation](#installation) section.
@@ -466,8 +474,9 @@ See [Installation](#installation) section.
 ### Step 3: Verify
 
 - No data migration needed - data structure remains the same
-- Test with a CMS page update in Back Office
+- Do full re-index using console command
 - Test with products update in Back Office
+- Test with a CMS page update in Back Office
 - Check Algolia dashboard for indexed content
 
 ### Benefits of Migration
