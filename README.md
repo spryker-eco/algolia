@@ -17,11 +17,12 @@ The Algolia module provides seamless integration between Spryker Commerce OS and
 ## Table of Contents
 
 - [Installation](#installation)
-- [Publisher Plugins](#publisher-plugins)
+- [Real-time Synchronization](#real-time-synchronization)
   - [Product Publisher Plugins](#product-publisher-plugins)
   - [CMS Page Publisher Plugins](#cms-page-publisher-plugins)
-- [Console Commands](#console-commands)
+- [Full Indexing](#full-indexing)
 - [Configuration](#configuration)
+- [Migration from ACP Algolia App](#migration-from-acp-algolia-app)
 - [Troubleshooting](#troubleshooting)
 
 ## Installation
@@ -36,13 +37,116 @@ composer require spryker-eco/algolia
 $config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
 $config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_ADMIN_API_KEY');
 $config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_ONLY_API_KEY');
-$config[AlgoliaConstants::TENANT_IDENTIFIER] = 'project_name_production';
+$config[AlgoliaConstants::TENANT_IDENTIFIER] = 'project_name_production'; // Add if you use one Algolia account for multiple environments, default is "production".
 $config[AlgoliaConstants::IS_ACTIVE] = true;
+```
+
+### Step 1: Enable Console Command
+
+File: `src/Pyz/Zed/Console/ConsoleDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Zed\Console;
+
+use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
+use SprykerEco\Zed\Algolia\Communication\Console\AlgoliaEntityExportConsole;
+
+class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
+{
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return array<\Symfony\Component\Console\Command\Command>
+     */
+    protected function getConsoleCommands(Container $container): array
+    {
+        $commands = [
+            // ... existing commands
+
+            // Add Algolia export command
+            new AlgoliaEntityExportConsole(),
+        ];
+
+        return $commands;
+    }
+}
+```
+
+### Step 2: Configure Entity Exporter Plugins
+
+File: `src/Pyz/Zed/Algolia/AlgoliaDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Zed\Algolia;
+
+use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider as SprykerEcoAlgoliaDependencyProvider;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\CmsPageAlgoliaEntityExporterPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\ProductAlgoliaEntityExporterPlugin;
+
+class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
+{
+    /**
+     * @return array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface>
+     */
+    protected function getAlgoliaEntityExporterPlugins(): array
+    {
+        return [
+            new ProductAlgoliaEntityExporterPlugin(),
+            new CmsPageAlgoliaEntityExporterPlugin(),
+            // Add more entity exporters here
+        ];
+    }
+}
+```
+
+### Step 3: Generate Transfers
+
+```bash
+vendor/bin/console transfer:generate
+```
+
+## Step 4: Verify Installation
+
+```bash
+# List available commands (should show algolia:index-export)
+vendor/bin/console | grep algolia
+
+# Show available entity types
+vendor/bin/console algolia:index-export
+
+# Test with dry run
+vendor/bin/console algolia:index-export product --dry-run
+```
+
+## Step 5: Usage Examples
+
+```bash
+# Export products
+vendor/bin/console algolia:index-export product
+
+# Export products for specific store
+vendor/bin/console algolia:index-export product --store=DE
+
+# Export CMS pages
+vendor/bin/console algolia:index-export cms-page
+
+# Export all entity types
+vendor/bin/console algolia:index-export --all
+
+# Export with custom chunk size
+vendor/bin/console algolia:index-export product --chunk-size=200
+
+# Dry run to preview
+vendor/bin/console algolia:index-export product --dry-run --store=DE
 ```
 
 ---
 
-## Publisher Plugins
+## Real-time Synchronization
 
 ### Product Publisher Plugins
 
@@ -60,12 +164,6 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\`
 - Product prices changes (if PriceProduct exists)
 - Product search data changes (if ProductSearch exists)
 
-**Usage**:
-```php
-// In Pyz\Zed\Publisher\PublisherDependencyProvider::getPublisherPlugins()
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcretePublisherPlugin(),
-```
-
 #### 2. AlgoliaProductAbstractPublisherPlugin
 
 **Purpose**: Publishes all concrete products of a product abstract when abstract-level data changes.
@@ -76,12 +174,7 @@ new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProduc
 - Product labels
 - Reviews
 - Images
-- Price changes (if PriceProduct exists)
-
-**Usage**:
-```php
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductAbstractPublisherPlugin(),
-```
+- Price changes (if PriceProduct exists and enabled in the configuration)
 
 #### 3. AlgoliaProductConcreteDeletePublisherPlugin
 
@@ -90,11 +183,6 @@ new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProduc
 **Default Subscribed Events**:
 - PRODUCT_CONCRETE_UNPUBLISH
 - ENTITY_SPY_PRODUCT_DELETE
-
-**Usage**:
-```php
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin(),
-```
 
 ---
 
@@ -116,11 +204,6 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\`
 - Sends complete page data to Algolia for indexing
 - Removes pages from all relevant indices if page is inactive or not searchable
 
-**Usage**:
-```php
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPagePublisherPlugin(),
-```
-
 #### 2. AlgoliaCmsPageVersionPublisherPlugin
 
 **Purpose**: Publishes CMS pages when new versions are created or published.
@@ -134,11 +217,6 @@ new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPag
 - Fetches CMS page and version data
 - Extracts full page content with locale-specific data
 - Publishes to Algolia with version metadata
-
-**Usage**:
-```php
-new \SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageVersionPublisherPlugin(),
-```
 
 ---
 
@@ -178,64 +256,9 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
 
 ---
 
-## Console Commands
+## Full Indexing
 
----
-
-## Console Commands
-
-### Step 1: Register Console Command
-
-File: `src/Pyz/Zed/Console/ConsoleDependencyProvider.php`
-
-```php
-<?php
-
-namespace Pyz\Zed\Console;
-
-use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
-use SprykerEco\Zed\Algolia\Communication\Console\AlgoliaEntityExportConsole;
-
-class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
-{
-    protected function getConsoleCommands(Container $container): array
-    {
-        $commands = [
-            // ... existing commands
-            new AlgoliaEntityExportConsole(),
-        ];
-
-        return $commands;
-    }
-}
-```
-
-### Step 2: Configure Entity Exporter Plugins
-
-File: `src/Pyz/Zed/Algolia/AlgoliaDependencyProvider.php`
-
-```php
-<?php
-
-namespace Pyz\Zed\Algolia;
-
-use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider as SprykerEcoAlgoliaDependencyProvider;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\CmsPageAlgoliaEntityExporterPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\ProductAlgoliaEntityExporterPlugin;
-
-class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
-{
-    protected function getAlgoliaEntityExporterPlugins(): array
-    {
-        return [
-            new ProductAlgoliaEntityExporterPlugin(),
-            new CmsPageAlgoliaEntityExporterPlugin(),
-        ];
-    }
-}
-```
-
-### Step 3: Usage Examples
+### Usage Examples
 
 ```bash
 # Export all products to Algolia
@@ -252,7 +275,7 @@ console algolia:entity:export product --chunk-size=200
 
 ```
 
-### Step 4: Schedule Automatic Exports (Recommended)
+### Schedule Automatic Exports (Recommended)
 
 For periodic full re-indexing, add a cron job to export entities to Algolia on a scheduled basis.
 
@@ -291,9 +314,8 @@ while the cron jobs ensure full data consistency by performing periodic complete
 All publisher plugins get their subscribed events from `AlgoliaConfig`. The config automatically includes events from optional modules if they exist:
 
 **For Products:**
-- ✅ ProductBundleStorage - Bundle events (if module exists)
+- ✅ ProductBundle - Bundle events (if module exists)
 - ✅ PriceProduct - Price events (if module exists)
-- ✅ ProductSearch - Search events (if module exists)
 - ✅ ProductLabel - Label events (if module exists)
 - ✅ ProductReview - Review events (if module exists)
 
@@ -356,7 +378,7 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 ### Data Flow
 
 ```
-Spryker Events (Back Office/API changes)
+Spryker Events (Back Office/API changes/Data Import)
            ↓
 Publisher Module (Queue-based processing)
            ↓
@@ -381,113 +403,6 @@ Algolia Search Service
 - Version publish events: New version creation
 - Delete events: Page removal (unpublish)
 - Both update and version plugins ensure pages stay current
-
----
-
-## Troubleshooting
-
-File: `src/Pyz/Zed/Console/ConsoleDependencyProvider.php`
-
-```php
-<?php
-
-namespace Pyz\Zed\Console;
-
-use Spryker\Zed\Console\ConsoleDependencyProvider as SprykerConsoleDependencyProvider;
-use SprykerEco\Zed\Algolia\Communication\Console\AlgoliaEntityExportConsole;
-
-class ConsoleDependencyProvider extends SprykerConsoleDependencyProvider
-{
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return array<\Symfony\Component\Console\Command\Command>
-     */
-    protected function getConsoleCommands(Container $container): array
-    {
-        $commands = [
-            // ... existing commands
-
-            // Add Algolia export command
-            new AlgoliaEntityExportConsole(),
-        ];
-
-        return $commands;
-    }
-}
-```
-
-## Step 2: Configure Entity Exporter Plugins
-
-### Create Project-Level Dependency Provider
-
-File: `src/Pyz/Zed/Algolia/AlgoliaDependencyProvider.php`
-
-```php
-<?php
-
-namespace Pyz\Zed\Algolia;
-
-use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider as SprykerEcoAlgoliaDependencyProvider;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\CmsPageAlgoliaEntityExporterPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\ProductAlgoliaEntityExporterPlugin;
-
-class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
-{
-    /**
-     * @return array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface>
-     */
-    protected function getAlgoliaEntityExporterPlugins(): array
-    {
-        return [
-            new ProductAlgoliaEntityExporterPlugin(),
-            new CmsPageAlgoliaEntityExporterPlugin(),
-            // Add more entity exporters here
-        ];
-    }
-}
-```
-
-## Step 3: Generate Transfers
-
-```bash
-vendor/bin/console transfer:generate
-```
-
-## Step 4: Verify Installation
-
-```bash
-# List available commands (should show algolia:index-export)
-vendor/bin/console | grep algolia
-
-# Show available entity types
-vendor/bin/console algolia:index-export
-
-# Test with dry run
-vendor/bin/console algolia:index-export product --dry-run
-```
-
-## Step 5: Usage Examples
-
-```bash
-# Export products
-vendor/bin/console algolia:index-export product
-
-# Export products for specific store
-vendor/bin/console algolia:index-export product --store=DE
-
-# Export CMS pages
-vendor/bin/console algolia:index-export cms-page
-
-# Export all entity types
-vendor/bin/console algolia:index-export --all
-
-# Export with custom chunk size
-vendor/bin/console algolia:index-export product --chunk-size=200
-
-# Dry run to preview
-vendor/bin/console algolia:index-export product --dry-run --store=DE
-```
 
 ---
 
@@ -522,11 +437,11 @@ console transfer:generate
    ```bash
    console queue:task:start publish
    ```
-4. Enable debug logging in config
+4. Debug publishing with Xdebug `docker/sdk console -x queue:task:start publish` or using logs.
 
 ---
 
-## Migration from MessageBroker
+## Migration from ACP Algolia App
 
 If migrating from MessageBroker-based Algolia publishing:
 
@@ -534,22 +449,25 @@ If migrating from MessageBroker-based Algolia publishing:
 
 ```php
 // Remove from Pyz\Zed\Publisher\PublisherDependencyProvider
+
 // - CmsPageVersionPublishedMessageBrokerPublisherPlugin
 // - CmsPageUpdateMessageBrokerPublisherPlugin
+// - ProductAbstractUpdatedMessageBrokerPublisherPlugin
+// - ProductConcreteCreatedMessageBrokerPublisherPlugin
+// - ProductConcreteDeletedMessageBrokerPublisherPlugin
+// - ProductConcreteExportedMessageBrokerPublisherPlugin
+// - ProductConcreteUpdatedMessageBrokerPublisherPlugin
 ```
 
-### Step 2: Add New Algolia Plugins
+### Step 2: Add New Algolia Plugins, Console command, Jenkins job(s)
 
-```php
-// Add to Pyz\Zed\Publisher\PublisherDependencyProvider
-new AlgoliaCmsPagePublisherPlugin(),
-new AlgoliaCmsPageVersionPublisherPlugin(),
-```
+See [Installation](#installation) section.
 
 ### Step 3: Verify
 
 - No data migration needed - data structure remains the same
 - Test with a CMS page update in Back Office
+- Test with products update in Back Office
 - Check Algolia dashboard for indexed content
 
 ### Benefits of Migration
@@ -557,8 +475,8 @@ new AlgoliaCmsPageVersionPublisherPlugin(),
 ✅ Direct integration (no MessageBroker overhead)
 ✅ Simpler architecture
 ✅ Better performance
-✅ Batch deletion support
-✅ Complete locale-specific content extraction
+✅ Batch indexing support
+✅ Configuration and extensibility
 
 ---
 
@@ -573,8 +491,7 @@ new AlgoliaCmsPageVersionPublisherPlugin(),
 ### CMS Pages
 - Published asynchronously via queue system
 - Only active AND searchable pages indexed
-- Batch deletion for multiple pages
-- Locale-specific content extracted once
+- Not searchable or inactive pages removed from indices
 
 ### General
 - All plugins check `AlgoliaConfig::getIsActive()` before subscribing

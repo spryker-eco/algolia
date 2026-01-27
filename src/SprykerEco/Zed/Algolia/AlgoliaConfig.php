@@ -20,7 +20,6 @@ use Spryker\Zed\ProductCategory\Dependency\ProductCategoryEvents;
 use Spryker\Zed\ProductImage\Dependency\ProductImageEvents;
 use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
-use Spryker\Zed\ProductSearch\Dependency\ProductSearchEvents;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
 /**
@@ -495,12 +494,6 @@ class AlgoliaConfig extends AbstractBundleConfig
             $events[] = PriceProductEvents::PRICE_CONCRETE_PUBLISH;
             $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_CREATE;
             $events[] = PriceProductEvents::ENTITY_SPY_PRICE_PRODUCT_UPDATE;
-        }
-
-        // Add ProductSearch events if module exists
-        if (class_exists('Spryker\Zed\ProductSearch\Dependency\ProductSearchEvents')) {
-            $events[] = ProductSearchEvents::ENTITY_SPY_PRODUCT_SEARCH_CREATE;
-            $events[] = ProductSearchEvents::ENTITY_SPY_PRODUCT_SEARCH_UPDATE;
         }
 
         return $events;
