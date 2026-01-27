@@ -369,7 +369,6 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 **CMS Page Events:**
 - `getCmsPageUpdateSubscribedEvents()` - Page update events
 - `getCmsPageVersionPublishSubscribedEvents()` - Version publish events
-- `getCmsPageDeleteSubscribedEvents()` - Page delete events
 
 ---
 
