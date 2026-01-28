@@ -1,0 +1,38 @@
+namespace: SprykerEcoTest\Zed\Algolia
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+suites:
+    Business:
+        path: Business
+        actor: AlgoliaBusinessTester
+        modules:
+            enabled:
+                - \SprykerTest\Shared\Testify\Helper\Environment:
+                      isolated: true
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper
+                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+                - \SprykerTest\Shared\Testify\Helper\BusinessHelper
+                - \SprykerTest\Shared\Propel\Helper\TransactionHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
+                - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaHelper
+                - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaConfigHelper
+
+    Communication:
+        path: Communication
+        actor: AlgoliaCommunicationTester
+        modules:
+            enabled:
+                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                      projectNamespaces:
+                          - Pyz
+                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+                - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaHelper

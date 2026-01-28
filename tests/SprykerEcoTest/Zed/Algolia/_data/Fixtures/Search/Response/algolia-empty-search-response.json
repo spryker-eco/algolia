@@ -1,0 +1,28 @@
+{
+    "hits": [],
+    "nbHits": 0,
+    "page": 0,
+    "nbPages": 0,
+    "hitsPerPage": 12,
+    "facets": {},
+    "exhaustiveFacetsCount": true,
+    "exhaustiveNbHits": true,
+    "exhaustiveTypo": true,
+    "exhaustive": {
+        "facetsCount": true,
+        "nbHits": true,
+        "typo": true
+    },
+    "query": "",
+    "params": "",
+    "index": "dev-de-product-en",
+    "renderingContent": {},
+    "processingTimeMS": 1,
+    "processingTimingsMS": {
+        "request": {
+            "roundTrip": 39
+        },
+        "total": 1
+    },
+    "serverTimeMS": 1
+}

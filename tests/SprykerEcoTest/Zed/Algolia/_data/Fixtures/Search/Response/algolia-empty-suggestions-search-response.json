@@ -1,0 +1,66 @@
+{
+    "results": [
+        {
+            "hits": [],
+            "nbHits": 0,
+            "page": 0,
+            "nbPages": 0,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": true,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": true,
+                "typo": true
+            },
+            "query": "not_existent_data",
+            "params": "query=not_existent_data&",
+            "index": "dev-de-product-de_query_suggestions",
+            "renderingContent": [],
+            "processingTimeMS": 1,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 112
+                },
+                "getIdx": {
+                    "load": {
+                        "total": 1
+                    },
+                    "total": 1
+                },
+                "total": 1
+            },
+            "serverTimeMS": 1
+        },
+        {
+            "hits": [],
+            "nbHits": 0,
+            "page": 0,
+            "nbPages": 0,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": true,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": true,
+                "typo": true
+            },
+            "query": "not_existent_data",
+            "params": "attributesToHighlight=%5B%22product_abstract_sku%22%2C%22sku%22%2C%22name%22%2C%22abstract_name%22%2C%22category%22%5D&query=not_existent_data&",
+            "index": "dev-de-product-de",
+            "renderingContent": [],
+            "processingTimeMS": 2,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 112
+                },
+                "getIdx": {
+                    "load": {
+                        "total": 1
+                    },
+                    "total": 1
+                },
+                "total": 2
+            },
+            "serverTimeMS": 4
+        }
+    ]
+}
