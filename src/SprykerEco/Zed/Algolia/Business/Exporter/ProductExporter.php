@@ -99,15 +99,6 @@ class ProductExporter implements ProductExporterInterface
 
         $resultTransfer->setTotalCount($totalProcessed);
 
-        if ($resultTransfer->getFailedCount() > 0) {
-            $resultTransfer
-                ->setIsSuccessful(false)
-                ->addMessage(sprintf(
-                    '%d product(s) failed to export',
-                    $resultTransfer->getFailedCount(),
-                ));
-        }
-
         $resultTransfer->addMessage(sprintf(
             '%d of %d product(s) successfully exported to Algolia',
             $resultTransfer->getExportedCount(),

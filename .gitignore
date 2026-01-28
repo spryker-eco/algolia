@@ -20,3 +20,9 @@ GTAGS
 
 /vendor/
 composer.lock
+
+
+# tests
+tests/**/_generated/
+tests/_output/*
+!tests/_output/.gitkeep

@@ -12,7 +12,6 @@
         "spryker/cms": "^7.18.0",
         "spryker/kernel": "^3.76.0",
         "spryker/log": "^3.18.0",
-        "spryker/product": "^6.53.0",
         "spryker/product-category": "^4.28.1",
         "spryker/product-image": "^3.20.0",
         "spryker/transfer": "^3.42.0",
@@ -20,11 +19,13 @@
         "symfony/console": "^6.4"
     },
     "require-dev": {
+        "codeception/module-asserts": "*",
         "phpstan/phpstan": "^2.1",
         "spryker/code-sniffer": "^0.17.30",
         "spryker/testify": "^3.62.0"
     },
     "suggest": {
+        "spryker/product": "Add next version to require: ^6.53.0",
         "spryker/product-review": "Required for Product search functionality.",
         "spryker/price-product": "Optional for Product search functionality.",
         "spryker/merchant-product": "Optional for Product search functionality.",
@@ -37,7 +38,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SprykerEcoTest\\": "tests/SprykerEcoTest/"
+            "SprykerEcoTest\\": "tests/SprykerEcoTest/",
+            "SprykerEcoTest\\Zed\\Algolia\\Helper\\": "tests/SprykerEcoTest/Zed/Algolia/_support/Helper/"
         }
     },
     "minimum-stability": "dev",
