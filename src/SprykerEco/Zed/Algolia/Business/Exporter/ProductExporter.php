@@ -113,10 +113,7 @@ class ProductExporter implements ProductExporterInterface
      */
     protected function sendProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            return (new AlgoliaResponseTransfer())->setIsSuccessful(false);
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         $productConcreteTransfers = $this->productDataFilterApplier->apply($productConcreteTransfers);
 

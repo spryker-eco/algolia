@@ -14,8 +14,5 @@ use Generated\Shared\Transfer\SearchResponseTransfer;
 
 interface SearcherInterface
 {
-    /**
-     * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     */
     public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -43,7 +43,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsEmptyResultForEmptyCollection()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['test-facet', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['test-facet', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('wrongType', $this->tester->haveFacetParametersTransfer()),
@@ -63,7 +63,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringThrowsExceptionForWrongFacetType()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'test-facet', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'test-facet', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('wrongType', $this->tester->haveFacetParametersTransfer()),
@@ -83,7 +83,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsCorrectResultForRangeFacet()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'test-facet', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'test-facet', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -107,7 +107,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsCorrectResultForRangeFacetNotFromAttributes()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['rating', 'test-facet', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['rating', 'test-facet', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'rating' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -131,7 +131,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringWithEmptyToAttributeReturnsCorrectResultForRangeFacetNotFromAttributes()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'rating' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -155,7 +155,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringWithZeroToAttributeReturnsCorrectResultForRangeFacetNotFromAttributes()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'rating' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -179,7 +179,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringWhereFromMoreThenToAttributeReturnsCorrectResultForRangeFacetNotFromAttributes()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['rating', 'attributes.facet2', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'rating' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -203,7 +203,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsCorrectResultForValuesFacet()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'attributes.facet3', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'attributes.facet3', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('values', $this->tester->haveFacetParametersTransfer([
@@ -225,7 +225,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsCorrectResultForValuesFacetWithMultipleValues()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'attributes.facet2']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'attributes.facet2']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('values', $this->tester->haveFacetParametersTransfer([
@@ -247,7 +247,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferToAlgoliaFiltersStringReturnsCorrectResultForMultipleFacetsWithMultipleValues()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'attributes.facet2', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'attributes.facet2', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -273,7 +273,7 @@ class FilterConverterTest extends Unit
     public function testConvertFacetCollectionTransferWithEmptyFacetValuesToAlgoliaFiltersStringReturnsCorrectResultForMultipleFacetsWithValues()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'attributes.facet2']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'attributes.facet2']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([
@@ -299,7 +299,7 @@ class FilterConverterTest extends Unit
     public function testConvertEmptyFacetCollectionTransferToAlgoliaFiltersStringReturnsEmptyString()
     {
         // Arrange
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT, ['attributes.facet1', 'attributes.facet2', 'prices']);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT, ['attributes.facet1', 'attributes.facet2', 'prices']);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $searchRequestTransfer = $this->tester->haveSearchRequestTransfer();
 
@@ -317,7 +317,7 @@ class FilterConverterTest extends Unit
     {
         // Arrange
         $this->tester->haveSearchIndexResolver(['attributesForFaceting' => ['afterDistinct(sorting(attributes.facet1))', 'attributes.facet2', 'attributes.facet3', '??', 'prices']]);
-        $this->tester->haveCacheAdapterMock(self::ID_TENANT);
+        $this->tester->haveCacheAdapterMock(static::ID_TENANT);
         $filterConverter = $this->tester->getFactory()->createFilterConverter();
         $facetCollection = $this->tester->haveFacetCollectionTransfer([
             'facet1' => $this->tester->haveFacetEntryTransfer('range', $this->tester->haveFacetParametersTransfer([

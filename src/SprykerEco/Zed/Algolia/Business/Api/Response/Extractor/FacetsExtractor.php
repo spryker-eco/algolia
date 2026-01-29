@@ -61,10 +61,7 @@ class FacetsExtractor implements FacetsExtractorInterface
     {
         $responseFacets = $this->extractFacets($algoliaSearchResponseTransfer->getSearchResults());
         $responseFacetsStats = $this->extractFacetsStats($algoliaSearchResponseTransfer->getSearchResults(), $searchRequestTransfer);
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            return [];
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         $facets = array_merge($responseFacets, $responseFacetsStats);
         $facetsOrder = array_map(
@@ -76,16 +73,16 @@ class FacetsExtractor implements FacetsExtractorInterface
             $algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'] ?? $this->algoliaConfig->getFilterableNameAttributes($algoliaConfigTransfer),
         );
 
-//        if (isset($algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'])) {
-//            // Filter out facets that are not in the renderingContent
-//            $facets = array_filter($facets, function ($key) use ($facetsOrder) {
-//                foreach ($facetsOrder as $orderKey) {
-//                    if ($key === $orderKey || str_starts_with($key, $orderKey . '.')) {
-//                        return true;
-//                    }
-//                }
-//            }, ARRAY_FILTER_USE_KEY);
-//        }
+        if (isset($algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'])) {
+            // Filter out facets that are not in the renderingContent
+            $facets = array_filter($facets, function ($key) use ($facetsOrder) {
+                foreach ($facetsOrder as $orderKey) {
+                    if ($key === $orderKey || str_starts_with($key, $orderKey . '.')) {
+                        return true;
+                    }
+                }
+            }, ARRAY_FILTER_USE_KEY);
+        }
 
         $this->sortArrayByKeys($facets, $facetsOrder);
 

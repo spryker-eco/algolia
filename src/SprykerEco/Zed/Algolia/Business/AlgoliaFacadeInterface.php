@@ -15,9 +15,6 @@ use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
-use Generated\Shared\Transfer\SearchRequestTransfer;
-use Generated\Shared\Transfer\SearchResponseTransfer;
-use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 use Symfony\Component\Console\Output\OutputInterface;
 
 interface AlgoliaFacadeInterface
@@ -78,30 +75,6 @@ interface AlgoliaFacadeInterface
      * @api
      */
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void;
-
-    /**
-     * Specification:
-     * - Performs a search request on Algolia app
-     *
-     * @api
-     *
-     * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     * @throws \Algolia\AlgoliaSearch\Exceptions\NotFoundException
-     */
-    public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer;
-
-    /**
-     * Specification:
-     * - Performs a multiple indices search request on Algolia app.
-     * - Uses search index to collect matches.
-     * - Uses suggestions index to search for completions.
-     *
-     * @api
-     *
-     * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     * @throws \Algolia\AlgoliaSearch\Exceptions\NotFoundException
-     */
-    public function searchSuggestions(SearchRequestTransfer $searchRequestTransfer): SuggestionsSearchResponseTransfer;
 
     /**
      * Specification:

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -22,6 +22,7 @@ use Generated\Shared\Transfer\ProductDeletedTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
+use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 
 /**
  * Auto-generated group annotations
@@ -88,7 +89,7 @@ class AlgoliaFacadeTest extends Unit
         $this->tester->mockSearchIndexSaveObjects((new AlgoliaResponseTransfer())->setIsSuccessful(true));
         $productConcreteTransfers = new ArrayObject();
         $productConcreteTransfers->append(
-            $this->tester->haveFullProductConcreteTransfer([ProductConcreteTransfer::NAME => 'product1', ProductConcreteTransfer::SKU => 'product1Sku'])->setIsActive(false)
+            $this->tester->haveFullProductConcreteTransfer([ProductConcreteTransfer::NAME => 'product1', ProductConcreteTransfer::SKU => 'product1Sku'])->setIsActive(false),
         );
 
         // Act
@@ -160,7 +161,6 @@ class AlgoliaFacadeTest extends Unit
         $productConcreteTransfers->append($this->tester->haveFullProductConcreteTransfer([ProductConcreteTransfer::NAME => 'product1', ProductConcreteTransfer::SKU => '']));
         $productConcreteTransfers->append($this->tester->haveFullProductConcreteTransfer([ProductConcreteTransfer::NAME => 'product2', ProductConcreteTransfer::SKU => '']));
 
-
         // Act
         $algoliaResponseTransfer = $this->tester->getFacade()->updateProducts($productConcreteTransfers);
 
@@ -224,6 +224,7 @@ class AlgoliaFacadeTest extends Unit
         // Assert
         $this->assertFalse($algoliaApiCredentialsValidationTransfer->getIsSearchOnlyApiKeyValid());
     }
+
     /**
      * @return void
      */
@@ -304,7 +305,7 @@ class AlgoliaFacadeTest extends Unit
             $this->tester->haveFullProductConcreteTransfer([
                 ProductConcreteTransfer::NAME => 'product1',
                 ProductConcreteTransfer::SKU => 'product1Sku',
-            ])
+            ]),
         );
 
         Algolia::setHttpClient(
@@ -560,12 +561,12 @@ class AlgoliaFacadeTest extends Unit
     {
         // Arrange
         $searchClientCreatorMock = $this->tester->makeEmpty(
-            \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface::class,
+            SearchClientCreatorInterface::class,
             [
                 'createSearchClientFromConfig' => function () {
                     throw new Exception();
                 },
-            ]
+            ],
         );
 
         $this->tester->mockFactoryMethod(

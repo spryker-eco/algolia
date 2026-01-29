@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -15,9 +15,9 @@ use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageTransfer;
 use Generated\Shared\Transfer\StoreRelationTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
+use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapper;
-use Spryker\Shared\Kernel\Transfer\Exception\NullValueException;
 
 /**
  * Auto-generated group annotations

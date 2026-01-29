@@ -103,7 +103,7 @@ class FilterConverter implements FilterConverterInterface
      */
     protected function getFacetWhiteList(SearchRequestTransfer $searchRequestTransfer): array
     {
-        $algoliaConfigTransfer = $this->configResolver->findConfig();
+        $algoliaConfigTransfer = $this->configResolver->getConfig();
         $item = $this->cache->getItem(sprintf(static::KEY_FACET_CACHE, $algoliaConfigTransfer->getTenantIdentifierOrFail()));
         $facetNames = $item->get();
 

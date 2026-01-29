@@ -15,9 +15,6 @@ use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
-use Generated\Shared\Transfer\SearchRequestTransfer;
-use Generated\Shared\Transfer\SearchResponseTransfer;
-use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -77,26 +74,6 @@ class AlgoliaFacade extends AbstractFacade implements AlgoliaFacadeInterface
         $this->getFactory()
             ->createProductDeleter()
             ->deleteProduct($productDeletedTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     */
-    public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer
-    {
-        return $this->getFactory()->createSearcher()->search($searchRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     */
-    public function searchSuggestions(SearchRequestTransfer $searchRequestTransfer): SuggestionsSearchResponseTransfer
-    {
-        return $this->getFactory()->createSuggestionsSearcher()->searchSuggestions($searchRequestTransfer);
     }
 
     /**

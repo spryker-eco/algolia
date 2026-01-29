@@ -33,10 +33,7 @@ class ProductDeleter implements ProductDeleterInterface
 
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void
     {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            return;
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         $this->deleteProducts(
             [$productDeletedTransfer],

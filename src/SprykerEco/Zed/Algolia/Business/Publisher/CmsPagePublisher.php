@@ -24,10 +24,7 @@ class CmsPagePublisher implements CmsPagePublisherInterface
 
     public function publishCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer
     {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            return $this->createSuccessResponse();
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
         $cmsPageTransfer = $cmsPagePublishedTransfer->getCmsPage();
         $flattenedLocaleCmsPageDatum = $cmsPagePublishedTransfer->getFlattenedLocaleCmsPageDatum();
         if (!$cmsPageTransfer->getIsActive() || !$cmsPageTransfer->getIsSearchable()) {

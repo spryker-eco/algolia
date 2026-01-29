@@ -18,7 +18,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
 class SearchIndexResolver implements SearchIndexResolverInterface
@@ -64,17 +63,11 @@ class SearchIndexResolver implements SearchIndexResolverInterface
         return $this->createSearchIndexClientWithIndexName($searchRequestTransfer, $indexName);
     }
 
-    /**
-     * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     */
     protected function createSearchIndexClientWithIndexName(
         SearchRequestTransfer $searchRequestTransfer,
         string $indexName
     ): SearchIndexClientInterface {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            throw new AlgoliaConfigNotFoundException('Algolia configuration not found');
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
         $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer, true);
 
         return $this->searchIndexClientCreator->createSearchIndexApiClientForSearch($searchClient, (new IndexConfigurationTransfer())->setIndexName($indexName));

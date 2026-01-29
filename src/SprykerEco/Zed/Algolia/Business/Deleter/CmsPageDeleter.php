@@ -38,7 +38,7 @@ class CmsPageDeleter implements CmsPageDeleterInterface
             return;
         }
 
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
         $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
 
         $algoliaIndicesCollectionTransfer = $this->indexNameResolver->filterIndicesByIndexNameParts(

@@ -21,7 +21,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SuggestionsSearchResponseBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
@@ -48,10 +47,7 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
             'categories' => [],
         ];
 
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            throw new AlgoliaConfigNotFoundException('Algolia configuration not found.');
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer, true);
 

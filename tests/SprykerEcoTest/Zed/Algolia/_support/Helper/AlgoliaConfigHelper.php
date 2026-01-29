@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -32,7 +32,7 @@ class AlgoliaConfigHelper extends Module
             AlgoliaConfigTransfer::APPLICATION_ID => 'application_id',
             AlgoliaConfigTransfer::ADMIN_API_KEY => 'admin_api_key',
             AlgoliaConfigTransfer::SEARCH_ONLY_API_KEY => 'search_only_api_key',
-            AlgoliaConfigTransfer::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS => true
+            AlgoliaConfigTransfer::IS_SEARCH_IN_FRONTEND_ENABLED_FOR_PRODUCTS => true,
         ]);
     }
 }

@@ -341,7 +341,7 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * Specification:
      * - Returns the tenant identifier for Algolia.
-     * - Used to namespace indices when Application ID is used by multiple Spryker instances.
+     * - Index prefix when Application ID is used by multiple Spryker instances.
      * - Value is retrieved from shared configuration.
      *
      * @api

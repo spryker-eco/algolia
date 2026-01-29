@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -17,14 +17,13 @@ use Codeception\Actor;
 use Codeception\Stub\Expected;
 use Codeception\Test\Feature\Stub;
 use Exception;
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 use Psr\Http\Message\ResponseInterface;
-use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
@@ -384,7 +383,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchIndexMock;
     }
 
-
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface
      */
@@ -392,7 +390,6 @@ class AlgoliaBusinessTester extends Actor
     {
         return $this->makeEmpty(SuggestionIndexHandlerInterface::class);
     }
-
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\Response\AbstractResponse
@@ -630,7 +627,7 @@ class AlgoliaBusinessTester extends Actor
     {
         // Create a real instance of AlgoliaConfig and mock it on the factory
         // to prevent BundleConfigNotFoundException when using mocked factories
-        $config = new \SprykerEco\Zed\Algolia\AlgoliaConfig();
+        $config = new AlgoliaConfig();
         $this->mockFactoryMethod('getConfig', $config);
     }
 }

@@ -11,5 +11,5 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 interface AlgoliaConfigResolverInterface
 {
-    public function findConfig(): ?AlgoliaConfigTransfer;
+    public function getConfig(): AlgoliaConfigTransfer;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2022-present Spryker Systems GmbH. All rights reserved.
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
@@ -53,7 +53,7 @@ class ProductIndexerTest extends Unit
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
                 ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_DE']],
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_US']],
@@ -64,7 +64,7 @@ class ProductIndexerTest extends Unit
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
                 ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_CH']],
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_GB']],
@@ -87,7 +87,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            self::STORE_REFERENCE_TEST,
+            static::STORE_REFERENCE_TEST,
         );
 
         // Assert
@@ -103,7 +103,7 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductAnotherLocale), $indicesString);
-        $this->assertStringContainsString(self::STORE_REFERENCE_TEST, $indicesString);
+        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
     }
 
     /**
@@ -116,14 +116,14 @@ class ProductIndexerTest extends Unit
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
         $anotherProductConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
 
@@ -144,7 +144,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            self::STORE_REFERENCE_TEST,
+            static::STORE_REFERENCE_TEST,
         );
 
         // Assert
@@ -160,7 +160,7 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductAnotherLocale), $indicesString);
-        $this->assertStringContainsString(self::STORE_REFERENCE_TEST, $indicesString);
+        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
     }
 
     /**
@@ -173,14 +173,14 @@ class ProductIndexerTest extends Unit
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
         $anotherProductConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => self::STORE_REFERENCE_TEST_WRONG,
+                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST_WRONG,
             ],
         );
 
@@ -194,7 +194,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            self::STORE_REFERENCE_TEST,
+            static::STORE_REFERENCE_TEST,
         );
 
         // Assert
@@ -206,8 +206,8 @@ class ProductIndexerTest extends Unit
 
         $indicesString = implode(',', $indices);
 
-        $this->assertStringContainsString(self::STORE_REFERENCE_TEST, $indicesString);
-        $this->assertStringNotContainsString(self::STORE_REFERENCE_TEST_WRONG, $indicesString);
+        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
+        $this->assertStringNotContainsString(static::STORE_REFERENCE_TEST_WRONG, $indicesString);
     }
 
     /**

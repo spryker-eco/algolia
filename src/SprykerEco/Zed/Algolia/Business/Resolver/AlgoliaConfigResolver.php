@@ -17,10 +17,7 @@ class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
     {
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaConfigTransfer|null
-     */
-    public function findConfig(): ?AlgoliaConfigTransfer
+    public function getConfig(): AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigTransfer())
             ->setIsActive($this->algoliaConfig->getIsActive())

@@ -41,10 +41,7 @@ class ProductUpdater implements ProductUpdaterInterface
     public function updateProducts(ArrayObject $productConcreteTransfers): AlgoliaResponseTransfer
     {
         $filteredProductsConcrete = $this->productDataFilterApplier->apply($productConcreteTransfers);
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            return (new AlgoliaResponseTransfer())->setIsSuccessful(true);
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         $notApplicableProductsConcrete = $this->productConcreteFilter->filterNonIndexableProductsConcrete(
             $filteredProductsConcrete,

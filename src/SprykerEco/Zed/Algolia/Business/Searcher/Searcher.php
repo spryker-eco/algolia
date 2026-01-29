@@ -18,7 +18,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException;
 use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
@@ -48,15 +47,9 @@ class Searcher implements SearcherInterface
     ) {
     }
 
-    /**
-     * @throws \SprykerEco\Zed\Algolia\Business\Api\Exception\AlgoliaConfigNotFoundException
-     */
     public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer
     {
-        $algoliaConfigTransfer = $this->algoliaConfigResolver->findConfig();
-        if ($algoliaConfigTransfer === null) {
-            throw new AlgoliaConfigNotFoundException('Algolia configuration not found');
-        }
+        $algoliaConfigTransfer = $this->algoliaConfigResolver->getConfig();
 
         if ($searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value) {
             return $this->searchProduct($searchRequestTransfer, $algoliaConfigTransfer);
