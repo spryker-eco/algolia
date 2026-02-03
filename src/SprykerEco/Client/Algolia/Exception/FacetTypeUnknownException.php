@@ -5,10 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Zed\Algolia\Business\Api\Exception;
+namespace SprykerEco\Client\Algolia\Exception;
 
 use Exception;
 
-class AlgoliaConfigNotFoundException extends Exception
+class FacetTypeUnknownException extends Exception
 {
 }

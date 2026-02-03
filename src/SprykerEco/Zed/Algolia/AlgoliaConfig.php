@@ -20,6 +20,7 @@ use Spryker\Zed\ProductCategory\Dependency\ProductCategoryEvents;
 use Spryker\Zed\ProductImage\Dependency\ProductImageEvents;
 use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
 /**
@@ -244,7 +245,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getQuerySuggestionsSuffix(): string
     {
-        return 'query_suggestions';
+        return SharedAlgoliaConfig::QUERY_SUGGESTIONS_SUFFIX;
     }
 
     /**

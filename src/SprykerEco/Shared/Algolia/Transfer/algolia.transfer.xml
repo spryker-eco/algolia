@@ -11,6 +11,7 @@
         <property name="searchOnlyApiKey" type="string"/>
         <property name="isSearchInFrontendEnabledForProducts" type="bool" description="if true, Algolia search will be enabled for products"/>
         <property name="isProductPriceSynced" type="bool"/>
+        <property name="isPersonalizationEnabled" type="bool"/>
         <property name="enabledFeatures" type="string[]" singular="enabledFeature" description="list of Algolia features supported by provided applicationId (auto-populated values)"/>
         <property name="isSearchInFrontendEnabledForCmsPages" type="bool" description="if true, Algolia search will be enabled for CMS pages"/>
         <property name="isIndexMappingEnabled" type="bool" description="if true, Algolia index mapping will be enabled"/>
@@ -50,6 +51,10 @@
         <property name="searchResults" type="array"/>
         <property name="isSuccessful" type="bool"/>
         <property name="responseMessage" type="string"/>
+    </transfer>
+
+    <transfer name="SearchQuery">
+        <property name="store" type="string" strict="true"/>
     </transfer>
 
     <transfer name="ProductConcrete">
