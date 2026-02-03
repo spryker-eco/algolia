@@ -7,11 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\IndexResolver;
 
-use ArrayObject;
-use Exception;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
-use Generated\Shared\Transfer\FacetCollectionTransfer;
-use Generated\Shared\Transfer\SortingEntryTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 
@@ -97,24 +93,6 @@ class IndexNameResolver implements IndexNameResolverInterface
         return $filteredAlgoliaIndicesCollectionTransfer;
     }
 
-    public function getIndexReplicaNameForSorting(
-        string $indexName,
-        SortingEntryTransfer $sortingEntryTransfer,
-        FacetCollectionTransfer $facetCollectionTransfer
-    ): string {
-        $fieldKey = $sortingEntryTransfer->getField();
-
-        if ($fieldKey === AlgoliaConfig::FILTER_NAME_PRICE) {
-            $fieldKey = strtolower($this->algoliaConfig->getPriceFacetKey($facetCollectionTransfer));
-        }
-
-        if ($sortingEntryTransfer->getDirection() === 'asc') {
-            return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_ASC, $indexName, $fieldKey);
-        }
-
-        return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC, $indexName, $fieldKey);
-    }
-
     protected function createProductIndexFromTemplate(
         string $tenantIdentifier,
         string $storeName,
@@ -148,25 +126,5 @@ class IndexNameResolver implements IndexNameResolverInterface
             $indexName,
             $this->algoliaConfig->getQuerySuggestionsSuffix(),
         );
-    }
-
-    /**
-     * @param \ArrayObject<\Generated\Shared\Transfer\EntityToIndexMappingTransfer> $entityToIndexMappings
-     *
-     * @throws \Exception
-     */
-    public function resolveIndexNameByMapping(string $sourceIdentifier, string $storeName, string $locale, ArrayObject $entityToIndexMappings): string
-    {
-        foreach ($entityToIndexMappings as $entityToIndexMappingTransfer) {
-            if (
-                $entityToIndexMappingTransfer->getSourceIdentifier() === $sourceIdentifier
-                && in_array(strtolower($entityToIndexMappingTransfer->getStore()), [strtolower($storeName), '*'])
-                && array_intersect($entityToIndexMappingTransfer->getLocales(), [$locale, '*'])
-            ) {
-                return $entityToIndexMappingTransfer->getIndexName();
-            }
-        }
-
-        throw new Exception(sprintf("Index mapping not found for '%s', store '%s' and locale '%s'.", $sourceIdentifier, $storeName, $locale));
     }
 }

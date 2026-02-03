@@ -44,7 +44,7 @@ class CmsPageSaver implements CmsPageSaverInterface
         $indexName = $indexData['indexName'];
         $locale = $indexData['locale'] ?? null;
 
-        $searchIndexClient = $this->searchIndexClientCreator->createSearchIndexApiClientForSearch(
+        $searchIndexClient = $this->searchIndexClientCreator->createSearchIndexApiClient(
             $searchClient,
             (new IndexConfigurationTransfer())
                 ->setAlgoliaConfig($algoliaConfigTransfer)

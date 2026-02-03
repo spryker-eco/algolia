@@ -9,8 +9,8 @@ namespace SprykerEco\Zed\Algolia\Business\Publisher;
 
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
+use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface;
 
 class CmsPagePublisher implements CmsPagePublisherInterface

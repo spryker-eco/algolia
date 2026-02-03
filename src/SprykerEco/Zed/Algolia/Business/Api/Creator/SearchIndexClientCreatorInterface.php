@@ -17,9 +17,4 @@ interface SearchIndexClientCreatorInterface
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer
     ): SearchIndexClientInterface;
-
-    public function createSearchIndexApiClientForSearch(
-        SearchClient $client,
-        IndexConfigurationTransfer $indexConfigurationTransfer
-    ): SearchIndexClientInterface;
 }

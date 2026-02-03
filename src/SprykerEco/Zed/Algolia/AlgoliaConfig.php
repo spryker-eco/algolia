@@ -10,7 +10,6 @@ declare(strict_types = 1);
 namespace SprykerEco\Zed\Algolia;
 
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
-use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Spryker\Shared\ProductBundleStorage\ProductBundleStorageConfig;
 use Spryker\Zed\Cms\Dependency\CmsEvents;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
@@ -28,20 +27,6 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
  */
 class AlgoliaConfig extends AbstractBundleConfig
 {
-    /**
-     * Used in Algolia API as UserAgent
-     *
-     * @var string
-     */
-    public const APP_VERSION = '3.0.0';
-
-    /**
-     * Used in Algolia API as UserAgent
-     *
-     * @var string
-     */
-    public const USER_AGENT_SEGMENT_NAME = 'spryker-integration';
-
     /**
      * @var string
      */
@@ -434,19 +419,6 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
-     * - Returns the mappings between entities and Algolia indices.
-     * - Used to determine which index to use for each entity type.
-     * - Value is retrieved from shared configuration.
-     *
-     * @api
-     */
-    public function getEntityToIndexMappings(): array
-    {
-        return $this->getSharedConfig()->getEntityToIndexMappings();
-    }
-
-    /**
-     * Specification:
      * - Returns the default chunk size for entity export operations.
      * - This value is used when no chunk size is specified in the console command.
      *
@@ -568,96 +540,6 @@ class AlgoliaConfig extends AbstractBundleConfig
             ProductEvents::PRODUCT_CONCRETE_UNPUBLISH,
             ProductEvents::ENTITY_SPY_PRODUCT_DELETE,
         ];
-    }
-
-    /**
-     * Specification:
-     * - Transforms a field key into the corresponding Algolia facet field key.
-     * - Handles special cases like price facets with currency and pricing mode.
-     * - Adds 'attributes.' prefix for attribute fields.
-     * - Transforms search_metadata fields to use dot notation.
-     * - Returns the field key as-is for non-attribute fields.
-     *
-     * @api
-     */
-    public function getAlgoliaFacetFieldKey(string $fieldKey, FacetCollectionTransfer $facetCollectionTransfer): string
-    {
-        if ($fieldKey === static::FILTER_NAME_PRICE) {
-            return $this->getPriceFacetKey($facetCollectionTransfer);
-        }
-
-        if (in_array($fieldKey, static::NON_ATTRIBUTE_FIELDS, true)) {
-            return $fieldKey;
-        }
-
-        if (str_starts_with($fieldKey, static::SEARCH_METADATA_PREFIX_DOT)) {
-            return $fieldKey;
-        }
-
-        if (str_starts_with($fieldKey, static::SEARCH_METADATA_PREFIX_UNDERSCORE)) {
-            return $this->transformSearchMetadataFacetKey($fieldKey);
-        }
-
-        return static::ATTRIBUTE_PREFIX . $fieldKey;
-    }
-
-    protected function transformSearchMetadataFacetKey(string $fieldKey): string
-    {
-        // This is needed to support SCOS request format coming from different applications
-        return static::SEARCH_METADATA_PREFIX_DOT . substr($fieldKey, strlen(static::SEARCH_METADATA_PREFIX_UNDERSCORE));
-    }
-
-    /**
-     * Specification:
-     * - Returns the price facet key based on currency and pricing mode.
-     * - Formats the key as 'prices.{currency}.{price_mode}' when currency and pricing mode are available.
-     * - Falls back to 'price' if currency or pricing mode facets are not present.
-     *
-     * @api
-     */
-    public function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
-    {
-        $facetsTransfers = $facetCollectionTransfer->getFacets();
-
-        if (
-            $facetsTransfers->offsetExists(static::FILTER_NAME_CURRENCY)
-            && $facetsTransfers->offsetExists(static::FILTER_NAME_PRICING_MODE)
-        ) {
-            $currency = $facetsTransfers->offsetGet(static::FILTER_NAME_CURRENCY)->getParameters()->getValues()[0];
-            $pricingMode = $facetsTransfers->offsetGet(static::FILTER_NAME_PRICING_MODE)->getParameters()->getValues()[0];
-
-            return sprintf(static::PRICE_FACET_KEY_TEMPLATE, strtolower($currency), static::PRICE_MODE_MAPPING[$pricingMode] ?? 'gross');
-        }
-
-        return static::FILTER_NAME_PRICE;
-    }
-
-    /**
-     * Specification:
-     * - Returns the list of field names that are restricted from being used as facets.
-     * - These fields cannot be used for filtering due to their data structure or purpose.
-     *
-     * @api
-     *
-     * @return array<string>
-     */
-    public function getRestrictedFacetKeys(): array
-    {
-        return static::RESTRICTED_TO_USE_AS_FACET_FIELD_NAMES;
-    }
-
-    /**
-     * Specification:
-     * - Returns the list of attributes that should be highlighted in search results.
-     * - Highlighted attributes show matching search terms in bold or with special formatting.
-     *
-     * @api
-     *
-     * @return array<string>
-     */
-    public function getAttributesToHighlight(): array
-    {
-        return static::ATTRIBUTES_TO_HIGHLIGHT_FIELDS;
     }
 
     /**

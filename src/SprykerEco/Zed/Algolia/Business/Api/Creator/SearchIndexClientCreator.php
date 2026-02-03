@@ -31,13 +31,4 @@ class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
 
         return new SearchIndexClient($index);
     }
-
-    public function createSearchIndexApiClientForSearch(
-        SearchClient $client,
-        IndexConfigurationTransfer $indexConfigurationTransfer
-    ): SearchIndexClientInterface {
-        $index = $client->initIndex($indexConfigurationTransfer->getIndexNameOrFail());
-
-        return new SearchIndexClient($index);
-    }
 }

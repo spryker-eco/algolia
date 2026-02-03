@@ -11,11 +11,11 @@ use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\ProductDeletedTransfer;
+use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
 
 class ProductUpdater implements ProductUpdaterInterface

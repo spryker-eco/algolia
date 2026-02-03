@@ -7,10 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\IndexResolver;
 
-use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
-use Generated\Shared\Transfer\FacetCollectionTransfer;
-use Generated\Shared\Transfer\SortingEntryTransfer;
 
 interface IndexNameResolverInterface
 {
@@ -19,8 +16,6 @@ interface IndexNameResolverInterface
         string $storeName,
         string $locale
     ): string;
-
-    public function resolveProductsSuggestionIndexNameFromProductIndexName(string $indexName): string;
 
     public function resolveCmsPageIndexName(
         string $locale,
@@ -33,17 +28,4 @@ interface IndexNameResolverInterface
         ?string $entityName = null,
         ?string $storeName = null
     ): AlgoliaIndicesCollectionTransfer;
-
-    public function getIndexReplicaNameForSorting(
-        string $indexName,
-        SortingEntryTransfer $sortingEntryTransfer,
-        FacetCollectionTransfer $facetCollectionTransfer
-    ): string;
-
-    /**
-     * @param \ArrayObject<\Generated\Shared\Transfer\EntityToIndexMappingTransfer> $entityToIndexMappings
-     *
-     * @throws \Exception
-     */
-    public function resolveIndexNameByMapping(string $sourceIdentifier, string $storeName, string $locale, ArrayObject $entityToIndexMappings): string;
 }

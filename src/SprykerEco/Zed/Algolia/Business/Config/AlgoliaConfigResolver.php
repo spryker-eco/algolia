@@ -5,9 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Zed\Algolia\Business\Resolver;
+namespace SprykerEco\Zed\Algolia\Business\Config;
 
-use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 
@@ -25,10 +24,6 @@ class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
             ->setApplicationId($this->algoliaConfig->getApplicationId())
             ->setAdminApiKey($this->algoliaConfig->getAdminApiKey())
             ->setSearchOnlyApiKey($this->algoliaConfig->getSearchOnlyApiKey())
-            ->setIsProductPriceSynced($this->algoliaConfig->getIsProductPriceSynced())
-            ->setIsSearchInFrontendEnabledForProducts($this->algoliaConfig->isSearchInFrontendEnabledForProducts())
-            ->setIsSearchInFrontendEnabledForCmsPages($this->algoliaConfig->isSearchInFrontendEnabledForCmsPages())
-            ->setIsIndexMappingEnabled($this->algoliaConfig->getEntityToIndexMappings() !== [])
-            ->setEntityToIndexMappings(new ArrayObject($this->algoliaConfig->getEntityToIndexMappings()));
+            ->setIsProductPriceSynced($this->algoliaConfig->getIsProductPriceSynced());
     }
 }

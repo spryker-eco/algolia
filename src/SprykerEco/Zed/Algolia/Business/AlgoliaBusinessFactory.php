@@ -22,31 +22,10 @@ use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapper;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReader;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReaderInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilder;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SearchResponseBuilderInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SuggestionsSearchResponseBuilder;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Builder\SuggestionsSearchResponseBuilderInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\CategoryExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\CmsPageExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\CompletionsExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\FacetsExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\FacetsExtractorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\PaginationExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\PaginationExtractorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\ProductsExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SearchResponseExtractorInterface;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SuggestionsCmsPageExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SuggestionsProductsExtractor;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Expander\CmsPageSearchParametersExpander;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Expander\SearchParametersExpanderInterface;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverter;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverterInterface;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverter;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolver;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilder;
 use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilderInterface;
+use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolver;
+use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
@@ -70,24 +49,16 @@ use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexer;
 use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisher;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisherInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolver;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaver;
 use SprykerEco\Zed\Algolia\Business\Saver\CmsPageSaverInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaver;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
-use SprykerEco\Zed\Algolia\Business\Searcher\Searcher;
-use SprykerEco\Zed\Algolia\Business\Searcher\SearcherInterface;
-use SprykerEco\Zed\Algolia\Business\Searcher\SuggestionsSearcher;
-use SprykerEco\Zed\Algolia\Business\Searcher\SuggestionsSearcherInterface;
 use SprykerEco\Zed\Algolia\Business\Updater\ProductUpdater;
 use SprykerEco\Zed\Algolia\Business\Updater\ProductUpdaterInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\AdminApiKeyValidator;
@@ -96,8 +67,6 @@ use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiKeyValidatorInterface;
 use SprykerEco\Zed\Algolia\Business\Validator\EnabledFeaturesValidator;
 use SprykerEco\Zed\Algolia\Business\Validator\SearchOnlyApiKeyValidator;
-use Symfony\Component\Cache\Adapter\AbstractAdapter;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
  * @method \SprykerEco\Zed\Algolia\AlgoliaConfig getConfig()
@@ -240,128 +209,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         );
     }
 
-    public function createSearcher(): SearcherInterface
-    {
-        return new Searcher(
-            $this->createSearchIndexResolver(),
-            $this->createSearchParametersResolver(),
-            $this->createSearchResponseBuilder(),
-            $this->createSearchClientCreator(),
-            $this->createAlgoliaConfigResolver(),
-        );
-    }
-
-    public function createSuggestionsSearcher(): SuggestionsSearcherInterface
-    {
-        return new SuggestionsSearcher(
-            $this->createIndexNameResolver(),
-            $this->createSearchClientCreator(),
-            $this->createSuggestionsSearchResponseBuilder(),
-            $this->getConfig(),
-            $this->createAlgoliaConfigResolver(),
-        );
-    }
-
-    public function createSearchIndexResolver(): SearchIndexResolverInterface
-    {
-        return new SearchIndexResolver(
-            $this->createIndexNameResolver(),
-            $this->createSearchClientCreator(),
-            $this->createSearchIndexClientCreator(),
-            $this->createAlgoliaConfigResolver(),
-        );
-    }
-
-    public function createSearchParametersResolver(): SearchParametersResolverInterface
-    {
-        return new SearchParametersResolver(
-            $this->createFilterConverter(),
-            $this->createPaginationConverter(),
-            [
-                $this->createCmsPageSearchParametersExpander(),
-            ],
-        );
-    }
-
-    public function createFilterConverter(): FilterConverterInterface
-    {
-        return new FilterConverter(
-            $this->getConfig(),
-            $this->createAlgoliaConfigResolver(),
-            $this->createSearchIndexResolver(),
-            $this->createCache(),
-        );
-    }
-
-    public function createCache(): AbstractAdapter
-    {
-        return new FilesystemAdapter();
-    }
-
-    public function createPaginationConverter(): PaginationConverterInterface
-    {
-        return new PaginationConverter();
-    }
-
-    public function createSearchResponseBuilder(): SearchResponseBuilderInterface
-    {
-        return new SearchResponseBuilder(
-            [
-                $this->createProductsExtractor(),
-                $this->createCmsPageExtractor(),
-            ],
-            $this->createPaginationExtractor(),
-            $this->createFacetsExtractor(),
-        );
-    }
-
-    public function createSuggestionsSearchResponseBuilder(): SuggestionsSearchResponseBuilderInterface
-    {
-        return new SuggestionsSearchResponseBuilder(
-            $this->createCompletionsExtractor(),
-            [
-                $this->createSuggestionProductsExtractor(),
-                $this->createSuggestionsCmsPageExtractor(),
-            ],
-            $this->createCategoryExtractor(),
-        );
-    }
-
-    public function createProductsExtractor(): SearchResponseExtractorInterface
-    {
-        return new ProductsExtractor();
-    }
-
-    public function createSuggestionProductsExtractor(): SearchResponseExtractorInterface
-    {
-        return new SuggestionsProductsExtractor($this->getConfig());
-    }
-
-    public function createSuggestionsCmsPageExtractor(): SearchResponseExtractorInterface
-    {
-        return new SuggestionsCmsPageExtractor();
-    }
-
-    public function createPaginationExtractor(): PaginationExtractorInterface
-    {
-        return new PaginationExtractor();
-    }
-
-    public function createCompletionsExtractor(): SearchResponseExtractorInterface
-    {
-        return new CompletionsExtractor();
-    }
-
-    public function createCategoryExtractor(): SearchResponseExtractorInterface
-    {
-        return new CategoryExtractor();
-    }
-
-    public function createFacetsExtractor(): FacetsExtractorInterface
-    {
-        return new FacetsExtractor($this->getConfig(), $this->createAlgoliaConfigResolver());
-    }
-
     public function createProductDataFilterApplier(): ProductDataFilterApplierInterface
     {
         return new ProductDataFilterApplier(
@@ -429,16 +276,6 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         return new CmsPagePublishedTransferBuilder(
             $this->getCmsFacade(),
         );
-    }
-
-    public function createCmsPageExtractor(): SearchResponseExtractorInterface
-    {
-        return new CmsPageExtractor();
-    }
-
-    public function createCmsPageSearchParametersExpander(): SearchParametersExpanderInterface
-    {
-        return new CmsPageSearchParametersExpander($this->getConfig());
     }
 
     public function createAlgoliaEntityExporter(): AlgoliaEntityExporterInterface

@@ -13,8 +13,8 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReaderInterface;
+use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
-use SprykerEco\Zed\Algolia\Business\Resolver\AlgoliaConfigResolverInterface;
 
 class CmsPageDeleter implements CmsPageDeleterInterface
 {
