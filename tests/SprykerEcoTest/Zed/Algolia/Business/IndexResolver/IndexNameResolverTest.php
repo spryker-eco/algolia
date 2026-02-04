@@ -60,8 +60,7 @@ class IndexNameResolverTest extends Unit
     public function testResolveProductIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         // Act
         $result = $indexNameResolver->resolveProductIndexName(
@@ -85,12 +84,7 @@ class IndexNameResolverTest extends Unit
     public function testResolveSuggestionIndexNameFromProductIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $algoliaConfig
-            ->method('getQuerySuggestionsSuffix')
-            ->willReturn('suggestions');
-
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         // Act
         $result = $indexNameResolver->resolveProductsSuggestionIndexNameFromProductIndexName(static::TEST_INDEX_NAME);
@@ -108,8 +102,7 @@ class IndexNameResolverTest extends Unit
     public function testResolveCmsPageIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         // Act
         $result = $indexNameResolver->resolveCmsPageIndexName(
@@ -131,8 +124,7 @@ class IndexNameResolverTest extends Unit
     public function testFilterIndicesByIndexNamePartsFiltersCorrectly(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $index1 = (new AlgoliaIndexTransfer())->setName('test-tenant-product-de-de_de');
         $index2 = (new AlgoliaIndexTransfer())->setName('other-tenant-product-de-de_de');
@@ -164,8 +156,7 @@ class IndexNameResolverTest extends Unit
     public function testFilterIndicesByIndexNamePartsWithEntityNameFilter(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $index1 = (new AlgoliaIndexTransfer())->setName('test-tenant-product-de-de_de');
         $index2 = (new AlgoliaIndexTransfer())->setName('test-tenant-cms-page-de_de');
@@ -195,8 +186,7 @@ class IndexNameResolverTest extends Unit
     public function testFilterIndicesByIndexNamePartsWithStoreNameFilter(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $index1 = (new AlgoliaIndexTransfer())->setName('test-tenant-product-de-de_de');
         $index2 = (new AlgoliaIndexTransfer())->setName('test-tenant-product-us-en_us');
@@ -227,8 +217,7 @@ class IndexNameResolverTest extends Unit
     public function testGetIndexReplicaNameForSortingWithAscendingDirection(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $sortingEntryTransfer = (new SortingEntryTransfer())
             ->setField('name')
@@ -256,8 +245,7 @@ class IndexNameResolverTest extends Unit
     public function testGetIndexReplicaNameForSortingWithDescendingDirection(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $sortingEntryTransfer = (new SortingEntryTransfer())
             ->setField('name')
@@ -285,12 +273,7 @@ class IndexNameResolverTest extends Unit
     public function testGetIndexReplicaNameForSortingWithPriceField(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $algoliaConfig
-            ->method('getPriceFacetKey')
-            ->willReturn('price_eur');
-
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $sortingEntryTransfer = (new SortingEntryTransfer())
             ->setField(AlgoliaConfig::FILTER_NAME_PRICE)
@@ -318,8 +301,7 @@ class IndexNameResolverTest extends Unit
     public function testFilterIndicesByIndexNamePartsReturnsEmptyWhenNoMatches(): void
     {
         // Arrange
-        $algoliaConfig = $this->createMock(AlgoliaConfig::class);
-        $indexNameResolver = new IndexNameResolver($algoliaConfig);
+        $indexNameResolver = new IndexNameResolver();
 
         $index1 = (new AlgoliaIndexTransfer())->setName('other-tenant-product-de-de_de');
         $index2 = (new AlgoliaIndexTransfer())->setName('another-tenant-cms-page-de_de');

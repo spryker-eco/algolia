@@ -7,14 +7,13 @@
 
 declare(strict_types=1);
 
-namespace SprykerEco\Zed\Algolia\Business\Indexer;
+namespace SprykerEco\Zed\Algolia\Business\Mapper;
 
 use Exception;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageTransfer;
 use Spryker\Shared\Log\LoggerTrait;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
 
 class CmsPageIndexer implements CmsPageIndexerInterface
 {

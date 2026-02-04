@@ -23,7 +23,7 @@ class SearchClientCreator implements SearchClientCreatorInterface
 
     public function createSearchClientWithCredentials(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient
     {
-        UserAgent::addCustomUserAgent(AlgoliaConfig::USER_AGENT_SEGMENT_NAME, AlgoliaConfig::APP_VERSION);
+        UserAgent::addCustomUserAgent(AlgoliaConfig::USER_AGENT_SEGMENT_NAME, AlgoliaConfig::VERSION);
 
         return SearchClient::create(
             $algoliaCredentialsTransfer->getApplicationId(),

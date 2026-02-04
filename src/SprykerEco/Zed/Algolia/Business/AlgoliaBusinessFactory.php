@@ -43,14 +43,14 @@ use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplier;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
-use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexer;
-use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexerInterface;
-use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexer;
-use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageIndexer;
+use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
+use SprykerEco\Zed\Algolia\Business\Mapper\ProductIndexer;
+use SprykerEco\Zed\Algolia\Business\Mapper\ProductIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapper;
 use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 use SprykerEco\Zed\Algolia\Business\Publisher\CmsPagePublisher;
@@ -143,12 +143,12 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
 
     public function createSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
-        return new SuggestionIndexHandler($this->getConfig());
+        return new SuggestionIndexHandler();
     }
 
     public function createIndexNameResolver(): IndexNameResolverInterface
     {
-        return new IndexNameResolver($this->getConfig());
+        return new IndexNameResolver();
     }
 
     public function createSearchIndexClientCreator(): SearchIndexClientCreatorInterface

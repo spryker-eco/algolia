@@ -73,7 +73,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         }
 
         // Act
-        $suggestionIndexHandler->createSuggestionsIndex('test', $searchClientMock);
+        $suggestionIndexHandler->createProductSuggestionsIndex('test', $searchClientMock);
     }
 
     /**
@@ -115,7 +115,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         }
 
         // Act
-        $suggestionIndexHandler->createSuggestionsIndex('test', $searchClientMock);
+        $suggestionIndexHandler->createProductSuggestionsIndex('test', $searchClientMock);
     }
 
     /**
@@ -154,44 +154,6 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
 
         // Act
         $suggestionIndexHandler->getAllConfigurations($searchClientMock);
-    }
-
-    /**
-     * @dataProvider getExceptionDataProvider
-     *
-     * @param \Exception $exception
-     * @param bool $isRegionException
-     * @param int $methodInvocationNumber
-     *
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
-     */
-    public function testDeleteConfigurationWorksProperlyWithExceptions(
-        Exception $exception,
-        bool $isRegionException,
-        int $methodInvocationNumber
-    ): void {
-        // Arrange
-        $suggestionIndexHandler = $this->tester->getFactory()->createSuggestionIndexHandler();
-        $searchClientMock = $this->getSearchClientMock();
-        $searchClientMock->expects($this->exactly($methodInvocationNumber))
-            ->method('custom')
-            ->willReturnCallback(function ($method, $url, $options, $hosts) use ($exception, $isRegionException) {
-                if (!$isRegionException || $hosts[0] !== self::QUERY_SUGGESTION_BASE_URL_EU) {
-                    throw $exception;
-                }
-
-                return [];
-            });
-
-        // Assert
-        if (!$isRegionException) {
-            $this->expectExceptionObject($exception);
-        }
-
-        // Act
-        $suggestionIndexHandler->deleteConfiguration('test', $searchClientMock);
     }
 
     /**

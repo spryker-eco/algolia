@@ -13,7 +13,7 @@ use Spryker\Client\Kernel\AbstractPlugin;
 use Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface;
 use Spryker\Client\SearchExtension\Dependency\Plugin\SearchAdapterPluginInterface;
 use Spryker\Client\SearchExtension\Dependency\Plugin\SearchTypeIdentifierInterface;
-use SprykerEco\Client\Algolia\AlgoliaConfig;
+use Spryker\Shared\SearchHttp\SearchHttpConfig;
 
 /**
  * @method \SprykerEco\Client\Algolia\AlgoliaClientInterface getClient()
@@ -56,12 +56,12 @@ class AlgoliaSearchAdapterPlugin extends AbstractPlugin implements SearchAdapter
      */
     public function search(QueryInterface $searchQuery, array $resultFormatters = [], array $requestParameters = [])
     {
-        $searchResponseFormatter = $this->getFactory()->createSearchResponseFormatter();
         $searchRequestFormatter = $this->getFactory()->createSearchRequestFormatter();
+        $searchResponseFormatter = $this->getFactory()->createSearchResponseFormatter();
 
         if (
             $searchQuery instanceof SearchTypeIdentifierInterface &&
-            in_array($searchQuery->getSearchType(), [AlgoliaConfig::TYPE_SUGGESTION_SEARCH_HTTP, AlgoliaConfig::TYPE_PRODUCT_CONCRETE_SEARCH_HTTP])
+            in_array($searchQuery->getSearchType(), [SearchHttpConfig::TYPE_SUGGESTION_SEARCH_HTTP, SearchHttpConfig::TYPE_PRODUCT_CONCRETE_SEARCH_HTTP])
         ) {
             $searchRequest = $searchRequestFormatter->formatSuggestionRequest($searchQuery, $requestParameters);
             $suggestionsSearchResponseTransfer = $this->getClient()->searchSuggestions($searchRequest);

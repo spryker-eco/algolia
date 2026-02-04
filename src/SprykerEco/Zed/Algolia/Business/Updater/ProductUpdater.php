@@ -15,7 +15,7 @@ use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
-use SprykerEco\Zed\Algolia\Business\Indexer\ProductIndexerInterface;
+use SprykerEco\Zed\Algolia\Business\Mapper\ProductIndexerInterface;
 use SprykerEco\Zed\Algolia\Business\Saver\ProductSaverInterface;
 
 class ProductUpdater implements ProductUpdaterInterface

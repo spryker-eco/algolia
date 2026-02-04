@@ -21,6 +21,26 @@ class IndexConfigurator implements IndexConfiguratorInterface
     /**
      * @var string
      */
+    protected const ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
+
+    /**
+     * @var string
+     */
+    protected const ATTRIBUTE_NAME_RATING = 'rating';
+
+    /**
+     * @var string
+     */
+    protected const ATTRIBUTE_NAME_NAME = 'name';
+
+    /**
+     * @var string
+     */
+    protected const ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
+
+    /**
+     * @var string
+     */
     protected const ATTRIBUTE_NAME_PRICES_EUR_GROSS = 'prices.eur.gross';
 
     /**
@@ -50,7 +70,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
         $indexResponse->wait();
 
         // Create settings for existing indexes
-        $indexResponse = $index->setSettings($this->getSettings($locale, $algoliaConfigTransfer), $this->getRequestOptions());
+        $indexResponse = $index->setSettings($this->getSettings($locale), [
+            'forwardToReplicas' => true,
+        ]);
 
         // replica configuration can be queued for later execution
         $this->configureReplicasRankingAttributes(
@@ -60,13 +82,13 @@ class IndexConfigurator implements IndexConfiguratorInterface
 
         $indexResponse->wait();
 
-        $this->suggestionIndexHandler->createSuggestionsIndex($index->getIndexName(), $searchClient);
+        $this->suggestionIndexHandler->createProductSuggestionsIndex($index->getIndexName(), $searchClient);
     }
 
     /**
      * @return array<string, mixed>
      */
-    public function getSettings(string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    public function getSettings(string $locale): array
     {
         $indexQueryLanguages = [$this->extractLanguageFromLocale($locale)];
 
@@ -74,13 +96,13 @@ class IndexConfigurator implements IndexConfiguratorInterface
             'renderingContent' => [
                 'facetOrdering' => [
                     'facets' => [
-                        'order' => $this->algoliaConfig->getFilterableNameAttributes($algoliaConfigTransfer),
+                        'order' => $this->getFilterableNameAttributes(),
                     ],
                 ],
             ],
             'searchableAttributes' => $this->algoliaConfig->getSearchableAttributes(),
-            'attributesForFaceting' => $this->algoliaConfig->getFilterableAttributes($algoliaConfigTransfer),
-            'attributeForDistinct' => AlgoliaConfig::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
+            'attributesForFaceting' => $this->algoliaConfig->getFilterableAttributes(),
+            'attributeForDistinct' => static::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
             'distinct' => true,
             'indexLanguages' => $indexQueryLanguages,
             'queryLanguages' => $indexQueryLanguages,
@@ -88,13 +110,21 @@ class IndexConfigurator implements IndexConfiguratorInterface
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
-    public function getRequestOptions(): array
+    protected function getFilterableNameAttributes(): array
     {
-        return [
-            'forwardToReplicas' => true,
-        ];
+        return array_values(array_filter(array_map(
+            function (string $attribute): string {
+                if (in_array($attribute, $this->algoliaConfig->getNonDisplayAttributes(), true)) {
+                    return '';
+                }
+                preg_match('/\((?<attr>[^()]+)\)/', $attribute, $matches);
+
+                return $matches['attr'] ?? '';
+            },
+            $this->algoliaConfig->getFilterableAttributes(),
+        )));
     }
 
     /**
@@ -123,20 +153,20 @@ class IndexConfigurator implements IndexConfiguratorInterface
     protected function getReplicaNamesWithRankingAttributes(SearchIndex $index, AlgoliaConfigTransfer $algoliaConfigTransfer): array
     {
         $replicaNamesWithRankingAttributes = [
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), AlgoliaConfig::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeDesc(AlgoliaConfig::ATTRIBUTE_NAME_RATING),
+            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
+                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_RATING),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), AlgoliaConfig::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeAsc(AlgoliaConfig::ATTRIBUTE_NAME_RATING),
+            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
+                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_RATING),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), AlgoliaConfig::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeDesc(AlgoliaConfig::ATTRIBUTE_NAME_ABSTRACT_NAME),
+            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
+                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), AlgoliaConfig::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeAsc(AlgoliaConfig::ATTRIBUTE_NAME_ABSTRACT_NAME),
+            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
+                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
                 ...$this->getDefaultRankingOrder(),
             ],
         ];
@@ -197,12 +227,12 @@ class IndexConfigurator implements IndexConfiguratorInterface
 
     protected function getReplicaNameAttributeDesc(string $indexName, string $attributeName): string
     {
-        return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC, $indexName, $attributeName);
+        return sprintf('%s-desc-%s', $indexName, $attributeName);
     }
 
     protected function getReplicaNameAttributeAsc(string $indexName, string $attributeName): string
     {
-        return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_ASC, $indexName, $attributeName);
+        return sprintf('%s-asc-%s', $indexName, $attributeName);
     }
 
     protected function getRankingByAttributeDesc(string $attributeName): string

@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace SprykerEco\Zed\Algolia;
 
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Spryker\Shared\ProductBundleStorage\ProductBundleStorageConfig;
 use Spryker\Zed\Cms\Dependency\CmsEvents;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
@@ -19,7 +18,6 @@ use Spryker\Zed\ProductCategory\Dependency\ProductCategoryEvents;
 use Spryker\Zed\ProductImage\Dependency\ProductImageEvents;
 use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
-use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
 /**
@@ -31,286 +29,6 @@ class AlgoliaConfig extends AbstractBundleConfig
      * @var string
      */
     public const FEATURE_PERSONALIZATION = 'personalization';
-
-    /**
-     * @var string
-     */
-    public const ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC = '%s-desc-%s';
-
-    /**
-     * @var string
-     */
-    public const ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_ASC = '%s-asc-%s';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_DESCRIPTION = 'description';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_KEYWORDS = 'keywords';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_LABEL = 'label';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_BRAND = 'attributes.brand';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_COLOR = 'attributes.color';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_CATEGORY = 'category';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_SKU = 'sku';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_MERCHANT_NAME = 'merchant_name';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_PRICES = 'prices';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_RATING = 'rating';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_NAME = 'name';
-
-    /**
-     * @var string
-     */
-    public const ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_PRODUCT_ABSTRACT_SKU = self::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_NAME = self::ATTRIBUTE_NAME_NAME;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_SKU = self::ATTRIBUTE_NAME_SKU;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_DESCRIPTION = self::ATTRIBUTE_NAME_DESCRIPTION;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_KEYWORDS = self::ATTRIBUTE_NAME_KEYWORDS;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_ABSTRACT_NAME = self::ATTRIBUTE_NAME_ABSTRACT_NAME;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_MERCHANT_NAME = self::ATTRIBUTE_NAME_MERCHANT_NAME;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_CATEGORY = self::ATTRIBUTE_NAME_CATEGORY;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_LABEL = self::ATTRIBUTE_NAME_LABEL;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_PRICES = self::ATTRIBUTE_NAME_PRICES;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_RATING = self::ATTRIBUTE_NAME_RATING;
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_MERCHANT_REFERENCE = 'merchant_reference';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_ATTRIBUTES = 'attributes';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_HIERARCHICAL_CATEGORIES = 'hierarchical_categories';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_IMAGES = 'images';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_URL = 'url';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_SEARCH_METADATA = 'search_metadata';
-
-    /**
-     * @var string
-     */
-    public const INDEXED_PRODUCT_FIELD_NAME_CONCRETE_PRICES = 'concrete_prices';
-
-    /**
-     * @var string
-     */
-    public const FILTER_NAME_PRICE = 'price';
-
-    /**
-     * @var string
-     */
-    public const FILTER_NAME_CURRENCY = 'currency';
-
-    /**
-     * @var string
-     */
-    public const FILTER_NAME_PRICING_MODE = 'price_mode';
-
-    /**
-     * @var array<string, mixed>
-     */
-    public const CMS_PAGE_PARAMETERS = [
-        'attributesToSnippet' => ['content:50'],
-        'snippetEllipsisText' => '...',
-        'attributesToHighlight' => ['name'],
-    ];
-
-    /**
-     * Specification:
-     * - Returns the suffix used for query suggestions index names.
-     * - Used to distinguish query suggestion indices from main product indices.
-     *
-     * @api
-     */
-    public function getQuerySuggestionsSuffix(): string
-    {
-        return SharedAlgoliaConfig::QUERY_SUGGESTIONS_SUFFIX;
-    }
-
-    /**
-     * @var array<string>
-     */
-    public const NON_ATTRIBUTE_FIELDS = [
-        self::INDEXED_PRODUCT_FIELD_NAME_PRODUCT_ABSTRACT_SKU,
-        self::INDEXED_PRODUCT_FIELD_NAME_SKU,
-        self::INDEXED_PRODUCT_FIELD_NAME_NAME,
-        self::INDEXED_PRODUCT_FIELD_NAME_DESCRIPTION,
-        self::INDEXED_PRODUCT_FIELD_NAME_KEYWORDS,
-        self::INDEXED_PRODUCT_FIELD_NAME_ABSTRACT_NAME,
-        self::INDEXED_PRODUCT_FIELD_NAME_MERCHANT_NAME,
-        self::INDEXED_PRODUCT_FIELD_NAME_MERCHANT_REFERENCE,
-        self::INDEXED_PRODUCT_FIELD_NAME_CATEGORY,
-        self::INDEXED_PRODUCT_FIELD_NAME_HIERARCHICAL_CATEGORIES,
-        self::INDEXED_PRODUCT_FIELD_NAME_IMAGES,
-        self::INDEXED_PRODUCT_FIELD_NAME_LABEL,
-        self::INDEXED_PRODUCT_FIELD_NAME_PRICES,
-        self::INDEXED_PRODUCT_FIELD_NAME_RATING,
-        self::INDEXED_PRODUCT_FIELD_NAME_URL,
-        self::INDEXED_PRODUCT_FIELD_NAME_CONCRETE_PRICES,
-    ];
-
-    /**
-     * @var array<string>
-     */
-    public const RESTRICTED_TO_USE_AS_FACET_FIELD_NAMES = [
-        self::INDEXED_PRODUCT_FIELD_NAME_PRICES,
-        self::INDEXED_PRODUCT_FIELD_NAME_CONCRETE_PRICES,
-    ];
-
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_PREFIX = self::INDEXED_PRODUCT_FIELD_NAME_ATTRIBUTES . '.';
-
-    /**
-     * @var string
-     */
-    protected const SEARCH_METADATA_PREFIX_UNDERSCORE = self::INDEXED_PRODUCT_FIELD_NAME_SEARCH_METADATA . '_';
-
-    /**
-     * @var string
-     */
-    protected const SEARCH_METADATA_PREFIX_DOT = self::INDEXED_PRODUCT_FIELD_NAME_SEARCH_METADATA . '.';
-
-    /**
-     * @var string
-     */
-    protected const PRICE_FACET_KEY_TEMPLATE = 'prices.%s.%s';
-
-    /**
-     * @var string
-     */
-    protected const AFTER_DISTINCT_PARAM_TEMPLATE = 'afterDistinct(%s)';
-
-    /**
-     * @var string
-     */
-    protected const SEARCHABLE_PARAM_TEMPLATE = 'searchable(%s)';
-
-    /**
-     * @var array<string, string>
-     */
-    protected const PRICE_MODE_MAPPING = [
-        'GROSS_MODE' => 'gross',
-        'NET_MODE' => 'net',
-    ];
-
-    /**
-     * @var array<string>
-     */
-    protected const ATTRIBUTES_TO_HIGHLIGHT_FIELDS = [
-        self::INDEXED_PRODUCT_FIELD_NAME_PRODUCT_ABSTRACT_SKU,
-        self::INDEXED_PRODUCT_FIELD_NAME_SKU,
-        self::INDEXED_PRODUCT_FIELD_NAME_NAME,
-        self::INDEXED_PRODUCT_FIELD_NAME_ABSTRACT_NAME,
-        self::INDEXED_PRODUCT_FIELD_NAME_CATEGORY,
-    ];
 
     /**
      * Specification:
@@ -555,40 +273,15 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getSearchableAttributes(): array
     {
         return [
-            static::ATTRIBUTE_NAME_SKU,
-            static::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
-            static::ATTRIBUTE_NAME_NAME,
-            static::ATTRIBUTE_NAME_ABSTRACT_NAME,
-            static::ATTRIBUTE_NAME_CATEGORY,
-            static::ATTRIBUTE_NAME_KEYWORDS,
-            static::ATTRIBUTE_NAME_BRAND,
-            static::ATTRIBUTE_NAME_DESCRIPTION,
+            'sku',
+            'product_abstract_sku',
+            'name',
+            'abstract_name',
+            'category',
+            'keywords',
+            'attributes.brand',
+            'description',
         ];
-    }
-
-    /**
-     * Specification:
-     * - Returns the list of filterable attribute names extracted from filterable attributes.
-     * - Excludes non-display attributes from the result.
-     * - Extracts attribute names from the filterable attributes format.
-     *
-     * @api
-     *
-     * @return array<string>
-     */
-    public function getFilterableNameAttributes(AlgoliaConfigTransfer $algoliaConfigTransfer): array
-    {
-        return array_values(array_filter(array_map(
-            function (string $attribute): string {
-                if (in_array($attribute, $this->getNonDisplayAttributes(), true)) {
-                    return '';
-                }
-                preg_match('/\((?<attr>[^()]+)\)/', $attribute, $matches);
-
-                return $matches['attr'] ?? '';
-            },
-            $this->getFilterableAttributes($algoliaConfigTransfer),
-        )));
     }
 
     /**
@@ -602,29 +295,27 @@ class AlgoliaConfig extends AbstractBundleConfig
      *
      * @return array<string>
      */
-    public function getFilterableAttributes(AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    public function getFilterableAttributes(): array
     {
         $attributes = [
-            sprintf(static::SEARCHABLE_PARAM_TEMPLATE, static::ATTRIBUTE_NAME_CATEGORY),
-            static::ATTRIBUTE_NAME_RATING,
-            static::ATTRIBUTE_NAME_LABEL,
-            static::ATTRIBUTE_NAME_COLOR,
-            static::ATTRIBUTE_NAME_BRAND,
-            static::ATTRIBUTE_NAME_MERCHANT_NAME,
+            'searchable(category)',
+            'rating',
+            'label',
+            'attributes.color',
+            'attributes.brand',
+            'merchant_name',
         ];
-        if ($algoliaConfigTransfer->getIsProductPriceSynced()) {
-            $attributes[] = static::ATTRIBUTE_NAME_PRICES;
+        if ($this->getIsProductPriceSynced()) {
+            $attributes[] = 'prices';
         }
 
         $result = [];
 
         foreach ($attributes as $attribute) {
-            $result[] = sprintf(static::AFTER_DISTINCT_PARAM_TEMPLATE, $attribute);
+            $result[] = sprintf('afterDistinct(%s)', $attribute);
         }
 
-        $result = array_merge($result, $this->getNonDisplayAttributes());
-
-        return $result;
+        return array_merge($result, $this->getNonDisplayAttributes());
     }
 
     /**
@@ -638,7 +329,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getNonDisplayAttributes(): array
     {
-        return [static::INDEXED_PRODUCT_FIELD_NAME_HIERARCHICAL_CATEGORIES];
+        return ['hierarchical_categories'];
     }
 
     /**

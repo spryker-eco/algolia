@@ -18,12 +18,7 @@ interface IndexConfiguratorInterface
     /**
      * @return array<string, mixed>
      */
-    public function getSettings(string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): array;
-
-    /**
-     * @return array
-     */
-    public function getRequestOptions(): array;
+    public function getSettings(string $locale): array;
 
     /**
      * @return array<array>

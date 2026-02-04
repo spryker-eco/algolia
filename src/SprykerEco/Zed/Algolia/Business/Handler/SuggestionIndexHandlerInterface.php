@@ -16,7 +16,7 @@ interface SuggestionIndexHandlerInterface
      *
      * @return void
      */
-    public function createSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void;
+    public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void;
 
     /**
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
@@ -24,11 +24,4 @@ interface SuggestionIndexHandlerInterface
      * @return array
      */
     public function getAllConfigurations(SearchClient $searchClient): array;
-
-    /**
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
-     */
-    public function deleteConfiguration(string $configurationName, SearchClient $searchClient): void;
 }

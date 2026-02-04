@@ -15,7 +15,7 @@ use Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface;
 use Spryker\Client\SearchExtension\Dependency\Plugin\SearchContextAwareQueryInterface;
 use Spryker\Client\SearchExtension\Dependency\Plugin\SearchStringSetterInterface;
 use Spryker\Client\SearchExtension\Dependency\Plugin\SearchTypeIdentifierInterface;
-use SprykerEco\Client\Algolia\AlgoliaConfig;
+use Spryker\Shared\SearchHttp\SearchHttpConfig;
 
 /**
  * @method \SprykerEco\Client\Algolia\AlgoliaFactory getFactory()
@@ -102,6 +102,6 @@ class AlgoliaSuggestionSearchQueryPlugin extends AbstractPlugin implements Query
      */
     public function getSearchType(): string
     {
-        return AlgoliaConfig::TYPE_SUGGESTION_SEARCH_HTTP;
+        return SearchHttpConfig::TYPE_SUGGESTION_SEARCH_HTTP;
     }
 }

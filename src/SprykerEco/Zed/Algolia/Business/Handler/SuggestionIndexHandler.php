@@ -11,7 +11,6 @@ use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Algolia\AlgoliaSearch\SearchClient;
 use InvalidArgumentException;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use Throwable;
 
 class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
@@ -26,14 +25,15 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
      */
     protected const QUERY_SUGGESTION_BASE_URL_EU = 'query-suggestions.eu.algolia.com';
 
-    public function __construct(protected AlgoliaConfig $algoliaConfig)
+    protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
+
+    public function __construct()
     {
     }
 
-    public function createSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
+    public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
-        $suggestionIndexName = sprintf('%s_%s', $sourceIndex, $this->algoliaConfig->getQuerySuggestionsSuffix());
-        # suggestion indexes are not (at the time of writing) deleted when disconnecting, will be implemented in PBC-2843
+        $suggestionIndexName = sprintf('%s_%s', $sourceIndex, static::QUERY_SUGGESTIONS_SUFFIX);
         $isConfigurationExist = $this->checkSuggestionIndexConfigurationExist($suggestionIndexName, $searchClient);
 
         if ($isConfigurationExist) {
@@ -48,8 +48,8 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
                     'minHits' => 1,
                     'minLetters' => 2,
                     'generate' => [
-                        [AlgoliaConfig::ATTRIBUTE_NAME_CATEGORY],
-                        [AlgoliaConfig::ATTRIBUTE_NAME_BRAND],
+                        'category',
+                        'attributes.brand',
                     ],
                 ],
             ],
@@ -83,11 +83,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
     public function getAllConfigurations(SearchClient $searchClient): array
     {
         return $this->executeSearchClientCall($searchClient, 'GET', '/1/configs');
-    }
-
-    public function deleteConfiguration(string $configurationName, SearchClient $searchClient): void
-    {
-        $this->executeSearchClientCall($searchClient, 'DELETE', '/1/configs/' . $configurationName);
     }
 
     /**

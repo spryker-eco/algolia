@@ -8,6 +8,7 @@
 namespace SprykerEco\Client\Algolia\Api\Response\Extractor;
 
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
+use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
@@ -49,6 +50,27 @@ class FacetsExtractor implements FacetsExtractorInterface
      */
     protected const RESPONSE_FIELD_PREFIX_ATTRIBUTES = 'attributes.';
 
+    /**
+     * @var string
+     */
+    protected const FILTER_NAME_PRICE = 'price';
+
+    /**
+     * @var array<string>
+     */
+    protected const RESTRICTED_FACET_KEYS = [
+        'prices',
+        'concrete_prices',
+    ];
+
+    /**
+     * @var array<string, string>
+     */
+    protected const PRICE_MODE_MAPPING = [
+        'GROSS_MODE' => 'gross',
+        'NET_MODE' => 'net',
+    ];
+
     public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
     }
@@ -66,9 +88,9 @@ class FacetsExtractor implements FacetsExtractorInterface
             function (string $facet): string {
                 $facetKey = $this->adjustFacetKey($facet);
 
-                return $facetKey === 'prices' || str_starts_with($facetKey, 'prices.') ? AlgoliaConfig::FILTER_NAME_PRICE : $facetKey;
+                return $facetKey === 'prices' || str_starts_with($facetKey, 'prices.') ? static::FILTER_NAME_PRICE : $facetKey;
             },
-            $algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'] ?? $this->algoliaConfig->getFilterableNameAttributes(),
+            $algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'] ?? $this->getFilterableNameAttributes(),
         );
 
         if (isset($algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'])) {
@@ -79,6 +101,8 @@ class FacetsExtractor implements FacetsExtractorInterface
                         return true;
                     }
                 }
+
+                return false;
             }, ARRAY_FILTER_USE_KEY);
         }
 
@@ -154,7 +178,7 @@ class FacetsExtractor implements FacetsExtractorInterface
             $facetData[$facetKey] = $rangeFacetStats;
         }
         if ($searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value) {
-            $facetData[AlgoliaConfig::FILTER_NAME_PRICE] = $this->getCurrentPriceFacetStats($searchResults[static::RESPONSE_FIELD_FACETS_STATS], $searchRequestTransfer);
+            $facetData[static::FILTER_NAME_PRICE] = $this->getCurrentPriceFacetStats($searchResults[static::RESPONSE_FIELD_FACETS_STATS], $searchRequestTransfer);
         }
 
         return $facetData;
@@ -184,7 +208,7 @@ class FacetsExtractor implements FacetsExtractorInterface
 
     protected function isFacetRestricted(string $facetKey): bool
     {
-        foreach ($this->algoliaConfig->getRestrictedFacetKeys() as $restrictedFacetKey) {
+        foreach (static::RESTRICTED_FACET_KEYS as $restrictedFacetKey) {
             if (str_starts_with($facetKey, $restrictedFacetKey)) {
                 return true;
             }
@@ -195,7 +219,7 @@ class FacetsExtractor implements FacetsExtractorInterface
 
     /**
      * @param array<string, mixed> $facetsStats
-
+     *
      * @return array<int>
      */
     protected function getCurrentPriceFacetStats(array $facetsStats, SearchRequestTransfer $searchRequestTransfer): array
@@ -204,8 +228,43 @@ class FacetsExtractor implements FacetsExtractorInterface
             return [];
         }
 
-        $priceFacetKey = $this->algoliaConfig->getPriceFacetKey($searchRequestTransfer->getFacets());
+        $priceFacetKey = $this->getPriceFacetKey($searchRequestTransfer->getFacets());
 
         return $this->extractRangeFacetStats($facetsStats[$priceFacetKey] ?? []);
+    }
+
+    protected function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
+    {
+        $facetsTransfers = $facetCollectionTransfer->getFacets();
+
+        if (
+            $facetsTransfers->offsetExists('currency')
+            && $facetsTransfers->offsetExists('price_mode')
+        ) {
+            $currency = $facetsTransfers->offsetGet('currency')->getParameters()->getValues()[0];
+            $pricingMode = $facetsTransfers->offsetGet('price_mode')->getParameters()->getValues()[0];
+
+            return sprintf('prices.%s.%s', strtolower($currency), static::PRICE_MODE_MAPPING[$pricingMode] ?? 'gross');
+        }
+
+        return static::FILTER_NAME_PRICE;
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getFilterableNameAttributes(): array
+    {
+        return array_values(array_filter(array_map(
+            function (string $attribute): string {
+                if (in_array($attribute, $this->algoliaConfig->getNonDisplayAttributes(), true)) {
+                    return '';
+                }
+                preg_match('/\((?<attr>[^()]+)\)/', $attribute, $matches);
+
+                return $matches['attr'] ?? '';
+            },
+            $this->algoliaConfig->getFilterableAttributes(),
+        )));
     }
 }

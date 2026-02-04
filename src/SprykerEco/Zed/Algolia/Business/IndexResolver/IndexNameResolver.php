@@ -9,28 +9,13 @@ namespace SprykerEco\Zed\Algolia\Business\IndexResolver;
 
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
 
 class IndexNameResolver implements IndexNameResolverInterface
 {
-    /**
-     * @var string
-     */
-    protected const INDEX_NAME_TEMPLATE = '%s-%s-%s-%s';
+    protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
 
-    /**
-     * @var string
-     */
-    protected const CMS_PAGE_INDEX_NAME_TEMPLATE = '%s-%s-%s';
-
-    /**
-     * @var \SprykerEco\Zed\Algolia\AlgoliaConfig
-     */
-    protected $algoliaConfig;
-
-    public function __construct(AlgoliaConfig $algoliaConfig)
+    public function __construct()
     {
-        $this->algoliaConfig = $algoliaConfig;
     }
 
     public function resolveProductIndexName(
@@ -99,7 +84,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         string $locale
     ): string {
         return sprintf(
-            static::INDEX_NAME_TEMPLATE,
+            '%s-%s-%s-%s',
             $tenantIdentifier,
             AlgoliaEntityNameEnum::PRODUCT->value,
             $storeName,
@@ -112,7 +97,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         string $locale
     ): string {
         return sprintf(
-            static::CMS_PAGE_INDEX_NAME_TEMPLATE,
+            '%s-%s-%s',
             $tenantIdentifier,
             AlgoliaEntityNameEnum::CMS_PAGE->value,
             $locale,
@@ -124,7 +109,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         return sprintf(
             '%s_%s',
             $indexName,
-            $this->algoliaConfig->getQuerySuggestionsSuffix(),
+            static::QUERY_SUGGESTIONS_SUFFIX,
         );
     }
 }

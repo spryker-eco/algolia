@@ -5,12 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Zed\Algolia\Business\Indexer;
+namespace SprykerEco\Zed\Algolia\Business\Mapper;
 
 use ArrayObject;
 use Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
-use SprykerEco\Zed\Algolia\Business\Mapper\ProductMapperInterface;
 
 class ProductIndexer implements ProductIndexerInterface
 {

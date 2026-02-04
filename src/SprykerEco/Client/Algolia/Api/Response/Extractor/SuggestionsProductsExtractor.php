@@ -62,7 +62,7 @@ class SuggestionsProductsExtractor extends ProductsExtractor implements SearchRe
                         if ($datum['matchLevel'] === 'none') {
                             continue;
                         }
-                        if ($field === AlgoliaConfig::INDEXED_PRODUCT_FIELD_NAME_CATEGORY) {
+                        if ($field === 'category') {
                             $categories[$hit['category'][$key]] = $hit['category'][$key];
                         }
                         $matches[$field][$hit['sku']] = $hit['sku'];

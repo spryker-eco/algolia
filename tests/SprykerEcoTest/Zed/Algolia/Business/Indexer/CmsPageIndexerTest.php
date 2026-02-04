@@ -11,8 +11,8 @@ use Codeception\Test\Unit;
 use Exception;
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageTransfer;
-use SprykerEco\Zed\Algolia\Business\Indexer\CmsPageIndexer;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
+use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageIndexer;
 use SprykerEco\Zed\Algolia\Business\Mapper\CmsPageMapperInterface;
 
 /**

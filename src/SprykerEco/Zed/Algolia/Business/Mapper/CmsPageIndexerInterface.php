@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Zed\Algolia\Business\Indexer;
+namespace SprykerEco\Zed\Algolia\Business\Mapper;
 
 use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 use Generated\Shared\Transfer\CmsPageTransfer;

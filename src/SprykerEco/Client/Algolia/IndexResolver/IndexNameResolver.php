@@ -17,15 +17,20 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class IndexNameResolver implements IndexNameResolverInterface
 {
-    /**
-     * @var string
-     */
-    protected const INDEX_NAME_TEMPLATE = '%s-%s-%s-%s';
+    protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
 
     /**
      * @var string
      */
-    protected const CMS_PAGE_INDEX_NAME_TEMPLATE = '%s-%s-%s';
+    protected const FILTER_NAME_PRICE = 'price';
+
+    /**
+     * @var array<string, string>
+     */
+    protected const PRICE_MODE_MAPPING = [
+        'GROSS_MODE' => 'gross',
+        'NET_MODE' => 'net',
+    ];
 
     public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
@@ -98,15 +103,15 @@ class IndexNameResolver implements IndexNameResolverInterface
     ): string {
         $fieldKey = $sortingEntryTransfer->getField();
 
-        if ($fieldKey === AlgoliaConfig::FILTER_NAME_PRICE) {
-            $fieldKey = strtolower($this->algoliaConfig->getPriceFacetKey($facetCollectionTransfer));
+        if ($fieldKey === static::FILTER_NAME_PRICE) {
+            $fieldKey = strtolower($this->getPriceFacetKey($facetCollectionTransfer));
         }
 
         if ($sortingEntryTransfer->getDirection() === 'asc') {
-            return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_ASC, $indexName, $fieldKey);
+            return sprintf('%s-asc-%s', $indexName, $fieldKey);
         }
 
-        return sprintf(AlgoliaConfig::ALGOLIA_INDEX_REPLICA_NAME_TEMPLATE_SORT_DESC, $indexName, $fieldKey);
+        return sprintf('%s-desc-%s', $indexName, $fieldKey);
     }
 
     protected function createProductIndexFromTemplate(
@@ -115,7 +120,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         string $locale
     ): string {
         return sprintf(
-            static::INDEX_NAME_TEMPLATE,
+            '%s-%s-%s-%s',
             $tenantIdentifier,
             AlgoliaEntityNameEnum::PRODUCT->value,
             $storeName,
@@ -128,7 +133,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         string $locale
     ): string {
         return sprintf(
-            static::CMS_PAGE_INDEX_NAME_TEMPLATE,
+            '%s-%s-%s',
             $tenantIdentifier,
             AlgoliaEntityNameEnum::CMS_PAGE->value,
             $locale,
@@ -140,7 +145,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         return sprintf(
             '%s_%s',
             $indexName,
-            $this->algoliaConfig->getQuerySuggestionsSuffix(),
+            static::QUERY_SUGGESTIONS_SUFFIX,
         );
     }
 
@@ -162,5 +167,22 @@ class IndexNameResolver implements IndexNameResolverInterface
         }
 
         throw new Exception(sprintf("Index mapping not found for '%s', store '%s' and locale '%s'.", $sourceIdentifier, $storeName, $locale));
+    }
+
+    protected function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
+    {
+        $facetsTransfers = $facetCollectionTransfer->getFacets();
+
+        if (
+            $facetsTransfers->offsetExists('currency')
+            && $facetsTransfers->offsetExists('price_mode')
+        ) {
+            $currency = $facetsTransfers->offsetGet('currency')->getParameters()->getValues()[0];
+            $pricingMode = $facetsTransfers->offsetGet('price_mode')->getParameters()->getValues()[0];
+
+            return sprintf('prices.%s.%s', strtolower($currency), static::PRICE_MODE_MAPPING[$pricingMode] ?? 'gross');
+        }
+
+        return static::FILTER_NAME_PRICE;
     }
 }

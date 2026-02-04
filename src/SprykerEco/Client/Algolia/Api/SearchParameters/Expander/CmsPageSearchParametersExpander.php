@@ -53,7 +53,11 @@ class CmsPageSearchParametersExpander implements SearchParametersExpanderInterfa
      */
     public function expandSourceIdentifierParameters(array $additionalParameters, SearchRequestTransfer $searchRequestTransfer): array
     {
-        return array_merge($additionalParameters, AlgoliaConfig::CMS_PAGE_PARAMETERS);
+        return array_merge($additionalParameters, [
+            'attributesToSnippet' => ['content:50'],
+            'snippetEllipsisText' => '...',
+            'attributesToHighlight' => ['name'],
+        ]);
     }
 
     protected function getCmsPageStoreFilter(SearchRequestTransfer $searchRequestTransfer): string
@@ -65,7 +69,7 @@ class CmsPageSearchParametersExpander implements SearchParametersExpanderInterfa
     {
         $currentTimestamp = time();
 
-    // Separate filters for each field to comply with Algolia restrictions
+        // Separate filters for each field to comply with Algolia restrictions
         $validFromFilter = sprintf(
             '%s = 0 OR %s <= %d',
             AlgoliaCmsPageObjectEnum::VALID_FROM->value,

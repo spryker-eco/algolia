@@ -247,7 +247,7 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
             $categories = $searchClient
                 ->initIndex($productIndexName)
                 ->searchForFacetValues(
-                    $this->algoliaConfig::INDEXED_PRODUCT_FIELD_NAME_CATEGORY,
+                    'category',
                     $searchRequestTransfer->getQuery() ?? '',
                     [
                         'hitsPerPage' => 10,

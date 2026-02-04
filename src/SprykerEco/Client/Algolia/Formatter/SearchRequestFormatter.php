@@ -41,6 +41,7 @@ class SearchRequestFormatter implements SearchRequestFormatterInterface
         $searchRequestTransfer = $this->prepareAlgoliaSearchRequest($searchQuery);
         $searchQueryTransfer = $searchQuery->getSearchQuery();
 
+        $searchRequestTransfer->setFacets(new FacetCollectionTransfer());
         if ($searchQueryTransfer->getSearchQueryFacetFilters()) {
             $searchRequestTransfer->setFacets($this->mapFacetFilters($searchQueryTransfer));
         }

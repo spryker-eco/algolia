@@ -11,8 +11,6 @@ use Spryker\Shared\Kernel\AbstractBundleConfig;
 
 class AlgoliaConfig extends AbstractBundleConfig
 {
-    public const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
-
  /**
   * Specification:
   * - Returns whether Algolia integration is active.

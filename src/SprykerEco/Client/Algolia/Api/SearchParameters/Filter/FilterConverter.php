@@ -8,6 +8,7 @@
 namespace SprykerEco\Client\Algolia\Api\SearchParameters\Filter;
 
 use ArrayObject;
+use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\FacetEntryTransfer;
 use Generated\Shared\Transfer\FacetParametersTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
@@ -40,6 +41,41 @@ class FilterConverter implements FilterConverterInterface
      */
     protected const EXPIRES_AFTER = 3600;
 
+    /**
+     * @var string
+     */
+    protected const FILTER_NAME_PRICE = 'price';
+
+    /**
+     * @var array<string>
+     */
+    protected const NON_ATTRIBUTE_FIELDS = [
+        'product_abstract_sku',
+        'sku',
+        'name',
+        'description',
+        'keywords',
+        'abstract_name',
+        'merchant_name',
+        'merchant_reference',
+        'category',
+        'hierarchicalCategories',
+        'images',
+        'label',
+        'prices',
+        'rating',
+        'url',
+        'concrete_prices',
+    ];
+
+    /**
+     * @var array<string, string>
+     */
+    protected const PRICE_MODE_MAPPING = [
+        'GROSS_MODE' => 'gross',
+        'NET_MODE' => 'net',
+    ];
+
     public function __construct(
         protected AlgoliaConfig $algoliaConfig,
         protected AlgoliaConfigResolverInterface $configResolver,
@@ -60,13 +96,13 @@ class FilterConverter implements FilterConverterInterface
         $facetWhiteList = $this->getFacetWhiteList($searchRequestTransfer);
 
         if (
-            in_array(AlgoliaConfig::ATTRIBUTE_NAME_PRICES, $facetWhiteList) &&
+            in_array('prices', $facetWhiteList) &&
             $searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value
         ) {
-            $filters[] = sprintf('%s>=0', $this->algoliaConfig->getPriceFacetKey($facetCollectionTransfer));
+            $filters[] = sprintf('%s>=0', $this->getPriceFacetKey($facetCollectionTransfer));
         }
         foreach ($facetCollectionTransfer->getFacets() as $fieldKey => $facetEntryTransfer) {
-            $mappedFieldKey = $this->algoliaConfig->getAlgoliaFacetFieldKey($fieldKey, $facetCollectionTransfer);
+            $mappedFieldKey = $this->getAlgoliaFacetFieldKey($fieldKey, $facetCollectionTransfer);
 
             $isInWhiteList = array_filter($facetWhiteList, fn (string $facet): bool => str_starts_with($mappedFieldKey, $facet));
             if (
@@ -163,5 +199,44 @@ class FilterConverter implements FilterConverterInterface
         }
 
         return '(' . $filterString . ')';
+    }
+
+    protected function getAlgoliaFacetFieldKey(string $fieldKey, FacetCollectionTransfer $facetCollectionTransfer): string
+    {
+        if ($fieldKey === static::FILTER_NAME_PRICE) {
+            return $this->getPriceFacetKey($facetCollectionTransfer);
+        }
+
+        if (in_array($fieldKey, static::NON_ATTRIBUTE_FIELDS, true)) {
+            return $fieldKey;
+        }
+
+        if (str_starts_with($fieldKey, 'search_metadata.')) {
+            return $fieldKey;
+        }
+
+        if (str_starts_with($fieldKey, 'search_metadata_')) {
+            // This is needed to support SCOS request format coming from different applications
+            return 'search_metadata.' . substr($fieldKey, strlen('search_metadata_'));
+        }
+
+        return 'attributes.' . $fieldKey;
+    }
+
+    protected function getPriceFacetKey(FacetCollectionTransfer $facetCollectionTransfer): string
+    {
+        $facetsTransfers = $facetCollectionTransfer->getFacets();
+
+        if (
+            $facetsTransfers->offsetExists('currency')
+            && $facetsTransfers->offsetExists('price_mode')
+        ) {
+            $currency = $facetsTransfers->offsetGet('currency')->getParameters()->getValues()[0];
+            $pricingMode = $facetsTransfers->offsetGet('price_mode')->getParameters()->getValues()[0];
+
+            return sprintf('prices.%s.%s', strtolower($currency), static::PRICE_MODE_MAPPING[$pricingMode] ?? 'gross');
+        }
+
+        return static::FILTER_NAME_PRICE;
     }
 }

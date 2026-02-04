@@ -11,7 +11,6 @@ namespace SprykerEco\Client\Algolia\Api\SearchParameters;
 
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
-use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Client\Algolia\Api\SearchParameters\Expander\SearchParametersExpanderInterface;
 use SprykerEco\Client\Algolia\Api\SearchParameters\Filter\FilterConverterInterface;
 use SprykerEco\Client\Algolia\Api\SearchParameters\Pagination\PaginationConverterInterface;
@@ -67,7 +66,7 @@ class SearchParametersResolver implements SearchParametersResolverInterface
 
         if (
             $searchRequestTransfer->getUserToken() && (
-                $algoliaConfigTransfer->getIsPersonalizationEnabled() || in_array(AlgoliaConfig::FEATURE_PERSONALIZATION, $algoliaConfigTransfer->getEnabledFeatures())
+                $algoliaConfigTransfer->getIsPersonalizationEnabled() || in_array('personalization', $algoliaConfigTransfer->getEnabledFeatures())
             )
         ) {
             $additionalParameters['enablePersonalization'] = true;
