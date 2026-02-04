@@ -12,10 +12,12 @@
         "spryker/cms": "^7.18.0",
         "spryker/kernel": "^3.76.0",
         "spryker/log": "^3.18.0",
+        "spryker/product": "^6.52.0",
         "spryker/product-category": "^4.28.1",
         "spryker/product-image": "^3.20.0",
         "spryker/transfer": "^3.42.0",
         "spryker/search-http": "^0.5.8",
+        "spryker-shop/traceable-event-widget": "^1.0.0",
         "symfony/cache": "^6.4 || ^7.4",
         "symfony/console": "^6.4"
     },
@@ -27,6 +29,7 @@
     },
     "suggest": {
         "spryker/product": "Add next version to require: ^6.53.0",
+        "spryker-shop/traceable-event-widget": "Add next version to require: ^1.1.0",
         "spryker/product-review": "Required for Product search functionality.",
         "spryker/price-product": "Optional for Product search functionality.",
         "spryker/merchant-product": "Optional for Product search functionality.",

@@ -138,6 +138,26 @@ class AlgoliaConfig extends AbstractBundleConfig
     }
 
     /**
+     * Used by for correct events handing in "spryker-shop/traceable-event-widget"
+     * Structure: [
+     *    'sprykerFacetName' => 'algoliaFacetName',
+     *    'sprykerFacetName' => '', // if mapping has to be skipped for the facet
+     * ]
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getProjectMappingFacets(): array
+    {
+        return [
+            'price' => '',
+            'color' => 'attributes.color',
+            'brand' => 'attributes.brand',
+        ];
+    }
+
+    /**
      * Specification:
      * - Returns the list of attributes that should be highlighted in search results.
      * - Highlighted attributes show matching search terms in bold or with special formatting.
