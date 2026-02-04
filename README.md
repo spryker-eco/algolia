@@ -103,13 +103,132 @@ class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
 }
 ```
 
-### Step 3: Generate Transfers
+### Step 3: Configure Search Adapter Plugin
+
+File: `src/Pyz/Client/Search/SearchDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Client\Search;
+
+use Spryker\Client\Search\SearchDependencyProvider as SprykerSearchDependencyProvider;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchAdapterPlugin;
+
+class SearchDependencyProvider extends SprykerSearchDependencyProvider
+{
+    /**
+     * @return array<\Spryker\Client\SearchExtension\Dependency\Plugin\SearchAdapterPluginInterface>
+     */
+    protected function getClientAdapterPlugins(): array
+    {
+        return [
+            new AlgoliaSearchAdapterPlugin(),
+            // ... other search adapters
+        ];
+    }
+}
+```
+
+### Step 4: Configure Catalog Search Query Plugins
+
+>Note: Also requires `\Pyz\Shared\Algolia\AlgoliaConfig::isSearchInFrontendEnabledForProducts()` to be set to `true`.
+
+>Note 2: Integration heavily depends on SearchHttp module plugins, so they have to be also enabled in `src/Pyz/Client/Catalog/CatalogDependencyProvider.php`,
+> [see the integration guide](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/integrate-algolia#configure-modules-and-their-behavior).
+
+File: `src/Pyz/Client/Catalog/CatalogDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Client\Catalog;
+
+use Spryker\Client\Catalog\CatalogDependencyProvider as SprykerCatalogDependencyProvider;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchQueryPlugin;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSuggestionSearchQueryPlugin;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaProductConcreteSearchQueryPlugin;
+
+class CatalogDependencyProvider extends SprykerCatalogDependencyProvider
+{
+    /**
+     * @return array<\Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface>
+     */
+    protected function createCatalogSearchQueryPluginVariants(): array
+    {
+        return [
+            new AlgoliaSearchQueryPlugin(),
+        ];
+    }
+
+    /**
+     * @return array<\Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface>
+     */
+    protected function createSuggestionQueryPluginVariants(): array
+    {
+        return [
+            new AlgoliaSuggestionSearchQueryPlugin(),
+        ];
+    }
+
+    /**
+     * @return array<\Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface>
+     */
+    protected function createProductConcreteCatalogSearchQueryPluginVariants(): array
+    {
+        return [
+            new AlgoliaProductConcreteSearchQueryPlugin(),
+        ];
+    }
+}
+```
+
+### Step 5: Configure CMS Page Search Query Plugin (Optional)
+
+>Note: Also requires `\Pyz\Shared\Algolia\AlgoliaConfig::isSearchInFrontendEnabledForCmsPages()` to be set to `true`.
+
+>Note 2: Integration heavily depends on SearchHttp module plugins, so they have to be also enabled in
+> `src/Pyz/Client/SearchHttp/SearchHttpDependencyProvider.php` and `src/Pyz/Client/CmsPageSearch/CmsPageSearchDependencyProvider.php`,
+ [see the integration guide](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/integrate-algolia#configure-the-cmspagesearch-module).
+
+
+File: `src/Pyz/Client/CmsPageSearch/CmsPageSearchDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Client\CmsPageSearch;
+
+use Generated\Shared\Transfer\SearchContextTransfer;
+use Spryker\Client\CmsPageSearch\CmsPageSearchConfig;
+use Spryker\Client\CmsPageSearch\CmsPageSearchDependencyProvider as SprykerCmsPageSearchDependencyProvider;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchQueryPlugin;
+
+class CmsPageSearchDependencyProvider extends SprykerCmsPageSearchDependencyProvider
+{
+    /**
+     * @return array<\Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface>
+     */
+    protected function getCmsPageSearchQueryPlugins(): array
+    {
+        return [
+            new AlgoliaSearchQueryPlugin(
+                (new SearchContextTransfer())
+                    ->setSourceIdentifier(CmsPageSearchConfig::SOURCE_IDENTIFIER_CMS_PAGE),
+            ),
+            // ... other search query plugins
+        ];
+    }
+}
+```
+
+### Step 6: Generate Transfers
 
 ```bash
 vendor/bin/console transfer:generate
 ```
 
-## Step 4: Verify Installation
+## Step 7: Verify Installation
 
 ```bash
 # List available commands (should show algolia:index-export)
@@ -122,7 +241,7 @@ vendor/bin/console algolia:index-export
 vendor/bin/console algolia:index-export product --dry-run
 ```
 
-## Step 5: Usage Examples
+## Step 8: Usage Examples
 
 ```bash
 # Export products
@@ -361,6 +480,8 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 
 ### Available Configuration Methods
 
+- `getIsActive()` - Enable/disable Algolia integration
+
 **Product Events:**
 - `getProductConcreteSubscribedEvents()` - Product variant events
 - `getProductAbstractSubscribedEvents()` - Product abstract events
@@ -369,6 +490,14 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 **CMS Page Events:**
 - `getCmsPageUpdateSubscribedEvents()` - Page update events
 - `getCmsPageVersionPublishSubscribedEvents()` - Version publish events
+
+**Search:**
+- `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend
+- `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend
+
+**Insights & Analytics (via TraceableEventWidget):**
+- `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking.
+
 
 ---
 
@@ -442,11 +571,11 @@ console transfer:generate
 
 ## Migration from ACP Algolia App
 
-If migrating from MessageBroker-based Algolia publishing:
+If migrating from MessageBroker-based [Algolia ACP App](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/algolia):
 
 ### Step 1: Remove Old Plugins
 
-#### Remove from Pyz\Zed\Publisher\PublisherDependencyProvider
+#### Remove from `src/Pyz/Zed/Publisher/PublisherDependencyProvider.php`
 
 ```php
 // - CmsPageVersionPublishedMessageBrokerPublisherPlugin
@@ -458,7 +587,7 @@ If migrating from MessageBroker-based Algolia publishing:
 // - ProductConcreteUpdatedMessageBrokerPublisherPlugin
 ```
 
-#### Remove form \Pyz\Zed\MessageBroker\MessageBrokerDependencyProvider
+#### Remove from `src/Pyz/Zed/MessageBroker/MessageBrokerDependencyProvider.php`
 
 ```php
 // - SearchEndpointMessageHandlerPlugin
@@ -466,9 +595,30 @@ If migrating from MessageBroker-based Algolia publishing:
 // - CmsPageMessageHandlerPlugin
 ```
 
-### Step 2: Add New Algolia Plugins, Console command, Jenkins job(s)
+#### Update in `src/Pyz/Client/Search/SearchDependencyProvider.php`
 
-See [Installation](#installation) section.
+- Replace `SearchHttpSearchAdapterPlugin` with `AlgoliaSearchAdapterPlugin`
+
+- Remove:
+```php
+// - SearchHttpSearchContextExpanderPlugin
+```
+
+#### Update in `src/Pyz/Client/Catalog/CatalogDependencyProvider.php`
+
+Replace them SearchHttp plugins with Algolia equivalents:
+
+- Replace `SearchHttpQueryPlugin` with `AlgoliaSearchQueryPlugin`
+- Replace `SuggestionSearchHttpQueryPlugin` with `AlgoliaSuggestionSearchQueryPlugin`
+- Replace `ProductConcreteSearchHttpQueryPlugin` with `AlgoliaProductConcreteSearchQueryPlugin`
+
+#### Update in `src/Pyz/Client/CmsPageSearch/CmsPageSearchDependencyProvider.php`
+
+- Replace `SearchHttpQueryPlugin` with `AlgoliaSearchQueryPlugin`
+
+### Step 2: Add New Algolia Plugins
+
+Follow all integration steps from the [Installation](#installation) section.
 
 ### Step 3: Verify
 
@@ -512,6 +662,7 @@ See [Installation](#installation) section.
 
 For issues or questions:
 - Check [Spryker documentation](https://docs.spryker.com)
+- Check [Spryker ACP Algolia app documentation](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/integrate-algolia#configure-modules-and-their-behavior)
 - Review [Algolia documentation](https://www.algolia.com/doc/)
 - Contact Spryker support
 
