@@ -249,9 +249,6 @@ class AlgoliaBusinessTester extends Actor
         $mock->method('createSearchIndexApiClient')
             ->willReturn($searchIndexClient);
 
-        $mock->method('createSearchIndexApiClientForSearch')
-            ->willReturn($searchIndexClient);
-
         return $mock;
     }
 

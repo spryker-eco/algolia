@@ -9,14 +9,13 @@ namespace SprykerEcoTest\Zed\Algolia\Business\Api\IndexConfigurator;
 
 use Algolia\AlgoliaSearch\SearchIndex;
 use Codeception\Test\Unit;
-use DMS\PHPUnitExtensions\ArraySubset\Constraint\ArraySubset;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use ReflectionClass;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business
@@ -58,24 +57,24 @@ class IndexConfiguratorTest extends Unit
 
         $indexMock = $this->tester->createSearchIndexMock(static::TEST_INDEX_NAME);
 
+        $callCount = 0;
         $indexMock
             ->expects($this->exactly(2))
             ->method('setSettings')
-            ->withConsecutive(
-                [
-                    $this->anything(),
-                    $this->anything(),
-                ],
-                [
-                    new ArraySubset([
-                        'queryLanguages' => [$expectedLanguage],
-                        'indexLanguages' => [$expectedLanguage],
-                    ]),
-                    [
-                        'forwardToReplicas' => true,
-                    ],
-                ],
-            );
+            ->willReturnCallback(function ($settings, $options = []) use (&$callCount, $expectedLanguage) {
+                $callCount++;
+
+                // Second call should have the language settings
+                if ($callCount === 2) {
+                    $this->assertIsArray($settings);
+                    $this->assertArrayHasKey('queryLanguages', $settings);
+                    $this->assertArrayHasKey('indexLanguages', $settings);
+                    $this->assertEquals([$expectedLanguage], $settings['queryLanguages']);
+                    $this->assertEquals([$expectedLanguage], $settings['indexLanguages']);
+                    $this->assertArrayHasKey('forwardToReplicas', $options);
+                    $this->assertTrue($options['forwardToReplicas']);
+                }
+            });
 
         $searchClientMock->method('initIndex')->willReturn($indexMock);
         $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);

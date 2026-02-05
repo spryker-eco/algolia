@@ -69,36 +69,46 @@ class AlgoliaHelper extends Module
     public function haveFullProductConcreteTransfer(
         array $seed = []
     ): ProductConcreteTransfer {
-        $locale1Builder = new LocaleBuilder($seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][0][LocalizedAttributesTransfer::LOCALE] ?? []);
-        $locale2Builder = new LocaleBuilder($seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][1][LocalizedAttributesTransfer::LOCALE] ?? []);
+        // Create locale seed data once, explicitly setting locale_name to ensure consistency
+        $locale1Seed = $seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][0][LocalizedAttributesTransfer::LOCALE] ?? [];
+        $locale2Seed = $seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][1][LocalizedAttributesTransfer::LOCALE] ?? [];
+
+        // Build locales once to get names, then add names back to seed to prevent Faker randomization
+        $tempLocale1 = (new LocaleBuilder($locale1Seed))->build();
+        $tempLocale2 = (new LocaleBuilder($locale2Seed))->build();
+
+        $locale1Seed['locale_name'] = $tempLocale1->getLocaleName();
+        $locale2Seed['locale_name'] = $tempLocale2->getLocaleName();
+
+        $availableLocaleIsoCodes = array_unique([
+            $locale1Seed['locale_name'],
+            $locale2Seed['locale_name'],
+        ]);
 
         $storeBuilder = (new StoreBuilder(
             $seed + [
-                StoreTransfer::AVAILABLE_LOCALE_ISO_CODES => array_unique([
-                    $locale1Builder->build()->getLocaleName(),
-                    $locale2Builder->build()->getLocaleName(),
-                ]),
+                StoreTransfer::AVAILABLE_LOCALE_ISO_CODES => $availableLocaleIsoCodes,
             ],
         ));
 
         $category1Builder = (new CategoryBuilder())
             ->withAnotherLocalizedAttributes(
                 (new CategoryLocalizedAttributesBuilder())
-                    ->withLocale($locale1Builder),
+                    ->withLocale($locale1Seed),
             )
             ->withAnotherLocalizedAttributes(
                 (new CategoryLocalizedAttributesBuilder())
-                    ->withLocale($locale2Builder),
+                    ->withLocale($locale2Seed),
             );
 
         $category2Builder = (new CategoryBuilder())
             ->withAnotherLocalizedAttributes(
                 (new CategoryLocalizedAttributesBuilder())
-                    ->withLocale($locale1Builder),
+                    ->withLocale($locale1Seed),
             )
             ->withAnotherLocalizedAttributes(
                 (new CategoryLocalizedAttributesBuilder())
-                    ->withLocale($locale2Builder),
+                    ->withLocale($locale2Seed),
             );
 
         $priceProductTransfer = (new PriceProductBuilder())
@@ -122,15 +132,19 @@ class AlgoliaHelper extends Module
             ->withAnotherImageSet(
                 (new ProductImageSetBuilder())
                     ->withProductImage()
-                    ->withLocale($locale2Builder),
+                    ->withLocale($locale2Seed),
             )
             ->withStores($storeBuilder)
             ->withAnotherProductLabel(
                 (new ProductLabelBuilder())->withAnotherLocalizedAttributes(
-                    (new ProductLabelLocalizedAttributesBuilder())->withAnotherLocale($locale1Builder),
+                    (new ProductLabelLocalizedAttributesBuilder())->withAnotherLocale($locale1Seed),
                 ),
             )
-            ->withAnotherStores()
+            ->withAnotherStores(
+                $seed + [
+                    StoreTransfer::AVAILABLE_LOCALE_ISO_CODES => $availableLocaleIsoCodes,
+                ],
+            )
             ->withAnotherPrice(
                 (new PriceProductBuilder())
                     ->withMoneyValue(
@@ -193,12 +207,11 @@ class AlgoliaHelper extends Module
 
         return $productConcreteTransfer
             ->addPrice($priceProductTransfer)
-            ->addProductAbstractPrice($priceProductTransfer)
             ->setIsActive(true)
             ->setAttributes(['attribute1' => 'attributeValue1'])
             ->addLocalizedAttributes(
                 (new LocalizedAttributesBuilder())
-                    ->withLocale($locale1Builder)
+                    ->withLocale($locale1Seed)
                     ->build()
                     ->setAttributes([
                         'localizedAttribute1' => 'localizedAttribute1Value1',
@@ -206,25 +219,25 @@ class AlgoliaHelper extends Module
             )
             ->addLocalizedAttributes(
                 (new LocalizedAttributesBuilder())
-                    ->withLocale($locale2Builder)
+                    ->withLocale($locale2Seed)
                     ->build()
                     ->setAttributes([
                         'localizedAttribute1' => 'localizedAttribute1Value2',
                     ]),
             )
             ->setUrl((new ProductUrlTransfer())
-                ->addUrl((new LocalizedUrlBuilder())->withLocale($locale1Builder)->build())
-                ->addUrl((new LocalizedUrlBuilder())->withLocale($locale2Builder)->build()))
+                ->addUrl((new LocalizedUrlBuilder())->withLocale($locale1Seed)->build())
+                ->addUrl((new LocalizedUrlBuilder())->withLocale($locale2Seed)->build()))
             ->addRelatedCategoryTreeNode(
                 (new NodeBuilder())->withCategory(
                     (new CategoryBuilder())
                         ->withAnotherLocalizedAttributes(
                             (new CategoryLocalizedAttributesBuilder())
-                                ->withLocale($locale1Builder),
+                                ->withLocale($locale1Seed),
                         )
                         ->withAnotherLocalizedAttributes(
                             (new CategoryLocalizedAttributesBuilder())
-                                ->withLocale($locale2Builder),
+                                ->withLocale($locale2Seed),
                         ),
                 )->build()
                     ->setChildrenNodes(

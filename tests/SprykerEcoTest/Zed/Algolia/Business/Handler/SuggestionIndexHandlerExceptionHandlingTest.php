@@ -18,7 +18,7 @@ use InvalidArgumentException;
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business

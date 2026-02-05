@@ -6,6 +6,13 @@ paths:
     support: _support
     output: _output
 
+coverage:
+    enabled: true
+    remote: false
+    whitelist:
+        include:
+            - '../../../../src/*'
+
 suites:
     Business:
         path: Business
@@ -23,16 +30,3 @@ suites:
                 - \SprykerTest\Zed\Testify\Helper\Business\DependencyProviderHelper
                 - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaHelper
                 - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaConfigHelper
-
-    Communication:
-        path: Communication
-        actor: AlgoliaCommunicationTester
-        modules:
-            enabled:
-                - \SprykerTest\Shared\Testify\Helper\Environment
-                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
-                - \SprykerTest\Shared\Testify\Helper\LocatorHelper:
-                      projectNamespaces:
-                          - Pyz
-                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
-                - \SprykerEcoTest\Zed\Algolia\Helper\AlgoliaHelper

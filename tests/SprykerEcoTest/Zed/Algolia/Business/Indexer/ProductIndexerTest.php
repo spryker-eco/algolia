@@ -18,7 +18,7 @@ use Generated\Shared\Transfer\StoreTransfer;
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business
@@ -31,12 +31,12 @@ class ProductIndexerTest extends Unit
     /**
      * @var string
      */
-    protected const STORE_REFERENCE_TEST = 'test-reference';
+    protected const TEST_TENANT_ID = 'test';
 
     /**
      * @var string
      */
-    protected const STORE_REFERENCE_TEST_WRONG = 'test-wrong-reference';
+    protected const TEST_WRONG_TENANT_ID = 'test-wrong';
 
     /**
      * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
@@ -49,22 +49,20 @@ class ProductIndexerTest extends Unit
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArray(): void
     {
         // Arrange
-        $productConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
                 ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_DE']],
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_US']],
                 ],
             ],
         );
-        $anotherProductConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $anotherProductConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
                 ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_CH']],
                     [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_GB']],
@@ -87,7 +85,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            static::STORE_REFERENCE_TEST,
+            static::TEST_TENANT_ID,
         );
 
         // Assert
@@ -103,7 +101,7 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductAnotherLocale), $indicesString);
-        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
+        $this->assertStringContainsString(static::TEST_TENANT_ID, $indicesString);
     }
 
     /**
@@ -112,18 +110,16 @@ class ProductIndexerTest extends Unit
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArrayWithMatchingLocales(): void
     {
         // Arrange
-        $productConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
-        $anotherProductConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $anotherProductConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
 
@@ -144,7 +140,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            static::STORE_REFERENCE_TEST,
+            static::TEST_TENANT_ID,
         );
 
         // Assert
@@ -160,7 +156,7 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductLocale), $indicesString);
         $this->assertStringContainsString($this->getLanguageNameFromLocale($anotherProductAnotherLocale), $indicesString);
-        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
+        $this->assertStringContainsString(static::TEST_TENANT_ID, $indicesString);
     }
 
     /**
@@ -169,18 +165,16 @@ class ProductIndexerTest extends Unit
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArrayWithoutIndexingProductWithUnmatchingStore(): void
     {
         // Arrange
-        $productConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST,
             ],
         );
-        $anotherProductConcreteTransfer = $this->tester->createFullProductConcreteTransfer(
+        $anotherProductConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
-                StoreTransfer::STORE_REFERENCE => static::STORE_REFERENCE_TEST_WRONG,
             ],
         );
 
@@ -194,7 +188,7 @@ class ProductIndexerTest extends Unit
                     $anotherProductConcreteTransfer,
                 ],
             ),
-            static::STORE_REFERENCE_TEST,
+            static::TEST_TENANT_ID,
         );
 
         // Assert
@@ -206,8 +200,8 @@ class ProductIndexerTest extends Unit
 
         $indicesString = implode(',', $indices);
 
-        $this->assertStringContainsString(static::STORE_REFERENCE_TEST, $indicesString);
-        $this->assertStringNotContainsString(static::STORE_REFERENCE_TEST_WRONG, $indicesString);
+        $this->assertStringContainsString(static::TEST_TENANT_ID, $indicesString);
+        $this->assertStringNotContainsString(static::TEST_WRONG_TENANT_ID, $indicesString);
     }
 
     /**

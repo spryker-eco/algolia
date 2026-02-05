@@ -14,7 +14,7 @@ use SprykerEco\Zed\Algolia\Business\Api\IndexReader\IndexReader;
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business

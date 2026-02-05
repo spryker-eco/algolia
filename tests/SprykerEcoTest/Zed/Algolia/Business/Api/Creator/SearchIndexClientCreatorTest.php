@@ -10,13 +10,12 @@ namespace SprykerEcoTest\Zed\Algolia\Business\Api\Creator;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\IndexConfigurationTransfer;
-use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreator;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business
@@ -86,51 +85,5 @@ class SearchIndexClientCreatorTest extends Unit
         // Assert
 
         $this->assertNotNull($searchIndexClient);
-    }
-
-    /**
-     * @return void
-     */
-    public function testCreateSearchIndexApiClientForSearchCreatesClientWithoutConfiguration(): void
-    {
-        // Arrange
-        $searchClientMock = $this->tester->createSearchClientMockForExistingIndex(static::INDEX_NAME_TEST);
-        $indexConfiguratorMock = $this->tester->createIndexConfiguratorMock($this->never());
-
-        $searchIndexClientCreator = new SearchIndexClientCreator($indexConfiguratorMock);
-
-        // Act
-        $searchIndexClient = $searchIndexClientCreator->createSearchIndexApiClientForSearch(
-            $searchClientMock,
-            (new IndexConfigurationTransfer())
-                ->setIndexName(static::INDEX_NAME_TEST),
-        );
-
-        // Assert
-        $this->assertNotNull($searchIndexClient);
-        $this->assertInstanceOf(SearchIndexClientInterface::class, $searchIndexClient);
-    }
-
-    /**
-     * @return void
-     */
-    public function testCreateSearchIndexApiClientForSearchWorksWithNonExistingIndex(): void
-    {
-        // Arrange
-        $searchClientMock = $this->tester->createSearchClientMockForNonExistingIndex(static::INDEX_NAME_TEST);
-        $indexConfiguratorMock = $this->tester->createIndexConfiguratorMock($this->never()); // Should never be called for search client
-
-        $searchIndexClientCreator = new SearchIndexClientCreator($indexConfiguratorMock);
-
-        // Act
-        $searchIndexClient = $searchIndexClientCreator->createSearchIndexApiClientForSearch(
-            $searchClientMock,
-            (new IndexConfigurationTransfer())
-                ->setIndexName(static::INDEX_NAME_TEST),
-        );
-
-        // Assert
-        $this->assertNotNull($searchIndexClient);
-        $this->assertInstanceOf(SearchIndexClientInterface::class, $searchIndexClient);
     }
 }

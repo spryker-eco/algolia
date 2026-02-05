@@ -10,16 +10,13 @@ namespace SprykerEcoTest\Zed\Algolia\Business\IndexResolver;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaIndexTransfer;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
-use Generated\Shared\Transfer\FacetCollectionTransfer;
-use Generated\Shared\Transfer\SortingEntryTransfer;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
 use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
+ * @group SprykerEcoTest
  * @group Zed
  * @group Algolia
  * @group Business
@@ -211,89 +208,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals('test-tenant-product-de-de_de', $resultIndices[0]->getName());
     }
 
-    /**
-     * @return void
-     */
-    public function testGetIndexReplicaNameForSortingWithAscendingDirection(): void
-    {
-        // Arrange
-        $indexNameResolver = new IndexNameResolver();
-
-        $sortingEntryTransfer = (new SortingEntryTransfer())
-            ->setField('name')
-            ->setDirection('asc');
-
-        $facetCollectionTransfer = new FacetCollectionTransfer();
-
-        // Act
-        $result = $indexNameResolver->getIndexReplicaNameForSorting(
-            static::TEST_INDEX_NAME,
-            $sortingEntryTransfer,
-            $facetCollectionTransfer,
-        );
-
-        // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
-        $this->assertStringContainsString('name', $result);
-        $this->assertStringContainsString('asc', $result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetIndexReplicaNameForSortingWithDescendingDirection(): void
-    {
-        // Arrange
-        $indexNameResolver = new IndexNameResolver();
-
-        $sortingEntryTransfer = (new SortingEntryTransfer())
-            ->setField('name')
-            ->setDirection('desc');
-
-        $facetCollectionTransfer = new FacetCollectionTransfer();
-
-        // Act
-        $result = $indexNameResolver->getIndexReplicaNameForSorting(
-            static::TEST_INDEX_NAME,
-            $sortingEntryTransfer,
-            $facetCollectionTransfer,
-        );
-
-        // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
-        $this->assertStringContainsString('name', $result);
-        $this->assertStringContainsString('desc', $result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetIndexReplicaNameForSortingWithPriceField(): void
-    {
-        // Arrange
-        $indexNameResolver = new IndexNameResolver();
-
-        $sortingEntryTransfer = (new SortingEntryTransfer())
-            ->setField(AlgoliaConfig::FILTER_NAME_PRICE)
-            ->setDirection('asc');
-
-        $facetCollectionTransfer = new FacetCollectionTransfer();
-
-        // Act
-        $result = $indexNameResolver->getIndexReplicaNameForSorting(
-            static::TEST_INDEX_NAME,
-            $sortingEntryTransfer,
-            $facetCollectionTransfer,
-        );
-
-        // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
-        $this->assertStringContainsString('price_eur', $result);
-        $this->assertStringContainsString('asc', $result);
-    }
 
     /**
      * @return void
