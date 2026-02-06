@@ -11,6 +11,7 @@
         "algolia/algoliasearch-client-php": "^3.4.2",
         "spryker/cms": "^7.18.0",
         "spryker/kernel": "^3.76.0",
+        "spryker/http": "^1.15.0",
         "spryker/log": "^3.18.0",
         "spryker/product": "^6.52.0",
         "spryker/product-category": "^4.28.1",

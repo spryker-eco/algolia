@@ -10,11 +10,14 @@ namespace SprykerEco\Client\Algolia\Api\Client;
 use Algolia\AlgoliaSearch\SearchIndex;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
+use Spryker\Shared\Http\Logger\ExternalHttpInMemoryLoggerTrait;
 use Spryker\Shared\Log\LoggerTrait;
+use Throwable;
 
 class SearchIndexClient implements SearchIndexClientInterface
 {
     use LoggerTrait;
+    use ExternalHttpInMemoryLoggerTrait;
 
     public function __construct(protected SearchIndex $searchIndex)
     {
@@ -45,11 +48,23 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
     {
-        $result = $this->searchIndex->search($query, $searchParameters);
+        $requestData = ['query' => $query, 'searchParameters' => $searchParameters];
 
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result)
-            ->setIsSuccessful(true);
+        try {
+            $result = $this->searchIndex->search($query, $searchParameters);
+            $responseData = $result;
+
+            return (new AlgoliaSearchResponseTransfer())
+                ->setSearchResults($result)
+                ->setIsSuccessful(true);
+        } catch (Throwable $e) {
+            $responseData = ['error' => $e->getMessage()];
+
+            return (new AlgoliaSearchResponseTransfer())
+                ->setIsSuccessful(false);
+        } finally {
+            $this->logHttpRequest('POST', 'search', $requestData, $responseData);
+        }
     }
 
     public function indexExists(): bool
@@ -86,5 +101,52 @@ class SearchIndexClient implements SearchIndexClientInterface
     {
         return (new AlgoliaResponseTransfer())
             ->setIsSuccessful(true);
+    }
+
+    /**
+     * @param array<string, mixed> $requestData
+     * @param callable $callback
+     */
+    protected function executeWithLogging(
+        string $method,
+        string $endpoint,
+        array $requestData,
+        callable $callback,
+    ): AlgoliaResponseTransfer {
+        $responseData = null;
+
+        try {
+            $callback();
+            $responseData = ['success' => true];
+
+            return $this->createSuccessfulAlgoliaResponseTransfer();
+        } catch (Throwable $e) {
+            $responseData = ['error' => $e->getMessage()];
+
+            return (new AlgoliaResponseTransfer())
+                ->setIsSuccessful(false);
+        } finally {
+            $this->logHttpRequest($method, $endpoint, $requestData, $responseData);
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $requestData
+     * @param array<string, mixed>|null $responseData
+     */
+    protected function logHttpRequest(
+        string $method,
+        string $endpoint,
+        array $requestData,
+        ?array $responseData,
+    ): void {
+        $url = sprintf('algolia://%s/%s', $this->searchIndex->getIndexName(), $endpoint);
+
+        $this->getExternalHttpInMemoryLogger()->log(
+            $method,
+            $url,
+            $requestData,
+            $responseData,
+        );
     }
 }

@@ -447,21 +447,24 @@ while the cron jobs ensure full data consistency by performing periodic complete
 - `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend
 - `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend
 
-**Insights & Analytics (via TraceableEventWidget):**
-- `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking.
+**Insights & Analytics & Personalization:**
+- `getIsPersonalizationEnabled()` - Enable/disable Algolia Personalization for search. This feature requires a premium Algolia plan.
+- `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking (via TraceableEventWidget).
+
 
 ### Default Event Subscriptions
 
 All publisher plugins get their subscribed events from `AlgoliaConfig`. The config automatically includes events from optional modules if they exist:
 
 **For Products:**
-- ✅ ProductBundle - Bundle events (if module exists)
-- ✅ PriceProduct - Price events (if module exists)
-- ✅ ProductLabel - Label events (if module exists)
-- ✅ ProductReview - Review events (if module exists)
+- All product abstract and product concrete events
+- ProductBundle - Bundle events (if module exists)
+- PriceProduct - Price events (if module exists)
+- ProductLabel - Label events (if module exists)
+- ProductReview - Review events (if module exists)
 
 **For CMS Pages:**
-- ✅ CMS - All CMS page and version events
+- CMS - All CMS page and version events
 
 ### Customizing Event Subscriptions
 
@@ -568,6 +571,16 @@ console transfer:generate
    ```
 4. Debug publishing with Xdebug `docker/sdk console -x queue:task:start publish` or using logs.
 
+
+### Search requests are failing
+
+**Problem**: Search queries return errors or no results
+
+**Solution**:
+1. Verify Algolia credentials in config are correct
+2. Ensure indices exist in Algolia dashboard
+3. Disable personalization `getIsPersonalizationEnabled()` if you use not premium plan.
+
 ---
 
 ## Migration from ACP Algolia App
@@ -672,8 +685,8 @@ For issues or questions:
 To check/fix code style and run static analysis, use:
 
 ```bash
-composer cs-fix
-composer phpstan
+composer cs-fix # can be used standalone
+composer phpstan # only works together with Spryker project (uses autoloader from it)
 ```
 
 for test execution check details in [tests/README.md](tests/README.md) file.
