@@ -41,6 +41,7 @@ use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilter;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplier;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
+use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolver;
@@ -213,9 +214,14 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     {
         return new ProductDataFilterApplier(
             [
-                new PriceProductDataFilter(),
+                $this->createPriceProductDataFilter(),
             ],
         );
+    }
+
+    public function createPriceProductDataFilter(): ProductDataFilterInterface
+    {
+        return new PriceProductDataFilter();
     }
 
     public function createCmsPageMapper(): CmsPageMapperInterface

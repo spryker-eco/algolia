@@ -24,6 +24,7 @@ The Algolia module provides seamless integration between Spryker Commerce OS and
 - [Configuration](#configuration)
 - [Migration from ACP Algolia App](#migration-from-acp-algolia-app)
 - [Troubleshooting](#troubleshooting)
+- [Development](#development)
 
 ## Installation
 
@@ -33,13 +34,14 @@ composer require spryker-eco/algolia
 
 **Configure Algolia credentials** in your config files:
 ```php
-// config/Shared/config_default.php
+// config/Shared/config_default.php or config_local.php
+use SprykerEco\Shared\Algolia\AlgoliaConstants;
 $config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
 $config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_ADMIN_API_KEY');
 $config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_ONLY_API_KEY');
-$config[AlgoliaConstants::TENANT_IDENTIFIER] = 'project_name_production'; // Add if you use one Algolia account for multiple environments, default is "production".
-$config[AlgoliaConstants::IS_ACTIVE] = true;
+$config[AlgoliaConstants::TENANT_IDENTIFIER] = 'john'; // Add if you use one Algolia account for multiple environments, default is "production".
 ```
+
 
 ### Step 1: Enable Console Command
 
@@ -428,6 +430,26 @@ while the cron jobs ensure full data consistency by performing periodic complete
 
 ## Configuration
 
+### Available Configuration Methods
+
+- `getIsActive()` - Enable/disable Algolia integration
+
+**Product Events:**
+- `getProductConcreteSubscribedEvents()` - Product variant events
+- `getProductAbstractSubscribedEvents()` - Product abstract events
+- `getProductConcreteUnpublishSubscribedEvents()` - Delete events
+
+**CMS Page Events:**
+- `getCmsPageUpdateSubscribedEvents()` - Page update events
+- `getCmsPageVersionPublishSubscribedEvents()` - Version publish events
+
+**Search:**
+- `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend
+- `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend
+
+**Insights & Analytics (via TraceableEventWidget):**
+- `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking.
+
 ### Default Event Subscriptions
 
 All publisher plugins get their subscribed events from `AlgoliaConfig`. The config automatically includes events from optional modules if they exist:
@@ -477,27 +499,6 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
     }
 }
 ```
-
-### Available Configuration Methods
-
-- `getIsActive()` - Enable/disable Algolia integration
-
-**Product Events:**
-- `getProductConcreteSubscribedEvents()` - Product variant events
-- `getProductAbstractSubscribedEvents()` - Product abstract events
-- `getProductConcreteUnpublishSubscribedEvents()` - Delete events
-
-**CMS Page Events:**
-- `getCmsPageUpdateSubscribedEvents()` - Page update events
-- `getCmsPageVersionPublishSubscribedEvents()` - Version publish events
-
-**Search:**
-- `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend
-- `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend
-
-**Insights & Analytics (via TraceableEventWidget):**
-- `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking.
-
 
 ---
 
@@ -666,6 +667,18 @@ For issues or questions:
 - Review [Algolia documentation](https://www.algolia.com/doc/)
 - Contact Spryker support
 
+## Development
+
+To check/fix code style and run static analysis, use:
+
+```bash
+composer cs-fix
+composer phpstan
+```
+
+for test execution check details in [tests/README.md](tests/README.md) file.
+
+
 ## License
 
-This module is licensed under the same license as Spryker Commerce OS.
+This module is licensed under the same license as [Spryker Commerce OS](LICENSE).

@@ -25,7 +25,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^6.0 || ^7.0",
         "phpstan/phpstan": "^2.1",
-        "psr/http-message":"^1.1.0",
+        "psr/http-message":"^1.1.0 || ^2.0.0",
         "spryker/code-sniffer": "^0.17.30",
         "spryker/testify": "^3.62.0"
     },
@@ -54,8 +54,7 @@
     "scripts": {
         "cs-check": "vendor/bin/phpcs -p -s src/ tests/",
         "cs-fix": "vendor/bin/phpcbf -p src/ tests/",
-        "phpstan": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/codecept build && vendor/bin/codecept run"
+        "phpstan": "vendor/bin/phpstan analyse"
     },
     "extra": {
         "branch-alias": {
