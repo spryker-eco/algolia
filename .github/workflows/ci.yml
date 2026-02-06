@@ -27,11 +27,6 @@ jobs:
                   extensions: mbstring, intl
                   tools: composer:v2
 
-            - name: Composer get cache directory
-              id: composer-cache
-              run: |
-                  echo "::set-output name=dir::$(composer config cache-files-dir)"
-
             - name: Composer cache
               uses: actions/cache@v4
               with:
