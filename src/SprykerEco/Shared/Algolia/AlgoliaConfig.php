@@ -90,8 +90,23 @@ class AlgoliaConfig extends AbstractSharedConfig
     /**
      *  Specification:
      *  - Defines Spryker custom entities to Algolia index mapping.
+     *  - See details https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/algolia-search-by-custom-entity-index#step-by-step-instructions
      *
-     * @example TODO: see EntityToIndexMappingTransfer for structure of arrays
+     * @examples
+     * [
+     *   [
+     *      'sourceIdentifier' => 'document', // is provided in your plugin AlgoliaSearchQueryPlugin in `SearchContextTransfer.sourceIdentifier`
+     *      'store' => 'DE',
+     *      'locales' => ['de_DE'],
+     *      'indexName' => 'documents_DE', // existing index name in Algolia account
+     *   ],
+     *   [
+     *      'sourceIdentifier' => 'manufacturer',
+     *      'store' => '*', // applicable to all stores
+     *      'locales' => ['*'], // applicable to any locale
+     *      'indexName' => 'manufacturers', // existing index name in Algolia account
+     *   ],
+     * ]
      *
      * @api
      */

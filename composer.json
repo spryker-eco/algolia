@@ -17,13 +17,15 @@
         "spryker/product-image": "^3.20.0",
         "spryker/transfer": "^3.42.0",
         "spryker/search-http": "^0.5.8",
+        "spryker/store": "^1.30.0",
         "spryker-shop/traceable-event-widget": "^1.0.0",
         "symfony/cache": "^6.4 || ^7.4",
         "symfony/console": "^6.4"
     },
     "require-dev": {
-        "codeception/module-asserts": "*",
+        "guzzlehttp/guzzle": "^6.0 || ^7.0",
         "phpstan/phpstan": "^2.1",
+        "psr/http-message":"^1.1.0",
         "spryker/code-sniffer": "^0.17.30",
         "spryker/testify": "^3.62.0"
     },

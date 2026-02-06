@@ -138,7 +138,6 @@ class CmsPageMapper implements CmsPageMapperInterface
 
         $truncatedText = substr($text, 0, static::MAX_TEXT_SIZE_IN_BYTES - 100);
 
-//        TODO:: verify ending
         return $truncatedText . '... [content truncated due to size limit]';
     }
 

@@ -231,36 +231,36 @@ vendor/bin/console transfer:generate
 ## Step 7: Verify Installation
 
 ```bash
-# List available commands (should show algolia:index-export)
+# List available commands (should show algolia:entity-export)
 vendor/bin/console | grep algolia
 
 # Show available entity types
-vendor/bin/console algolia:index-export
+vendor/bin/console algolia:entity-export
 
 # Test with dry run
-vendor/bin/console algolia:index-export product --dry-run
+vendor/bin/console algolia:entity-export product --dry-run
 ```
 
 ## Step 8: Usage Examples
 
 ```bash
 # Export products
-vendor/bin/console algolia:index-export product
+vendor/bin/console algolia:entity-export product
 
-# Export products for specific store
-vendor/bin/console algolia:index-export product --store=DE
+# Export products for specific locale
+vendor/bin/console algolia:entity-export product --locale=en_US
 
 # Export CMS pages
-vendor/bin/console algolia:index-export cms-page
+vendor/bin/console algolia:entity-export cms-page
+
+# Export CMS pages only from one store
+vendor/bin/console algolia:entity-export cms-page --store=DE
 
 # Export all entity types
-vendor/bin/console algolia:index-export --all
+vendor/bin/console algolia:entity-export --all
 
 # Export with custom chunk size
-vendor/bin/console algolia:index-export product --chunk-size=200
-
-# Dry run to preview
-vendor/bin/console algolia:index-export product --dry-run --store=DE
+vendor/bin/console algolia:entity-export product --chunk-size=200
 ```
 
 ---

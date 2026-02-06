@@ -56,7 +56,6 @@ class ProductDeleter implements ProductDeleterInterface
             $storeName,
         );
 
-        //TODO: get rid of ProductDeletedTransfer
         $skus = array_map(function (ProductDeletedTransfer $productDeletedTransfer) {
             return $productDeletedTransfer->getSku();
         }, $productDeletedTransfers);

@@ -132,6 +132,8 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Used to determine which index to use for each entity type.
      * - Value is retrieved from shared configuration.
      *
+     * @see \SprykerEco\Shared\Algolia\AlgoliaConfig::getEntityToIndexMappings() for expected structure.
+     *
      * @api
      */
     public function getEntityToIndexMappings(): array

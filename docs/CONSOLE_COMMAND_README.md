@@ -73,47 +73,47 @@ vendor/bin/console transfer:generate
 ### List Available Entity Types
 
 ```bash
-vendor/bin/console algolia:index-export
+vendor/bin/console algolia:entity-export
 ```
 
 ### Export Specific Entity Type
 
 ```bash
 # Export products
-vendor/bin/console algolia:index-export product
+vendor/bin/console algolia:entity-export product
 
 # Export CMS pages
-vendor/bin/console algolia:index-export cms-page
+vendor/bin/console algolia:entity-export cms-page
 ```
 
 ### Export with Filters
 
 ```bash
-# Export products for a specific store
-vendor/bin/console algolia:index-export product --store=DE
+# Export products for a specific locale
+vendor/bin/console algolia:entity-export product --locale=de_DE
 
 # Export with custom chunk size
-vendor/bin/console algolia:index-export product --chunk-size=50
+vendor/bin/console algolia:entity-export product --chunk-size=50
 
-# Export with locale filter
-vendor/bin/console algolia:index-export cms-page --locale=de_DE
+# Export with store filter
+vendor/bin/console algolia:entity-export cms-page --store=DE
 ```
 
 ### Dry Run Mode
 
 ```bash
 # Preview what would be exported without actually exporting
-vendor/bin/console algolia:index-export product --dry-run
+vendor/bin/console algolia:entity-export product --dry-run
 ```
 
 ### Export All Entity Types
 
 ```bash
 # Export all registered entity types
-vendor/bin/console algolia:index-export --all
+vendor/bin/console algolia:entity-export --all
 
 # Export all with filters
-vendor/bin/console algolia:index-export --all --store=DE --locale=de_DE
+vendor/bin/console algolia:entity-export --all --store=DE --locale=de_DE
 ```
 
 ## Creating Custom Entity Exporters
@@ -196,7 +196,7 @@ protected function getAlgoliaEntityExporterPlugins(): array
 ### 3. Use It
 
 ```bash
-vendor/bin/console algolia:index-export category
+vendor/bin/console algolia:entity-export category
 ```
 
 ## Architecture
@@ -238,7 +238,7 @@ interface AlgoliaEntityExporterPluginInterface
 
 **AlgoliaExportCriteriaTransfer**:
 - `entityType`: Type of entity to export
-- `storeReference`: Optional store filter
+- `storeName`: Optional store filter
 - `locale`: Optional locale filter
 - `chunkSize`: Batch size for processing
 - `isDryRun`: Whether to skip actual export
@@ -293,13 +293,13 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 
 ```bash
 # Test with dry run
-vendor/bin/console algolia:index-export product --dry-run
+vendor/bin/console algolia:entity-export product --dry-run
 
 # Test single store
-vendor/bin/console algolia:index-export product --store=DE --dry-run
+vendor/bin/console algolia:entity-export product --store=DE --dry-run
 
 # Test with small chunk size
-vendor/bin/console algolia:index-export product --chunk-size=10 --dry-run
+vendor/bin/console algolia:entity-export product --chunk-size=10 --dry-run
 ```
 
 ## Module Structure
