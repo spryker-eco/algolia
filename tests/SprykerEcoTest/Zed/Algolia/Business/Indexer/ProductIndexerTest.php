@@ -13,7 +13,6 @@ use Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
 use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
-use Generated\Shared\Transfer\StoreTransfer;
 
 /**
  * Auto-generated group annotations

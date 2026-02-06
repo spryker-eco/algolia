@@ -208,7 +208,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals('test-tenant-product-de-de_de', $resultIndices[0]->getName());
     }
 
-
     /**
      * @return void
      */

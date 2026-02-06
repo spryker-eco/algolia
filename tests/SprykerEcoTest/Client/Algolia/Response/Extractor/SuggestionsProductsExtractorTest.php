@@ -5,20 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\Response\Extractor;
+namespace SprykerEcoTest\Client\Algolia\Api\Response\Extractor;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Generated\Shared\Transfer\SuggestionsMatchesCollectionTransfer;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
-use SprykerEco\Zed\Algolia\Business\Api\Response\Extractor\SuggestionsProductsExtractor;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
+use SprykerEco\Client\Algolia\Api\Response\Extractor\SuggestionsProductsExtractor;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -30,9 +30,9 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 class SuggestionsProductsExtractorTest extends Unit
 {
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void
@@ -53,7 +53,7 @@ class SuggestionsProductsExtractorTest extends Unit
         $this->assertCount(20, $hits);
         $this->assertCount(3, $suggestionsMatchesCollectionTransfer->getMatches());
 
-        $matchesCategory = $suggestionsMatchesCollectionTransfer->getMatches()[AlgoliaConfig::INDEXED_PRODUCT_FIELD_NAME_CATEGORY];
+        $matchesCategory = $suggestionsMatchesCollectionTransfer->getMatches()['category'];
         $this->assertSame(array_unique($matchesCategory), $matchesCategory);
         $this->assertCount(16, $suggestionsMatchesCollectionTransfer->getMatchedItems());
         $this->assertCount(3, $suggestionsMatchesCollectionTransfer->getCategories());

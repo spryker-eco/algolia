@@ -7,9 +7,9 @@
 
 namespace SprykerEco\Shared\Algolia;
 
-use Spryker\Shared\Kernel\AbstractBundleConfig;
+use Spryker\Shared\Kernel\AbstractSharedConfig;
 
-class AlgoliaConfig extends AbstractBundleConfig
+class AlgoliaConfig extends AbstractSharedConfig
 {
  /**
   * Specification:

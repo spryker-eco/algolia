@@ -43,7 +43,8 @@
     "autoload-dev": {
         "psr-4": {
             "SprykerEcoTest\\": "tests/SprykerEcoTest/",
-            "SprykerEcoTest\\Zed\\Algolia\\Helper\\": "tests/SprykerEcoTest/Zed/Algolia/_support/Helper/"
+            "SprykerEcoTest\\Zed\\Algolia\\Helper\\": "tests/SprykerEcoTest/Zed/Algolia/_support/Helper/",
+            "SprykerEcoTest\\Client\\Algolia\\Helper\\": "tests/SprykerEcoTest/Client/Algolia/_support/Helper/"
         }
     },
     "minimum-stability": "dev",

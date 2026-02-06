@@ -5,19 +5,19 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\SearchParameters;
+namespace SprykerEcoTest\Client\Algolia\Api\SearchParameters;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\FacetParametersTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
-use SprykerEco\Zed\Algolia\Business\Api\Exception\FacetTypeUnknownException;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEco\Client\Algolia\Exception\FacetTypeUnknownException;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -33,9 +33,14 @@ class FilterConverterTest extends Unit
     protected const ID_TENANT = 'test_tenant';
 
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
+
+    protected function _before()
+    {
+        $this->tester->mockConfigMethod('getTenantIdentifier', static::ID_TENANT);
+    }
 
     /**
      * @return void

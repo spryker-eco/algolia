@@ -5,17 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\Response\Builder;
+namespace SprykerEcoTest\Client\Algolia\Api\Response\Builder;
 
 use Codeception\Test\Unit;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -27,9 +26,9 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 class SuggestionsSearchResponseBuilderTest extends Unit
 {
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void
@@ -49,13 +48,13 @@ class SuggestionsSearchResponseBuilderTest extends Unit
         $this->assertEmpty($suggestionsSearchResponseTransfer->getErrors());
         $this->assertSame(3, count($suggestionsSearchResponseTransfer->getMatches()));
 
-        $matchesCategory = $suggestionsSearchResponseTransfer->getMatches()[AlgoliaConfig::INDEXED_PRODUCT_FIELD_NAME_CATEGORY];
+        $matchesCategory = $suggestionsSearchResponseTransfer->getMatches()['category'];
         $this->assertSame(array_unique($matchesCategory), $matchesCategory);
         $this->assertSame(16, count($suggestionsSearchResponseTransfer->getMatchedItems()));
         $this->assertSame(4, count($suggestionsSearchResponseTransfer->getCompletions()));
         $this->assertSame(5, count($suggestionsSearchResponseTransfer->getCategories()));
-        $this->assertArrayHasKey(AlgoliaConfig::INDEXED_PRODUCT_FIELD_NAME_NAME, $suggestionsSearchResponseTransfer->getMatches());
-        $this->assertArrayHasKey(AlgoliaConfig::INDEXED_PRODUCT_FIELD_NAME_ABSTRACT_NAME, $suggestionsSearchResponseTransfer->getMatches());
+        $this->assertArrayHasKey('name', $suggestionsSearchResponseTransfer->getMatches());
+        $this->assertArrayHasKey('abstract_name', $suggestionsSearchResponseTransfer->getMatches());
 
         $skus = array_column($suggestionsSearchResponseTransfer->getMatchedItems(), 'sku');
         foreach ($suggestionsSearchResponseTransfer->getMatches() as $match) {

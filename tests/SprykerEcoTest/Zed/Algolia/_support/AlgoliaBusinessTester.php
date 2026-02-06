@@ -18,20 +18,15 @@ use Codeception\Stub\Expected;
 use Codeception\Test\Feature\Stub;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 use Psr\Http\Message\ResponseInterface;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface;
 use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
-use SprykerEco\Zed\Algolia\Business\IndexResolver\SearchIndexResolver;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\CacheItem;
 
 /**
  * Inherited Methods
@@ -78,8 +73,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchIndexClientCreator',
             $this->createSearchIndexClientCreatorMock($searchIndexClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     /**
@@ -111,8 +104,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchClientCreator',
             $this->createSearchClientCreatorMock($algoliaSearchClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     public function mockSearchClientForCredentialsValidationWhenAdminCredentialsIsWrong(): void
@@ -126,8 +117,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchClientCreator',
             $this->createSearchClientCreatorMock($algoliaSearchClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     /**
@@ -162,8 +151,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchClientCreator',
             $this->createSearchClientCreatorMock($algoliaSearchClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     /**
@@ -191,8 +178,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchIndexClientCreator',
             $this->createSearchIndexClientCreatorMock($searchIndexClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     /**
@@ -215,8 +200,6 @@ class AlgoliaBusinessTester extends Actor
             'createSearchIndexClientCreator',
             $this->createSearchIndexClientCreatorMock($searchIndexClientMock),
         );
-
-        $this->ensureFactoryConfigIsMocked();
     }
 
     /**
@@ -329,20 +312,6 @@ class AlgoliaBusinessTester extends Actor
     }
 
     /**
-     * @param \PHPUnit\Framework\MockObject\Rule\InvokedCount $invokedCount
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator
-     */
-    public function createIndexConfiguratorMock(InvokedCountMatcher $invokedCount): IndexConfigurator
-    {
-        $indexConfigurator = $this->makeEmpty(IndexConfigurator::class);
-
-        $indexConfigurator->expects($invokedCount)->method('configureIndex');
-
-        return $indexConfigurator;
-    }
-
-    /**
      * @param string $indexName
      * @param \Exception $e
      *
@@ -401,116 +370,6 @@ class AlgoliaBusinessTester extends Actor
     }
 
     /**
-     * @return string
-     */
-    public function getFixturesSearchResponseDirectory(): string
-    {
-        return codecept_data_dir('Fixtures/Search/Response/');
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadNormalSearchResponseFixtures(bool $withPrices = true): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . ($withPrices ? 'algolia-normal-search-response.json' : 'algolia-normal-search-without-price-with-facet-ordering-response.json'),
-            ),
-            true,
-        );
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($searchResponse);
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadNormalSearchResponseWithFacetOrderingFixtures(): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-normal-search-with-facet-ordering-response.json',
-            ),
-            true,
-        );
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($searchResponse);
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadEmptySearchResponseFixtures(): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-empty-search-response.json',
-            ),
-            true,
-        );
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($searchResponse);
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadNormalSuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-normal-suggestions-search-response.json',
-            ),
-            true,
-        );
-        $result = array_combine(['completions', 'suggestions'], $searchResponse['results']);
-        $result['categories'] = $this->loadNormalCategorySuggestionsSearchResponseFixtures();
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result);
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadEmptyMatchSuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-empty-match-suggestions-search-response.json',
-            ),
-            true,
-        );
-        $result = array_combine(['completions', 'suggestions'], $searchResponse['results']);
-        $result['categories'] = [];
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result);
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
-    public function loadEmptySuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
-    {
-        $searchResponse = json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-empty-suggestions-search-response.json',
-            ),
-            true,
-        );
-        $result = array_combine(['completions', 'suggestions'], $searchResponse['results']);
-        $result['categories'] = [];
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result);
-    }
-
-    /**
      * @return \PHPUnit\Framework\MockObject\MockObject&\Algolia\AlgoliaSearch\Http\HttpClientInterface
      */
     public function haveRateLimitedAlgoliaHttpClient(): HttpClientInterface&MockObject
@@ -563,68 +422,20 @@ class AlgoliaBusinessTester extends Actor
 
         $this->mockFactoryMethod('createSearchClientCreator', $searchClientCreatorMock);
 
-        $this->ensureFactoryConfigIsMocked();
-
         return $searchClient;
     }
 
     /**
-     * @return array
-     */
-    public function loadNormalCategorySuggestionsSearchResponseFixtures(): array
-    {
-        return json_decode(
-            file_get_contents(
-                $this->getFixturesSearchResponseDirectory() . 'algolia-normal-category-search-response.json',
-            ),
-            true,
-        );
-    }
-
-    /**
-     * @param string $tenantId
-     * @param array|null $returnItemData
+     * @param \PHPUnit\Framework\MockObject\Rule\InvokedCount $invokedCount
      *
-     * @return void
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator
      */
-    public function haveCacheAdapterMock(string $tenantId, ?array $returnItemData = null): void
+    public function createIndexConfiguratorMock(InvokedCountMatcher $invokedCount): IndexConfigurator
     {
-        $itemMock = new CacheItem();
-        $itemMock->set($returnItemData);
-        $filesystemAdapterMock = $this->makeEmpty(FilesystemAdapter::class);
-        $filesystemAdapterMock->method('getItem')
-            ->with(sprintf('algolia.facets.%s', $tenantId))
-            ->willReturn($itemMock);
+        $indexConfigurator = $this->makeEmpty(IndexConfigurator::class);
 
-        $this->mockFactoryMethod('createCache', $filesystemAdapterMock);
-    }
+        $indexConfigurator->expects($invokedCount)->method('configureIndex');
 
-    /**
-     * @param array $settings
-     *
-     * @return void
-     */
-    public function haveSearchIndexResolver(array $settings): void
-    {
-        $searchIndexResolverMock = $this->makeEmpty(SearchIndexResolver::class);
-        $searchIndexClientMock = $this->makeEmpty(SearchIndexClientInterface::class);
-        $searchIndexClientMock->method('getSettings')->willReturn($settings);
-        $searchIndexResolverMock->method('getSearchIndexClientWithPrimarySearchIndex')->willReturn($searchIndexClientMock);
-
-        $this->mockFactoryMethod('createSearchIndexResolver', $searchIndexResolverMock);
-    }
-
-    /**
-     * Ensures that the factory's getConfig() method is properly mocked to prevent
-     * BundleConfigNotFoundException when mocking factory methods.
-     *
-     * @return void
-     */
-    public function ensureFactoryConfigIsMocked(): void
-    {
-        // Create a real instance of AlgoliaConfig and mock it on the factory
-        // to prevent BundleConfigNotFoundException when using mocked factories
-        $config = new AlgoliaConfig();
-        $this->mockFactoryMethod('getConfig', $config);
+        return $indexConfigurator;
     }
 }

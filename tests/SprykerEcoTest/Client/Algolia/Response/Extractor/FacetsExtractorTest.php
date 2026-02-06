@@ -5,20 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\Response\Extractor;
+namespace SprykerEcoTest\Client\Algolia\Api\Response\Extractor;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\FacetEntryTransfer;
 use Generated\Shared\Transfer\FacetParametersTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -30,9 +30,9 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 class FacetsExtractorTest extends Unit
 {
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void
@@ -84,7 +84,7 @@ class FacetsExtractorTest extends Unit
     public function testFacetsExtractedWithOrderFacetsCombination(array $configSettings): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getFilterableNameAttributes', $configSettings);
+        $this->tester->mockConfigMethod('getFilterableAttributes', $configSettings);
 
         $normalResponseFixtures = $this->tester->loadNormalSearchResponseFixtures();
         $facetsExtractor = $this->tester->getFactory()->createFacetsExtractor();
@@ -101,6 +101,8 @@ class FacetsExtractorTest extends Unit
                 $configSettings[] = $facet;
             }
         }
+        sort($configSettings);
+        ksort($extractedFacets);
         $this->assertEquals($configSettings, array_keys($extractedFacets));
     }
 
@@ -110,7 +112,7 @@ class FacetsExtractorTest extends Unit
     public function testFacetsExtractedWithOrderFacetsFromSettings(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getFilterableNameAttributes', ['category', 'rating', 'prices']);
+        $this->tester->mockConfigMethod('getFilterableAttributes', ['category', 'rating', 'prices']);
 
         $normalResponseFixtures = $this->tester->loadNormalSearchResponseWithFacetOrderingFixtures();
         $facetsExtractor = $this->tester->getFactory()->createFacetsExtractor();

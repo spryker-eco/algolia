@@ -30,10 +30,6 @@
         <property name="errorMessages" type="array" singular="errorMessage"/>
     </transfer>
 
-    <transfer name="AlgoliaConfigCriteria">
-        <property name="storeReference" type="string"/>
-    </transfer>
-
     <transfer name="HttpRequest">
         <property name="headers" type="array" singular="header" associative="true"/>
     </transfer>
@@ -413,10 +409,6 @@
 
     <transfer name="AlgoliaResponse">
         <property name="isSuccessful" type="bool"/>
-    </transfer>
-
-    <transfer name="DisconnectParameters">
-        <property name="storeReference" type="string"/>
     </transfer>
 
     <transfer name="PaginationEntry">

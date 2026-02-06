@@ -12,7 +12,6 @@ use Exception;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
-use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class IndexNameResolver implements IndexNameResolverInterface
@@ -32,7 +31,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         'NET_MODE' => 'net',
     ];
 
-    public function __construct(protected AlgoliaConfig $algoliaConfig)
+    public function __construct()
     {
     }
 

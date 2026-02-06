@@ -25,7 +25,6 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
  * @group Algolia
  * @group Business
  * @group Api
- * @group Client
  * @group SearchIndexClientTest
  * Add your own group annotations below this line
  */

@@ -17,16 +17,18 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * Used in Algolia API as UserAgent
      */
-    public const string VERSION = '1.0.0';
+    public const string USER_AGENT_SEGMENT_NAME = 'Spryker Eco Algolia module';
 
     /**
      * Used in Algolia API as UserAgent
      */
-    public const string USER_AGENT_SEGMENT_NAME = 'spryker-integration';
+    public const string VERSION = '1.0.0';
 
     public const string SOURCE_IDENTIFIER_PRODUCT = 'product';
 
     public const string SOURCE_IDENTIFIER_CMS_PAGE = 'cms-page';
+
+    public const string FEATURE_PERSONALIZATION = 'personalization';
 
     /**
      * Specification:

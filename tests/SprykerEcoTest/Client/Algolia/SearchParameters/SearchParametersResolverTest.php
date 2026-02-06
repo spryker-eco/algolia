@@ -7,24 +7,24 @@
 
 declare(strict_types=1);
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\SearchParameters;
+namespace SprykerEcoTest\Client\Algolia\Api\SearchParameters;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\PaginationEntryTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use PHPUnit\Framework\MockObject\MockObject;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverterInterface;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface;
-use SprykerEco\Zed\Algolia\Business\Api\SearchParameters\SearchParametersResolver;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
+use SprykerEco\Client\Algolia\Api\SearchParameters\Filter\FilterConverterInterface;
+use SprykerEco\Client\Algolia\Api\SearchParameters\Pagination\PaginationConverterInterface;
+use SprykerEco\Client\Algolia\Api\SearchParameters\SearchParametersResolver;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -58,9 +58,9 @@ class SearchParametersResolverTest extends Unit
     protected const TEST_USER_IP = '192.168.1.1';
 
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void
@@ -308,7 +308,7 @@ class SearchParametersResolverTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Filter\FilterConverterInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Client\Algolia\Api\SearchParameters\Filter\FilterConverterInterface
      */
     protected function createFilterConverterMock(): MockObject|FilterConverterInterface
     {
@@ -316,7 +316,7 @@ class SearchParametersResolverTest extends Unit
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\SearchParameters\Pagination\PaginationConverterInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Client\Algolia\Api\SearchParameters\Pagination\PaginationConverterInterface
      */
     protected function createPaginationConverterMock(): MockObject|PaginationConverterInterface
     {

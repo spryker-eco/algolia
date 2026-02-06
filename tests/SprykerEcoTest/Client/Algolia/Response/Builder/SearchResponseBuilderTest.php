@@ -5,16 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\Response\Builder;
+namespace SprykerEcoTest\Client\Algolia\Api\Response\Builder;
 
 use Codeception\Test\Unit;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -26,9 +26,9 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 class SearchResponseBuilderTest extends Unit
 {
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void

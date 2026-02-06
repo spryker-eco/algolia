@@ -5,18 +5,18 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEcoTest\Zed\Algolia\Business\Api\SearchParameters;
+namespace SprykerEcoTest\Client\Algolia\Api\SearchParameters;
 
 use Codeception\Test\Unit;
 use Generated\Shared\DataBuilder\PaginationEntryBuilder;
 use Generated\Shared\Transfer\PaginationEntryTransfer;
-use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
+use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
  * Auto-generated group annotations
  *
- * @group PyzTest
- * @group Zed
+ * @group SprykerEcoTest
+ * @group Client
  * @group Algolia
  * @group Business
  * @group Api
@@ -27,9 +27,9 @@ use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 class PaginationConverterTest extends Unit
 {
     /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
+     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
      */
-    protected AlgoliaBusinessTester $tester;
+    protected AlgoliaClientTester $tester;
 
     /**
      * @return void

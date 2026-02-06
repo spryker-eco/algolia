@@ -8,24 +8,17 @@
 namespace SprykerEcoTest\Zed\Algolia\Helper;
 
 use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
-use ArrayObject;
 use Codeception\Module;
 use Generated\Shared\DataBuilder\AlgoliaApiCredentialsBuilder;
 use Generated\Shared\DataBuilder\AlgoliaProductObjectBuilder;
 use Generated\Shared\DataBuilder\CategoryBuilder;
 use Generated\Shared\DataBuilder\CategoryLocalizedAttributesBuilder;
-use Generated\Shared\DataBuilder\DisconnectParametersBuilder;
-use Generated\Shared\DataBuilder\FacetCollectionBuilder;
-use Generated\Shared\DataBuilder\FacetEntryBuilder;
-use Generated\Shared\DataBuilder\FacetParametersBuilder;
 use Generated\Shared\DataBuilder\LocaleBuilder;
 use Generated\Shared\DataBuilder\LocalizedAttributesBuilder;
 use Generated\Shared\DataBuilder\LocalizedUrlBuilder;
-use Generated\Shared\DataBuilder\MessageAttributesBuilder;
 use Generated\Shared\DataBuilder\MoneyValueBuilder;
 use Generated\Shared\DataBuilder\NodeBuilder;
 use Generated\Shared\DataBuilder\NodeCollectionBuilder;
-use Generated\Shared\DataBuilder\PaginationEntryBuilder;
 use Generated\Shared\DataBuilder\PriceProductBuilder;
 use Generated\Shared\DataBuilder\ProductConcreteBuilder;
 use Generated\Shared\DataBuilder\ProductCreatedBuilder;
@@ -36,14 +29,9 @@ use Generated\Shared\DataBuilder\ProductLabelBuilder;
 use Generated\Shared\DataBuilder\ProductLabelLocalizedAttributesBuilder;
 use Generated\Shared\DataBuilder\ProductOfferBuilder;
 use Generated\Shared\DataBuilder\ProductUpdatedBuilder;
-use Generated\Shared\DataBuilder\SearchRequestBuilder;
 use Generated\Shared\DataBuilder\StoreBuilder;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaProductObjectTransfer;
-use Generated\Shared\Transfer\DisconnectParametersTransfer;
-use Generated\Shared\Transfer\FacetCollectionTransfer;
-use Generated\Shared\Transfer\FacetEntryTransfer;
-use Generated\Shared\Transfer\FacetParametersTransfer;
 use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\MessageAttributesTransfer;
 use Generated\Shared\Transfer\MoneyValueTransfer;
@@ -55,9 +43,7 @@ use Generated\Shared\Transfer\ProductDeletedTransfer;
 use Generated\Shared\Transfer\ProductExportedTransfer;
 use Generated\Shared\Transfer\ProductUpdatedTransfer;
 use Generated\Shared\Transfer\ProductUrlTransfer;
-use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
-use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class AlgoliaHelper extends Module
 {
@@ -377,90 +363,6 @@ class AlgoliaHelper extends Module
     public function haveAlgoliaApiCredentialsTransfer(array $seed = []): AlgoliaApiCredentialsTransfer
     {
         return (new AlgoliaApiCredentialsBuilder($seed))->build();
-    }
-
-    /**
-     * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\MessageAttributesTransfer
-     */
-    public function haveMessageAttributesTransfer(array $seed = []): MessageAttributesTransfer
-    {
-        return (new MessageAttributesBuilder($seed))->build();
-    }
-
-    /**
-     * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\DisconnectParametersTransfer
-     */
-    public function haveDisconnectParametersTransfer(array $seed = []): DisconnectParametersTransfer
-    {
-        return (new DisconnectParametersBuilder($seed))->build();
-    }
-
-    /**
-     * @param array<mixed> $facets
-     *
-     * @return \Generated\Shared\Transfer\FacetCollectionTransfer
-     */
-    public function haveFacetCollectionTransfer(array $facets = []): FacetCollectionTransfer
-    {
-        return (new FacetCollectionBuilder())
-            ->build()
-            ->setFacets(new ArrayObject($facets));
-    }
-
-    /**
-     * @param string $type
-     * @param \Generated\Shared\Transfer\FacetParametersTransfer $facetParametersTransfer
-     *
-     * @return \Generated\Shared\Transfer\FacetEntryTransfer
-     */
-    public function haveFacetEntryTransfer(string $type, FacetParametersTransfer $facetParametersTransfer): FacetEntryTransfer
-    {
-        return (new FacetEntryBuilder())
-            ->build()
-            ->setType($type)
-            ->setParameters($facetParametersTransfer);
-    }
-
-    /**
-     * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\FacetParametersTransfer
-     */
-    public function haveFacetParametersTransfer(array $seed = []): FacetParametersTransfer
-    {
-        return (new FacetParametersBuilder($seed))
-            ->build();
-    }
-
-    /**
-     * @param array<mixed> $seed
-     *
-     * @return \Generated\Shared\Transfer\SearchRequestTransfer
-     */
-    public function haveSearchRequestTransfer(array $seed = []): SearchRequestTransfer
-    {
-        $paginationSeed = $seed['pagination_entry'] ?? [];
-        $paginationEntryTransfer = (new PaginationEntryBuilder($paginationSeed))->build();
-        $searchRequestTransfer = (new SearchRequestBuilder($seed))->build();
-
-        if ($searchRequestTransfer->getStoreName() === null) {
-            $searchRequestTransfer->setStoreName('DE');
-        }
-        if ($searchRequestTransfer->getLocale() === null) {
-            $searchRequestTransfer->setLocale('en_US');
-        }
-
-        if ($searchRequestTransfer->getSourceIdentifier() === null) {
-            $searchRequestTransfer->setSourceIdentifier(AlgoliaEntityNameEnum::PRODUCT->value);
-        }
-
-        return $searchRequestTransfer
-            ->setPagination($paginationEntryTransfer)
-            ->setSort();
     }
 
     /**
