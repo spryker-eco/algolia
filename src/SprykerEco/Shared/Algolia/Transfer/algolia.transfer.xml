@@ -180,14 +180,7 @@
 
     <transfer name="Store">
         <property name="name" type="string"/>
-        <property name="selectedCurrencyIsoCode" type="string"/>
-        <property name="defaultCurrencyIsoCode" type="string"/>
-        <property name="availableCurrencyIsoCodes" type="array" singular="availableCurrencyIsoCode"/>
-        <property name="availableLocaleIsoCodes" type="array" singular="availableLocaleIsoCode"/>
-        <property name="queuePools" type="array" singular="queuePool"/>
-        <property name="storesWithSharedPersistence" type="array" singular="storeWithSharedPersistence"/>
-        <property name="countries" type="array" singular="country"/>
-        <property name="timezone" type="string"/>
+        <property name="availableLocaleIsoCodes" type="array" singular="availableLocaleCode"/>
     </transfer>
 
     <transfer name="PriceProduct">
