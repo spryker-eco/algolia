@@ -46,9 +46,6 @@ class AlgoliaFacadeTest extends Unit
         Algolia::resetHttpClient();
     }
 
-    /**
-     * @return void
-     */
     public function testExportProductsWithCorrectDataReturnsSuccessfulResponse(): void
     {
         // Arrange
@@ -71,9 +68,6 @@ class AlgoliaFacadeTest extends Unit
         $this->assertTrue($algoliaResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testExportProductsWithInactiveProductsDataReturnsSuccessfulResponse(): void
     {
         // Arrange
@@ -90,9 +84,6 @@ class AlgoliaFacadeTest extends Unit
         $this->assertTrue($algoliaResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testUpdateProductsWithInactiveProductsCallsProductDeleterAndReturnsSuccessfulResponse(): void
     {
         // Arrange
@@ -121,8 +112,6 @@ class AlgoliaFacadeTest extends Unit
 
     /**
      * @group currentGroup
-     *
-     * @return void
      */
     public function testDeleteProductsWithCorrectDataReturnsSuccessfulResponse(): void
     {
@@ -140,9 +129,6 @@ class AlgoliaFacadeTest extends Unit
         $this->tester->getFacade()->deleteProduct($productDeletedTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testExportProductsWithEmptySkuReturnsErrorResponse(): void
     {
         // Arrange
@@ -159,9 +145,6 @@ class AlgoliaFacadeTest extends Unit
         $this->assertFalse($algoliaResponseTransfer->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateApiCredentialsSuccessResponse(): void
     {
         // Arrange
@@ -184,9 +167,6 @@ class AlgoliaFacadeTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testValidateApiCredentialsErrorResponseWhenAdminApiKeyInvalid(): void
     {
         // Arrange
@@ -200,9 +180,6 @@ class AlgoliaFacadeTest extends Unit
         $this->assertFalse($algoliaApiCredentialsValidationTransfer->getIsAdminApiKeyValid());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateApiCredentialsErrorResponseWhenSearchOnlyKeyInvalid(): void
     {
         // Arrange
@@ -216,9 +193,6 @@ class AlgoliaFacadeTest extends Unit
         $this->assertFalse($algoliaApiCredentialsValidationTransfer->getIsSearchOnlyApiKeyValid());
     }
 
-    /**
-     * @return void
-     */
     public function testExportProductsThrowsBadRequestExceptionOnRateLimitDuringIndexSetup(): void
     {
         $productConcreteTransfers = new ArrayObject();
@@ -238,9 +212,6 @@ class AlgoliaFacadeTest extends Unit
         $this->tester->getFacade()->updateProducts($productConcreteTransfers);
     }
 
-    /**
-     * @return void
-     */
     public function testExportProductsReportsFailureWithExceptionOnRateLimitSaveObject(): void
     {
         $productConcreteTransfers = new ArrayObject();
@@ -255,9 +226,6 @@ class AlgoliaFacadeTest extends Unit
         $this->tester->getFacade()->updateProducts($productConcreteTransfers);
     }
 
-    /**
-     * @return void
-     */
     public function testDeleteProductThrowsBadRequestExceptionOnRateLimitSaveObject(): void
     {
         $this->markTestSkipped('mocked listIndices for some reason returns empty array.');
@@ -288,8 +256,6 @@ class AlgoliaFacadeTest extends Unit
     /**
      * Algolia's API wrapper will raise a `UnreachableException` if they are unable to send the request due to a server or connection problem.
      * This test ensures that if Algolia changes this behavior, our test suite will fail.
-     *
-     * @return void
      */
     public function testRetriableExceptionIsConvertedToUnreachableExceptionByAlgoliaRetryApiWrapper(): void
     {

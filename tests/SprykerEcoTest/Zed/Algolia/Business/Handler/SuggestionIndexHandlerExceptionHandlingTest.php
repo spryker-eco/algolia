@@ -41,13 +41,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     /**
      * @dataProvider getExceptionDataProvider
      *
-     * @param \Exception $exception
-     * @param bool $isRegionException
-     * @param int $methodInvocationNumber
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
      */
     public function testCreateSuggestionsIndexWorksProperlyWithExceptionsIfConfigurationExists(
         Exception $exception,
@@ -79,13 +73,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     /**
      * @dataProvider getExceptionDataProvider
      *
-     * @param \Exception $exception
-     * @param bool $isRegionException
-     * @param int $methodInvocationNumber
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
      */
     public function testCreateSuggestionsIndexWorksProperlyWithExceptionsIfConfigurationDoesntExist(
         Exception $exception,
@@ -121,13 +109,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     /**
      * @dataProvider getExceptionDataProvider
      *
-     * @param \Exception $exception
-     * @param bool $isRegionException
-     * @param int $methodInvocationNumber
-     *
      * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
      */
     public function testGetAllConfigurationsWorksProperlyWithExceptions(
         Exception $exception,
@@ -190,9 +172,6 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         ];
     }
 
-    /**
-     * @return \Exception
-     */
     protected function getWrongRegionExceptionMessage(): Exception
     {
         $str = 'any non-json string';

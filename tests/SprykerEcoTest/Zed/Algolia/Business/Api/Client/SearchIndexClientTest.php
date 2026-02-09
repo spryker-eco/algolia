@@ -59,9 +59,6 @@ class SearchIndexClientTest extends Unit
      */
     protected AlgoliaBusinessTester $tester;
 
-    /**
-     * @return void
-     */
     public function testSaveObjectsSuccessfullyCallsAlgoliaAndReturnsSuccessResponse(): void
     {
         // Arrange
@@ -86,9 +83,6 @@ class SearchIndexClientTest extends Unit
         $this->assertTrue($result->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testDeleteObjectsSuccessfullyCallsAlgoliaAndReturnsSuccessResponse(): void
     {
         // Arrange
@@ -110,9 +104,6 @@ class SearchIndexClientTest extends Unit
         $this->assertTrue($result->getIsSuccessful());
     }
 
-    /**
-     * @return void
-     */
     public function testSearchSuccessfullyCallsAlgoliaAndReturnsSearchResponse(): void
     {
         // Arrange

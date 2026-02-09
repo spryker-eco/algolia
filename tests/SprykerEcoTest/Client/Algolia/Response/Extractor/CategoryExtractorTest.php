@@ -30,9 +30,6 @@ class CategoryExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testCategoriesExtractedWhenFacetHitsExistInResponseData(): void
     {
         // Arrange
@@ -50,9 +47,6 @@ class CategoryExtractorTest extends Unit
         $this->assertSame(['Smartphone', 'Smartwatches', 'Fruits'], $categories);
     }
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsDoNotExistInResponseData(): void
     {
         // Arrange

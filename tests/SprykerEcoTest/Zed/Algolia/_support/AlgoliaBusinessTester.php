@@ -52,11 +52,6 @@ class AlgoliaBusinessTester extends Actor
 
     use Stub;
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaResponseTransfer $algoliaResponseTransfer
-     *
-     * @return void
-     */
     public function mockSearchIndexSaveObjects(AlgoliaResponseTransfer $algoliaResponseTransfer): void
     {
         $searchIndexClientMock = $this->createSearchIndexClientMock();
@@ -75,12 +70,6 @@ class AlgoliaBusinessTester extends Actor
         );
     }
 
-    /**
-     * @param string $adminApiKey
-     * @param string $searchOnlyApiKey
-     *
-     * @return void
-     */
     public function mockSearchClientForCredentialsSuccessfulValidation(string $adminApiKey, string $searchOnlyApiKey): void
     {
         $algoliaSearchClientMock = $this->createSearchClientMock();
@@ -119,11 +108,6 @@ class AlgoliaBusinessTester extends Actor
         );
     }
 
-    /**
-     * @param string $adminApiKey
-     *
-     * @return void
-     */
     public function mockSearchClientForCredentialsValidationWhenSearchOnlyCredentialsIsWrong(string $adminApiKey): void
     {
         $algoliaSearchClientMock = $this->createSearchClientMock();
@@ -153,11 +137,6 @@ class AlgoliaBusinessTester extends Actor
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AlgoliaResponseTransfer $algoliaResponseTransfer
-     *
-     * @return void
-     */
     public function mockSearchIndexDeleteObjects(AlgoliaResponseTransfer $algoliaResponseTransfer): void
     {
         $searchClientMock = $this->searchClientMockReturnsTwoIndices(
@@ -180,11 +159,6 @@ class AlgoliaBusinessTester extends Actor
         );
     }
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClientMock
-     *
-     * @return void
-     */
     public function mockSearchIndexClient(SearchIndexClientInterface $searchIndexClientMock): void
     {
         $searchClientMock = $this->searchClientMockReturnsTwoIndices(
@@ -202,11 +176,6 @@ class AlgoliaBusinessTester extends Actor
         );
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface
-     */
     public function createSearchClientCreatorMock(SearchClient $searchClient): SearchClientCreatorInterface
     {
         $mock = $this->makeEmpty(SearchClientCreatorInterface::class);
@@ -220,11 +189,6 @@ class AlgoliaBusinessTester extends Actor
         return $mock;
     }
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClient
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface
-     */
     public function createSearchIndexClientCreatorMock(SearchIndexClientInterface $searchIndexClient): SearchIndexClientCreatorInterface
     {
         $mock = $this->makeEmpty(SearchIndexClientCreatorInterface::class);
@@ -235,27 +199,16 @@ class AlgoliaBusinessTester extends Actor
         return $mock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexClientMock(): SearchIndexClientInterface
     {
         return $this->makeEmpty(SearchIndexClientInterface::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function createSearchClientMock(): SearchClient
     {
         return $this->makeEmpty(SearchClient::class);
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function searchClientMockReturnsTwoIndices(SearchClient $searchClient): SearchClient
     {
         $searchClient->method('listIndices')
@@ -264,11 +217,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function searchClientMockReturnsZeroIndices(SearchClient $searchClient): SearchClient
     {
         $searchClient->method('listIndices')
@@ -277,11 +225,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function createSearchClientMockForNonExistingIndex(string $indexName): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
@@ -294,11 +237,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClientMock;
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function createSearchClientMockForExistingIndex(string $indexName): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
@@ -311,12 +249,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClientMock;
     }
 
-    /**
-     * @param string $indexName
-     * @param \Exception $e
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchIndex
-     */
     public function createSearchIndexMockThrowingExceptionOnSetSettings(string $indexName, Exception $e): SearchIndex
     {
         $searchIndexMock = $this->makeEmpty(SearchIndex::class);
@@ -326,11 +258,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchIndexMock;
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchIndex
-     */
     public function createSearchIndexMock(string $indexName): SearchIndex
     {
         $searchIndexMock = $this->makeEmpty(SearchIndex::class);
@@ -349,17 +276,11 @@ class AlgoliaBusinessTester extends Actor
         return $searchIndexMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface
-     */
     protected function mockSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
         return $this->makeEmpty(SuggestionIndexHandlerInterface::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\Response\AbstractResponse
-     */
     protected function createIndexingResponseMock(): AbstractResponse
     {
         $indexingResponse = $this->makeEmpty(AbstractResponse::class);
@@ -427,8 +348,6 @@ class AlgoliaBusinessTester extends Actor
 
     /**
      * @param \PHPUnit\Framework\MockObject\Rule\InvokedCount $invokedCount
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfigurator
      */
     public function createIndexConfiguratorMock(InvokedCountMatcher $invokedCount): IndexConfigurator
     {

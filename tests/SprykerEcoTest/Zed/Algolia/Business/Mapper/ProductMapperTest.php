@@ -35,9 +35,6 @@ class ProductMapperTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithEmptyDataReturnsZeroTransfers(): void
     {
         // Arrange
@@ -52,9 +49,6 @@ class ProductMapperTest extends Unit
         $this->assertCount(0, $algoliaProductsArray);
     }
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithMinimalDataReturnsCorrectData(): void
     {
         // Arrange
@@ -83,9 +77,6 @@ class ProductMapperTest extends Unit
         $this->assertEquals($locale, $algoliaProductTransfer->getMetadata()->getLocale());
     }
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithFullDataReturnsCorrectData(): void
     {
         // Arrange
@@ -141,9 +132,6 @@ class ProductMapperTest extends Unit
         $this->assertEquals($productConcreteTransfer->getSearchMetadata(), $algoliaProductTransfer->getObject()->getSearchMetadata());
     }
 
-    /**
-     * @return void
-     */
     public function testMapAlgoliaProductTransfersArrayToAlgoliaObjectArrayCorrectlyMapsObjectIdAndOtherData(): void
     {
         // Arrange
@@ -165,9 +153,6 @@ class ProductMapperTest extends Unit
         $this->assertNotEmpty($algoliaObjectArray['sku']);
     }
 
-    /**
-     * @return void
-     */
     public function testMapAlgoliaProductTransfersArrayToAlgoliaObjectArrayWithoutPrice(): void
     {
         // Arrange
@@ -189,9 +174,6 @@ class ProductMapperTest extends Unit
         $this->assertArrayNotHasKey('concrete_prices', $algoliaObjectArray);
     }
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithNotSearchableParentCategoryFullDataReturnsCorrectData(): void
     {
         // Arrange
@@ -215,9 +197,6 @@ class ProductMapperTest extends Unit
         $this->assertCount(2, $algoliaProductTransfer->getObject()->getCategory());
     }
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithNotSearchableChildsCategoryFullDataReturnsCorrectData(): void
     {
         // Arrange
@@ -242,9 +221,6 @@ class ProductMapperTest extends Unit
         $this->assertCount(1, $algoliaProductTransfer->getObject()->getCategory());
     }
 
-    /**
-     * @return void
-     */
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithNotSearchableChildsCategoryWithPricingIdFullDataReturnsCorrectData(): void
     {
         // Arrange

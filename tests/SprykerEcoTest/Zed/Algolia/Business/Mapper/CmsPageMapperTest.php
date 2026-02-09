@@ -77,9 +77,6 @@ class CmsPageMapperTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataReturnsCorrectStructure(): void
     {
         // Arrange
@@ -124,9 +121,6 @@ class CmsPageMapperTest extends Unit
         $this->assertEquals(static::TEST_META_KEYWORDS, $result[AlgoliaCmsPageObjectEnum::META_KEYWORDS->value]);
     }
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataStripsHtmlTags(): void
     {
         // Arrange
@@ -155,9 +149,6 @@ class CmsPageMapperTest extends Unit
         $this->assertEquals('Content with links and emphasis', $result[AlgoliaCmsPageObjectEnum::CONTENT->value]);
     }
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataTruncatesLongText(): void
     {
         // Arrange
@@ -189,9 +180,6 @@ class CmsPageMapperTest extends Unit
         $this->assertLessThan(91 * 1024, strlen($result[AlgoliaCmsPageObjectEnum::CONTENT->value]));
     }
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataHandlesEmptyPlaceholders(): void
     {
         // Arrange
@@ -217,9 +205,6 @@ class CmsPageMapperTest extends Unit
         $this->assertEquals('', $result[AlgoliaCmsPageObjectEnum::CONTENT->value]);
     }
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataHandlesMissingLocaleAttributes(): void
     {
         // Arrange
@@ -252,9 +237,6 @@ class CmsPageMapperTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testMapCmsPageDataToAlgoliaDataHandlesMissingMetaAttributes(): void
     {
         // Arrange
@@ -281,9 +263,6 @@ class CmsPageMapperTest extends Unit
         $this->assertNull($result[AlgoliaCmsPageObjectEnum::META_KEYWORDS->value]);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\CmsPagePublishedTransfer
-     */
     protected function createCmsPagePublishedTransfer(): CmsPagePublishedTransfer
     {
         return (new CmsPagePublishedTransfer())
@@ -292,9 +271,6 @@ class CmsPageMapperTest extends Unit
             ->setUpdatedAt('2023-01-02 15:30:00');
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\CmsPageTransfer
-     */
     protected function createCmsPageTransfer(): CmsPageTransfer
     {
         $cmsPageAttributesTransfer = (new CmsPageAttributesTransfer())
@@ -314,9 +290,6 @@ class CmsPageMapperTest extends Unit
             ->addMetaAttribute($cmsPageMetaAttributesTransfer);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\StoreRelationTransfer
-     */
     protected function createStoreRelation(): StoreRelationTransfer
     {
         $storeTransfer = (new StoreTransfer())->setName('DE');

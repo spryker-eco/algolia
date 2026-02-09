@@ -15,17 +15,12 @@ class AlgoliaConfigHelper extends Module
 {
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaConfigTransfer
      */
     public function haveAlgoliaConfigTransfer(array $seed = []): AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigBuilder($seed))->build();
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaConfigTransfer
-     */
     public function haveDefaultAlgoliaConfigTransfer(): AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigTransfer())->fromArray([

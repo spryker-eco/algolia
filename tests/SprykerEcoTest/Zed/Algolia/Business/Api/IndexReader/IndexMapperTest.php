@@ -34,9 +34,6 @@ class IndexMapperTest extends Unit
      */
     protected AlgoliaBusinessTester $tester;
 
-    /**
-     * @return void
-     */
     public function testMapAlgoliaListIndicesResponseToAlgoliaIndicesCollectionTransferMapsIndicesCorrectly(): void
     {
         // Arrange
@@ -83,9 +80,6 @@ class IndexMapperTest extends Unit
         $this->assertFalse($secondIndex->getIsPrimary()); // No replicas, so it's not primary
     }
 
-    /**
-     * @return void
-     */
     public function testMapAlgoliaListIndicesResponseToAlgoliaIndicesCollectionTransferHandlesPartialData(): void
     {
         // Arrange
@@ -118,9 +112,6 @@ class IndexMapperTest extends Unit
         $this->assertFalse($index->getIsPrimary()); // No replicas field, so not primary
     }
 
-    /**
-     * @return void
-     */
     public function testMapAlgoliaListIndicesResponseToAlgoliaIndicesCollectionTransferPreservesExistingIndices(): void
     {
         // Arrange

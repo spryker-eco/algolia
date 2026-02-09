@@ -48,9 +48,6 @@ class CmsPageIndexerTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testBuildIndexDataReturnsCorrectStructure(): void
     {
         // Arrange
@@ -101,9 +98,6 @@ class CmsPageIndexerTest extends Unit
         $this->assertEquals($expectedMappedData, $result['data']);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildIndexDataReturnsEmptyArrayOnMapperException(): void
     {
         // Arrange
@@ -138,9 +132,6 @@ class CmsPageIndexerTest extends Unit
         $this->assertEmpty($result);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildIndexDataCallsMapperWithCorrectParameters(): void
     {
         // Arrange
@@ -180,9 +171,6 @@ class CmsPageIndexerTest extends Unit
         // Assert - expectations are verified by PHPUnit automatically
     }
 
-    /**
-     * @return void
-     */
     public function testBuildIndexDataCallsIndexNameResolverWithCorrectParameters(): void
     {
         // Arrange
@@ -217,9 +205,6 @@ class CmsPageIndexerTest extends Unit
         // Assert - expectations are verified by PHPUnit automatically
     }
 
-    /**
-     * @return void
-     */
     public function testBuildIndexDataHandlesNullMapperResult(): void
     {
         // Arrange

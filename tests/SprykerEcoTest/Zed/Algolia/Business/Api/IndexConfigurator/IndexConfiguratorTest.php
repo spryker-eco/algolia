@@ -43,12 +43,6 @@ class IndexConfiguratorTest extends Unit
 
     /**
      * @dataProvider localesProvider
-     *
-     * @param string $locale
-     * @param string $expectedLanguage
-     * @param bool $withPrices
-     *
-     * @return void
      */
     public function testConfigureIndexCorrectlyParsesLocales(string $locale, string $expectedLanguage, bool $withPrices): void
     {
@@ -115,9 +109,6 @@ class IndexConfiguratorTest extends Unit
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testGetReplicaNamesWithRankingAttributesReturnsCorrectStructureWithPrices(): void
     {
         // Arrange
@@ -154,9 +145,6 @@ class IndexConfiguratorTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testGetReplicaNamesWithRankingAttributesExcludesPricesWhenConfigured(): void
     {
         // Arrange
@@ -192,9 +180,6 @@ class IndexConfiguratorTest extends Unit
         $this->assertNotEmpty($basicReplicas, 'Basic replicas (rating, name) should always be present');
     }
 
-    /**
-     * @return void
-     */
     public function testGetReplicaNamesWithRankingAttributesIncludesDefaultRankingOrder(): void
     {
         // Arrange

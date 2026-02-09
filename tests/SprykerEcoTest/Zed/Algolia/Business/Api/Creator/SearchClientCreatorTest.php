@@ -30,9 +30,6 @@ class SearchClientCreatorTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testCreateSearchClient(): void
     {
         // Arrange
@@ -49,9 +46,6 @@ class SearchClientCreatorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testCreateSearchClientByStoreReferenceSuccessfully(): void
     {
         // Arrange

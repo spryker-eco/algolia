@@ -36,9 +36,6 @@ class SearchIndexClientCreatorTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testCreateSearchIndexApiClientWillCallIndexConfiguratorIfIndexDoesNotExist(): void
     {
         // Arrange
@@ -61,9 +58,6 @@ class SearchIndexClientCreatorTest extends Unit
         $this->assertNotNull($searchIndexClient);
     }
 
-    /**
-     * @return void
-     */
     public function testCreateSearchIndexApiClientWillNotCallIndexConfiguratorIfIndexDoesExist(): void
     {
         // Arrange

@@ -52,9 +52,6 @@ class IndexNameResolverTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testGetIndexReplicaNameForSortingWithAscendingDirection(): void
     {
         // Arrange
@@ -78,9 +75,6 @@ class IndexNameResolverTest extends Unit
         $this->assertStringContainsString('asc', $result);
     }
 
-    /**
-     * @return void
-     */
     public function testGetIndexReplicaNameForSortingWithDescendingDirection(): void
     {
         // Arrange
@@ -104,9 +98,6 @@ class IndexNameResolverTest extends Unit
         $this->assertStringContainsString('desc', $result);
     }
 
-    /**
-     * @return void
-     */
     public function testGetIndexReplicaNameForSortingWithPriceField(): void
     {
         // Arrange

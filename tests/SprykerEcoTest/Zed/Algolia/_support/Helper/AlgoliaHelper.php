@@ -49,8 +49,6 @@ class AlgoliaHelper extends Module
 {
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer
      */
     public function haveFullProductConcreteTransfer(
         array $seed = []
@@ -239,12 +237,6 @@ class AlgoliaHelper extends Module
             );
     }
 
-    /**
-     * @param string $name
-     * @param string $sku
-     *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer
-     */
     public function haveEmptyProductConcreteTransfer(string $name, string $sku): ProductConcreteTransfer
     {
         $storeEn = (new StoreBuilder())->build();
@@ -257,12 +249,6 @@ class AlgoliaHelper extends Module
             ->addStores($storeEn);
     }
 
-    /**
-     * @param string $name
-     * @param string $sku
-     *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer
-     */
     public function haveMinimalProductConcreteTransfer(string $name, string $sku): ProductConcreteTransfer
     {
         $localeEn = (new LocaleBuilder())->build()
@@ -292,19 +278,12 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaProductObjectTransfer
      */
     public function haveAlgoliaObjectTransfer(array $seed = []): AlgoliaProductObjectTransfer
     {
         return (new AlgoliaProductObjectBuilder($seed))->build();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ProductConcreteTransfer $productConcreteTransfer
-     *
-     * @return \Generated\Shared\Transfer\ProductExportedTransfer
-     */
     public function haveProductExportedTransferFromConcrete(ProductConcreteTransfer $productConcreteTransfer): ProductExportedTransfer
     {
         $messageAttributesTransfer = (new MessageAttributesTransfer())
@@ -317,8 +296,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\ProductExportedTransfer
      */
     public function haveProductExportedTransfer(array $seed = []): ProductExportedTransfer
     {
@@ -327,8 +304,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\ProductCreatedTransfer
      */
     public function haveProductCreatedTransfer(array $seed = []): ProductCreatedTransfer
     {
@@ -337,8 +312,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\ProductUpdatedTransfer
      */
     public function haveProductUpdatedTransfer(array $seed = []): ProductUpdatedTransfer
     {
@@ -347,8 +320,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\ProductDeletedTransfer
      */
     public function haveProductDeletedTransfer(array $seed = []): ProductDeletedTransfer
     {
@@ -357,17 +328,12 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer
      */
     public function haveAlgoliaApiCredentialsTransfer(array $seed = []): AlgoliaApiCredentialsTransfer
     {
         return (new AlgoliaApiCredentialsBuilder($seed))->build();
     }
 
-    /**
-     * @return \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     */
     public function getRateLimitExceptionExample(): BadRequestException
     {
         return new BadRequestException('Too many requests', 429);

@@ -24,8 +24,6 @@ class AlgoliaHelper extends Module
 {
     /**
      * @param array<mixed> $facets
-     *
-     * @return \Generated\Shared\Transfer\FacetCollectionTransfer
      */
     public function haveFacetCollectionTransfer(array $facets = []): FacetCollectionTransfer
     {
@@ -34,12 +32,6 @@ class AlgoliaHelper extends Module
             ->setFacets(new ArrayObject($facets));
     }
 
-    /**
-     * @param string $type
-     * @param \Generated\Shared\Transfer\FacetParametersTransfer $facetParametersTransfer
-     *
-     * @return \Generated\Shared\Transfer\FacetEntryTransfer
-     */
     public function haveFacetEntryTransfer(string $type, FacetParametersTransfer $facetParametersTransfer): FacetEntryTransfer
     {
         return (new FacetEntryBuilder())
@@ -50,8 +42,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array $seed
-     *
-     * @return \Generated\Shared\Transfer\FacetParametersTransfer
      */
     public function haveFacetParametersTransfer(array $seed = []): FacetParametersTransfer
     {
@@ -61,8 +51,6 @@ class AlgoliaHelper extends Module
 
     /**
      * @param array<mixed> $seed
-     *
-     * @return \Generated\Shared\Transfer\SearchRequestTransfer
      */
     public function haveSearchRequestTransfer(array $seed = []): SearchRequestTransfer
     {

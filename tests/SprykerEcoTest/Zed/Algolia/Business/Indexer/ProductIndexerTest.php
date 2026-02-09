@@ -42,9 +42,6 @@ class ProductIndexerTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArray(): void
     {
         // Arrange
@@ -103,9 +100,6 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString(static::TEST_TENANT_ID, $indicesString);
     }
 
-    /**
-     * @return void
-     */
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArrayWithMatchingLocales(): void
     {
         // Arrange
@@ -158,9 +152,6 @@ class ProductIndexerTest extends Unit
         $this->assertStringContainsString(static::TEST_TENANT_ID, $indicesString);
     }
 
-    /**
-     * @return void
-     */
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArrayWithoutIndexingProductWithUnmatchingStore(): void
     {
         // Arrange
@@ -203,11 +194,6 @@ class ProductIndexerTest extends Unit
         $this->assertStringNotContainsString(static::TEST_WRONG_TENANT_ID, $indicesString);
     }
 
-    /**
-     * @param string $locale
-     *
-     * @return string
-     */
     protected function getLanguageNameFromLocale(string $locale): string
     {
         return explode('_', $locale)[0];

@@ -34,9 +34,6 @@ class SuggestionsProductsExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsExistInResponseData(): void
     {
         // Arrange
@@ -106,9 +103,6 @@ class SuggestionsProductsExtractorTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsDoNotExistInResponseData(): void
     {
         // Arrange
@@ -127,8 +121,6 @@ class SuggestionsProductsExtractorTest extends Unit
     /**
      * @param array<string, mixed> $product
      * @param array<string, mixed> $hit
-     *
-     * @return void
      */
     protected function assertProductExistsInResultHit(array $product, array $hit): void
     {
@@ -148,8 +140,6 @@ class SuggestionsProductsExtractorTest extends Unit
     /**
      * @param array<string, mixed> $rawPrices
      * @param array<\Generated\Shared\Transfer\SearchResponseProductPriceTransfer> $prices
-     *
-     * @return void
      */
     protected function assertPrices(array $rawPrices, array $prices): void
     {
@@ -159,9 +149,6 @@ class SuggestionsProductsExtractorTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testExtractHandlesEmptyHighlightResults(): void
     {
         // Arrange
@@ -198,9 +185,6 @@ class SuggestionsProductsExtractorTest extends Unit
         $this->assertEmpty($result['matches']);
     }
 
-    /**
-     * @return void
-     */
     public function testExtractHandlesCategoryHighlights(): void
     {
         // Arrange
@@ -243,9 +227,6 @@ class SuggestionsProductsExtractorTest extends Unit
         $this->assertContains('Computers', $result['categories']);
     }
 
-    /**
-     * @return void
-     */
     public function testExtractSkipsNonHighlightedFields(): void
     {
         // Arrange
@@ -285,9 +266,6 @@ class SuggestionsProductsExtractorTest extends Unit
         $this->assertArrayNotHasKey('description', $result['matches']); // Should be skipped
     }
 
-    /**
-     * @return void
-     */
     public function testExtractSkipsNoneMatchLevel(): void
     {
         // Arrange

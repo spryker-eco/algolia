@@ -32,9 +32,6 @@ class QueryApplicabilityCheckerTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsFalseWhenAlgoliaIsNotActive(): void
     {
         // Arrange
@@ -52,9 +49,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertFalse($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsTrueForWildcardSourceIdentifier(): void
     {
         // Arrange
@@ -72,9 +66,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertTrue($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsTrueForProductWhenSearchInFrontendEnabledForProducts(): void
     {
         // Arrange
@@ -93,9 +84,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertTrue($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsFalseForProductWhenSearchInFrontendNotEnabledForProducts(): void
     {
         // Arrange
@@ -115,9 +103,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertFalse($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsTrueForCmsPageWhenSearchInFrontendEnabledForCmsPages(): void
     {
         // Arrange
@@ -136,9 +121,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertTrue($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsFalseForCmsPageWhenSearchInFrontendNotEnabledForCmsPages(): void
     {
         // Arrange
@@ -158,9 +140,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertFalse($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsTrueWhenSourceIdentifierFoundInEntityToIndexMappings(): void
     {
         // Arrange
@@ -188,9 +167,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertTrue($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsFalseWhenSourceIdentifierNotFoundInEntityToIndexMappings(): void
     {
         // Arrange
@@ -218,9 +194,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertFalse($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsTrueWhenMultipleMappingsExistAndOneMatches(): void
     {
         // Arrange
@@ -254,9 +227,6 @@ class QueryApplicabilityCheckerTest extends Unit
         $this->assertTrue($result);
     }
 
-    /**
-     * @return void
-     */
     public function testIsQueryApplicableReturnsFalseWhenEntityToIndexMappingsAreEmptyAndOtherConditionsNotMet(): void
     {
         // Arrange

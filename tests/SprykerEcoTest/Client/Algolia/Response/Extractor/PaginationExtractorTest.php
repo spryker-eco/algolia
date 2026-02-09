@@ -30,9 +30,6 @@ class PaginationExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testPaginationExtractedWhenItExistsInResponseData(): void
     {
         // Arrange
@@ -49,9 +46,6 @@ class PaginationExtractorTest extends Unit
         $this->assertSame($normalResponseFixtures->getSearchResults()['nbHits'], $searchResponsePaginationTransfer->getNumFound());
     }
 
-    /**
-     * @return void
-     */
     public function testPaginationExtractedWhenItDoesNotExistInResponseData(): void
     {
         // Arrange

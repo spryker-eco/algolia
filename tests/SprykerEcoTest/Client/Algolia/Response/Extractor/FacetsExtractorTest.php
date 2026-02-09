@@ -34,9 +34,6 @@ class FacetsExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testFacetsExtractedWhenTheyExistInResponseData(): void
     {
         // Arrange
@@ -78,8 +75,6 @@ class FacetsExtractorTest extends Unit
      * @dataProvider filterableNameAttributesProvider
      *
      * @param array $configSettings
-     *
-     * @return void
      */
     public function testFacetsExtractedWithOrderFacetsCombination(array $configSettings): void
     {
@@ -106,9 +101,6 @@ class FacetsExtractorTest extends Unit
         $this->assertEquals($configSettings, array_keys($extractedFacets));
     }
 
-    /**
-     * @return void
-     */
     public function testFacetsExtractedWithOrderFacetsFromSettings(): void
     {
         // Arrange
@@ -126,9 +118,6 @@ class FacetsExtractorTest extends Unit
         $this->assertEquals(['rating', 'category', 'price', 'search_metadata.key'], array_keys($extractedFacets));
     }
 
-    /**
-     * @return void
-     */
     public function testFacetsExtractedWhenTheyDoNotExistInResponseData(): void
     {
         // Arrange

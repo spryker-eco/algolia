@@ -39,9 +39,6 @@ class AlgoliaClientTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     protected function _after(): void
     {
         Algolia::resetHttpClient();
@@ -49,8 +46,6 @@ class AlgoliaClientTest extends Unit
 
     /**
      * @dataProvider getPriceSettingDataProvider
-     *
-     * @return void
      */
     public function testSearchReturnsSuccessfulResult(bool $withPrices): void
     {
@@ -88,9 +83,6 @@ class AlgoliaClientTest extends Unit
         return [[true], [false]];
     }
 
-    /**
-     * @return void
-     */
     public function testSearchReturnsWithRenderingContentHasCorrectFacetsInAlgoliaSearchResponseTransfer(): void
     {
         // Arrange
@@ -119,9 +111,6 @@ class AlgoliaClientTest extends Unit
         $this->assertSame(['category', 'rating'], array_keys($algoliaSearchResponseTransfer->getFacets()));
     }
 
-    /**
-     * @return void
-     */
     public function testSearchPerformedByDefaultIndexWhenAlgoliaNotFoundExceptionWasThrownAndSortHasSpecified(): void
     {
         // Arrange
@@ -162,9 +151,6 @@ class AlgoliaClientTest extends Unit
         $this->assertSame(12, $algoliaSearchResponseTransfer->getPagination()->getCurrentItemsPerPage());
     }
 
-    /**
-     * @return void
-     */
     public function testSearchReturnsUnsuccessfulResultWhenAlgoliaNotFoundExceptionWasThrownAndSortParamHasNotSpecified(): void
     {
         // Arrange
@@ -188,9 +174,6 @@ class AlgoliaClientTest extends Unit
         $this->assertNull($algoliaSearchResponseTransfer->getPagination());
     }
 
-    /**
-     * @return void
-     */
     public function testSearchReturnsUnsuccessfulResultWhenUnexpectedExceptionWasThrown(): void
     {
         // Arrange
@@ -209,9 +192,6 @@ class AlgoliaClientTest extends Unit
         $this->tester->getClient()->search($searchRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testSearchSuggestionsReturnsSuccessfulResult(): void
     {
         // Arrange
@@ -256,9 +236,6 @@ class AlgoliaClientTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testSearchSuggestionsReturnsUnsuccessfulResultWhenAlgoliaNotFoundExceptionWasThrown(): void
     {
         // Arrange
@@ -280,9 +257,6 @@ class AlgoliaClientTest extends Unit
         $this->assertEmpty($suggestionsSearchResponseTransfer->getCompletions());
     }
 
-    /**
-     * @return void
-     */
     public function testSearchSuggestionsReturnsUnsuccessfulResultWhenUnexpectedExceptionWasThrown(): void
     {
         // Arrange

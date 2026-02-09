@@ -30,9 +30,6 @@ class SearchResponseBuilderTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testResponseBuiltSuccessfullyWhenResponseIsNormal(): void
     {
         // Arrange
@@ -51,9 +48,6 @@ class SearchResponseBuilderTest extends Unit
         $this->assertSame(3, count($searchResponseTransfer->getFacets()));
     }
 
-    /**
-     * @return void
-     */
     public function testResponseBuiltSuccessfullyWhenResponseIsEmpty(): void
     {
         // Arrange
@@ -72,9 +66,6 @@ class SearchResponseBuilderTest extends Unit
         $this->assertSame(0, count($searchResponseTransfer->getFacets()));
     }
 
-    /**
-     * @return void
-     */
     public function testResponseHasBuiltUnsuccessfulResponseOnUnexpectedException(): void
     {
         // Arrange

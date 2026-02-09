@@ -30,9 +30,6 @@ class CompletionsExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsExistInResponseData(): void
     {
         // Arrange
@@ -53,9 +50,6 @@ class CompletionsExtractorTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsDoNotExistInResponseData(): void
     {
         // Arrange

@@ -30,9 +30,6 @@ class ProductsExtractorTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsExistInResponseData(): void
     {
         // Arrange
@@ -61,9 +58,6 @@ class ProductsExtractorTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testProductsExtractedWhenHitsDoNotExistInResponseData(): void
     {
         // Arrange
@@ -80,8 +74,6 @@ class ProductsExtractorTest extends Unit
     /**
      * @param array<mixed> $rawPrices
      * @param array<\Generated\Shared\Transfer\SearchResponseProductPriceTransfer> $prices
-     *
-     * @return void
      */
     protected function assertPrices(array $rawPrices, array $prices): void
     {

@@ -41,12 +41,6 @@ class PriceProductDataFilterTest extends Unit
 
     /**
      * @dataProvider priceDataProvider
-     *
-     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
-     * @param \Generated\Shared\Transfer\PriceProductTransfer $priceProductTransfer
-     * @param int $expectedPricesCount
-     *
-     * @return void
      */
     public function testFilterProductDataFiltersOutIncorrectPrices(
         StoreTransfer $storeTransfer,
@@ -115,12 +109,6 @@ class PriceProductDataFilterTest extends Unit
         ];
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
-     * @param \Generated\Shared\Transfer\PriceProductTransfer $priceProductTransfer
-     *
-     * @return \Generated\Shared\Transfer\ProductConcreteTransfer
-     */
     protected function createProductConcrete(
         StoreTransfer $storeTransfer,
         PriceProductTransfer $priceProductTransfer

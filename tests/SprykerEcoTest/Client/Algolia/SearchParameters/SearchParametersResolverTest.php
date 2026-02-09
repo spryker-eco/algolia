@@ -62,9 +62,6 @@ class SearchParametersResolverTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersReturnsBasicParametersWithoutPersonalization(): void
     {
         // Arrange
@@ -102,9 +99,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertArrayNotHasKey('userToken', $result);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersIncludesPersonalizationWhenEnabled(): void
     {
         // Arrange
@@ -137,9 +131,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertEquals(static::TEST_USER_TOKEN, $result['userToken']);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersIncludesUserIpWhenProvided(): void
     {
         // Arrange
@@ -168,9 +159,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertEquals(static::TEST_USER_IP, $result['X-Forwarded-For']);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersIncludesBothPersonalizationAndUserIp(): void
     {
         // Arrange
@@ -205,9 +193,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertEquals(static::TEST_USER_IP, $result['X-Forwarded-For']);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersExcludesPersonalizationWhenFeatureNotEnabled(): void
     {
         // Arrange
@@ -240,9 +225,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertArrayNotHasKey('userToken', $result);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersExcludesPersonalizationWhenUserTokenNotProvided(): void
     {
         // Arrange
@@ -275,9 +257,6 @@ class SearchParametersResolverTest extends Unit
         $this->assertArrayNotHasKey('userToken', $result);
     }
 
-    /**
-     * @return void
-     */
     public function testGetSearchParametersWithEmptyFiltersAndPagination(): void
     {
         // Arrange

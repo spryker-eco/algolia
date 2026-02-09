@@ -51,9 +51,6 @@ class IndexNameResolverTest extends Unit
      */
     protected AlgoliaBusinessTester $tester;
 
-    /**
-     * @return void
-     */
     public function testResolveProductIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
@@ -75,9 +72,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals(strtolower($result), $result); // Should be lowercase
     }
 
-    /**
-     * @return void
-     */
     public function testResolveSuggestionIndexNameFromProductIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
@@ -93,9 +87,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals(strtolower($result), $result); // Should be lowercase
     }
 
-    /**
-     * @return void
-     */
     public function testResolveCmsPageIndexNameReturnsCorrectFormat(): void
     {
         // Arrange
@@ -115,9 +106,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals(strtolower($result), $result); // Should be lowercase
     }
 
-    /**
-     * @return void
-     */
     public function testFilterIndicesByIndexNamePartsFiltersCorrectly(): void
     {
         // Arrange
@@ -147,9 +135,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals('test-tenant-cms-page-de_de', $resultIndices[1]->getName());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterIndicesByIndexNamePartsWithEntityNameFilter(): void
     {
         // Arrange
@@ -177,9 +162,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals('test-tenant-product-de-de_de', $resultIndices[0]->getName());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterIndicesByIndexNamePartsWithStoreNameFilter(): void
     {
         // Arrange
@@ -208,9 +190,6 @@ class IndexNameResolverTest extends Unit
         $this->assertEquals('test-tenant-product-de-de_de', $resultIndices[0]->getName());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterIndicesByIndexNamePartsReturnsEmptyWhenNoMatches(): void
     {
         // Arrange

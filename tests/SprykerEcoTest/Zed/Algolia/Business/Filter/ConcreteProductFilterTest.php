@@ -40,11 +40,7 @@ class ConcreteProductFilterTest extends Unit
     /**
      * @dataProvider getIndexableDataProvider
      *
-     * @param bool $withPrices
-     * @param int $expectedCount
      * @param array $expectedTypes
-     *
-     * @return void
      */
     public function testFilterProductsConcreteFiltersIndexableProducts(bool $withPrices, int $expectedCount, array $expectedTypes): void
     {
@@ -97,11 +93,7 @@ class ConcreteProductFilterTest extends Unit
     /**
      * @dataProvider getNonIndexableDataProvider
      *
-     * @param bool $withPrices
-     * @param int $expectedCount
      * @param array $expectedTypes
-     *
-     * @return void
      */
     public function testFilterProductsConcreteFiltersNonIndexableProducts(bool $withPrices, int $expectedCount, array $expectedTypes): void
     {
@@ -155,9 +147,6 @@ class ConcreteProductFilterTest extends Unit
         ];
     }
 
-    /**
-     * @return \ArrayObject
-     */
     protected function prepareTestProductsConcrete(): ArrayObject
     {
         $productsConcrete = new ArrayObject();
@@ -275,8 +264,6 @@ class ConcreteProductFilterTest extends Unit
     }
 
     /**
-     * @param \ArrayObject $filteredProductsConcrete
-     *
      * @return array
      */
     protected function extractFilteredProductsConcreteTypes(ArrayObject $filteredProductsConcrete): array

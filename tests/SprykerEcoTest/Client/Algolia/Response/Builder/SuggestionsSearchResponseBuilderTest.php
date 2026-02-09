@@ -30,9 +30,6 @@ class SuggestionsSearchResponseBuilderTest extends Unit
      */
     protected AlgoliaClientTester $tester;
 
-    /**
-     * @return void
-     */
     public function testResponseBuiltSuccessfullyWhenResponseIsNormal(): void
     {
         // Arrange
@@ -62,9 +59,6 @@ class SuggestionsSearchResponseBuilderTest extends Unit
         }
     }
 
-    /**
-     * @return void
-     */
     public function testResponseBuiltSuccessfullyWhenResponseMatchesIsEmpty(): void
     {
         // Arrange
@@ -84,9 +78,6 @@ class SuggestionsSearchResponseBuilderTest extends Unit
         $this->assertSame(20, count($suggestionsSearchResponseTransfer->getCompletions()));
     }
 
-    /**
-     * @return void
-     */
     public function testResponseBuiltSuccessfullyWhenResponseIsEmpty(): void
     {
         // Arrange
@@ -106,9 +97,6 @@ class SuggestionsSearchResponseBuilderTest extends Unit
         $this->assertEmpty($suggestionsSearchResponseTransfer->getMatchedItems());
     }
 
-    /**
-     * @return void
-     */
     public function testResponseHasBuiltUnsuccessfulResponseOnUnexpectedException(): void
     {
         // Arrange

@@ -44,17 +44,11 @@ class AlgoliaClientTester extends Actor
 
     use Stub;
 
-    /**
-     * @return string
-     */
     public function getFixturesSearchResponseDirectory(): string
     {
         return codecept_data_dir('Fixtures/Search/Response/');
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadNormalSearchResponseFixtures(bool $withPrices = true): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -68,9 +62,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($searchResponse);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadNormalSearchResponseWithFacetOrderingFixtures(): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -84,9 +75,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($searchResponse);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadEmptySearchResponseFixtures(): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -100,9 +88,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($searchResponse);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadNormalSuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -118,9 +103,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($result);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadEmptyMatchSuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -136,9 +118,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($result);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaSearchResponseTransfer
-     */
     public function loadEmptySuggestionsSearchResponseFixtures(): AlgoliaSearchResponseTransfer
     {
         $searchResponse = json_decode(
@@ -168,10 +147,7 @@ class AlgoliaClientTester extends Actor
     }
 
     /**
-     * @param string $tenantId
      * @param array|null $returnItemData
-     *
-     * @return void
      */
     public function haveCacheAdapterMock(string $tenantId, ?array $returnItemData = null): void
     {
@@ -187,8 +163,6 @@ class AlgoliaClientTester extends Actor
 
     /**
      * @param array $settings
-     *
-     * @return void
      */
     public function haveSearchIndexResolver(array $settings): void
     {
@@ -200,27 +174,16 @@ class AlgoliaClientTester extends Actor
         $this->mockFactoryMethod('createSearchIndexResolver', $searchIndexResolverMock);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function createSearchClientMock(): SearchClient
     {
         return $this->makeEmpty(SearchClient::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface
-     */
     public function createSearchIndexClientMock(): SearchIndexClientInterface
     {
         return $this->makeEmpty(SearchIndexClientInterface::class);
     }
 
-    /**
-     * @param \Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface
-     */
     public function createSearchClientCreatorMock(SearchClient $searchClient): SearchClientCreatorInterface
     {
         $mock = $this->makeEmpty(SearchClientCreatorInterface::class);
@@ -234,11 +197,6 @@ class AlgoliaClientTester extends Actor
         return $mock;
     }
 
-    /**
-     * @param string $indexName
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchIndex
-     */
     public function createSearchIndexMock(string $indexName): SearchIndex
     {
         $searchIndexMock = $this->makeEmpty(SearchIndex::class);
@@ -257,11 +215,6 @@ class AlgoliaClientTester extends Actor
         return $searchIndexMock;
     }
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClientMock
-     *
-     * @return void
-     */
     public function mockSearchIndexClient(SearchIndexClientInterface $searchIndexClientMock): void
     {
         $searchClientMock = $this->searchClientMockReturnsTwoIndices(
@@ -279,11 +232,6 @@ class AlgoliaClientTester extends Actor
         );
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient $searchClient
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchClient
-     */
     public function searchClientMockReturnsTwoIndices(SearchClient $searchClient): SearchClient
     {
         $searchClient->method('listIndices')
@@ -292,11 +240,6 @@ class AlgoliaClientTester extends Actor
         return $searchClient;
     }
 
-    /**
-     * @param \SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface $searchIndexClient
-     *
-     * @return \SprykerEco\Zed\Algolia\Business\Api\Creator\SearchIndexClientCreatorInterface
-     */
     public function createSearchIndexClientCreatorMock(SearchIndexClientInterface $searchIndexClient): SearchIndexClientCreatorInterface
     {
         $mock = $this->makeEmpty(SearchIndexClientCreatorInterface::class);

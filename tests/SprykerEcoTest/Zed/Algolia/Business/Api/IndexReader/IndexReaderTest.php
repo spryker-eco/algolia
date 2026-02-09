@@ -30,9 +30,6 @@ class IndexReaderTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testGetIndicesReturnsListOfIndices(): void
     {
         // Arrange
@@ -49,9 +46,6 @@ class IndexReaderTest extends Unit
         $this->assertCount(2, $algoliaIndicesCollectionTransfer->getIndices());
     }
 
-    /**
-     * @return void
-     */
     public function testGetIndicesReturnsNoIndices(): void
     {
         // Arrange
@@ -68,9 +62,6 @@ class IndexReaderTest extends Unit
         $this->assertCount(0, $algoliaIndicesCollectionTransfer->getIndices());
     }
 
-    /**
-     * @return void
-     */
     public function testGetIndicesHandlesExceptionGracefully(): void
     {
         // Arrange
