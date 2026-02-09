@@ -14,41 +14,41 @@ interface AlgoliaConstants
 {
     /**
      * Specification:
+     * - Returns whether Algolia integration is active.
+     *
+     * @api
+     */
+    public const string IS_ACTIVE = 'ALGOLIA:IS_ACTIVE';
+
+    /**
+     * Specification:
      * - Defines the tenant identifier for Algolia.
      *
      * @api
-     *
-     * @var string
      */
-    public const TENANT_IDENTIFIER = 'ALGOLIA:TENANT_IDENTIFIER';
+    public const string TENANT_IDENTIFIER = 'ALGOLIA:TENANT_IDENTIFIER';
 
     /**
      * Specification:
      * - Defines the application ID for Algolia.
      *
      * @api
-     *
-     * @var string
      */
-    public const APPLICATION_ID = 'ALGOLIA:APPLICATION_ID';
+    public const string APPLICATION_ID = 'ALGOLIA:APPLICATION_ID';
 
     /**
      * Specification:
      * - Defines the admin API key for Algolia.
      *
      * @api
-     *
-     * @var string
      */
-    public const ADMIN_API_KEY = 'ALGOLIA:ADMIN_API_KEY';
+    public const string ADMIN_API_KEY = 'ALGOLIA:ADMIN_API_KEY';
 
     /**
      * Specification:
      * - Defines the search-only API key for Algolia.
      *
      * @api
-     *
-     * @var string
      */
-    public const SEARCH_ONLY_API_KEY = 'ALGOLIA:SEARCH_ONLY_API_KEY';
+    public const string SEARCH_ONLY_API_KEY = 'ALGOLIA:SEARCH_ONLY_API_KEY';
 }

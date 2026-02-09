@@ -19,7 +19,7 @@ class AlgoliaConfig extends AbstractSharedConfig
   */
     public function getIsActive(): bool
     {
-        return true;
+        return $this->get(AlgoliaConstants::IS_ACTIVE, false);
     }
 
     /**

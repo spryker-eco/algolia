@@ -38,6 +38,7 @@ composer require spryker-eco/algolia
 ```php
 // config/Shared/config_default.php or config_local.php
 use SprykerEco\Shared\Algolia\AlgoliaConstants;
+$config[AlgoliaConstants::IS_ACTIVE] = true;
 $config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
 $config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_ADMIN_API_KEY');
 $config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_ONLY_API_KEY');
