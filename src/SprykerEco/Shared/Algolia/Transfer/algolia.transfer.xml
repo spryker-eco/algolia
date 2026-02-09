@@ -15,7 +15,7 @@
         <property name="enabledFeatures" type="string[]" singular="enabledFeature" description="list of Algolia features supported by provided applicationId (auto-populated values)"/>
         <property name="isSearchInFrontendEnabledForCmsPages" type="bool" description="if true, Algolia search will be enabled for CMS pages"/>
         <property name="isIndexMappingEnabled" type="bool" description="if true, Algolia index mapping will be enabled"/>
-        <property name="entityToIndexMappings" type="EntityToIndexMapping[]" description="mapping rules"/>
+        <property name="entityToIndexMappings" type="EntityToIndexMapping[]" singular="entityToIndexMapping" description="mapping rules"/>
     </transfer>
 
     <transfer name="EntityToIndexMapping">
@@ -44,7 +44,7 @@
     </transfer>
 
     <transfer name="AlgoliaSearchResponse">
-        <property name="searchResults" type="array"/>
+        <property name="searchResults" type="array" singular="searchResult"/>
         <property name="isSuccessful" type="bool"/>
         <property name="responseMessage" type="string"/>
     </transfer>
@@ -71,7 +71,7 @@
         <property name="offers" type="ProductOffer[]" singular="offer"/>
         <property name="productLabels" type="ProductLabel[]" singular="productLabel"/>
         <property name="relatedCategoryTreeNodes" type="Node[]" singular="relatedCategoryTreeNode"/>
-        <property name="searchMetadata" type="array" associative="true"/>
+        <property name="searchMetadata" type="array" associative="true" singular="searchMetadata"/>
     </transfer>
 
     <transfer name="ProductAlternativeCreateRequest">
@@ -182,11 +182,11 @@
         <property name="name" type="string"/>
         <property name="selectedCurrencyIsoCode" type="string"/>
         <property name="defaultCurrencyIsoCode" type="string"/>
-        <property name="availableCurrencyIsoCodes" type="array"/>
-        <property name="availableLocaleIsoCodes" type="array"/>
-        <property name="queuePools" type="array"/>
-        <property name="storesWithSharedPersistence" type="array"/>
-        <property name="countries" type="array"/>
+        <property name="availableCurrencyIsoCodes" type="array" singular="availableCurrencyIsoCode"/>
+        <property name="availableLocaleIsoCodes" type="array" singular="availableLocaleIsoCode"/>
+        <property name="queuePools" type="array" singular="queuePool"/>
+        <property name="storesWithSharedPersistence" type="array" singular="storeWithSharedPersistence"/>
+        <property name="countries" type="array" singular="country"/>
         <property name="timezone" type="string"/>
     </transfer>
 
@@ -214,7 +214,7 @@
         <property name="grossAmount" type="int"/>
         <property name="priceData" type="string"/>
         <property name="priceDataChecksum" type="string"/>
-        <property name="priceDataByPriceType" type="array"/>
+        <property name="priceDataByPriceType" type="array" singular="priceDataByPriceType"/>
         <property name="currency" type="Currency"/>
         <property name="store" type="Store"/>
     </transfer>
@@ -283,7 +283,7 @@
         <property name="approvalStatus" type="string"/>
         <property name="isActive" type="bool"/>
         <property name="concreteSku" type="string"/>
-        <property name="productAttributes" type="array"/>
+        <property name="productAttributes" type="array" singular="productAttribute"/>
         <property name="createdAt" type="string"/>
         <property name="updatedAt" type="string"/>
         <property name="merchantName" type="string"/>
@@ -362,13 +362,13 @@
         <property name="keywords" type="string"/>
         <property name="images" type="array" associative="true" singular="image"/>
 <!-- naming for categories and labels is set to be singular to match default Spryker filter naming -->
-        <property name="category" type="string[]"/>
-        <property name="label" type="string[]"/>
-        <property name="hierarchicalCategories" type="string[]"/>
+        <property name="category" type="string[]" singular="category"/>
+        <property name="label" type="string[]" singular="label"/>
+        <property name="hierarchicalCategories" type="string[]" singular="hierarchicalCategory"/>
         <property name="attributes" type="array" associative="true" singular="attribute"/>
         <property name="merchantName" type="string[]" singular="merchantName"/>
         <property name="merchantReference" type="string[]" singular="merchantReference"/>
-        <property name="searchMetadata" type="array" associative="true"/>
+        <property name="searchMetadata" type="array" associative="true" singular="searchMetadata"/>
     </transfer>
 
     <transfer name="AlgoliaProductPrice">
@@ -480,7 +480,7 @@
         <property name="keywords" type="string"/>
         <property name="url" type="string"/>
         <property name="rating" type="string"/>
-        <property name="searchMetadata" type="array" associative="true"/>
+        <property name="searchMetadata" type="array" associative="true" singular="searchMetadata"/>
         <property name="category" type="string[]" singular="category"/>
         <property name="prices" type="SearchResponseProductPrice[]" singular="price"/>
     </transfer>
