@@ -9,6 +9,7 @@ namespace SprykerEco\Client\Algolia\Resolver;
 
 use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Generated\Shared\Transfer\EntityToIndexMappingTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
 
 class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
@@ -29,6 +30,16 @@ class AlgoliaConfigResolver implements AlgoliaConfigResolverInterface
             ->setIsSearchInFrontendEnabledForProducts($this->algoliaConfig->isSearchInFrontendEnabledForProducts())
             ->setIsSearchInFrontendEnabledForCmsPages($this->algoliaConfig->isSearchInFrontendEnabledForCmsPages())
             ->setIsIndexMappingEnabled($this->algoliaConfig->getEntityToIndexMappings() !== [])
-            ->setEntityToIndexMappings(new ArrayObject($this->algoliaConfig->getEntityToIndexMappings()));
+            ->setEntityToIndexMappings($this->mapEntityToIndexMappingsArrayToTransfers());
+    }
+
+    protected function mapEntityToIndexMappingsArrayToTransfers(): ArrayObject
+    {
+        $mappings = new ArrayObject();
+        foreach ($this->algoliaConfig->getEntityToIndexMappings() as $mapping) {
+            $mappings->append((new EntityToIndexMappingTransfer())->fromArray($mapping));
+        }
+
+        return $mappings;
     }
 }

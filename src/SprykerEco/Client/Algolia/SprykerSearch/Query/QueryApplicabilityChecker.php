@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Client\Algolia\SprykerSearch\Query;
 
+use Generated\Shared\Transfer\EntityToIndexMappingTransfer;
 use Generated\Shared\Transfer\SearchContextTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
 
@@ -32,6 +33,24 @@ class QueryApplicabilityChecker implements QueryApplicabilityCheckerInterface
 
         if ($searchContextTransfer->getSourceIdentifier() === AlgoliaConfig::SOURCE_IDENTIFIER_CMS_PAGE && $this->algoliaConfig->isSearchInFrontendEnabledForCmsPages()) {
             return true;
+        }
+
+        if ($this->algoliaConfig->getEntityToIndexMappings() !== []) {
+            return $this->isEntityInMappings($searchContextTransfer->getSourceIdentifier());
+        }
+
+        return false;
+    }
+
+    protected function isEntityInMappings(string $sourceIdentifier): bool
+    {
+        foreach ($this->algoliaConfig->getEntityToIndexMappings() as $entityToIndexMapping) {
+            if (
+                isset($entityToIndexMapping[EntityToIndexMappingTransfer::SOURCE_IDENTIFIER])
+                && $entityToIndexMapping[EntityToIndexMappingTransfer::SOURCE_IDENTIFIER] === $sourceIdentifier
+            ) {
+                return true;
+            }
         }
 
         return false;

@@ -13,6 +13,7 @@ The Algolia module provides seamless integration between Spryker Commerce OS and
 - 🔍 **Search API integration** for frontend and backend
 - ⚙️ **Configurable event subscriptions** per entity type
 - 🏗️ **Modular design** with optional module support
+- 🔌 **Custom entity index mapping** for searching any custom entity in Algolia
 
 ## Table of Contents
 
@@ -21,6 +22,7 @@ The Algolia module provides seamless integration between Spryker Commerce OS and
   - [Product Publisher Plugins](#product-publisher-plugins)
   - [CMS Page Publisher Plugins](#cms-page-publisher-plugins)
 - [Full Indexing](#full-indexing)
+- [Custom Entity Index Mapping](#custom-entity-index-mapping)
 - [Configuration](#configuration)
 - [Migration from ACP Algolia App](#migration-from-acp-algolia-app)
 - [Troubleshooting](#troubleshooting)
@@ -428,6 +430,94 @@ while the cron jobs ensure full data consistency by performing periodic complete
 
 ---
 
+## Custom Entity Index Mapping
+
+The Algolia module supports searching custom entities that are already indexed in Algolia but are not natively supported by the module (like products or CMS pages). This feature allows you to integrate any custom entity search without creating new plugins or modules.
+
+### When to Use
+
+Use entity-to-index mapping when you:
+- Have custom entities (e.g., documents, manufacturers, locations) already indexed in Algolia
+- Want to search these entities from your Spryker storefront
+- Don't want to create custom publisher plugins for simple read-only search
+
+### Quick Setup
+
+**Step 1:** Configure the mapping in your shared config:
+
+```php
+<?php
+
+namespace Pyz\Shared\Algolia;
+
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SprykerEcoAlgoliaConfig;
+
+class AlgoliaConfig extends SprykerEcoAlgoliaConfig
+{
+    public function getEntityToIndexMappings(): array
+    {
+        return [
+            [
+                'sourceIdentifier' => 'document',
+                'store' => 'DE',
+                'locales' => ['de_DE'],
+                'indexName' => 'documents_de',
+            ],
+            [
+                'sourceIdentifier' => 'manufacturer',
+                'store' => '*', // All stores
+                'locales' => ['*'], // All locales
+                'indexName' => 'manufacturers',
+            ],
+        ];
+    }
+}
+```
+
+**Step 2:** Create a search query plugin:
+
+```php
+<?php
+
+namespace Pyz\Client\YourModule\Plugin\Search;
+
+use Generated\Shared\Transfer\SearchContextTransfer;
+use Spryker\Client\Kernel\AbstractPlugin;
+use Spryker\Client\SearchExtension\Dependency\Plugin\QueryInterface;
+
+/**
+ * @method \Pyz\Client\YourModule\YourModuleFactory getFactory()
+ */
+class DocumentSearchQueryPlugin extends AbstractPlugin implements QueryInterface
+{
+    protected const SOURCE_IDENTIFIER = 'document';
+
+    protected ?SearchContextTransfer $searchContextTransfer = null;
+
+    public function getSearchQuery()
+    {
+        // Your query logic
+    }
+
+    public function getSearchContext(): SearchContextTransfer
+    {
+        return $this->searchContextTransfer ?? (new SearchContextTransfer())
+            ->setSourceIdentifier(static::SOURCE_IDENTIFIER);
+    }
+
+    public function setSearchContext(SearchContextTransfer $searchContextTransfer): void
+    {
+        $this->searchContextTransfer = $searchContextTransfer;
+    }
+}
+```
+
+**Step 3:** Use the plugin in your dependency provider and execute search.
+
+For a complete implementation guide with examples, see [Custom Entity Index Mapping Guide](docs/CUSTOM_ENTITY_INDEX_MAPPING.md).
+
+---
+
 ## Configuration
 
 ### Available Configuration Methods
@@ -644,11 +734,11 @@ Follow all integration steps from the [Installation](#installation) section.
 
 ### Benefits of Migration
 
-✅ Direct integration (no MessageBroker overhead)
-✅ Simpler architecture
-✅ Better performance
-✅ Batch indexing support
-✅ Configuration and extensibility
+- ✅ Direct integration (no MessageBroker overhead)
+- ✅ Simpler architecture
+- ✅ Better performance
+- ✅ Batch indexing support
+- ✅ Configuration and extensibility
 
 ---
 

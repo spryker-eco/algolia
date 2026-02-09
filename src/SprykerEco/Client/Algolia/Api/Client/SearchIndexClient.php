@@ -105,33 +105,6 @@ class SearchIndexClient implements SearchIndexClientInterface
 
     /**
      * @param array<string, mixed> $requestData
-     * @param callable $callback
-     */
-    protected function executeWithLogging(
-        string $method,
-        string $endpoint,
-        array $requestData,
-        callable $callback,
-    ): AlgoliaResponseTransfer {
-        $responseData = null;
-
-        try {
-            $callback();
-            $responseData = ['success' => true];
-
-            return $this->createSuccessfulAlgoliaResponseTransfer();
-        } catch (Throwable $e) {
-            $responseData = ['error' => $e->getMessage()];
-
-            return (new AlgoliaResponseTransfer())
-                ->setIsSuccessful(false);
-        } finally {
-            $this->logHttpRequest($method, $endpoint, $requestData, $responseData);
-        }
-    }
-
-    /**
-     * @param array<string, mixed> $requestData
      * @param array<string, mixed>|null $responseData
      */
     protected function logHttpRequest(
