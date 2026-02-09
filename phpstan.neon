@@ -3,5 +3,5 @@ parameters:
     paths:
         - src/
     bootstrapFiles:
-        - %rootDir%/../../autoload.php
-        - %rootDir%/../../../../../autoload.php
+        - "%rootDir%/../../autoload.php"
+        - "%rootDir%/../../../../../autoload.php"

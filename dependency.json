@@ -1,0 +1,12 @@
+{
+    "include": {
+        "spryker-shop/traceable-event-widget": "required for event tracking.",
+        "spryker/search-http": "required by Query plugins."
+    },
+    "exclude": {
+        "spryker/price-product": "optional",
+        "spryker/product-bundle-storage": "optional",
+        "spryker/product-label": "optional",
+        "spryker/product-review": "optional"
+    }
+}

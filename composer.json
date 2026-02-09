@@ -4,40 +4,43 @@
     "description": "Algolia module",
     "license": "proprietary",
     "require": {
-        "php": ">=8.3",
+        "algolia/algoliasearch-client-php": "^3.4.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "algolia/algoliasearch-client-php": "^3.4.2",
+        "php": ">=8.3",
+        "spryker-shop/traceable-event-widget": "^1.0.0",
         "spryker/cms": "^7.18.0",
-        "spryker/kernel": "^3.76.0",
+        "spryker/customer": "^7.70.0",
+        "spryker/event-behavior": "^1.32.0",
         "spryker/http": "^1.15.0",
+        "spryker/kernel": "^3.76.0",
+        "spryker/locale": "^4.12.0",
         "spryker/log": "^3.18.0",
         "spryker/product": "^6.52.0",
         "spryker/product-category": "^4.28.1",
         "spryker/product-image": "^3.20.0",
-        "spryker/transfer": "^3.42.0",
+        "spryker/publisher-extension": "^1.0.0",
         "spryker/search-http": "^0.5.8",
+        "spryker/search-extension": "^1.4.0",
         "spryker/store": "^1.30.0",
-        "spryker-shop/traceable-event-widget": "^1.0.0",
-        "symfony/cache": "^6.4 || ^7.4",
-        "symfony/console": "^6.4"
+        "spryker/symfony": "^3.19.2"
     },
     "require-dev": {
-        "codeception/module-asserts": "^3.3",
-        "guzzlehttp/guzzle": "^6.0 || ^7.0",
         "phpstan/phpstan": "^2.1",
         "psr/http-message": "^1.1.0 || ^2.0.0",
         "spryker/code-sniffer": "^0.17.30",
+        "spryker/guzzle": "*",
+        "spryker/propel": "*",
         "spryker/testify": "^3.62.0"
     },
     "suggest": {
-        "spryker/product": "Add next version to require: ^6.53.0",
-        "spryker-shop/traceable-event-widget": "Add next version to require: ^1.1.0",
-        "spryker/product-review": "Required for Product search functionality.",
-        "spryker/price-product": "Optional for Product search functionality.",
-        "spryker/merchant-product": "Optional for Product search functionality.",
-        "spryker/merchant-product-offer": "Optional for Product search functionality."
+        "spryker/merchant-product": "Optional for merchants in search.",
+        "spryker/merchant-product-offer": "Optional for offers in search.",
+        "spryker/price-product": "Optional for Price search.",
+        "spryker/product-bundle-storage": "Optional for product Bundle in search.",
+        "spryker/product-label": "Optional for product Label in search.",
+        "spryker/product-review": "Optional for product rating search."
     },
     "autoload": {
         "psr-4": {
@@ -54,8 +57,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs-check": "vendor/bin/phpcs -p -s src/ tests/",
-        "cs-fix": "vendor/bin/phpcbf -p src/ tests/",
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
         "phpstan": "vendor/bin/phpstan analyse"
     },
     "extra": {
