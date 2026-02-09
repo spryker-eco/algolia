@@ -21,8 +21,8 @@
         "spryker/product-category": "^4.28.1",
         "spryker/product-image": "^3.20.0",
         "spryker/publisher-extension": "^1.0.0",
-        "spryker/search-http": "^0.5.8",
         "spryker/search-extension": "^1.4.0",
+        "spryker/search-http": "^0.5.8",
         "spryker/store": "^1.30.0",
         "spryker/symfony": "^3.19.2"
     },
@@ -57,8 +57,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
-        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/",
         "phpstan": "vendor/bin/phpstan analyse"
     },
     "extra": {
