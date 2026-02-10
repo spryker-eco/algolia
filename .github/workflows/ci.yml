@@ -46,7 +46,9 @@ jobs:
               run: composer install
 
             - name: Codeception Build
-              run: vendor/bin/codecept build
+              run: |
+                composer require codeception/module-asserts --dev
+                vendor/bin/codecept build
 
             - name: Run CodeStyle checks
               run: composer cs-check
