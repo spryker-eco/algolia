@@ -12,7 +12,7 @@
         "spryker-shop/traceable-event-widget": "^1.0.0",
         "spryker/cms": "^7.18.0",
         "spryker/customer": "^7.70.0",
-        "spryker/event-behavior": "dev-master",
+        "spryker/event-behavior": "^1.32.0",
         "spryker/http": "^1.15.0",
         "spryker/kernel": "^3.76.0",
         "spryker/locale": "^4.12.0",
