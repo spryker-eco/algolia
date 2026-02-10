@@ -81,7 +81,7 @@ abstract class AbstractAlgoliaProductPublisherPlugin extends AbstractPlugin impl
     protected function getProductConcretesByIds(array $productIds): ArrayObject
     {
         $productConcreteConditionsTransfer = (new ProductConcreteConditionsTransfer())
-            ->setIds($productIds);
+            ->setProductIds($productIds);
 
         $productConcreteCriteriaTransfer = (new ProductConcreteCriteriaTransfer())
             ->setProductConcreteConditions($productConcreteConditionsTransfer)
