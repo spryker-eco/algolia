@@ -62,7 +62,7 @@ class AlgoliaConfig extends AbstractSharedConfig
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -84,7 +84,7 @@ class AlgoliaConfig extends AbstractSharedConfig
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return true;
+        return false;
     }
 
     /**

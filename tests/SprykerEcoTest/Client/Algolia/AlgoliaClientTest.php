@@ -213,6 +213,9 @@ class AlgoliaClientTest extends Unit
             $this->tester->createSearchClientCreatorMock($searchClientMock),
         );
 
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForProducts', true);
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForCmsPages', true);
+
         $searchRequestTransfer = $this->tester->haveSearchRequestTransfer();
 
         // Act

@@ -233,39 +233,107 @@ class CmsPageSearchDependencyProvider extends SprykerCmsPageSearchDependencyProv
 vendor/bin/console transfer:generate
 ```
 
-## Step 7: Verify Installation
+### Step 7: Verify Installation
 
 ```bash
 # List available commands (should show algolia:entity-export)
 vendor/bin/console | grep algolia
 
-# Show available entity types
 vendor/bin/console algolia:entity-export
-
-# Test with dry run
-vendor/bin/console algolia:entity-export product --dry-run
 ```
 
-## Step 8: Usage Examples
+### Step 8: Send data to Algolia
 
 ```bash
-# Export products
-vendor/bin/console algolia:entity-export product
-
-# Export products for specific locale
-vendor/bin/console algolia:entity-export product --locale=en_US
-
-# Export CMS pages
-vendor/bin/console algolia:entity-export cms-page
-
-# Export CMS pages only from one store
-vendor/bin/console algolia:entity-export cms-page --store=DE
-
-# Export all entity types
 vendor/bin/console algolia:entity-export --all
 
-# Export with custom chunk size
-vendor/bin/console algolia:entity-export product --chunk-size=200
+# Or export specific entity types
+vendor/bin/console algolia:entity-export product
+
+vendor/bin/console algolia:entity-export cms-page
+```
+
+See [Full Indexing](#full-indexing) section for more details and scheduling options.
+
+See [Real-time Synchronization](#step-10-configure-real-time-synchronization) section for real-time updates.
+
+### Step 9: Verify data in the Algolia Dashboard
+
+1. Login to Algolia
+2. Check created indexes and data inside (Search section).
+3. Try searches from the Algolia Dashboard.
+4. Tune index settings (facets, searchable attributes, ranking) as needed.
+
+### Step 10: Configure Real-time Synchronization
+
+Complete Integration Example:
+
+```php
+<?php
+
+namespace Pyz\Zed\Publisher;
+
+use Spryker\Zed\Publisher\PublisherDependencyProvider as SprykerPublisherDependencyProvider;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductAbstractPublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcretePublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPagePublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageVersionPublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageDeletePublisherPlugin;
+
+class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
+{
+    protected function getPublisherPlugins(): array
+    {
+        return [
+            // Algolia product publishers
+            new AlgoliaProductConcretePublisherPlugin(),
+            new AlgoliaProductAbstractPublisherPlugin(),
+            new AlgoliaProductConcreteDeletePublisherPlugin(),
+
+            // Algolia CMS page publishers
+            new AlgoliaCmsPagePublisherPlugin(),
+            new AlgoliaCmsPageVersionPublisherPlugin(),
+            new AlgoliaCmsPageDeletePublisherPlugin(),
+        ];
+    }
+}
+```
+See [Real-time Synchronization](#real-time-synchronization) section for details on each plugin and their subscribed events.
+
+### Step 11: Enable Search in Frontend & API
+>WARNING: Please make sure you have data in the Algolia indices before enabling search in frontend, otherwise search will return no results.
+
+
+Enable product and/or CMS page search in the frontend for Algolia integration at the project level.
+
+File: `src/Pyz/Client/Algolia/AlgoliaConfig.php`
+
+```php
+<?php
+
+namespace Pyz\Client\Algolia;
+
+use SprykerEco\Client\Algolia\AlgoliaConfig as SprykerEcoAlgoliaConfig;
+
+class AlgoliaConfig extends SprykerEcoAlgoliaConfig
+{
+    /**
+     * Enable product search in frontend.
+     */
+    public function isSearchInFrontendEnabledForProducts(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Enable CMS page search in frontend.
+     */
+    public function isSearchInFrontendEnabledForCmsPages(): bool
+    {
+        return true;
+    }
+}
 ```
 
 ---
@@ -341,42 +409,6 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\`
 - Fetches CMS page and version data
 - Extracts full page content with locale-specific data
 - Publishes to Algolia with version metadata
-
----
-
-### Complete Integration Example
-
-```php
-<?php
-
-namespace Pyz\Zed\Publisher;
-
-use Spryker\Zed\Publisher\PublisherDependencyProvider as SprykerPublisherDependencyProvider;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductAbstractPublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcretePublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPagePublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageVersionPublisherPlugin;
-use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageDeletePublisherPlugin;
-
-class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
-{
-    protected function getPublisherPlugins(): array
-    {
-        return [
-            // Algolia product publishers
-            new AlgoliaProductConcretePublisherPlugin(),
-            new AlgoliaProductAbstractPublisherPlugin(),
-            new AlgoliaProductConcreteDeletePublisherPlugin(),
-
-            // Algolia CMS page publishers
-            new AlgoliaCmsPagePublisherPlugin(),
-            new AlgoliaCmsPageVersionPublisherPlugin(),
-            new AlgoliaCmsPageDeletePublisherPlugin(),
-        ];
-    }
-}
-```
 
 ---
 
@@ -522,8 +554,6 @@ For a complete implementation guide with examples, see [Custom Entity Index Mapp
 ## Configuration
 
 ### Available Configuration Methods
-
-- `getIsActive()` - Enable/disable Algolia integration
 
 **Product Events:**
 - `getProductConcreteSubscribedEvents()` - Product variant events
@@ -721,14 +751,15 @@ Replace them SearchHttp plugins with Algolia equivalents:
 
 - Replace `SearchHttpQueryPlugin` with `AlgoliaSearchQueryPlugin`
 
-### Step 2: Add New Algolia Plugins
+### Step 2: Add New Algolia Plugins and Configuration
 
 Follow all integration steps from the [Installation](#installation) section.
 
 ### Step 3: Verify
 
 - No data migration needed - data structure remains the same
-- Do full re-index using console command
+- Do full re-index using console command (see [Full Indexing](#full-indexing)) section)
+- Configure schedule for periodic exports if needed (see [Schedule Automatic Exports](#schedule-automatic-exports-recommended) section)
 - Test with products update in Back Office
 - Test with a CMS page update in Back Office
 - Check Algolia dashboard for indexed content
