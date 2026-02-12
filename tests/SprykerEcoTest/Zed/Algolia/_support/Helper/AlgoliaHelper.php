@@ -194,7 +194,9 @@ class AlgoliaHelper extends Module
             ->setIsActive(true)
             ->setAttributes(['attribute1' => 'attributeValue1'])
             ->addLocalizedAttributes(
-                (new LocalizedAttributesBuilder())
+                (new LocalizedAttributesBuilder([
+                    LocalizedAttributesTransfer::IS_SEARCHABLE => true,
+                ]))
                     ->withLocale($locale1Seed)
                     ->build()
                     ->setAttributes([
@@ -202,7 +204,9 @@ class AlgoliaHelper extends Module
                     ]),
             )
             ->addLocalizedAttributes(
-                (new LocalizedAttributesBuilder())
+                (new LocalizedAttributesBuilder([
+                    LocalizedAttributesTransfer::IS_SEARCHABLE => true,
+                ]))
                     ->withLocale($locale2Seed)
                     ->build()
                     ->setAttributes([
@@ -260,7 +264,9 @@ class AlgoliaHelper extends Module
             ],
         ]))->build();
 
-        $localizedAttributeEn = (new LocalizedAttributesBuilder())->build()
+        $localizedAttributeEn = (new LocalizedAttributesBuilder([
+            LocalizedAttributesTransfer::IS_SEARCHABLE => true,
+        ]))->build()
             ->setLocale($localeEn)
             ->setAttributes([
                 'localizedAttribute1' => 'localizedAttribute1ValueEn',

@@ -19,11 +19,13 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const string PLUGINS_ALGOLIA_ENTITY_EXPORTER = 'PLUGINS_ALGOLIA_ENTITY_EXPORTER';
 
-    public const string FACADE_PRODUCT = 'FACADE_PRODUCT';
-
     public const string FACADE_CMS = 'FACADE_CMS';
 
     public const string FACADE_EVENT_BEHAVIOR = 'FACADE_EVENT_BEHAVIOR';
+
+    public const string FACADE_PRODUCT = 'FACADE_PRODUCT';
+
+    public const string FACADE_STORE = 'FACADE_STORE';
 
     public const string QUERY_CONTAINER_CMS = 'QUERY_CONTAINER_CMS';
 
@@ -31,6 +33,7 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = parent::provideBusinessLayerDependencies($container);
         $container = $this->addAlgoliaEntityExporterPlugins($container);
+        $container = $this->addStoreFacade($container);
         $container = $this->addProductFacade($container);
         $container = $this->addCmsFacade($container);
         $container = $this->addCmsQueryContainer($container);
@@ -99,6 +102,15 @@ class AlgoliaDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::FACADE_EVENT_BEHAVIOR, function (Container $container) {
             return $container->getLocator()->eventBehavior()->facade();
+        });
+
+        return $container;
+    }
+
+    protected function addStoreFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_STORE, function (Container $container) {
+            return $container->getLocator()->store()->facade();
         });
 
         return $container;

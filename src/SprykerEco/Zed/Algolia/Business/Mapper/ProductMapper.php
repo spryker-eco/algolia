@@ -41,6 +41,11 @@ class ProductMapper implements ProductMapperInterface
 
         foreach ($storeToLocaleIndices as $storeName => $storeToLocaleIndex) {
             foreach ($storeToLocaleIndex as $locale => $algoliaProductTransfer) {
+                // skip mapping if locale is not searchable for the product.
+                if (!$this->isProductLocaleSearchable($productConcreteTransfer, $locale)) {
+                    continue;
+                }
+
                 $indexedAlgoliaProductTransfersArray[$storeName][$locale][] = $this->mapProductConcreteToAlgoliaProductTransfer(
                     $productConcreteTransfer,
                     $storeName,
@@ -50,6 +55,17 @@ class ProductMapper implements ProductMapperInterface
         }
 
         return $indexedAlgoliaProductTransfersArray;
+    }
+
+    protected function isProductLocaleSearchable(ProductConcreteTransfer $productConcreteTransfer, string $locale): bool
+    {
+        foreach ($productConcreteTransfer->getLocalizedAttributes() as $localizedAttribute) {
+            if ($locale === $localizedAttribute->getLocaleOrFail()->getLocaleNameOrFail() && $localizedAttribute->getIsSearchable()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -100,6 +116,11 @@ class ProductMapper implements ProductMapperInterface
     protected function getLocales(ProductConcreteTransfer $productConcreteTransfer): array
     {
         $localesFromAttributes = array_map(function (LocalizedAttributesTransfer $localizedAttributeTransfer) {
+            // exclude locale is not searchable.
+            if (!$localizedAttributeTransfer->getIsSearchable()) {
+                return null;
+            }
+
             return $localizedAttributeTransfer->getLocaleOrFail()->getLocaleNameOrFail();
         }, $productConcreteTransfer->getLocalizedAttributes()->getArrayCopy());
 
@@ -119,7 +140,7 @@ class ProductMapper implements ProductMapperInterface
             }, $productConcreteTransfer->getUrl()->getUrls()->getArrayCopy());
         }
 
-        return array_unique(array_merge($localesFromAttributes, $localesFromImageSets, $localesFromUrls));
+        return array_values(array_filter(array_unique(array_merge($localesFromAttributes, $localesFromImageSets, $localesFromUrls))));
     }
 
     protected function mapProductConcreteToAlgoliaProductTransfer(

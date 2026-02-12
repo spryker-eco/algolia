@@ -11,6 +11,7 @@ use Spryker\Zed\Cms\Business\CmsFacadeInterface;
 use Spryker\Zed\Cms\Persistence\CmsQueryContainerInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreator;
 use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
@@ -181,7 +182,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
 
     public function createProductConcreteFilter(): ProductConcreteFilterInterface
     {
-        return new ProductConcreteFilter();
+        return new ProductConcreteFilter($this->getStoreFacade());
     }
 
     public function createAlgoliaConfigResolver(): AlgoliaConfigResolverInterface
@@ -313,5 +314,10 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
     public function getCmsQueryContainer(): CmsQueryContainerInterface
     {
         return $this->getProvidedDependency(AlgoliaDependencyProvider::QUERY_CONTAINER_CMS);
+    }
+
+    public function getStoreFacade(): StoreFacadeInterface
+    {
+        return $this->getProvidedDependency(AlgoliaDependencyProvider::FACADE_STORE);
     }
 }

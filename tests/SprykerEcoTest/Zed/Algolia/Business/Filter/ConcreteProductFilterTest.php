@@ -9,13 +9,17 @@ namespace SprykerEcoTest\Zed\Algolia\Business\Filter;
 
 use ArrayObject;
 use Codeception\Test\Unit;
+use Generated\Shared\DataBuilder\LocalizedAttributesBuilder;
 use Generated\Shared\DataBuilder\MoneyValueBuilder;
 use Generated\Shared\DataBuilder\PriceProductBuilder;
 use Generated\Shared\DataBuilder\StoreBuilder;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Generated\Shared\Transfer\LocaleTransfer;
+use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\MoneyValueTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
+use Spryker\Zed\Store\Business\StoreFacadeInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilter;
 use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 
@@ -46,7 +50,8 @@ class ConcreteProductFilterTest extends Unit
     {
         // Arrange
         $productsConcrete = $this->prepareTestProductsConcrete();
-        $inactiveProductFilter = new ProductConcreteFilter();
+        $storeFacadeMock = $this->createMock(StoreFacadeInterface::class);
+        $inactiveProductFilter = new ProductConcreteFilter($storeFacadeMock);
         $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);
 
         // Act
@@ -58,6 +63,76 @@ class ConcreteProductFilterTest extends Unit
         $filteredProductsConcreteTypes = $this->extractFilteredProductsConcreteTypes($filteredProductsConcrete);
 
         $this->assertEquals($expectedTypes, $filteredProductsConcreteTypes);
+    }
+
+    public function testGivenProductHasOnlyNonSearchableLocalesWhenFilteringIndexableProductsThenProductIsNotIncluded(): void
+    {
+        // Arrange
+        $productsConcrete = new ArrayObject();
+        $storeBuilder = (new StoreBuilder([StoreTransfer::NAME => 'test-store']));
+        $priceProductTransfer = (new PriceProductBuilder())
+            ->withMoneyValue(
+                (new MoneyValueBuilder([MoneyValueTransfer::GROSS_AMOUNT => 100]))
+                    ->withStore(clone $storeBuilder)
+                    ->withCurrency(),
+            )->build();
+
+        $productsConcrete->append(
+            (new ProductConcreteTransfer())
+                ->addStores(clone $storeBuilder->build())
+                ->setAbstractSku('ACTIVE_NON_SEARCHABLE_LOCALE')
+                ->setIsActive(true)
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createNonSearchableLocalizedAttribute()),
+        );
+
+        $storeFacadeMock = $this->createMock(StoreFacadeInterface::class);
+        $inactiveProductFilter = new ProductConcreteFilter($storeFacadeMock);
+        $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => true]);
+
+        // Act
+        $filteredProductsConcrete = $inactiveProductFilter->filterIndexableProductsConcrete($productsConcrete, $algoliaConfigTransfer);
+
+        // Assert
+        $this->assertCount(0, $filteredProductsConcrete);
+    }
+
+    public function testGivenProductHasMixedSearchableLocalesWhenFilteringIndexableProductsThenProductIsIncluded(): void
+    {
+        // Arrange
+        $productsConcrete = new ArrayObject();
+        $storeBuilder = (new StoreBuilder([StoreTransfer::NAME => 'test-store']));
+        $priceProductTransfer = (new PriceProductBuilder())
+            ->withMoneyValue(
+                (new MoneyValueBuilder([MoneyValueTransfer::GROSS_AMOUNT => 100]))
+                    ->withStore(clone $storeBuilder)
+                    ->withCurrency(),
+            )->build();
+
+        $productsConcrete->append(
+            (new ProductConcreteTransfer())
+                ->addStores(clone $storeBuilder->build())
+                ->setAbstractSku('ACTIVE_MIXED_SEARCHABLE_LOCALES')
+                ->setIsActive(true)
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute())
+                ->addLocalizedAttributes($this->createNonSearchableLocalizedAttribute()),
+        );
+
+        $storeFacadeMock = $this->createMock(StoreFacadeInterface::class);
+        $inactiveProductFilter = new ProductConcreteFilter($storeFacadeMock);
+        $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => true]);
+
+        // Act
+        $filteredProductsConcrete = $inactiveProductFilter->filterIndexableProductsConcrete($productsConcrete, $algoliaConfigTransfer);
+
+        // Assert
+        $this->assertCount(1, $filteredProductsConcrete);
+        $this->assertEquals('ACTIVE_MIXED_SEARCHABLE_LOCALES', $filteredProductsConcrete[0]->getAbstractSku());
     }
 
     /**
@@ -99,7 +174,9 @@ class ConcreteProductFilterTest extends Unit
     {
         // Arrange
         $productsConcrete = $this->prepareTestProductsConcrete();
-        $inactiveProductFilter = new ProductConcreteFilter();
+        $storeFacadeMock = $this->createMock(StoreFacadeInterface::class);
+        $storeFacadeMock->method('getAllStores')->willReturn($this->prepareTestStores());
+        $inactiveProductFilter = new ProductConcreteFilter($storeFacadeMock);
         $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);
 
         // Act
@@ -111,6 +188,42 @@ class ConcreteProductFilterTest extends Unit
         $filteredProductsConcreteTypes = $this->extractFilteredProductsConcreteTypes($filteredProductsConcrete);
 
         $this->assertEquals($expectedTypes, $filteredProductsConcreteTypes);
+    }
+
+    public function testGivenProductHasOnlyNonSearchableLocalesWhenFilteringNonIndexableProductsThenProductIsIncluded(): void
+    {
+        // Arrange
+        $productsConcrete = new ArrayObject();
+        $storeBuilder = (new StoreBuilder([StoreTransfer::NAME => 'test-store']));
+        $priceProductTransfer = (new PriceProductBuilder())
+            ->withMoneyValue(
+                (new MoneyValueBuilder([MoneyValueTransfer::GROSS_AMOUNT => 100]))
+                    ->withStore(clone $storeBuilder)
+                    ->withCurrency(),
+            )->build();
+
+        $productsConcrete->append(
+            (new ProductConcreteTransfer())
+                ->addStores(clone $storeBuilder->build())
+                ->setAbstractSku('ACTIVE_NON_SEARCHABLE_LOCALE')
+                ->setIsActive(true)
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createNonSearchableLocalizedAttribute()),
+        );
+
+        $storeFacadeMock = $this->createMock(StoreFacadeInterface::class);
+        $storeFacadeMock->method('getAllStores')->willReturn($this->prepareTestStores());
+        $inactiveProductFilter = new ProductConcreteFilter($storeFacadeMock);
+        $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => true]);
+
+        // Act
+        $filteredProductsConcrete = $inactiveProductFilter->filterNonIndexableProductsConcrete($productsConcrete, $algoliaConfigTransfer);
+
+        // Assert
+        $this->assertCount(1, $filteredProductsConcrete);
+        $this->assertEquals('ACTIVE_NON_SEARCHABLE_LOCALE', $filteredProductsConcrete[0]->getAbstractSku());
     }
 
     /**
@@ -135,9 +248,10 @@ class ConcreteProductFilterTest extends Unit
             ],
             [
                 true,
-                5,
+                6,
                 [
                     'INACTIVE_APPROVAL_NOT_DEFINED',
+                    'ACTIVE_APPROVED_WRONG_STORE',
                     'ACTIVE_UNAPPROVED',
                     'INACTIVE_APPROVED',
                     'INACTIVE_UNAPPROVED',
@@ -177,20 +291,26 @@ class ConcreteProductFilterTest extends Unit
         $productsConcrete->append((new ProductConcreteTransfer())
             ->addStores(clone $storeBuilder->build())
             ->setAbstractSku('ACTIVE_APPROVAL_NOT_DEFINED')
-            ->setIsActive(true)->addPrice($priceProductTransfer)->addProductAbstractPrice($priceProductTransfer));
+            ->setIsActive(true)
+            ->addPrice($priceProductTransfer)
+            ->addProductAbstractPrice($priceProductTransfer)
+            ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()));
 
         $productsConcrete->append((new ProductConcreteTransfer())
             ->addStores(clone $storeBuilder->build())
             ->setAbstractSku('INACTIVE_APPROVAL_NOT_DEFINED')
-            ->setIsActive(false));
+            ->setIsActive(false)
+            ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()));
 
         $productsConcrete->append(
             (new ProductConcreteTransfer())
                 ->addStores(clone $storeBuilder->build())
                 ->setAbstractSku('ACTIVE_APPROVED')
                 ->setIsActive(true)
-            ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
-                ->addPrice($priceProductTransfer)->addProductAbstractPrice($priceProductTransfer),
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -198,8 +318,10 @@ class ConcreteProductFilterTest extends Unit
                 ->addStores((new StoreBuilder())->build())
                 ->setAbstractSku('ACTIVE_APPROVED_WRONG_STORE')
                 ->setIsActive(true)
-            ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
-                ->addPrice($priceProductTransfer)->addProductAbstractPrice($priceProductTransfer),
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -207,7 +329,8 @@ class ConcreteProductFilterTest extends Unit
                 ->addStores(clone $storeBuilder->build())
                 ->setAbstractSku('ACTIVE_UNAPPROVED')
                 ->setIsActive(true)
-            ->setApprovalStatus('STATUS_DIFFERENT_TO_APPROVED'),
+                ->setApprovalStatus('STATUS_DIFFERENT_TO_APPROVED')
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -215,7 +338,8 @@ class ConcreteProductFilterTest extends Unit
                 ->addStores(clone $storeBuilder->build())
                 ->setAbstractSku('INACTIVE_APPROVED')
                 ->setIsActive(false)
-            ->setApprovalStatus('ACTIVE_APPROVED'),
+                ->setApprovalStatus('ACTIVE_APPROVED')
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -223,7 +347,8 @@ class ConcreteProductFilterTest extends Unit
                 ->addStores(clone $storeBuilder->build())
                 ->setAbstractSku('INACTIVE_UNAPPROVED')
                 ->setIsActive(false)
-            ->setApprovalStatus('STATUS_DIFFERENT_TO_APPROVED'),
+                ->setApprovalStatus('STATUS_DIFFERENT_TO_APPROVED')
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -231,7 +356,8 @@ class ConcreteProductFilterTest extends Unit
                 ->addStores(clone $storeBuilder->build())
                 ->setAbstractSku('ACTIVE_APPROVED_NO_PRICE')
                 ->setIsActive(true)
-                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED),
+                ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -240,7 +366,9 @@ class ConcreteProductFilterTest extends Unit
                 ->setAbstractSku('ACTIVE_APPROVED_ZERO_PRICE')
                 ->setIsActive(true)
                 ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
-                ->addPrice($priceProductTransfer)->addProductAbstractPrice($zeroPriceProductTransfer),
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($zeroPriceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -249,7 +377,9 @@ class ConcreteProductFilterTest extends Unit
                 ->setAbstractSku('ACTIVE_APPROVED_NULL_PRICE')
                 ->setIsActive(true)
                 ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
-                ->addPrice($priceProductTransfer)->addProductAbstractPrice($nullPriceProductTransfer),
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($nullPriceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         $productsConcrete->append(
@@ -257,7 +387,9 @@ class ConcreteProductFilterTest extends Unit
                 ->setAbstractSku('ACTIVE_APPROVED_EMPTY_STORE')
                 ->setIsActive(true)
                 ->setApprovalStatus(ProductConcreteFilter::STATUS_APPROVED)
-                ->addPrice($priceProductTransfer)->addProductAbstractPrice($priceProductTransfer),
+                ->addPrice($priceProductTransfer)
+                ->addProductAbstractPrice($priceProductTransfer)
+                ->addLocalizedAttributes($this->createSearchableLocalizedAttribute()),
         );
 
         return $productsConcrete;
@@ -275,5 +407,33 @@ class ConcreteProductFilterTest extends Unit
         }
 
         return $result;
+    }
+
+    /**
+     * @return array<\Generated\Shared\Transfer\StoreTransfer>
+     */
+    protected function prepareTestStores(): array
+    {
+        return [
+            (new StoreBuilder([StoreTransfer::NAME => 'test-store']))->build(),
+        ];
+    }
+
+    protected function createSearchableLocalizedAttribute(): LocalizedAttributesTransfer
+    {
+        return (new LocalizedAttributesBuilder([
+            LocalizedAttributesTransfer::IS_SEARCHABLE => true,
+        ]))
+            ->withLocale([LocaleTransfer::LOCALE_NAME => 'en_US'])
+            ->build();
+    }
+
+    protected function createNonSearchableLocalizedAttribute(): LocalizedAttributesTransfer
+    {
+        return (new LocalizedAttributesBuilder([
+            LocalizedAttributesTransfer::IS_SEARCHABLE => false,
+        ]))
+            ->withLocale([LocaleTransfer::LOCALE_NAME => 'en_US'])
+            ->build();
     }
 }

@@ -245,4 +245,52 @@ class ProductMapperTest extends Unit
         $algoliaProductTransfer = $algoliaProductsArray[$productConcreteTransfer->getName()][$locale][0];
         $this->assertCount(3, $algoliaProductTransfer->getObject()->getCategory());
     }
+
+    public function testGivenProductWithNonSearchableLocaleWhenMappingToAlgoliaProductTransfersThenNonSearchableLocaleIsExcluded(): void
+    {
+        // Arrange
+        $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer([
+            ProductConcreteTransfer::NAME => 'full',
+            ProductConcreteTransfer::SKU => 'full-sku',
+        ]);
+
+        $storeName = $productConcreteTransfer->getStores()[0]->getName();
+
+        $productConcreteTransfer->getLocalizedAttributes()[1]->setIsSearchable(false);
+
+        $mapper = $this->tester->getFactory()->createProductMapper();
+
+        // Act
+        $algoliaProductsArray = $mapper->mapProductConcreteToAlgoliaProductTransfersArrayIndexedByStoreAndLocale(
+            $productConcreteTransfer,
+            [],
+        );
+
+        // Assert
+        $this->assertCount(1, $algoliaProductsArray);
+        $this->assertCount(1, $algoliaProductsArray[$storeName]);
+    }
+
+    public function testGivenProductWithAllNonSearchableLocalesWhenMappingToAlgoliaProductTransfersThenNoProductsAreMapped(): void
+    {
+        // Arrange
+        $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer([
+            ProductConcreteTransfer::NAME => 'full',
+            ProductConcreteTransfer::SKU => 'full-sku',
+        ]);
+
+        $productConcreteTransfer->getLocalizedAttributes()[0]->setIsSearchable(false);
+        $productConcreteTransfer->getLocalizedAttributes()[1]->setIsSearchable(false);
+
+        $mapper = $this->tester->getFactory()->createProductMapper();
+
+        // Act
+        $algoliaProductsArray = $mapper->mapProductConcreteToAlgoliaProductTransfersArrayIndexedByStoreAndLocale(
+            $productConcreteTransfer,
+            [],
+        );
+
+        // Assert
+        $this->assertCount(0, $algoliaProductsArray);
+    }
 }

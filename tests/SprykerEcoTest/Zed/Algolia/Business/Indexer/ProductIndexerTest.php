@@ -137,7 +137,8 @@ class ProductIndexerTest extends Unit
         );
 
         // Assert
-        $this->assertCount(4, $indexedAlgoliaProductCollections);
+        // Products share locale2, so we expect 3 unique store+locale combinations: locale1, locale2 (shared), locale3
+        $this->assertCount(3, $indexedAlgoliaProductCollections);
 
         $indices = array_map(function (IndexedAlgoliaProductCollectionTransfer $indexedAlgoliaProductCollectionTransfer) {
             return $indexedAlgoliaProductCollectionTransfer->getIndexName();

@@ -11,9 +11,19 @@ use ArrayObject;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
+use Spryker\Zed\Store\Business\StoreFacadeInterface;
 
 class ProductConcreteFilter implements ProductConcreteFilterInterface
 {
+    /**
+     * @var array<\Generated\Shared\Transfer\StoreTransfer>|null
+     */
+    protected ?array $storesCache = null;
+
+    public function __construct(protected StoreFacadeInterface $storeFacade)
+    {
+    }
+
     /**
      * @var string
      */
@@ -24,9 +34,12 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
 
      * @return \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
-    public function filterIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
-    {
+    public function filterIndexableProductsConcrete(
+        ArrayObject $productsConcrete,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): ArrayObject {
         $filteredProductsConcrete = new ArrayObject();
+
         foreach ($productsConcrete as $productConcrete) {
             $clonedProductConcrete = clone $productConcrete;
             $clonedProductConcrete->setStores((new ArrayObject()));
@@ -50,20 +63,37 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
 
      * @return \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer>
      */
-    public function filterNonIndexableProductsConcrete(ArrayObject $productsConcrete, AlgoliaConfigTransfer $algoliaConfigTransfer): ArrayObject
-    {
+    public function filterNonIndexableProductsConcrete(
+        ArrayObject $productsConcrete,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): ArrayObject {
         $filteredProductsConcrete = new ArrayObject();
+
+        if ($this->storesCache === null) {
+            $this->storesCache = $this->storeFacade->getAllStores();
+        }
+
         foreach ($productsConcrete as $productConcrete) {
             $clonedProductConcrete = clone $productConcrete;
             $clonedProductConcrete->setStores((new ArrayObject()));
 
-            foreach ($productConcrete->getStores() as $storeTransfer) {
-                if (!$this->canBeIndexed($productConcrete, $storeTransfer, $algoliaConfigTransfer)) {
-                    $clonedProductConcrete->addStores($storeTransfer);
+            $productStoreNames = $this->getStoreNamesFromProduct($productConcrete);
+
+            foreach ($this->storesCache as $storeCacheTransfer) {
+                if (!in_array($storeCacheTransfer->getName(), $productStoreNames)) {
+                    $clonedProductConcrete->addStores($storeCacheTransfer);
+
+                    continue;
+                }
+
+                $productStoreTransfer = $this->findStoreByName($productConcrete, $storeCacheTransfer->getName());
+
+                if (!$this->canBeIndexed($productConcrete, $productStoreTransfer, $algoliaConfigTransfer) || $this->hasAtLeastOneNonSearchableLocale($productConcrete)) {
+                    $clonedProductConcrete->addStores($productStoreTransfer);
                 }
             }
 
-            if (count($clonedProductConcrete->getStores()) || count($productConcrete->getStores()) === 0) {
+            if (count($clonedProductConcrete->getStores())) {
                 $filteredProductsConcrete->append($clonedProductConcrete);
             }
         }
@@ -79,7 +109,8 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
         return $productConcreteTransfer->getIsActive()
             && ($productConcreteTransfer->getApprovalStatus() === null
                 || $productConcreteTransfer->getApprovalStatus() === static::STATUS_APPROVED)
-            && $this->assertPricesAreValid($productConcreteTransfer, $storeTransfer, $algoliaConfigTransfer);
+            && $this->assertPricesAreValid($productConcreteTransfer, $storeTransfer, $algoliaConfigTransfer)
+            && $this->hasAtLeastOneSearchableLocale($productConcreteTransfer);
     }
 
     protected function assertPricesAreValid(
@@ -102,5 +133,52 @@ class ProductConcreteFilter implements ProductConcreteFilterInterface
         }
 
         return false;
+    }
+
+    protected function hasAtLeastOneSearchableLocale(ProductConcreteTransfer $productConcreteTransfer): bool
+    {
+        foreach ($productConcreteTransfer->getLocalizedAttributes() as $localizedAttribute) {
+            if ($localizedAttribute->getIsSearchable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function hasAtLeastOneNonSearchableLocale(ProductConcreteTransfer $productConcreteTransfer): bool
+    {
+        foreach ($productConcreteTransfer->getLocalizedAttributes() as $localizedAttribute) {
+            if (!$localizedAttribute->getIsSearchable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getStoreNamesFromProduct(ProductConcreteTransfer $productConcreteTransfer): array
+    {
+        $storeNames = [];
+
+        foreach ($productConcreteTransfer->getStores() as $storeTransfer) {
+            $storeNames[] = $storeTransfer->getName();
+        }
+
+        return $storeNames;
+    }
+
+    protected function findStoreByName(ProductConcreteTransfer $productConcreteTransfer, string $storeName): ?StoreTransfer
+    {
+        foreach ($productConcreteTransfer->getStores() as $storeTransfer) {
+            if ($storeTransfer->getName() === $storeName) {
+                return $storeTransfer;
+            }
+        }
+
+        return null;
     }
 }
