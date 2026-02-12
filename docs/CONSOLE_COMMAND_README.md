@@ -338,16 +338,3 @@ SprykerEco/Algolia/
 │               └── AlgoliaDependencyProvider.php
 ```
 
-## Future Enhancements
-
-1. **Progress Bars**: Add visual progress indicators
-2. **Parallel Processing**: Support multi-process execution
-3. **Resume Capability**: Resume interrupted exports
-4. **Export Statistics**: Detailed export metrics
-5. **Webhook Support**: Trigger webhooks on completion
-6. **More Entity Types**: Additional pre-built exporters
-
-## License
-
-Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
-Use of this software requires acceptance of the Evaluation License Agreement.
