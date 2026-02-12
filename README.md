@@ -262,7 +262,7 @@ See [Real-time Synchronization](#step-10-configure-real-time-synchronization) se
 1. Login to Algolia
 2. Check created indexes and data inside (Search section).
 3. Try searches from the Algolia Dashboard.
-4. Tune index settings (facets, searchable attributes, ranking) as needed.
+4. Tune index settings ([facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/), [searchable attributes](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/)) as needed.
 
 ### Step 10: Configure Real-time Synchronization
 
@@ -356,6 +356,10 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\`
 - Product prices changes (if PriceProduct exists)
 - Product search data changes (if ProductSearch exists)
 
+**Behavior**:
+- Publishes or updates product concrete data in Algolia indices upon relevant events.
+- Handles multi-store and multi-locale data.
+
 #### 2. AlgoliaProductAbstractPublisherPlugin
 
 **Purpose**: Publishes all concrete products of a product abstract when abstract-level data changes.
@@ -368,6 +372,9 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\`
 - Images
 - Price changes (if PriceProduct exists and enabled in the configuration)
 
+**Behavior**:
+- Triggers re-indexing of all related concrete products in Algolia when abstract-level data changes.
+
 #### 3. AlgoliaProductConcreteDeletePublisherPlugin
 
 **Purpose**: Removes deleted products from Algolia indices.
@@ -375,6 +382,9 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\`
 **Default Subscribed Events**:
 - PRODUCT_CONCRETE_UNPUBLISH
 - ENTITY_SPY_PRODUCT_DELETE
+
+**Behavior**:
+- Removes product concrete data from Algolia indices when products are deleted or unpublished.
 
 ---
 

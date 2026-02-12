@@ -2,7 +2,7 @@
 
 ## Overview
 
-This module provides an extensible console command for exporting entities to Algolia index. It replaces the message broker-based approach used by `ProductExportMessageHandlerPlugin` and `CmsPageMessageHandlerPlugin` with a manual, on-demand console command.
+This module provides an extensible console command for exporting entities to Algolia index.
 
 ## Features
 
