@@ -640,21 +640,9 @@ public function getEntityToIndexMappings(): array
 
 ## Related Documentation
 
-- [Spryker Algolia Integration Guide](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/integrate-algolia)
+- [Spryker Algolia Integration Guide](../README.md)
 - [Algolia Index Documentation](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/)
-- [Spryker Search Architecture](https://docs.spryker.com/docs/scos/dev/back-end-development/data-manipulation/data-interaction/search/search.html)
 
----
 
-## Summary
 
-Custom Entity Index Mapping provides a lightweight way to integrate Algolia search for any entity without complex publisher plugins. Key takeaways:
-
-- **Simple Configuration**: Just define source identifier → index name mappings
-- **Flexible**: Supports multi-store, multi-locale scenarios
-- **Non-Invasive**: No need to modify core Algolia module
-- **Read-Only**: Perfect for externally-managed indices
-- **Scalable**: Add as many custom entities as needed
-
-For entities requiring real-time synchronization from Spryker, consider creating proper publisher plugins instead.
 
