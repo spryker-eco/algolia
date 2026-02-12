@@ -6,8 +6,8 @@
     "require": {
         "algolia/algoliasearch-client-php": "^3.4.2",
         "ext-curl": "*",
+        "ext-intl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "php": ">=8.3",
         "spryker-shop/traceable-event-widget": "^1.0.0",
         "spryker/cms": "^7.18.0",

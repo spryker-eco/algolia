@@ -32,10 +32,24 @@ class ProductIndexer implements ProductIndexerInterface
             $productsConcrete,
         );
 
-        return $this->getIndexedAlgoliaProductCollectionTransfers(
-            $algoliaProductTransfersIndexedByStoreAndLocale,
-            $tenantIdentifier,
-        );
+        $indexedAlgoliaProductsArray = [];
+        foreach ($algoliaProductTransfersIndexedByStoreAndLocale as $storeName => $algoliaProductTransfersIndexedByLocale) {
+            foreach ($algoliaProductTransfersIndexedByLocale as $locale => $algoliaProductTransfers) {
+                $algoliaIndexName = $this->algoliaIndexNameResolver->resolveProductIndexName(
+                    $tenantIdentifier,
+                    $storeName,
+                    $locale,
+                );
+
+                $indexedAlgoliaProductsArray[] = (new IndexedAlgoliaProductCollectionTransfer())
+                    ->setIndexName($algoliaIndexName)
+                    ->setLocale($locale)
+                    ->setTenantIdentifier($tenantIdentifier)
+                    ->setAlgoliaProducts(new ArrayObject($algoliaProductTransfers));
+            }
+        }
+
+        return $indexedAlgoliaProductsArray;
     }
 
     /**
@@ -56,34 +70,5 @@ class ProductIndexer implements ProductIndexerInterface
         }
 
         return $indexedAlgoliaProductTransfersArray;
-    }
-
-    /**
-     * @param array<string, array<string, array<\Generated\Shared\Transfer\AlgoliaProductTransfer>>> $algoliaProductTransfersIndexedByStoreAndLocale
-
-     * @return array<\Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
-     */
-    protected function getIndexedAlgoliaProductCollectionTransfers(
-        array $algoliaProductTransfersIndexedByStoreAndLocale,
-        string $tenantIdentifier
-    ): array {
-        $indexedAlgoliaProductsArray = [];
-        foreach ($algoliaProductTransfersIndexedByStoreAndLocale as $storeName => $algoliaProductTransfersIndexedByLocale) {
-            foreach ($algoliaProductTransfersIndexedByLocale as $locale => $algoliaProductTransfers) {
-                $algoliaIndexName = $this->algoliaIndexNameResolver->resolveProductIndexName(
-                    $tenantIdentifier,
-                    $storeName,
-                    $locale,
-                );
-
-                $indexedAlgoliaProductsArray[] = (new IndexedAlgoliaProductCollectionTransfer())
-                    ->setIndexName($algoliaIndexName)
-                    ->setLocale($locale)
-                    ->setTenantIdentifier($tenantIdentifier)
-                    ->setAlgoliaProducts(new ArrayObject($algoliaProductTransfers));
-            }
-        }
-
-        return $indexedAlgoliaProductsArray;
     }
 }
