@@ -160,12 +160,20 @@ class ProductIndexerTest extends Unit
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
+                ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
+                    [LocalizedAttributesTransfer::LOCALE => ['locale_name' => 'en_US']],
+                    [LocalizedAttributesTransfer::LOCALE => ['locale_name' => 'de_DE']],
+                ],
             ],
         );
         $anotherProductConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
+                ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
+                    [LocalizedAttributesTransfer::LOCALE => ['locale_name' => 'fr_FR']],
+                    [LocalizedAttributesTransfer::LOCALE => ['locale_name' => 'es_ES']],
+                ],
             ],
         );
 
