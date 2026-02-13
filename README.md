@@ -718,6 +718,11 @@ console transfer:generate
 
 If migrating from MessageBroker-based [Algolia ACP App](https://docs.spryker.com/docs/pbc/all/search/latest/base-shop/third-party-integrations/algolia/algolia):
 
+>Note: The logic of data synchronization remains the same, so if you don't want to re-synchronize all data to Algolia, just use TENANT_IDENTIFIER the same as ACP tenant ID:
+> ```php
+> $config[AlgoliaConstants::TENANT_IDENTIFIER] = 'tenant-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx';
+>```
+
 ### Step 1: Remove Old Plugins
 
 #### Remove from `src/Pyz/Zed/Publisher/PublisherDependencyProvider.php`
