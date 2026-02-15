@@ -1,0 +1,28 @@
+# IDEs
+.idea/
+.project/
+.vscode/
+nbproject/
+/.buildpath
+/.settings
+*.sublime-*
+*.AppleDouble
+*.AppleDB
+*.AppleDesktop
+Temporary Items
+.apdisk
+GPATH
+GRTAGS
+GTAGS
+
+# OS
+.DS_Store
+
+/vendor/
+composer.lock
+
+
+# tests
+tests/**/_generated/
+tests/_output/*
+!tests/_output/.gitkeep

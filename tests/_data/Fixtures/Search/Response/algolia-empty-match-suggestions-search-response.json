@@ -1,0 +1,2316 @@
+{
+    "results": [
+        {
+            "hits": [
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 10,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 2,
+                    "query": "gift",
+                    "objectID": "gift",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "gift",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 28,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 2,
+                    "query": "canon",
+                    "objectID": "canon",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "canon",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 10,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 2,
+                    "query": "666-",
+                    "objectID": "666-",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "666-",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 1,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 2,
+                    "popularity": 1,
+                    "query": "gift 5000",
+                    "objectID": "gift 5000",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "gift 5000",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 1,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 2,
+                    "popularity": 1,
+                    "query": "gift 500",
+                    "objectID": "gift 500",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "gift 500",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 2,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 1,
+                    "query": "apc",
+                    "objectID": "apc",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "apc",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 1,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 5,
+                    "popularity": 0,
+                    "query": "vga-kabel so lange sie m\u00f6chten",
+                    "objectID": "vga-kabel so lange sie m\u00f6chten",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "vga-kabel so lange sie m\u00f6chten",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 1,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "vga kabel (1.5m)",
+                    "objectID": "vga kabel (1.5m)",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "vga kabel (1.5m)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 2,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "toshiba camileo s30",
+                    "objectID": "toshiba camileo s30",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "toshiba camileo s30",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 2,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "toshiba camileo p20",
+                    "objectID": "toshiba camileo p20",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "toshiba camileo p20",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 4,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 0,
+                    "query": "toshiba",
+                    "objectID": "toshiba",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "toshiba",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 2,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 4,
+                    "popularity": 0,
+                    "query": "tomtom runner 2 music",
+                    "objectID": "tomtom runner 2 music",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tomtom runner 2 music",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 3,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 4,
+                    "popularity": 0,
+                    "query": "tomtom runner 2 cardio",
+                    "objectID": "tomtom runner 2 cardio",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tomtom runner 2 cardio",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 2,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "tomtom multi-sport cardio",
+                    "objectID": "tomtom multi-sport cardio",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tomtom multi-sport cardio",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 3,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 2,
+                    "popularity": 0,
+                    "query": "tomtom golf",
+                    "objectID": "tomtom golf",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tomtom golf",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 13,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 0,
+                    "query": "tomtom",
+                    "objectID": "tomtom",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tomtom",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 51,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 0,
+                    "query": "tablet",
+                    "objectID": "tablet",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "tablet",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 5,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 4,
+                    "popularity": 0,
+                    "query": "sony xperia z3 compact",
+                    "objectID": "sony xperia z3 compact",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "sony xperia z3 compact",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 7,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "sony xperia z3",
+                    "objectID": "sony xperia z3",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "sony xperia z3",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                },
+                {
+                    "aop_demo_staging-de-product-de_de": {
+                        "exact_nb_hits": 1,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 3,
+                    "popularity": 0,
+                    "query": "sony xperia sgp512e1",
+                    "objectID": "sony xperia sgp512e1",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "sony xperia sgp512e1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        }
+                    }
+                }
+            ],
+            "nbHits": 497,
+            "page": 0,
+            "nbPages": 25,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": true,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": true,
+                "typo": true
+            },
+            "query": "",
+            "params": "",
+            "index": "dev-de-product-de_query_suggestions",
+            "renderingContent": [],
+            "processingTimeMS": 3,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 112
+                },
+                "getIdx": {
+                    "load": {
+                        "total": 1
+                    },
+                    "total": 3,
+                    "unload": 2
+                },
+                "total": 3
+            },
+            "serverTimeMS": 4
+        },
+        {
+            "hits": [
+                {
+                    "sku": "potato-1-1",
+                    "name": "Bamberger Kartoffel",
+                    "abstract_name": "Bamberger Kartoffel",
+                    "description": "Es ist eine kleine, typischerweise lange und unregelm\u00e4\u00dfig geformte Kartoffel mit einer wachsartigen Textur. Der Bamberg hat festes, hellgelbes Fruchtfleisch mit nussigem Geschmack. Es wird nur in S\u00fcddeutschland angebaut und von der Europ\u00e4ischen Union als regionale Spezialit\u00e4t gesch\u00fctzt.",
+                    "url": "\/de\/bamberger-kartoffel-1",
+                    "product_abstract_sku": "potato-1",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "\/assets\/static\/images\/potatoes_public_domain.jpg",
+                                "large": "\/assets\/static\/images\/potatoes_public_domain.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Essen",
+                        "Gem\u00fcse"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Essen",
+                        "lvl2": "Demoshop > Essen > Gem\u00fcse"
+                    },
+                    "attributes": {
+                        "packaging_unit": "As much as you want"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 1000,
+                            "net": 800
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 1000,
+                            "net": 800
+                        }
+                    },
+                    "objectID": "potato-1-1",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "potato-1-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Bamberger Kartoffel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Bamberger Kartoffel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "potato-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Essen",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Gem\u00fcse",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "fish-1-1",
+                    "name": "Atlantischer Lachs (40kg)",
+                    "abstract_name": "Atlantischer Lachs (40kg)",
+                    "description": "Das Lachs natur passt ideal zu Salaten, Risotto oder Oasta. Das Lachs ist reich an Omega-3-Fetts\u00e4uren und daher besonders gesund. Der Lachs stammt aus dem Atlantik und wird sorgsam begutachtet, bevor er in die Dose kommt wird der Fisch au\u00dferdem enth\u00e4utet sowie entgr\u00e4tet.",
+                    "url": "\/de\/atlantischer-lachs-1",
+                    "product_abstract_sku": "fish-1",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "\/assets\/static\/images\/fish_public_domain.jpg",
+                                "large": "\/assets\/static\/images\/fish_public_domain.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Essen",
+                        "Fisch"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Essen",
+                        "lvl2": "Demoshop > Essen > Fisch"
+                    },
+                    "attributes": {
+                        "common-length": "120",
+                        "common-weight": "38",
+                        "max-length": "150",
+                        "max-weight": "47",
+                        "packaging_unit": "As much as you want"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 37440,
+                            "net": 29952
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 37440,
+                            "net": 29952
+                        }
+                    },
+                    "objectID": "fish-1-1",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "fish-1-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Atlantischer Lachs (40kg)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Atlantischer Lachs (40kg)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "fish-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Essen",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Fisch",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "cable-vga-1-2",
+                    "name": "VGA-Kabel so lange Sie m\u00f6chten",
+                    "abstract_name": "VGA Kabel",
+                    "description": "Einschraubbares VGA-Kabel mit 15-poligem Ein- und Ausgang.<p>Unterst\u00fctzt Aufl\u00f6sungen von 800 x 600 (SVGA), 1024 x 768 (XGA), 1600 x 1200 (UXGA), 1080 p (Full HD), 1920 x 1200 (WUXGA) und h\u00f6her hochaufl\u00f6sende LCD- und LED-Monitore.<p>Das VGA-Kabel ist mit geformten Zugentlastungssteckern f\u00fcr eine lange Lebensdauer, Grifffl\u00e4chen zum einfachen Ein- und Ausstecken sowie handfest angezogenen Schrauben f\u00fcr eine sichere Verbindung ausgestattet.<p>Vergoldete Steckverbinder; 100% blanke Kupferleiter.<p>Verbindet einen mit VGA ausgestatteten Computer mit einem beliebigen Display mit 15-poligem VGA-Anschluss.",
+                    "url": "\/de\/vga-kabel-1",
+                    "product_abstract_sku": "cable-vga-1",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_13626032_medium_1481799707_2242_1176.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_13626032_medium_1481799707_2242_1176.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kabel"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kabel"
+                    },
+                    "attributes": {
+                        "packaging_unit": "As long as you want"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 500,
+                            "net": 400
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 1000,
+                            "net": 800
+                        }
+                    },
+                    "objectID": "cable-vga-1-2",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "cable-vga-1-2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "VGA-Kabel so lange Sie m\u00f6chten",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "VGA Kabel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "cable-vga-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kabel",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "cable-hdmi-1-2",
+                    "name": "HDMI-Kabel so lange Sie m\u00f6chten",
+                    "abstract_name": "HDMI Kabel",
+                    "description": "Mit dem High-Speed-HDMI-Kabel k\u00f6nnen Sie klare, klare und sofortige Verbindungen herstellen. Mit diesem hochwertigen HDMI-Kabel (High-Definition Multimedia Interface) k\u00f6nnen Sie eine Vielzahl von Ger\u00e4ten in den Bereichen Home Entertainment, Computer, Spiele und mehr an Ihren HDTV, Projektor oder Monitor anschlie\u00dfen. Perfekt f\u00fcr diejenigen, die mit mehreren Plattformen und Ger\u00e4ten interagieren. Sie k\u00f6nnen sich auf eine starke Leistung und Wiedergabe verlassen, wenn es um Ihre digitale Erfahrung geht.",
+                    "url": "\/de\/hdmi-kabel-223",
+                    "product_abstract_sku": "cable-hdmi-1",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/12520618_0267.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/12520618_0267.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kabel"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kabel"
+                    },
+                    "attributes": {
+                        "packaging_unit": "As long as you want"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 500,
+                            "net": 400
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 1100,
+                            "net": 800
+                        }
+                    },
+                    "objectID": "cable-hdmi-1-2",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "cable-hdmi-1-2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "HDMI-Kabel so lange Sie m\u00f6chten",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "HDMI Kabel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "cable-hdmi-1",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kabel",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "666_133",
+                    "name": "Gift Card 5000",
+                    "abstract_name": "Geschenkgutschein",
+                    "description": null,
+                    "url": "\/de\/geschenkgutschein-220",
+                    "product_abstract_sku": "666",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "\/assets\/static\/images\/gift-cards\/gc.jpg",
+                                "large": "\/assets\/static\/images\/gift-cards\/gc.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Geschenkgutscheine"
+                    ],
+                    "label": [
+                        "Neu"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Geschenkgutscheine"
+                    },
+                    "attributes": {
+                        "value": "5000"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 500000,
+                            "net": 500000
+                        },
+                        "chf": {
+                            "gross": 500000,
+                            "net": 500000
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 0,
+                            "net": 0
+                        },
+                        "chf": {
+                            "gross": 0,
+                            "net": 0
+                        }
+                    },
+                    "objectID": "666_133",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "666_133",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Gift Card 5000",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Geschenkgutschein",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "666",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Geschenkgutscheine",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "219_01",
+                    "name": "Druckertintenmine 1.5L",
+                    "abstract_name": "Druckertintenmine 1.5L",
+                    "description": "Diese Uni-Kit-Fotopackung enth\u00e4lt das Licht (Foto) Cyan und das Licht (Foto) Magenta",
+                    "url": "\/de\/Printer-ink-refill-1500ml-219",
+                    "product_abstract_sku": "219",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_raw\/59122736_6969523881.png",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/59122736_6969523881.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Variant Showcase"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Variant Showcase"
+                    },
+                    "attributes": {
+                        "brand": "Canon",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 162,
+                            "net": 150
+                        },
+                        "chf": {
+                            "gross": 225,
+                            "net": 200
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 162,
+                            "net": 150
+                        },
+                        "chf": {
+                            "gross": 225,
+                            "net": 200
+                        }
+                    },
+                    "objectID": "219_01",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "219_01",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Druckertintenmine 1.5L",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Druckertintenmine 1.5L",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "219",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Variant Showcase",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "218_1234",
+                    "name": "Schrauben mit D\u00fcbeln",
+                    "abstract_name": "Schraube",
+                    "description": "Valentinstag Spezial mit Schrauben. Enth\u00e4lt: 1000 St\u00fcck. Art: Massenzink",
+                    "url": "\/de\/Schraube-218",
+                    "product_abstract_sku": "218",
+                    "rating": 0,
+                    "keywords": null,
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/high\/886048-6626.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_886048_medium_1480980493_8461_5647.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Variant Showcase"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Variant Showcase"
+                    },
+                    "attributes": {
+                        "brand": "Frey",
+                        "packaging_unit": "Giftbox"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 3250,
+                            "net": 3000
+                        },
+                        "chf": {
+                            "gross": 4500,
+                            "net": 4000
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 3250,
+                            "net": 3000
+                        },
+                        "chf": {
+                            "gross": 4500,
+                            "net": 4000
+                        }
+                    },
+                    "objectID": "218_1234",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "218_1234",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Schrauben mit D\u00fcbeln",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Schraube",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "218",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Variant Showcase",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "217_1231",
+                    "name": "APC Kabel parallel printer bi-directional (Ring 500m)",
+                    "abstract_name": "APC Kabel parallel printer bi-directional (Ring)",
+                    "description": "APC kabel parallel printer bi-directional. Ring: 5m",
+                    "url": "\/de\/APC-printer-cable-ring-217",
+                    "product_abstract_sku": "217",
+                    "rating": 0,
+                    "keywords": "APC, Drucker, Kabel, Ring",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_raw\/57964827_7736951441.png",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/57964827_7736951441.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kabel"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kabel"
+                    },
+                    "attributes": {
+                        "brand": "Neklan",
+                        "packaging_unit": "Ring (500m)",
+                        "color": "Wei\u00c3\u0178"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 3250,
+                            "net": 3000
+                        },
+                        "chf": {
+                            "gross": 4500,
+                            "net": 4000
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 3250,
+                            "net": 3000
+                        },
+                        "chf": {
+                            "gross": 4500,
+                            "net": 4000
+                        }
+                    },
+                    "objectID": "217_1231",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "217_1231",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "APC Kabel parallel printer bi-directional (Ring 500m)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "APC Kabel parallel printer bi-directional (Ring)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "217",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kabel",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "216_123",
+                    "name": "Neklan 500m Cat6 UTP Kabel (Trommel)",
+                    "abstract_name": "Neklan 500m Cat6 UTP Kabel (Trommel)",
+                    "description": "Neklan 500m Cat6 UTP. Kabell\u00c3\u00a4nge: 500 m, Kabelstandard: Cat6, Kabelschirmung: U\/UTP (UTP), Kabelfarbe: Grau + TEST456",
+                    "url": "\/de\/neklan-500m-cat6-utp-kabel-trommel-216",
+                    "product_abstract_sku": "216",
+                    "rating": 0,
+                    "keywords": "Neklan, Kabel, Netzwerk, Trommel",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/high\/15416797-8828.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/15416797-8828.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kabel"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kabel"
+                    },
+                    "attributes": {
+                        "battery_life": "test_batter_life_de",
+                        "brand": "Neklan",
+                        "packaging_unit": "Item",
+                        "color": "Grau"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 2250,
+                            "net": 2000
+                        },
+                        "chf": {
+                            "gross": 3500,
+                            "net": 3000
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 2250,
+                            "net": 2000
+                        },
+                        "chf": {
+                            "gross": 3500,
+                            "net": 3000
+                        }
+                    },
+                    "objectID": "216_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "216_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Neklan 500m Cat6 UTP Kabel (Trommel)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Neklan 500m Cat6 UTP Kabel (Trommel)",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "216",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kabel",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "215_124",
+                    "name": "ASUS HDMI-HDMI Rot",
+                    "abstract_name": "ASUS HDMI-HDMI Schwarz",
+                    "description": "Hochgeschwindigkeits HDMI zu HDMI Kabel",
+                    "url": "\/de\/Asus-HDMI-HDMI-215",
+                    "product_abstract_sku": "215",
+                    "rating": 0,
+                    "keywords": "Asus, Kabel, HDMI",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_16014907_medium_1481884388_3847_16750.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/16014907-6477.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kabel"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kabel"
+                    },
+                    "attributes": {
+                        "brand": "ASUS",
+                        "packaging_unit": "Ring (500m)",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 1250,
+                            "net": 1000
+                        },
+                        "chf": {
+                            "gross": 2500,
+                            "net": 2000
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 1250,
+                            "net": 1000
+                        },
+                        "chf": {
+                            "gross": 2500,
+                            "net": 2000
+                        }
+                    },
+                    "objectID": "215_124",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "215_124",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "ASUS HDMI-HDMI Rot",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "ASUS HDMI-HDMI Schwarz",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "215",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kabel",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "214_123",
+                    "name": "Samsung B\u00fcndel",
+                    "abstract_name": "Samsung Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von Samsung beinhaltet. Diese sind 2 x Samsung Galaxy Tab A SM-T550N 32 GB, 3 x Samsung Galaxy Gear,sowie 1 x Sony Xperia Z3 Compact",
+                    "url": "\/de\/samsung-bundle-214",
+                    "product_abstract_sku": "214",
+                    "rating": 0,
+                    "keywords": "Samsung,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/26935356-6244.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/26935356-6244.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "brand": "Samsung",
+                        "bundled_product": "Ja"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 95000,
+                            "net": 85500
+                        },
+                        "chf": {
+                            "gross": 109250,
+                            "net": 98325
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 95000,
+                            "net": 85500
+                        },
+                        "chf": {
+                            "gross": 109250,
+                            "net": 98325
+                        }
+                    },
+                    "objectID": "214_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "214_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "214",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "213_123",
+                    "name": "Lenovo B\u00fcndel",
+                    "abstract_name": "Lenovo Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von Lenovo beinhaltet. Diese sind 3 x  Lenovo ThinkStation P300.",
+                    "url": "\/de\/lenovo-bundle-213",
+                    "product_abstract_sku": "213",
+                    "rating": 0,
+                    "keywords": "Lenovo,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/24725761-8168.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/24725761-8168.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "brand": "Lenovo",
+                        "bundled_product": "Ja"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 35000,
+                            "net": 31500
+                        },
+                        "chf": {
+                            "gross": 40250,
+                            "net": 36225
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 35000,
+                            "net": 31500
+                        },
+                        "chf": {
+                            "gross": 40250,
+                            "net": 36225
+                        }
+                    },
+                    "objectID": "213_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "213_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Lenovo B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Lenovo Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "213",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "212_123",
+                    "name": "ASUS B\u00fcndel",
+                    "abstract_name": "ASUS Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von Asus beinhaltet. Diese sind 2 x ASUS VivoWatch, sowie 1 x ASUS M.",
+                    "url": "\/de\/asus-bundle-212",
+                    "product_abstract_sku": "212",
+                    "rating": 0,
+                    "keywords": "Asus,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_27207215_medium_1480599556_5553_22029.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_raw\/27207215_4967.jpeg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "brand": "ASUS",
+                        "bundled_product": "Ja"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 9500,
+                            "net": 8550
+                        },
+                        "chf": {
+                            "gross": 10925,
+                            "net": 9833
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 9500,
+                            "net": 8550
+                        },
+                        "chf": {
+                            "gross": 10925,
+                            "net": 9833
+                        }
+                    },
+                    "objectID": "212_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "212_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "ASUS B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "ASUS Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "212",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "211_123",
+                    "name": "HP B\u00fcndel",
+                    "abstract_name": "HP Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von HP beinhaltet. Diese sind 1 x HP Chromebook 11, 1 x HP Z 620,sowie 1 x HP 200 280 G1.",
+                    "url": "\/de\/hp-bundle-211",
+                    "product_abstract_sku": "211",
+                    "rating": 0,
+                    "keywords": "HP,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/35801363_9654953832.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/35801363_1897556788.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "brand": "HP",
+                        "bundled_product": "Ja"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 70500,
+                            "net": 63450
+                        },
+                        "chf": {
+                            "gross": 81075,
+                            "net": 72968
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 70500,
+                            "net": 63450
+                        },
+                        "chf": {
+                            "gross": 81075,
+                            "net": 72968
+                        }
+                    },
+                    "objectID": "211_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "211_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "HP B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "HP Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "211",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "210_123",
+                    "name": "Sony B\u00fcndel",
+                    "abstract_name": "Sony Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von Sony beinhaltet. Diese sind 1 x Sony HDR-AS20, 1 x Sony SmartWatch 3,sowie 1 x Sony Xperia Z3 Compact.",
+                    "url": "\/de\/sony-bundle-210",
+                    "product_abstract_sku": "210",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/23120327-Sony.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/23120327-Sony.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "brand": "Sony",
+                        "bundled_product": "Ja",
+                        "focus_adjustment": "Auto"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 100000,
+                            "net": 90000
+                        },
+                        "chf": {
+                            "gross": 115000,
+                            "net": 103500
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 100000,
+                            "net": 90000
+                        },
+                        "chf": {
+                            "gross": 115000,
+                            "net": 103500
+                        }
+                    },
+                    "objectID": "210_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "210_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "210",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "208_14678762",
+                    "name": "Toshiba CAMILEO P20",
+                    "abstract_name": "Toshiba CAMILEO P20",
+                    "description": "Bilder in einer neuen Form erleben und genie\u00dfen. Fangen Sie Ihren ganz eigenen Eindruck der Umgebung mit einem Tastendruck ein - und zwar einmal rundum 360\u00b0. Mit der neuen Kodak EasyShare M532 S nehmen Sie Fotos und Videos auf und teilen diese per Internet mit der ganzen Welt. Dabei ben\u00f6tigen Sie keinen Computer mehr, um Videodateien zu erstellen. Mit der Kodak EasyShare M532 S geschieht das direkt mit dem Smartphone oder dem Tablet. Die Kodak EasyShare M532 S nimmt Bilder oder Videos bis zu 25 Minuten in Full-HD mit 30 B\/Sek. im Vollsph\u00e4renformat auf. Diese 360\u00b0 Rundumbilder und Videos k\u00f6nnen von der Kodak EasyShare M532 S auf ein Smartphone \u00fcbertragen und dann ganz einfach in den sozialen Netzwerken geteilt werden oder lokal gespeichert werden. Die neue Kodak EasyShare M532 S ist mit einem neuen Prozessor ausgestattet, der die Rechenleistung deutlich verbessert. In Verbindung mit dem viermal schnelleren WiFi-Modul sind jetzt Videoaufnahmen bis 25 Minuten m\u00f6glich, die direkt mit dem Smartphone oder einem Tablet in ein universelles Videoformat konvertiert werden. Gleichzeitig ist der Sensor verbessert, der jetzt mit 14 Megapixel aufzeichnet. Das notwendige Licht wird bei der neuen Kodak EasyShare M532 S durch das lichtstarke F 2,0 Objektiv geliefert.",
+                    "url": "\/de\/toshiba-camileo-p20-208",
+                    "product_abstract_sku": "208",
+                    "rating": 0,
+                    "keywords": "Toshiba,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/low\/14678762-7696.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/14678762-7696.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Videokameras"
+                    ],
+                    "label": [
+                        "Neu"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Videokameras"
+                    },
+                    "attributes": {
+                        "brand": "Toshiba",
+                        "color": "Grau",
+                        "digital_zoom": "10 x",
+                        "hd_type": "Full HD",
+                        "total_megapixels": "5 MP",
+                        "weight": "141 g"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 34668,
+                            "net": 31201
+                        },
+                        "chf": {
+                            "gross": 39868,
+                            "net": 35881
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 34668,
+                            "net": 31201
+                        },
+                        "chf": {
+                            "gross": 39868,
+                            "net": 35881
+                        }
+                    },
+                    "objectID": "208_14678762",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "208_14678762",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Toshiba CAMILEO P20",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Toshiba CAMILEO P20",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "208",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Videokameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "207_15721464",
+                    "name": "Toshiba CAMILEO P20",
+                    "abstract_name": "Toshiba CAMILEO P20",
+                    "description": "Bilder in einer neuen Form erleben und genie\u00dfen. Fangen Sie Ihren ganz eigenen Eindruck der Umgebung mit einem Tastendruck ein - und zwar einmal rundum 360\u00b0. Mit der neuen Kodak EasyShare M532 S nehmen Sie Fotos und Videos auf und teilen diese per Internet mit der ganzen Welt. Dabei ben\u00f6tigen Sie keinen Computer mehr, um Videodateien zu erstellen. Mit der Kodak EasyShare M532 S geschieht das direkt mit dem Smartphone oder dem Tablet. Die Kodak EasyShare M532 S nimmt Bilder oder Videos bis zu 25 Minuten in Full-HD mit 30 B\/Sek. im Vollsph\u00e4renformat auf. Diese 360\u00b0 Rundumbilder und Videos k\u00f6nnen von der Kodak EasyShare M532 S auf ein Smartphone \u00fcbertragen und dann ganz einfach in den sozialen Netzwerken geteilt werden oder lokal gespeichert werden. Die neue Kodak EasyShare M532 S ist mit einem neuen Prozessor ausgestattet, der die Rechenleistung deutlich verbessert. In Verbindung mit dem viermal schnelleren WiFi-Modul sind jetzt Videoaufnahmen bis 25 Minuten m\u00f6glich, die direkt mit dem Smartphone oder einem Tablet in ein universelles Videoformat konvertiert werden. Gleichzeitig ist der Sensor verbessert, der jetzt mit 14 Megapixel aufzeichnet. Das notwendige Licht wird bei der neuen Kodak EasyShare M532 S durch das lichtstarke F 2,0 Objektiv geliefert.",
+                    "url": "\/de\/toshiba-camileo-p20-207",
+                    "product_abstract_sku": "207",
+                    "rating": 0,
+                    "keywords": "Toshiba,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/low\/15721464-9569.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/15721464-9569.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Videokameras"
+                    ],
+                    "label": [
+                        "Neu"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Videokameras"
+                    },
+                    "attributes": {
+                        "brand": "Toshiba",
+                        "color": "Wei\u00df",
+                        "digital_zoom": "10 x",
+                        "hd_type": "Full HD",
+                        "total_megapixels": "5 MP",
+                        "weight": "141 g"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 12572,
+                            "net": 11315
+                        },
+                        "chf": {
+                            "gross": 14458,
+                            "net": 13012
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 12572,
+                            "net": 11315
+                        },
+                        "chf": {
+                            "gross": 14458,
+                            "net": 13012
+                        }
+                    },
+                    "objectID": "207_15721464",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "207_15721464",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Toshiba CAMILEO P20",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Toshiba CAMILEO P20",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "207",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Videokameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "206_6429825",
+                    "name": "Toshiba Camileo S30",
+                    "abstract_name": "Toshiba Camileo S30",
+                    "description": "Bilder in einer neuen Form erleben und genie\u00dfen. Fangen Sie Ihren ganz eigenen Eindruck der Umgebung mit einem Tastendruck ein - und zwar einmal rundum 360\u00b0. Mit der neuen Kodak EasyShare M532 S nehmen Sie Fotos und Videos auf und teilen diese per Internet mit der ganzen Welt. Dabei ben\u00f6tigen Sie keinen Computer mehr, um Videodateien zu erstellen. Mit der Kodak EasyShare M532 S geschieht das direkt mit dem Smartphone oder dem Tablet. Die Kodak EasyShare M532 S nimmt Bilder oder Videos bis zu 25 Minuten in Full-HD mit 30 B\/Sek. im Vollsph\u00e4renformat auf. Diese 360\u00b0 Rundumbilder und Videos k\u00f6nnen von der Kodak EasyShare M532 S auf ein Smartphone \u00fcbertragen und dann ganz einfach in den sozialen Netzwerken geteilt werden oder lokal gespeichert werden. Die neue Kodak EasyShare M532 S ist mit einem neuen Prozessor ausgestattet, der die Rechenleistung deutlich verbessert. In Verbindung mit dem viermal schnelleren WiFi-Modul sind jetzt Videoaufnahmen bis 25 Minuten m\u00f6glich, die direkt mit dem Smartphone oder einem Tablet in ein universelles Videoformat konvertiert werden. Gleichzeitig ist der Sensor verbessert, der jetzt mit 14 Megapixel aufzeichnet. Das notwendige Licht wird bei der neuen Kodak EasyShare M532 S durch das lichtstarke F 2,0 Objektiv geliefert.",
+                    "url": "\/de\/toshiba-camileo-s30-206",
+                    "product_abstract_sku": "206",
+                    "rating": 5,
+                    "keywords": "Toshiba,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/low\/6429825-4331.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/6429825-4331.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Videokameras"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Videokameras"
+                    },
+                    "attributes": {
+                        "brand": "Toshiba",
+                        "color": "Wei\u00df",
+                        "display": "LCD",
+                        "self_timer": "10 s",
+                        "total_megapixels": "8 MP",
+                        "weight": "118 g"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 17774,
+                            "net": 15997
+                        },
+                        "chf": {
+                            "gross": 20440,
+                            "net": 18397
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 17774,
+                            "net": 15997
+                        },
+                        "chf": {
+                            "gross": 20440,
+                            "net": 18397
+                        }
+                    },
+                    "objectID": "206_6429825",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "206_6429825",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Toshiba Camileo S30",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Toshiba Camileo S30",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "206",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Videokameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "205_6350138",
+                    "name": "Toshiba Camileo S30",
+                    "abstract_name": "Toshiba Camileo S30",
+                    "description": "Bilder in einer neuen Form erleben und genie\u00dfen. Fangen Sie Ihren ganz eigenen Eindruck der Umgebung mit einem Tastendruck ein - und zwar einmal rundum 360\u00b0. Mit der neuen Kodak EasyShare M532 S nehmen Sie Fotos und Videos auf und teilen diese per Internet mit der ganzen Welt. Dabei ben\u00f6tigen Sie keinen Computer mehr, um Videodateien zu erstellen. Mit der Kodak EasyShare M532 S geschieht das direkt mit dem Smartphone oder dem Tablet. Die Kodak EasyShare M532 S nimmt Bilder oder Videos bis zu 25 Minuten in Full-HD mit 30 B\/Sek. im Vollsph\u00e4renformat auf. Diese 360\u00b0 Rundumbilder und Videos k\u00f6nnen von der Kodak EasyShare M532 S auf ein Smartphone \u00fcbertragen und dann ganz einfach in den sozialen Netzwerken geteilt werden oder lokal gespeichert werden. Die neue Kodak EasyShare M532 S ist mit einem neuen Prozessor ausgestattet, der die Rechenleistung deutlich verbessert. In Verbindung mit dem viermal schnelleren WiFi-Modul sind jetzt Videoaufnahmen bis 25 Minuten m\u00f6glich, die direkt mit dem Smartphone oder einem Tablet in ein universelles Videoformat konvertiert werden. Gleichzeitig ist der Sensor verbessert, der jetzt mit 14 Megapixel aufzeichnet. Das notwendige Licht wird bei der neuen Kodak EasyShare M532 S durch das lichtstarke F 2,0 Objektiv geliefert.",
+                    "url": "\/de\/toshiba-camileo-s30-205",
+                    "product_abstract_sku": "205",
+                    "rating": 4,
+                    "keywords": "Toshiba,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_6350138_medium_1481633011_6285_13738.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/6350138-1977.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Videokameras"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Videokameras"
+                    },
+                    "attributes": {
+                        "brand": "Toshiba",
+                        "color": "Grau",
+                        "display": "LCD",
+                        "self_timer": "10 s",
+                        "total_megapixels": "8 MP",
+                        "weight": "118 g"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 11611,
+                            "net": 10450
+                        },
+                        "chf": {
+                            "gross": 13353,
+                            "net": 12018
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 11611,
+                            "net": 10450
+                        },
+                        "chf": {
+                            "gross": 13353,
+                            "net": 12018
+                        }
+                    },
+                    "objectID": "205_6350138",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "205_6350138",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Toshiba Camileo S30",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Toshiba Camileo S30",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "205",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Videokameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "204_29851280",
+                    "name": "Sony PXW-FS5K",
+                    "abstract_name": "Sony PXW-FS5K",
+                    "description": "Bilder in einer neuen Form erleben und genie\u00dfen. Fangen Sie Ihren ganz eigenen Eindruck der Umgebung mit einem Tastendruck ein - und zwar einmal rundum 360\u00b0. Mit der neuen Kodak EasyShare M532 S nehmen Sie Fotos und Videos auf und teilen diese per Internet mit der ganzen Welt. Dabei ben\u00f6tigen Sie keinen Computer mehr, um Videodateien zu erstellen. Mit der Kodak EasyShare M532 S geschieht das direkt mit dem Smartphone oder dem Tablet. Die Kodak EasyShare M532 S nimmt Bilder oder Videos bis zu 25 Minuten in Full-HD mit 30 B\/Sek. im Vollsph\u00e4renformat auf. Diese 360\u00b0 Rundumbilder und Videos k\u00f6nnen von der Kodak EasyShare M532 S auf ein Smartphone \u00fcbertragen und dann ganz einfach in den sozialen Netzwerken geteilt werden oder lokal gespeichert werden. Die neue Kodak EasyShare M532 S ist mit einem neuen Prozessor ausgestattet, der die Rechenleistung deutlich verbessert. In Verbindung mit dem viermal schnelleren WiFi-Modul sind jetzt Videoaufnahmen bis 25 Minuten m\u00f6glich, die direkt mit dem Smartphone oder einem Tablet in ein universelles Videoformat konvertiert werden. Gleichzeitig ist der Sensor verbessert, der jetzt mit 14 Megapixel aufzeichnet. Das notwendige Licht wird bei der neuen Kodak EasyShare M532 S durch das lichtstarke F 2,0 Objektiv geliefert.",
+                    "url": "\/de\/sony-pxw-fs5k-204",
+                    "product_abstract_sku": "204",
+                    "rating": 5,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29851280_5571.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/29851280_5571.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Videokameras"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Videokameras"
+                    },
+                    "attributes": {
+                        "brand": "Sony",
+                        "color": "Schwarz",
+                        "iso_sensitivity": "3200",
+                        "sensor_type": "CMOS",
+                        "white_balance": "Auto",
+                        "wi_fi": "yes"
+                    },
+                    "merchant_name": [
+                        "Sony Experts"
+                    ],
+                    "merchant_reference": [
+                        "MER000006"
+                    ],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 44713,
+                            "net": 40242
+                        },
+                        "chf": {
+                            "gross": 51420,
+                            "net": 46278
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 44713,
+                            "net": 40242
+                        },
+                        "chf": {
+                            "gross": 51420,
+                            "net": 46278
+                        }
+                    },
+                    "objectID": "204_29851280",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "204_29851280",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony PXW-FS5K",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony PXW-FS5K",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "204",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Videokameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                }
+            ],
+            "nbHits": 219,
+            "page": 0,
+            "nbPages": 11,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": false,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": false,
+                "typo": true
+            },
+            "query": "",
+            "params": "attributesToHighlight=%5B%22product_abstract_sku%22%2C%22sku%22%2C%22name%22%2C%22abstract_name%22%2C%22category%22%5D&",
+            "index": "dev-de-product-de",
+            "renderingContent": [],
+            "processingTimeMS": 2,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 112
+                },
+                "getIdx": {
+                    "load": {
+                        "total": 1
+                    },
+                    "total": 1
+                },
+                "total": 2
+            },
+            "serverTimeMS": 7
+        }
+    ]
+}

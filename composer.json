@@ -1,0 +1,75 @@
+{
+    "name": "spryker-eco/algolia",
+    "type": "library",
+    "description": "Algolia module",
+    "license": "proprietary",
+    "require": {
+        "algolia/algoliasearch-client-php": "^3.4.2",
+        "ext-curl": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "php": ">=8.3",
+        "spryker-shop/traceable-event-widget": "^1.1.0",
+        "spryker/cms": "^7.18.0",
+        "spryker/customer": "^7.70.0",
+        "spryker/event-behavior": "^1.32.0",
+        "spryker/http": "^1.15.0",
+        "spryker/kernel": "^3.76.0",
+        "spryker/locale": "^4.12.0",
+        "spryker/log": "^3.18.0",
+        "spryker/product": "^6.53.0",
+        "spryker/product-category": "^4.28.1",
+        "spryker/product-image": "^3.20.0",
+        "spryker/publisher-extension": "^1.0.0",
+        "spryker/search-extension": "^1.4.0",
+        "spryker/search-http": "^0.5.9",
+        "spryker/store": "^1.30.0",
+        "spryker/symfony": "^3.19.2"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "psr/http-message": "^1.1.0 || ^2.0.0",
+        "spryker/code-sniffer": "^0.17.30",
+        "spryker/guzzle": "*",
+        "spryker/propel": "*",
+        "spryker/testify": "^3.62.0"
+    },
+    "suggest": {
+        "spryker/merchant-product": "Optional for merchants in search.",
+        "spryker/merchant-product-offer": "Optional for offers in search.",
+        "spryker/price-product": "Optional for Price search.",
+        "spryker/product-bundle-storage": "Optional for product Bundle in search.",
+        "spryker/product-label": "Optional for product Label in search.",
+        "spryker/product-review": "Optional for product rating search."
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerEco\\": "src/SprykerEco/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SprykerEcoTest\\": "tests/SprykerEcoTest/",
+            "SprykerEcoTest\\Zed\\Algolia\\Helper\\": "tests/SprykerEcoTest/Zed/Algolia/_support/Helper/",
+            "SprykerEcoTest\\Client\\Algolia\\Helper\\": "tests/SprykerEcoTest/Client/Algolia/_support/Helper/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s src/ tests/",
+        "cs-fix": "phpcbf -p src/ tests/",
+        "phpstan": "vendor/bin/phpstan analyse"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

@@ -1,0 +1,29 @@
+namespace: SprykerEcoTest\Client\Algolia
+
+paths:
+    tests: ../../../
+    data: ../../../_data
+    support: _support
+    output: ../../../_output
+
+coverage:
+    enabled: true
+    remote: false
+    whitelist:
+        include:
+            - '../../../../src/*'
+
+suites:
+    Client:
+        path: SprykerEcoTest/Client/Algolia
+        actor: AlgoliaClientTester
+        modules:
+            enabled:
+                - Asserts
+                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\LocatorHelper
+                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                - \SprykerTest\Client\Testify\Helper\ConfigHelper
+                - \SprykerTest\Client\Testify\Helper\ClientHelper
+                - \SprykerEcoTest\Client\Algolia\Helper\AlgoliaHelper

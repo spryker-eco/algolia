@@ -1,0 +1,473 @@
+{
+    "hits": [
+        {
+            "sku": "potato-1-1",
+            "name": "Bamberg potato",
+            "description": "It is a small, typically long and irregularly shaped potato with a waxy texture. The Bamberg has firm, light yellow flesh with a nutty flavor. It is grown only in Southern Germany and is protected by the European Union as a regional specialty.",
+            "url": "/en/bamberg-potato-1",
+            "product_abstract_sku": "potato-1",
+            "rating": 0,
+            "keywords": "",
+            "images": [
+                "/assets/static/images/potatoes_public_domain.jpg"
+            ],
+            "category": [
+                "Vegetables"
+            ],
+            "label": [],
+            "hierarchical_categories": {
+                "lvl0": "Demoshop",
+                "lvl1": "Demoshop > Food",
+                "lvl2": "Demoshop > Food > Vegetables"
+            },
+            "attributes": {
+                "packaging_unit": "As much as you want"
+            },
+            "merchant_name": ["Merchant1", "Merchant2"],
+            "merchant_reference": ["MR_01", "MR_02"],
+            "prices": {
+                "eur": {
+                    "gross": 1000,
+                    "net": 800
+                }
+            },
+            "objectID": "potato-1-1",
+            "_highlightResult": {
+                "sku": {
+                    "value": "potato-1-1",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "name": {
+                    "value": "Bamberg potato",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "description": {
+                    "value": "It is a small, typically long and irregularly shaped potato with a waxy texture. The Bamberg has firm, light yellow flesh with a nutty flavor. It is grown only in Southern Germany and is protected by the European Union as a regional specialty.",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "keywords": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            }
+        },
+        {
+            "sku": "fish-1-1",
+            "name": "Atlantic salmon (40 kg)",
+            "description": "The salmon nature is ideal for salads, risotto or oasta. The salmon is rich in omega-3 fatty acids and therefore especially healthy. The salmon comes from the Atlantic Ocean and is carefully inspected, before it gets into the can, the fish is also skinned and deburred.",
+            "url": "/en/atlantic-salmon-1",
+            "product_abstract_sku": "fish-1",
+            "rating": 0,
+            "keywords": "",
+            "images": [
+                "/assets/static/images/fish_public_domain.jpg"
+            ],
+            "category": [
+                "Fish"
+            ],
+            "label": [],
+            "hierarchical_categories": {
+                "lvl0": "Demoshop",
+                "lvl1": "Demoshop > Food",
+                "lvl2": "Demoshop > Food > Fish"
+            },
+            "attributes": {
+                "max-length": "150",
+                "common-length": "120",
+                "max-weight": "47",
+                "common-weight": "38",
+                "packaging_unit": "As much as you want"
+            },
+            "merchant_name": ["Merchant1", "Merchant2"],
+            "merchant_reference": ["MR_01", "MR_02"],
+            "prices": {
+                "eur": {
+                    "gross": 37440,
+                    "net": 29952
+                }
+            },
+            "objectID": "fish-1-1",
+            "_highlightResult": {
+                "sku": {
+                    "value": "fish-1-1",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "name": {
+                    "value": "Atlantic salmon (40 kg)",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "description": {
+                    "value": "The salmon nature is ideal for salads, risotto or oasta. The salmon is rich in omega-3 fatty acids and therefore especially healthy. The salmon comes from the Atlantic Ocean and is carefully inspected, before it gets into the can, the fish is also skinned and deburred.",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "keywords": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            }
+        },
+        {
+            "sku": "cable-vga-1-2",
+            "name": "VGA cable as long as you want",
+            "description": "Screw-in VGA cable with 15-pin male input and output.<p>Supports resolutions at 800x600 (SVGA), 1024x768 (XGA), 1600x1200 (UXGA), 1080p (Full HD), 1920x1200 (WUXGA), and up for high resolution LCD and LED monitors.<p>The VGA cord engineered with molded strain relief connectors for durability, grip treads for easy plugging and unplugging, and finger-tightened screws for a secure connection.<p>Gold-plated connectors; 100% bare copper conductors.<p>Links VGA-equipped computer to any display with 15-pin VGA port.",
+            "url": "/en/vga-cable-1",
+            "product_abstract_sku": "cable-vga-1",
+            "rating": 0,
+            "keywords": "",
+            "images": [
+                "https://images.icecat.biz/img/gallery_mediums/img_13626032_medium_1481799707_2242_1176.jpg"
+            ],
+            "category": [
+                "Cables"
+            ],
+            "label": [],
+            "hierarchical_categories": {
+                "lvl0": "Demoshop",
+                "lvl1": "Demoshop > Cables"
+            },
+            "attributes": {
+                "packaging_unit": "As long as you want"
+            },
+            "merchant_name": ["Merchant1", "Merchant2"],
+            "merchant_reference": ["MR_01", "MR_02"],
+            "prices": {
+                "eur": {
+                    "gross": 500,
+                    "net": 400
+                }
+            },
+            "objectID": "cable-vga-1-2",
+            "_highlightResult": {
+                "sku": {
+                    "value": "cable-vga-1-2",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "name": {
+                    "value": "VGA cable as long as you want",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "description": {
+                    "value": "Screw-in VGA cable with 15-pin male input and output.<p>Supports resolutions at 800x600 (SVGA), 1024x768 (XGA), 1600x1200 (UXGA), 1080p (Full HD), 1920x1200 (WUXGA), and up for high resolution LCD and LED monitors.<p>The VGA cord engineered with molded strain relief connectors for durability, grip treads for easy plugging and unplugging, and finger-tightened screws for a secure connection.<p>Gold-plated connectors; 100% bare copper conductors.<p>Links VGA-equipped computer to any display with 15-pin VGA port.",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "keywords": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            }
+        },
+        {
+            "sku": "cable-hdmi-1-2",
+            "name": "HDMI cable as long as you want",
+            "description": "Enjoy clear, crisp, immediate connectivity with the High-Speed HDMI Cable. This quality High-Definition Multimedia Interface (HDMI) cable allows you to connect a wide variety of devices in the realms of home entertainment, computing, gaming, and more to your HDTV, projector, or monitor. Perfect for those that interact with multiple platforms and devices, you can rely on strong performance and playback delivery when it comes to your digital experience.",
+            "url": "/en/hdmi-cable-1",
+            "product_abstract_sku": "cable-hdmi-1",
+            "rating": 0,
+            "keywords": "",
+            "images": [
+                "https://images.icecat.biz/img/gallery_mediums/12520618_0267.jpg"
+            ],
+            "category": [
+                "Cables"
+            ],
+            "label": [],
+            "hierarchical_categories": {
+                "lvl0": "Demoshop",
+                "lvl1": "Demoshop > Cables"
+            },
+            "attributes": {
+                "packaging_unit": "As long as you want"
+            },
+            "merchant_name": ["Merchant1", "Merchant2"],
+            "merchant_reference": ["MR_01", "MR_02"],
+            "prices": {
+                "eur": {
+                    "gross": 500,
+                    "net": 400
+                }
+            },
+            "objectID": "cable-hdmi-1-2",
+            "_highlightResult": {
+                "sku": {
+                    "value": "cable-hdmi-1-2",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "name": {
+                    "value": "HDMI cable as long as you want",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "description": {
+                    "value": "Enjoy clear, crisp, immediate connectivity with the High-Speed HDMI Cable. This quality High-Definition Multimedia Interface (HDMI) cable allows you to connect a wide variety of devices in the realms of home entertainment, computing, gaming, and more to your HDTV, projector, or monitor. Perfect for those that interact with multiple platforms and devices, you can rely on strong performance and playback delivery when it comes to your digital experience.",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "keywords": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            }
+        },
+        {
+            "sku": "666_133",
+            "name": "Gift Card 5000",
+            "description": "",
+            "url": "/en/gift-card-666",
+            "product_abstract_sku": "666",
+            "rating": 0,
+            "keywords": "",
+            "images": [
+                "/assets/static/images/gift-cards/gc.jpg"
+            ],
+            "category": [
+                "Gift Cards"
+            ],
+            "label": [
+                "NEW"
+            ],
+            "hierarchical_categories": {
+                "lvl0": "Demoshop",
+                "lvl1": "Demoshop > Gift Cards"
+            },
+            "attributes": {
+                "value": "5000"
+            },
+            "merchant_name": ["Merchant1", "Merchant2"],
+            "merchant_reference": ["MR_01", "MR_02"],
+            "prices": {
+                "eur": {
+                    "gross": 500000,
+                    "net": 500000
+                },
+                "chf": {
+                    "gross": 500000,
+                    "net": 500000
+                }
+            },
+            "objectID": "666_133",
+            "_highlightResult": {
+                "sku": {
+                    "value": "666_133",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "name": {
+                    "value": "Gift Card 5000",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "description": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "keywords": {
+                    "value": "",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                }
+            }
+        }
+    ],
+    "nbHits": 222,
+    "page": 0,
+    "nbPages": 20,
+    "hitsPerPage": 12,
+    "facets": {
+        "search_metadata.key": {
+            "value": 1
+        },
+        "rating": {
+            "0": 316,
+            "4": 3,
+            "3.5": 1,
+            "4.300000000000000": 1,
+            "4.700000000000000": 1
+        },
+        "category": {
+            "Variant Showcase": 139,
+            "Smartphones": 56,
+            "Pc's/Workstations": 51,
+            "Notebooks": 42,
+            "Digital Cameras": 41,
+            "Tablets": 39,
+            "Smartwatches": 30,
+            "Camcorders": 28,
+            "Gift Cards": 10,
+            "Cables": 9,
+            "Product Bundles": 5,
+            "Telecom & Navigation": 2,
+            "Fish": 1,
+            "Vegetables": 1
+        },
+        "prices.eur.gross": {
+            "152": 14,
+            "3250": 8,
+            "27600": 6,
+            "7999": 5,
+            "14401": 4,
+            "20467": 4,
+            "22380": 4,
+            "29886": 4,
+            "31482": 4,
+            "34002": 4,
+            "5943": 4,
+            "10914": 3,
+            "11643": 3,
+            "13318": 3,
+            "13662": 3,
+            "1503": 3,
+            "15310": 3,
+            "17792": 3,
+            "2000": 3,
+            "2362": 3,
+            "25733": 3,
+            "29280": 3,
+            "31848": 3,
+            "32521": 3,
+            "33071": 3,
+            "33470": 3,
+            "5366": 3,
+            "5600": 3,
+            "6404": 3,
+            "8499": 3,
+            "1000": 2,
+            "10000": 2,
+            "10058": 2,
+            "1250": 2,
+            "12639": 2,
+            "12719": 2,
+            "13355": 2,
+            "13599": 2,
+            "13967": 2,
+            "14219": 2,
+            "14399": 2,
+            "1500": 2,
+            "15654": 2,
+            "15760": 2,
+            "1590": 2,
+            "16010": 2,
+            "16128": 2,
+            "16203": 2,
+            "16954": 2,
+            "18408": 2,
+            "19548": 2,
+            "19952": 2,
+            "20171": 2,
+            "20800": 2,
+            "21146": 2,
+            "21313": 2,
+            "21378": 2,
+            "22542": 2,
+            "24815": 2,
+            "25336": 2,
+            "25719": 2,
+            "25884": 2,
+            "26327": 2,
+            "26602": 2,
+            "26612": 2,
+            "2763": 2,
+            "27653": 2,
+            "27679": 2,
+            "27680": 2,
+            "27734": 2,
+            "28348": 2,
+            "28569": 2,
+            "29672": 2,
+            "30534": 2,
+            "31286": 2,
+            "31374": 2,
+            "31574": 2,
+            "32019": 2,
+            "32370": 2,
+            "32819": 2,
+            "3295": 2,
+            "33114": 2,
+            "33260": 2,
+            "33270": 2,
+            "3360": 2,
+            "33705": 2,
+            "34366": 2,
+            "35346": 2,
+            "35549": 2,
+            "35600": 2,
+            "35770": 2,
+            "36019": 2,
+            "3663": 2,
+            "3920": 2,
+            "4358": 2,
+            "4559": 2,
+            "4800": 2,
+            "500": 2,
+            "5022": 2,
+            "5200": 2
+        }
+    },
+    "facets_stats": {
+        "rating": {
+            "min": 0,
+            "max": 4.7,
+            "avg": 0.076087,
+            "sum": 24.5
+        },
+        "prices.eur.gross": {
+            "min": 152,
+            "max": 500000,
+            "avg": 20477,
+            "sum": 6593893
+        }
+    },
+    "exhaustiveFacetsCount": true,
+    "exhaustiveNbHits": false,
+    "exhaustiveTypo": true,
+    "exhaustive": {
+        "facetsCount": true,
+        "nbHits": false,
+        "typo": true
+    },
+    "query": "",
+    "params": "facets=%5B%22*%22%5D",
+    "index": "dev-de-product-en",
+    "renderingContent": {
+        "facetOrdering": {
+            "facets": {
+                "order": ["rating", "category", "prices", "search_metadata"]
+            }
+        }
+    },
+    "processingTimeMS": 5,
+    "processingTimingsMS": {
+        "afterFetch": {
+            "format": {
+                "total": 1
+            },
+            "total": 1
+        },
+        "getIdx": {
+            "load": {
+                "total": 1
+            },
+            "total": 3,
+            "unload": 2
+        },
+        "request": {
+            "roundTrip": 37
+        },
+        "total": 5
+    },
+    "serverTimeMS": 5
+}

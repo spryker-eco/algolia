@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace SprykerEco\Zed\Algolia\Business\Mapper;
+
+use ArrayObject;
+use Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer;
+use SprykerEco\Zed\Algolia\Business\IndexResolver\IndexNameResolverInterface;
+
+class ProductIndexer implements ProductIndexerInterface
+{
+    public function __construct(
+        protected ProductMapperInterface $algoliaProductMapper,
+        protected IndexNameResolverInterface $algoliaIndexNameResolver
+    ) {
+    }
+
+    /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+
+     * @return array<int, \Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer>
+     */
+    public function indexProductsConcreteByStoreAndLocale(
+        ArrayObject $productsConcrete,
+        string $tenantIdentifier
+    ): array {
+        $algoliaProductTransfersIndexedByStoreAndLocale = $this->mapProductsConcreteToIndexedAlgoliaProductTransfersArray(
+            $productsConcrete,
+        );
+
+        $indexedAlgoliaProductsArray = [];
+        foreach ($algoliaProductTransfersIndexedByStoreAndLocale as $storeName => $algoliaProductTransfersIndexedByLocale) {
+            foreach ($algoliaProductTransfersIndexedByLocale as $locale => $algoliaProductTransfers) {
+                $algoliaIndexName = $this->algoliaIndexNameResolver->resolveProductIndexName(
+                    $tenantIdentifier,
+                    $storeName,
+                    $locale,
+                );
+
+                $indexedAlgoliaProductsArray[] = (new IndexedAlgoliaProductCollectionTransfer())
+                    ->setIndexName($algoliaIndexName)
+                    ->setLocale($locale)
+                    ->setTenantIdentifier($tenantIdentifier)
+                    ->setAlgoliaProducts(new ArrayObject($algoliaProductTransfers));
+            }
+        }
+
+        return $indexedAlgoliaProductsArray;
+    }
+
+    /**
+     * @param \ArrayObject<\Generated\Shared\Transfer\ProductConcreteTransfer> $productsConcrete
+     *
+     * @return array<string, array<string, array<\Generated\Shared\Transfer\AlgoliaProductTransfer>>>
+     */
+    protected function mapProductsConcreteToIndexedAlgoliaProductTransfersArray(
+        ArrayObject $productsConcrete
+    ): array {
+        $indexedAlgoliaProductTransfersArray = [];
+        foreach ($productsConcrete as $productConcreteTransfer) {
+            $indexedAlgoliaProductTransfersArray = $this->algoliaProductMapper
+                ->mapProductConcreteToAlgoliaProductTransfersArrayIndexedByStoreAndLocale(
+                    $productConcreteTransfer,
+                    $indexedAlgoliaProductTransfersArray,
+                );
+        }
+
+        return $indexedAlgoliaProductTransfersArray;
+    }
+}

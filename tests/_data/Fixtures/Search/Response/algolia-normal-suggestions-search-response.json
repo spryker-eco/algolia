@@ -1,0 +1,2313 @@
+{
+    "results": [
+        {
+            "hits": [
+                {
+                    "dev-de-product-de_de": {
+                        "exact_nb_hits": 16,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 2,
+                    "query": "smartwatch",
+                    "objectID": "smartwatch",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "<em>smart<\/em>watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "dev-de-product-de_de": {
+                        "exact_nb_hits": 30,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 0,
+                    "query": "smartwatches",
+                    "objectID": "smartwatches",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "<em>smart<\/em>watches",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "dev-de-product-de_de": {
+                        "exact_nb_hits": 56,
+                        "facets": {
+                            "exact_matches": [],
+                            "analytics": []
+                        }
+                    },
+                    "nb_words": 1,
+                    "popularity": 0,
+                    "query": "smartphones",
+                    "objectID": "smartphones",
+                    "_highlightResult": {
+                        "query": {
+                            "value": "<em>smart<\/em>phones",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "nbHits": 3,
+            "page": 0,
+            "nbPages": 1,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": true,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": true,
+                "typo": true
+            },
+            "query": "smart",
+            "params": "query=smart&",
+            "index": "dev-de-product-de_de_query_suggestions",
+            "renderingContent": [],
+            "processingTimeMS": 1,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 114
+                },
+                "getIdx": {
+                    "total": 1
+                },
+                "total": 1
+            },
+            "serverTimeMS": 1
+        },
+        {
+            "extensions": {
+                "queryCategorization": {
+                    "normalizedQuery": "banana",
+                    "count": 14870,
+                    "type": "narrow",
+                    "categories": [
+                        {
+                            "bin": "certain",
+                            "hierarchyPath": [
+                                {
+                                    "facetName": "categories.lvl0",
+                                    "facetValue": "Food",
+                                    "depth": 0
+                                },
+                                {
+                                    "facetName": "categories.lvl1",
+                                    "facetValue": "Food > Fruits",
+                                    "depth": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "autofiltering": {
+                        "enabled": true,
+                        "maxDepth": 5,
+                        "facetFilters": [
+                            [
+                                "categories.lvl0:Food"
+                            ],
+                            [
+                                "categories.lvl1:Food > Fruits"
+                            ]
+                        ],
+                        "optionalFilters": []
+                    }
+                }
+            },
+            "hits": [
+                {
+                    "sku": "111_12295890",
+                    "name": "Sony SmartWatch",
+                    "abstract_name": "Sony SmartWatch",
+                    "description": "Erf\u00fcllt jede Anforderung Mit dem leistungsstarken HP EliteDesk 800 SFF erhalten Sie erstklassige Produktivit\u00e4t, branchenf\u00fchrende Zuverl\u00e4ssigkeit, Sicherheit und Verwaltbarkeit sowie ein einzigartiges L\u00f6sungsportfolio in einem kompakten, platzsparenden Design. - Sch\u00fctzen Sie Ihren PC und sorgen Sie f\u00fcr kontinuierlichen Betrieb mit verschiedenen Sicherheitsl\u00f6sungen, die Sicherheitsl\u00fccken verhindern, darunter HP BIOSphere mit Sure Start. Erweitern Sie die Lebensdauer Ihrer Investitionen mit einem werkzeugfreien Geh\u00e4use und einer Reihe von Erweiterungssteckpl\u00e4tzen, Einsch\u00fcben und Anschl\u00fcssen f\u00fcr Ihre anspruchsvollsten Gesch\u00e4ftsanforderungen. Genie\u00dfen Sie die Sicherheit eines PCs, der 120.000 Stunden im HP Total Test Process durchlaufen hat und die MIL-STD-Teststandards erf\u00fcllt. Erh\u00f6hen Sie die Zuverl\u00e4ssigkeit in staubigen Umgebungen mit dem optionalen Staubfilter.",
+                    "url": "\/de\/sony-smartwatch-111",
+                    "product_abstract_sku": "111",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_12295890_medium_1481715683_8105_13110.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/15743_12295890-6463.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches",
+                        "Smartwatches 2"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "shape": "square",
+                        "bluetooth_version": "3",
+                        "battery_life": "72 h",
+                        "display_type": "LCD",
+                        "brand": "Sony",
+                        "color": "Silber"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 19568,
+                            "net": 17611
+                        },
+                        "chf": {
+                            "gross": 22503,
+                            "net": 20253
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 19568,
+                            "net": 17611
+                        },
+                        "chf": {
+                            "gross": 22503,
+                            "net": 20253
+                        }
+                    },
+                    "objectID": "111_12295890",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "111_12295890",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "111",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches 2",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "093_24495843",
+                    "name": "Sony SmartWatch 3",
+                    "abstract_name": "Sony SmartWatch 3",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-smartwatch-3-93",
+                    "product_abstract_sku": "093",
+                    "rating": 4.2999999999999998,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/24495843-7844.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/24495843-7844.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "internal_ram": "512 MB",
+                        "flash_memory": "4 GB",
+                        "weight": "45 g",
+                        "protection_feature": "Water resistent",
+                        "brand": "Sony",
+                        "color": "Silber"
+                    },
+                    "merchant_name": [
+                        "Spryker",
+                        "Spryker"
+                    ],
+                    "merchant_reference": [
+                        "MER000001",
+                        "MER000001"
+                    ],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 24899,
+                            "net": 22409
+                        },
+                        "chf": {
+                            "gross": 28634,
+                            "net": 25770
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 24899,
+                            "net": 22409
+                        },
+                        "chf": {
+                            "gross": 28634,
+                            "net": 25770
+                        }
+                    },
+                    "objectID": "093_24495843",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "093_24495843",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "093",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "092_24495842",
+                    "name": "Sony SmartWatch 3",
+                    "abstract_name": "Sony SmartWatch 3",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-smartwatch-3-92",
+                    "product_abstract_sku": "092",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/24495842-3074.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/24495842-3074.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "internal_ram": "512 MB",
+                        "flash_memory": "4 GB",
+                        "weight": "45 g",
+                        "protection_feature": "Water resistent",
+                        "brand": "Sony",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 17459,
+                            "net": 15713
+                        },
+                        "chf": {
+                            "gross": 20078,
+                            "net": 18070
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 17459,
+                            "net": 15713
+                        },
+                        "chf": {
+                            "gross": 20078,
+                            "net": 18070
+                        }
+                    },
+                    "objectID": "092_24495842",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "092_24495842",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "092",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "091_25873091",
+                    "name": "Sony SmartWatch 3",
+                    "abstract_name": "Sony SmartWatch 3",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-smartwatch-3-91",
+                    "product_abstract_sku": "091",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/25873091-2214.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/25873091-2214.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "internal_ram": "512 MB",
+                        "flash_memory": "4 GB",
+                        "weight": "45 g",
+                        "protection_feature": "Water resistent",
+                        "brand": "Sony",
+                        "color": "Wei\u00df"
+                    },
+                    "merchant_name": [
+                        "Spryker",
+                        "Spryker"
+                    ],
+                    "merchant_reference": [
+                        "MER000001",
+                        "MER000001"
+                    ],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 19712,
+                            "net": 17741
+                        },
+                        "chf": {
+                            "gross": 22669,
+                            "net": 20402
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 19712,
+                            "net": 17741
+                        },
+                        "chf": {
+                            "gross": 22669,
+                            "net": 20402
+                        }
+                    },
+                    "objectID": "091_25873091",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "091_25873091",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "091",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "090_24495844",
+                    "name": "Sony SmartWatch 3",
+                    "abstract_name": "Sony SmartWatch 3",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-smartwatch-3-90",
+                    "product_abstract_sku": "090",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery\/26219658_3401.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_26219658_medium_1483953936_4642_16454.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "internal_ram": "512 MB",
+                        "flash_memory": "4 GB",
+                        "weight": "45 g",
+                        "protection_feature": "Water resistent",
+                        "brand": "Sony",
+                        "color": "Silber"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 20160,
+                            "net": 18144
+                        },
+                        "chf": {
+                            "gross": 23184,
+                            "net": 20866
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 20160,
+                            "net": 18144
+                        },
+                        "chf": {
+                            "gross": 23184,
+                            "net": 20866
+                        }
+                    },
+                    "objectID": "090_24495844",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "090_24495844",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony <em>Smart<\/em>Watch 3",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "090",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "109_19416433",
+                    "name": "Sony SW2 SmartWatch",
+                    "abstract_name": "Sony SW2 SmartWatch",
+                    "description": "Multisport-Modus Im Rad-, Schwimm-, Fitness- und Laufbandmodus trainieren. Zeit, Tempo, Distanz und verbrannte Kalorien zum Nachverfolgen auf deiner Uhr. Erfasse deine Schritte, aktiven Minuten und verbrannten Kalorien. W\u00e4hle eine deiner vergangenen Leistungen aus, um dagegen anzutreten. Verbessere deine Geschwindigkeit und Ausdauer mit individuell zusammengestellten Trainings- und Ruhephasen. Motiviere dich selbst mit dem Audio-Feedback zu deiner Leistung. \u00dcberwache deine Leistung auf dem Laufband oder im Fitnessstudio. Setz dir Ziele und verfolge deinen Fortschritt, t\u00e4glich oder w\u00f6chentlich. \u00dcber 500 Songs immer mit dabei, auch ohne Handy.   ",
+                    "url": "\/de\/sony-sw2-smartwatch-109",
+                    "product_abstract_sku": "109",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/19416433-5073.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/19416433-5073.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "display_type": "LCD",
+                        "shape": "square",
+                        "bluetooth_version": "3",
+                        "battery_life": "168 h",
+                        "brand": "Sony",
+                        "color": "Blau"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 12572,
+                            "net": 11315
+                        },
+                        "chf": {
+                            "gross": 14458,
+                            "net": 13012
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 12572,
+                            "net": 11315
+                        },
+                        "chf": {
+                            "gross": 14458,
+                            "net": 13012
+                        }
+                    },
+                    "objectID": "109_19416433",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "109_19416433",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony SW2 <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony SW2 <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "109",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "108_21047360",
+                    "name": "Sony SW2 SmartWatch",
+                    "abstract_name": "Sony SW2 SmartWatch",
+                    "description": "Multisport-Modus Im Rad-, Schwimm-, Fitness- und Laufbandmodus trainieren. Zeit, Tempo, Distanz und verbrannte Kalorien zum Nachverfolgen auf deiner Uhr. Erfasse deine Schritte, aktiven Minuten und verbrannten Kalorien. W\u00e4hle eine deiner vergangenen Leistungen aus, um dagegen anzutreten. Verbessere deine Geschwindigkeit und Ausdauer mit individuell zusammengestellten Trainings- und Ruhephasen. Motiviere dich selbst mit dem Audio-Feedback zu deiner Leistung. \u00dcberwache deine Leistung auf dem Laufband oder im Fitnessstudio. Setz dir Ziele und verfolge deinen Fortschritt, t\u00e4glich oder w\u00f6chentlich. \u00dcber 500 Songs immer mit dabei, auch ohne Handy.   ",
+                    "url": "\/de\/sony-sw2-smartwatch-108",
+                    "product_abstract_sku": "108",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/img_21047360_medium_1482828045_101_30852.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/21047360-4814.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "display_type": "LCD",
+                        "shape": "square",
+                        "bluetooth_version": "3",
+                        "battery_life": "168 h",
+                        "brand": "Sony",
+                        "color": "Rot"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 17774,
+                            "net": 15997
+                        },
+                        "chf": {
+                            "gross": 20440,
+                            "net": 18397
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 17774,
+                            "net": 15997
+                        },
+                        "chf": {
+                            "gross": 20440,
+                            "net": 18397
+                        }
+                    },
+                    "objectID": "108_21047360",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "108_21047360",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony SW2 <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "abstract_name": {
+                            "value": "Sony SW2 <em>Smart<\/em>Watch",
+                            "matchLevel": "full",
+                            "fullyHighlighted": false,
+                            "matchedWords": [
+                                "smart"
+                            ]
+                        },
+                        "product_abstract_sku": {
+                            "value": "108",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "003_26138343",
+                    "name": "Canon IXUS 160",
+                    "abstract_name": "Canon IXUS 160",
+                    "description": "Beeindruckende Aufnahmen, ganz einfach Smart Auto erm\u00f6glicht die m\u00fchelose Aufnahme von fantastischen Fotos und Movies \u2013 die Kamera w\u00e4hlt in diesem Modus automatisch die idealen Einstellungen f\u00fcr die jeweilige Aufnahmesituation. Sie m\u00fcssen nur noch das Motiv anvisieren und ausl\u00f6sen. Ein Druck auf die Hilfe-Taste f\u00fchrt zu leicht verst\u00e4ndlichen Erkl\u00e4rungen der Kamerafunktionen. Zahlreiche Kreativfilter laden zum Experimentieren ein und bieten echten Fotospa\u00df. So l\u00e4sst sich neben vielen anderen Optionen der Verzeichnungseffekt eines Fisheye-Objektivs nachempfinden oder in Fotos und Movies werden die Dinge wie Miniaturmodelle dargestellt.",
+                    "url": "\/de\/canon-ixus-160-3",
+                    "product_abstract_sku": "003",
+                    "rating": 0,
+                    "keywords": "Canon,Entertainment Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/26138343-5454.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/26138343-5454.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Kameras"
+                    ],
+                    "label": [
+                        "Standard Label",
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Kameras"
+                    },
+                    "attributes": {
+                        "megapixel": "20 MP",
+                        "flash_range_tele": "1.3-1.5 m",
+                        "memory_slots": "1",
+                        "usb_version": "2",
+                        "brand": "Canon",
+                        "upcs": "0013803252897",
+                        "color": "Silber"
+                    },
+                    "merchant_name": [
+                        "Video King"
+                    ],
+                    "merchant_reference": [
+                        "MER000002"
+                    ],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 6500,
+                            "net": 5850
+                        },
+                        "chf": {
+                            "gross": 7475,
+                            "net": 6728
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 6500,
+                            "net": 5850
+                        },
+                        "chf": {
+                            "gross": 7475,
+                            "net": 6728
+                        }
+                    },
+                    "objectID": "003_26138343",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "003_26138343",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "003",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Kameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "002_25904004",
+                    "name": "Canon IXUS 160",
+                    "abstract_name": "Canon IXUS 160",
+                    "description": "Beeindruckende Aufnahmen, ganz einfach Smart Auto erm\u00f6glicht die m\u00fchelose Aufnahme von fantastischen Fotos und Movies \u2013 die Kamera w\u00e4hlt in diesem Modus automatisch die idealen Einstellungen f\u00fcr die jeweilige Aufnahmesituation. Sie m\u00fcssen nur noch das Motiv anvisieren und ausl\u00f6sen. Ein Druck auf die Hilfe-Taste f\u00fchrt zu leicht verst\u00e4ndlichen Erkl\u00e4rungen der Kamerafunktionen. Zahlreiche Kreativfilter laden zum Experimentieren ein und bieten echten Fotospa\u00df. So l\u00e4sst sich neben vielen anderen Optionen der Verzeichnungseffekt eines Fisheye-Objektivs nachempfinden oder in Fotos und Movies werden die Dinge wie Miniaturmodelle dargestellt.",
+                    "url": "\/de\/canon-ixus-160-2",
+                    "product_abstract_sku": "002",
+                    "rating": 0,
+                    "keywords": "Canon,Entertainment Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/25904004-9055.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/25904004-9055.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Kameras"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Kameras"
+                    },
+                    "attributes": {
+                        "megapixel": "20 MP",
+                        "flash_range_tele": "1.3-1.5 m",
+                        "memory_slots": "1",
+                        "usb_version": "2",
+                        "brand": "Canon",
+                        "upcs": "013803252675",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [
+                        "Video King"
+                    ],
+                    "merchant_reference": [
+                        "MER000002"
+                    ],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 9999,
+                            "net": 8999
+                        },
+                        "chf": {
+                            "gross": 11499,
+                            "net": 10349
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 9999,
+                            "net": 8999
+                        },
+                        "chf": {
+                            "gross": 11499,
+                            "net": 10349
+                        }
+                    },
+                    "objectID": "002_25904004",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "002_25904004",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "002",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Kameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "001_25904006",
+                    "name": "Canon IXUS 160",
+                    "abstract_name": "Canon IXUS 160",
+                    "description": "Beeindruckende Aufnahmen, ganz einfach Smart Auto erm\u00f6glicht die m\u00fchelose Aufnahme von fantastischen Fotos und Movies \u2013 die Kamera w\u00e4hlt in diesem Modus automatisch die idealen Einstellungen f\u00fcr die jeweilige Aufnahmesituation. Sie m\u00fcssen nur noch das Motiv anvisieren und ausl\u00f6sen. Ein Druck auf die Hilfe-Taste f\u00fchrt zu leicht verst\u00e4ndlichen Erkl\u00e4rungen der Kamerafunktionen. Zahlreiche Kreativfilter laden zum Experimentieren ein und bieten echten Fotospa\u00df. So l\u00e4sst sich neben vielen anderen Optionen der Verzeichnungseffekt eines Fisheye-Objektivs nachempfinden oder in Fotos und Movies werden die Dinge wie Miniaturmodelle dargestellt.",
+                    "url": "\/de\/canon-ixus-160-1",
+                    "product_abstract_sku": "001",
+                    "rating": 0,
+                    "keywords": "Canon,Entertainment Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/25904006-8438.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/25904006-8438.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Kameras & Camcorders",
+                        "Digitale Kameras"
+                    ],
+                    "label": [
+                        "Standard Label",
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Kameras & Camcorders",
+                        "lvl2": "Demoshop > Kameras & Camcorders > Digitale Kameras"
+                    },
+                    "attributes": {
+                        "megapixel": "20 MP",
+                        "flash_range_tele": "1.3-1.5 m",
+                        "memory_slots": "1",
+                        "usb_version": "2",
+                        "brand": "Canon",
+                        "upcs": "013803252910",
+                        "color": "Weinrot"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 9999,
+                            "net": 8999
+                        },
+                        "chf": {
+                            "gross": 11499,
+                            "net": 10349
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 9999,
+                            "net": 8999
+                        },
+                        "chf": {
+                            "gross": 11499,
+                            "net": 10349
+                        }
+                    },
+                    "objectID": "001_25904006",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "001_25904006",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Canon IXUS 160",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "001",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Kameras & Camcorders",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Digitale Kameras",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "210_123",
+                    "name": "Sony B\u00fcndel",
+                    "abstract_name": "Sony Bundle",
+                    "description": "Dies ist ein einzigartiges Produktb\u00fcndel, welches verschiedene Produkte von Sony beinhaltet. Diese sind 1 x Sony HDR-AS20, 1 x Sony SmartWatch 3,sowie 1 x Sony Xperia Z3 Compact.",
+                    "url": "\/de\/sony-bundle-210",
+                    "product_abstract_sku": "210",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics, Bundle",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/23120327-Sony.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/23120327-Sony.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Product Bundles"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Product Bundles"
+                    },
+                    "attributes": {
+                        "focus_adjustment": "Auto",
+                        "brand": "Sony",
+                        "bundled_product": "Ja"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 100000,
+                            "net": 90000
+                        },
+                        "chf": {
+                            "gross": 115000,
+                            "net": 103500
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 100000,
+                            "net": 90000
+                        },
+                        "chf": {
+                            "gross": 115000,
+                            "net": 103500
+                        }
+                    },
+                    "objectID": "210_123",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "210_123",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony B\u00fcndel",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony Bundle",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "210",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Product Bundles",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "085_29901936",
+                    "name": "Samsung Gear 2 Classic",
+                    "abstract_name": "Samsung Gear 2 Classic",
+                    "description": "S Health In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/samsung-gear-2-classic-85",
+                    "product_abstract_sku": "085",
+                    "rating": 0,
+                    "keywords": "Samsung,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29901936_5844.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/29901936_5844.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "processor_cores": "2",
+                        "flash_memory": "4 GB",
+                        "width": "4 cm",
+                        "shape": "round",
+                        "brand": "Samsung",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 38168,
+                            "net": 34351
+                        },
+                        "chf": {
+                            "gross": 43893,
+                            "net": 39504
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 38168,
+                            "net": 34351
+                        },
+                        "chf": {
+                            "gross": 43893,
+                            "net": 39504
+                        }
+                    },
+                    "objectID": "085_29901936",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "085_29901936",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "085",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "084_30964019",
+                    "name": "Samsung Gear 2 Classic",
+                    "abstract_name": "Samsung Gear 2 Classic",
+                    "description": "S Health In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/samsung-gear-2-classic-84",
+                    "product_abstract_sku": "084",
+                    "rating": 0,
+                    "keywords": "Samsung,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29901936_5844.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/29901936_5844.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label",
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "processor_cores": "2",
+                        "flash_memory": "4 GB",
+                        "width": "4 cm",
+                        "shape": "round",
+                        "brand": "Samsung",
+                        "color": "Wei\u00df"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 32355,
+                            "net": 29120
+                        },
+                        "chf": {
+                            "gross": 37208,
+                            "net": 33488
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 32355,
+                            "net": 29120
+                        },
+                        "chf": {
+                            "gross": 37208,
+                            "net": 33488
+                        }
+                    },
+                    "objectID": "084_30964019",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "084_30964019",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "084",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "083_30964018",
+                    "name": "Samsung Gear 2 Classic",
+                    "abstract_name": "Samsung Gear 2 Classic",
+                    "description": "S Health In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/samsung-gear-2-classic-83",
+                    "product_abstract_sku": "083",
+                    "rating": 0,
+                    "keywords": "Samsung,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/33474193_2373746309.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/33474193_2373746309.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "processor_cores": "2",
+                        "flash_memory": "4 GB",
+                        "width": "4 cm",
+                        "shape": "round",
+                        "brand": "Samsung",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 33253,
+                            "net": 29928
+                        },
+                        "chf": {
+                            "gross": 38241,
+                            "net": 34417
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 33253,
+                            "net": 29928
+                        },
+                        "chf": {
+                            "gross": 38241,
+                            "net": 34417
+                        }
+                    },
+                    "objectID": "083_30964018",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "083_30964018",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Gear 2 Classic",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "083",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "094_27033003",
+                    "name": "Sony SWR50",
+                    "abstract_name": "Sony SWR50",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-swr50-94",
+                    "product_abstract_sku": "094",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/27033003_5327.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/27033003_5327.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "waterproof_up_to": "1.5 m",
+                        "width": "3.6 cm",
+                        "bluetooth_version": "4",
+                        "display_type": "TFT",
+                        "brand": "Sony",
+                        "color": "Wei\u00df"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 28178,
+                            "net": 25360
+                        },
+                        "chf": {
+                            "gross": 32405,
+                            "net": 29164
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 28178,
+                            "net": 25360
+                        },
+                        "chf": {
+                            "gross": 32405,
+                            "net": 29164
+                        }
+                    },
+                    "objectID": "094_27033003",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "094_27033003",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony SWR50",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony SWR50",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "094",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "089_29634947",
+                    "name": "Sony SWR12",
+                    "abstract_name": "Sony SWR12",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-swr12-89",
+                    "product_abstract_sku": "089",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29634947_2085.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery_raw\/29634947_2085.png"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label",
+                        "SALE %"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "processor_cores": "2",
+                        "weight": "63.5 g",
+                        "clock_mode": "12h",
+                        "internal_ram": "512 MB",
+                        "brand": "Sony",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 41393,
+                            "net": 37254
+                        },
+                        "chf": {
+                            "gross": 47602,
+                            "net": 42842
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 41393,
+                            "net": 37254
+                        },
+                        "chf": {
+                            "gross": 47602,
+                            "net": 42842
+                        }
+                    },
+                    "objectID": "089_29634947",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "089_29634947",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony SWR12",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony SWR12",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "089",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "088_29634940",
+                    "name": "Sony SWR12",
+                    "abstract_name": "Sony SWR12",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/sony-swr12-88",
+                    "product_abstract_sku": "088",
+                    "rating": 0,
+                    "keywords": "Sony,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29634940_7022.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/29634940_7022.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "processor_cores": "2",
+                        "weight": "63.5 g",
+                        "clock_mode": "12h",
+                        "internal_ram": "512 MB",
+                        "brand": "Sony",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 9865,
+                            "net": 8879
+                        },
+                        "chf": {
+                            "gross": 11345,
+                            "net": 10211
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 9865,
+                            "net": 8879
+                        },
+                        "chf": {
+                            "gross": 11345,
+                            "net": 10211
+                        }
+                    },
+                    "objectID": "088_29634940",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "088_29634940",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Sony SWR12",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Sony SWR12",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "088",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "087_29901938",
+                    "name": "Samsung Gear S2",
+                    "abstract_name": "Samsung Gear S2",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/samsung-gear-s2-87",
+                    "product_abstract_sku": "087",
+                    "rating": 0,
+                    "keywords": "Samsung,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/29901938_1429.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/29901938_1429.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "display_type": "SAMOLED",
+                        "width": "4.2 cm",
+                        "bluetooth_version": "41",
+                        "internal_ram": "512 MB",
+                        "brand": "Samsung",
+                        "color": "Wei\u00df"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 18415,
+                            "net": 16574
+                        },
+                        "chf": {
+                            "gross": 21177,
+                            "net": 19060
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 18415,
+                            "net": 16574
+                        },
+                        "chf": {
+                            "gross": 21177,
+                            "net": 19060
+                        }
+                    },
+                    "objectID": "087_29901938",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "087_29901938",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Gear S2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Gear S2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "087",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "086_30521602",
+                    "name": "Samsung Gear S2",
+                    "abstract_name": "Samsung Gear S2",
+                    "description": "Gear S2 X Atelier Mendini In einer wunderbaren Partnerschaft bringt Alessandro Mendini seinen Geschmack, Humor und Farbsinn in die Gestaltung der Gear S2 ein. Das Ergebnis ist eine Reihe von Zifferbl\u00e4ttern und Armb\u00e4ndern, die Ihren pers\u00f6nlichen Stil zum Ausdruck bringen. Die wesentlichen Smartphone-Funktionen sind mit einer einfachen Drehung an der Gear S2 verf\u00fcgbar. Drehen Sie leicht an der Blende, um lange E-Mails zu durchbl\u00e4ttern, eine Karte zu vergr\u00f6ssern oder bei der Musikwiedergabe ein St\u00fcck zu \u00fcberspringen. Mit jeder Drehung wird das Leben noch interessanter und bunter. Mit der Gear S2 k\u00f6nnen Sie sich sehr leicht um Ihre Gesundheit k\u00fcmmern. Verfolgen Sie Ihre t\u00e4glichen Aktivit\u00e4ten, Ihren Puls und Ihren Wasserkonsum verglichen mit Ihrem Koffeinkonsum. Bleiben Sie fit mit zeitgerechten motivierenden Botschaften. Bleiben Sie auf dem Laufenden und fit. Und wenn es Zeit ist, die Smartwatch wieder aufzuladen, stellen Sie sie einfach auf eine drahtlose Ladestation.",
+                    "url": "\/de\/samsung-gear-s2-86",
+                    "product_abstract_sku": "086",
+                    "rating": 3.5,
+                    "keywords": "Samsung,Smart Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/gallery_mediums\/30521602_2938.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/gallery\/30521602_2938.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Intelligente tragbare Ger\u00e4te",
+                        "Smartwatches"
+                    ],
+                    "label": [],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": "Demoshop > Intelligente tragbare Ger\u00e4te",
+                        "lvl2": "Demoshop > Intelligente tragbare Ger\u00e4te > Smartwatches"
+                    },
+                    "attributes": {
+                        "display_type": "SAMOLED",
+                        "width": "4.2 cm",
+                        "bluetooth_version": "41",
+                        "internal_ram": "512 MB",
+                        "brand": "Samsung",
+                        "color": "Schwarz"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 18001,
+                            "net": 16201
+                        },
+                        "chf": {
+                            "gross": 20701,
+                            "net": 18631
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 18001,
+                            "net": 16201
+                        },
+                        "chf": {
+                            "gross": 20701,
+                            "net": 18631
+                        }
+                    },
+                    "objectID": "086_30521602",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "086_30521602",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Gear S2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Gear S2",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "086",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Intelligente tragbare Ger\u00e4te",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>watches",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sku": "070_203704322",
+                    "name": "Samsung Galaxy Ace",
+                    "abstract_name": "Samsung Galaxy Ace",
+                    "description": "Ein Kunstwerk Das 5-Zoll-Display des Liquid Jade ist ein ansprechender Anblick. Die HD-Aufl\u00f6sung in Kombination mit der IPS1-Technologie verleiht Videos, Bildern und Web-Inhalten noch mehr Leben. Au\u00dferdem l\u00e4sst das Zero Air Gap-Design alle Bilder gut aussehen \u2013 auch bei Sonnenlicht. Der Name sagt alles: ein Smartphone, das ist so sch\u00f6n ist wie Jade. Dank der 7,5 mm flachen und geschwungenen, ergonomischen Oberfl\u00e4chen liegt das Liquid Jade angenehm in der Hand. Die geschwungene Corning\u00ae Gorilla\u00ae Glass-Display unterstreicht die robuste und doch ansprechende Bauweise des Liquid Jade.",
+                    "url": "\/de\/samsung-galaxy-ace-70",
+                    "product_abstract_sku": "070",
+                    "rating": 0,
+                    "keywords": "Samsung,Communication Electronics",
+                    "images": {
+                        "default": [
+                            {
+                                "small": "https:\/\/images.icecat.biz\/img\/norm\/medium\/13374503-9343.jpg",
+                                "large": "https:\/\/images.icecat.biz\/img\/norm\/high\/13374503-9343.jpg"
+                            }
+                        ]
+                    },
+                    "category": [
+                        "Demoshop",
+                        "Telekommunikation & Navigation",
+                        "Smartphones",
+                        "Variant Showcase"
+                    ],
+                    "label": [
+                        "Standard Label"
+                    ],
+                    "hierarchical_categories": {
+                        "lvl0": "Demoshop",
+                        "lvl1": [
+                            "Demoshop > Telekommunikation & Navigation",
+                            "Demoshop > Variant Showcase"
+                        ],
+                        "lvl2": "Demoshop > Telekommunikation & Navigation > Smartphones"
+                    },
+                    "attributes": {
+                        "sensor_type": "CMOS",
+                        "display_type": "TFT",
+                        "weight": "118 g",
+                        "usb_version": "2",
+                        "brand": "Samsung",
+                        "series": "Ace 3",
+                        "internal_storage_capacity": "2.7 GB"
+                    },
+                    "merchant_name": [],
+                    "merchant_reference": [],
+                    "search_metadata": [],
+                    "concrete_prices": {
+                        "eur": {
+                            "gross": 42131,
+                            "net": 37918
+                        },
+                        "chf": {
+                            "gross": 48451,
+                            "net": 43606
+                        }
+                    },
+                    "prices": {
+                        "eur": {
+                            "gross": 29678,
+                            "net": 26710
+                        },
+                        "chf": {
+                            "gross": 34130,
+                            "net": 30717
+                        }
+                    },
+                    "objectID": "070_203704322",
+                    "_highlightResult": {
+                        "sku": {
+                            "value": "070_203704322",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "name": {
+                            "value": "Samsung Galaxy Ace",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "abstract_name": {
+                            "value": "Samsung Galaxy Ace",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "product_abstract_sku": {
+                            "value": "070",
+                            "matchLevel": "none",
+                            "matchedWords": []
+                        },
+                        "category": [
+                            {
+                                "value": "Demoshop",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "Telekommunikation & Navigation",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            },
+                            {
+                                "value": "<em>Smart<\/em>phones",
+                                "matchLevel": "full",
+                                "fullyHighlighted": false,
+                                "matchedWords": [
+                                    "smart"
+                                ]
+                            },
+                            {
+                                "value": "Variant Showcase",
+                                "matchLevel": "none",
+                                "matchedWords": []
+                            }
+                        ]
+                    }
+                }
+            ],
+            "nbHits": 115,
+            "page": 0,
+            "nbPages": 6,
+            "hitsPerPage": 20,
+            "exhaustiveNbHits": true,
+            "exhaustiveTypo": true,
+            "exhaustive": {
+                "nbHits": true,
+                "typo": true
+            },
+            "query": "smart",
+            "params": "attributesToHighlight=%5B%22product_abstract_sku%22%2C%22sku%22%2C%22name%22%2C%22abstract_name%22%2C%22category%22%5D&query=smart&",
+            "index": "dev-de-product-de_de",
+            "renderingContent": [],
+            "processingTimeMS": 1,
+            "processingTimingsMS": {
+                "_request": {
+                    "roundTrip": 114
+                },
+                "total": 1
+            },
+            "serverTimeMS": 3
+        }
+    ]
+}

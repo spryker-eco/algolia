@@ -1,0 +1,16 @@
+namespace: Algolia
+actor: Tester
+include:
+    - tests/SprykerEcoTest/*/*
+
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+

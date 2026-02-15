@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<transfers
+    xmlns="spryker:databuilder-01"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="spryker:databuilder-01 http://static.spryker.com/databuilder-01.xsd"
+>
+    <transfer name="AlgoliaConfig" strict="true">
+        <property name="tenantIdentifier" dataBuilderRule="uuid()"/>
+        <property name="applicationId" dataBuilderRule="word()"/>
+        <property name="adminApiKey" dataBuilderRule="word()"/>
+        <property name="searchOnlyApiKey" dataBuilderRule="word()"/>
+        <property name="searchOnlyApiKey" dataBuilderRule="word()"/>
+        <property name="isProductPriceSynced" dataBuilderRule="boolean(0.0)"/>
+        <property name="isSearchInFrontendEnabledForProducts" dataBuilderRule="boolean(1.0)"/>
+        <property name="isSearchInFrontendEnabledForCmsPages" dataBuilderRule="boolean(1.0)"/>
+    </transfer>
+
+    <transfer name="Store">
+        <property name="name" dataBuilderRule="isbn10()"/>
+    </transfer>
+
+    <transfer name="Locale">
+        <property name="name" dataBuilderRule="word()"/>
+        <property name="localeName" dataBuilderRule="locale()"/>
+        <property name="isActive" dataBuilderRule="boolean(100)"/>
+    </transfer>
+
+<!--    <transfer name="LocalizedAttributes">-->
+<!--        <property name="name" dataBuilderRule="word()"/>-->
+<!--        <property name="description" dataBuilderRule="sentence(3)"/>-->
+<!--    </transfer>-->
+
+<!--    <transfer name="ProductImage">-->
+<!--        <property name="externalUrlLarge" dataBuilderRule="url()"/>-->
+<!--        <property name="externalUrlSmall" dataBuilderRule="url()"/>-->
+<!--    </transfer>-->
+
+<!--    <transfer name="ProductImageSet">-->
+<!--        <property name="productImageSetKey" dataBuilderRule="word()"/>-->
+<!--        <property name="name" dataBuilderRule="word()"/>-->
+<!--        <property name="locale" dataBuilderRule="Locale"/>-->
+<!--        <property name="productImages" dataBuilderRule="ProductImage[]"/>-->
+<!--    </transfer>-->
+
+    <transfer name="LocalizedUrl">
+        <property name="url" dataBuilderRule="url()"/>
+        <property name="locale" dataBuilderRule="Locale"/>
+    </transfer>
+
+    <transfer name="Category">
+        <property name="isSearchable" dataBuilderRule="boolean(100)"/>
+        <property name="localizedAttributes" dataBuilderRule="CategoryLocalizedAttributes[]"/>
+    </transfer>
+
+    <transfer name="CategoryLocalizedAttributes">
+        <property name="locale" dataBuilderRule="Locale"/>
+    </transfer>
+
+    <transfer name="ProductConcrete">
+<!--        <property name="sku" dataBuilderRule="word()"/>-->
+<!--        <property name="abstractSku" dataBuilderRule="word()"/>-->
+<!--        <property name="name" dataBuilderRule="word()"/>-->
+<!--        <property name="imageSets" dataBuilderRule="ProductImageSet[]"/>-->
+<!--        <property name="localizedAttributes" dataBuilderRule="LocalizedAttributes[]"/>-->
+<!--        <property name="stores" dataBuilderRule="Store[]"/>-->
+<!--        <property name="prices" dataBuilderRule="PriceProduct[]"/>-->
+<!--        <property name="productAbstractPrices" dataBuilderRule="PriceProduct[]"/>-->
+<!--        <property name="url" dataBuilderRule="ProductUrl"/>-->
+<!--        <property name="rating" dataBuilderRule="randomFloat(1)"/>-->
+<!--        <property name="offers" dataBuilderRule="ProductOffers[]"/>-->
+        <property name="searchMetadata" dataBuilderRule="words(2)"/>
+    </transfer>
+
+    <transfer name="ProductOffer">
+        <property name="merchantName" dataBuilderRule="word()"/>
+    </transfer>
+
+    <transfer name="AlgoliaProductObject">
+        <property name="objectID" dataBuilderRule="word()"/>
+        <property name="sku" dataBuilderRule="word()"/>
+        <property name="name" dataBuilderRule="word()"/>
+        <property name="description" dataBuilderRule="sentence(3)"/>
+        <property name="url" dataBuilderRule="url()"/>
+        <property name="productAbstractSku" dataBuilderRule="word()"/>
+        <property name="rating" dataBuilderRule="randomFloat(1)"/>
+        <property name="keywords" dataBuilderRule="word()"/>
+        <property name="images" dataBuilderRule="words(3)"/>
+        <property name="prices" dataBuilderRule="AlgoliaProductPrice[]"/>
+        <property name="category" dataBuilderRule="words(3)"/>
+        <property name="label" dataBuilderRule="words(3)"/>
+        <property name="attributes" dataBuilderRule="words(3)"/>
+        <property name="merchantName" dataBuilderRule="words(2)"/>
+        <property name="merchantReference" dataBuilderRule="words(2)"/>
+        <property name="searchMetadata" dataBuilderRule="words(2)"/>
+    </transfer>
+
+    <transfer name="AlgoliaProductPrice">
+        <property name="gross" dataBuilderRule="randomInt()"/>
+        <property name="net" dataBuilderRule="randomInt()"/>
+    </transfer>
+
+    <transfer name="AlgoliaApiCredentials">
+        <property name="applicationId" dataBuilderRule="word()"/>
+        <property name="apiKey" dataBuilderRule="word()"/>
+    </transfer>
+
+
+    <transfer name="ProductLabel">
+        <property name="name" dataBuilderRule="unique()->sentence(2)"/>
+        <property name="isActive" dataBuilderRule="=true"/>
+    </transfer>
+
+    <transfer name="FacetParameters">
+        <property name="from" dataBuilderRule="randomNumber()"/>
+        <property name="to" dataBuilderRule="randomNumber()"/>
+        <property name="values" dataBuilderRule="words()"/>
+    </transfer>
+
+    <transfer name="FacetEntry">
+        <property name="type" dataBuilderRule="="/>
+    </transfer>
+
+    <transfer name="FacetCollection">
+    </transfer>
+
+    <transfer name="PaginationEntry">
+        <property name="page" dataBuilderRule="randomNumber(3)"/>
+        <property name="hitsPerPage" dataBuilderRule="randomNumber(3)"/>
+        <property name="offset" dataBuilderRule="randomNumber(3)"/>
+        <property name="length" dataBuilderRule="randomNumber(3)"/>
+    </transfer>
+
+<!--    <transfer name="SearchRequest" strict="true">-->
+<!--        <property name="tenantIdentifier" dataBuilderRule="word()"/>-->
+<!--        <property name="storeName" dataBuilderRule="word()"/>-->
+<!--        <property name="query" dataBuilderRule="word()"/>-->
+<!--        <property name="facets" dataBuilderRule="FacetCollection"/>-->
+<!--        <property name="sort" dataBuilderRule="asc"/>-->
+<!--        <property name="pagination" dataBuilderRule="PaginationEntry"/>-->
+<!--        <property name="locale" dataBuilderRule="word()"/>-->
+<!--    </transfer>-->
+</transfers>
