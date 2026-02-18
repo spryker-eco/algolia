@@ -36,13 +36,15 @@ composer require spryker-eco/algolia
 
 **Configure Algolia credentials** in your config files:
 ```php
-// config/Shared/config_default.php or config_local.php
+// config/Shared/config_default.php or config_local.php (for local development)
 use SprykerEco\Shared\Algolia\AlgoliaConstants;
+
 $config[AlgoliaConstants::IS_ACTIVE] = true;
 $config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
-$config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_ADMIN_API_KEY');
-$config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_ONLY_API_KEY');
-$config[AlgoliaConstants::TENANT_IDENTIFIER] = 'john'; // Add if you use one Algolia account for multiple environments, default is "production".
+$config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_WRITE_API_KEY');
+$config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_API_KEY');
+// Add if you use one Algolia account for multiple environments, default is "production"
+// $config[AlgoliaConstants::TENANT_IDENTIFIER] = 'john';
 ```
 
 
@@ -259,7 +261,7 @@ See [Real-time Synchronization](#step-10-configure-real-time-synchronization) se
 
 ### Step 9: Verify data in the Algolia Dashboard
 
-1. Login to Algolia
+1. Log in to Algolia
 2. Check created indexes and data inside (Search section).
 3. Try searches from the Algolia Dashboard.
 4. Tune index settings ([facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/), [searchable attributes](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/)) as needed.
@@ -299,10 +301,10 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 }
 ```
-See [Real-time Synchronization](#real-time-synchronization) section for details on each plugin and their subscribed events.
+See [Real-time Synchronization](#real-time-synchronization) section for details on each plugin and its subscribed events.
 
 ### Step 11: Enable Search in Frontend & API
->WARNING: Please make sure you have data in the Algolia indices before enabling search in frontend, otherwise search will return no results.
+>WARNING: Please make sure you have data in the Algolia indices before enabling search in the frontend, otherwise search will return no results.
 
 
 Enable product and/or CMS page search in the frontend for Algolia integration at the project level.
@@ -319,7 +321,7 @@ use SprykerEco\Client\Algolia\AlgoliaConfig as SprykerEcoAlgoliaConfig;
 class AlgoliaConfig extends SprykerEcoAlgoliaConfig
 {
     /**
-     * Enable product search in frontend.
+     * Enable product search in the frontend.
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
@@ -327,7 +329,7 @@ class AlgoliaConfig extends SprykerEcoAlgoliaConfig
     }
 
     /**
-     * Enable CMS page search in frontend.
+     * Enable CMS page search in the frontend.
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
@@ -708,9 +710,9 @@ console transfer:generate
 **Problem**: Search queries return errors or no results
 
 **Solution**:
-1. Verify Algolia credentials in config are correct
+1. Verify Algolia credentials in the config are correct
 2. Ensure indices exist in Algolia dashboard
-3. Disable personalization `getIsPersonalizationEnabled()` if you use not premium plan.
+3. Disable personalization `getIsPersonalizationEnabled()` if you do not use an Algolia premium plan.
 
 ---
 
@@ -720,63 +722,227 @@ If migrating from MessageBroker-based [Algolia ACP App](https://docs.spryker.com
 
 >Note: The logic of data synchronization remains the same, so if you don't want to re-synchronize all data to Algolia, just use TENANT_IDENTIFIER the same as ACP tenant ID:
 > ```php
-> $config[AlgoliaConstants::TENANT_IDENTIFIER] = 'tenant-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx';
+> $config[AlgoliaConstants::TENANT_IDENTIFIER] = getenv('SPRYKER_TENANT_IDENTIFIER'); // tenant-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx
 >```
 
-### Step 1: Remove Old Plugins
+### Step 1: Remove Old ACP Plugins and Configuration
 
-#### Remove from `src/Pyz/Zed/Publisher/PublisherDependencyProvider.php`
+#### 1a. Remove from `src/Pyz/Zed/Publisher/PublisherDependencyProvider.php`
 
-```php
-// - CmsPageVersionPublishedMessageBrokerPublisherPlugin
-// - CmsPageUpdateMessageBrokerPublisherPlugin
-// - ProductAbstractUpdatedMessageBrokerPublisherPlugin
-// - ProductConcreteCreatedMessageBrokerPublisherPlugin
-// - ProductConcreteDeletedMessageBrokerPublisherPlugin
-// - ProductConcreteExportedMessageBrokerPublisherPlugin
-// - ProductConcreteUpdatedMessageBrokerPublisherPlugin
-```
-
-#### Remove from `src/Pyz/Zed/MessageBroker/MessageBrokerDependencyProvider.php`
+Remove these imports and their usages:
 
 ```php
-// - SearchEndpointMessageHandlerPlugin
-// - ProductExportMessageHandlerPlugin
-// - CmsPageMessageHandlerPlugin
+// Remove these use statements:
+use Spryker\Zed\Cms\Communication\Plugin\Publisher\CmsPageUpdateMessageBrokerPublisherPlugin;
+use Spryker\Zed\Cms\Communication\Plugin\Publisher\CmsPageVersionPublishedMessageBrokerPublisherPlugin;
+use Spryker\Zed\Product\Communication\Plugin\Publisher\ProductAbstractUpdatedMessageBrokerPublisherPlugin;
+use Spryker\Zed\Product\Communication\Plugin\Publisher\ProductConcreteCreatedMessageBrokerPublisherPlugin;
+use Spryker\Zed\Product\Communication\Plugin\Publisher\ProductConcreteDeletedMessageBrokerPublisherPlugin;
+use Spryker\Zed\Product\Communication\Plugin\Publisher\ProductConcreteExportedMessageBrokerPublisherPlugin;
+use Spryker\Zed\Product\Communication\Plugin\Publisher\ProductConcreteUpdatedMessageBrokerPublisherPlugin;
 ```
 
-#### Update in `src/Pyz/Client/Search/SearchDependencyProvider.php`
+Remove the methods that register them (e.g., `getProductMessageBrokerPlugins()`, `getCmsPageMessageBrokerPlugins()`) and their calls from `getPublisherPlugins()`.
 
-- Replace `SearchHttpSearchAdapterPlugin` with `AlgoliaSearchAdapterPlugin`
+Also keep `ProductCategoryProductUpdatedEventTriggerPlugin` and `ProductLabelProductUpdatedEventTriggerPlugin` — they are **not** ACP-specific and must remain (they will be re-registered under the new Algolia plugins method in Step 2).
 
-- Remove:
+#### 1b. Remove from `src/Pyz/Zed/MessageBroker/MessageBrokerDependencyProvider.php`
+
 ```php
-// - SearchHttpSearchContextExpanderPlugin
+// Remove these use statements and plugin instantiations:
+use Spryker\Zed\Cms\Communication\Plugin\MessageBroker\CmsPageMessageHandlerPlugin;
+use Spryker\Zed\Product\Communication\Plugin\MessageBroker\ProductExportMessageHandlerPlugin;
+use Spryker\Zed\SearchHttp\Communication\Plugin\MessageBroker\SearchEndpointMessageHandlerPlugin;
 ```
 
-#### Update in `src/Pyz/Client/Catalog/CatalogDependencyProvider.php`
+#### 1c. Clean up `config/Shared/config_default.php`
 
-Replace them SearchHttp plugins with Algolia equivalents:
+Disable product publishing via MessageBroker:
 
-- Replace `SearchHttpQueryPlugin` with `AlgoliaSearchQueryPlugin`
-- Replace `SuggestionSearchHttpQueryPlugin` with `AlgoliaSuggestionSearchQueryPlugin`
-- Replace `ProductConcreteSearchHttpQueryPlugin` with `AlgoliaProductConcreteSearchQueryPlugin`
+```php
+// Change this line:
+$config[ProductConstants::PUBLISHING_TO_MESSAGE_BROKER_ENABLED] = $config[MessageBrokerConstants::IS_ENABLED];
+// To:
+$config[ProductConstants::PUBLISHING_TO_MESSAGE_BROKER_ENABLED] = false;
+```
 
-#### Update in `src/Pyz/Client/CmsPageSearch/CmsPageSearchDependencyProvider.php`
+Add Algolia configuration at the end of the file:
 
-- Replace `SearchHttpQueryPlugin` with `AlgoliaSearchQueryPlugin`
+```php
+use SprykerEco\Shared\Algolia\AlgoliaConstants;
 
-### Step 2: Add New Algolia Plugins and Configuration
+// Algolia
+$config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
+$config[AlgoliaConstants::ADMIN_API_KEY] = getenv('ALGOLIA_WRITE_API_KEY');
+$config[AlgoliaConstants::SEARCH_ONLY_API_KEY] = getenv('ALGOLIA_SEARCH_API_KEY');
+$config[AlgoliaConstants::IS_ACTIVE] = $config[AlgoliaConstants::APPLICATION_ID] && $config[AlgoliaConstants::ADMIN_API_KEY] && $config[AlgoliaConstants::SEARCH_ONLY_API_KEY];
+$config[AlgoliaConstants::TENANT_IDENTIFIER] = getenv('SPRYKER_TENANT_IDENTIFIER'); // old ACP tenant ID
+```
 
-Follow all integration steps from the [Installation](#installation) section.
+#### 1d. Update `src/Pyz/Client/Search/SearchDependencyProvider.php`
 
-### Step 3: Verify
+Replace `SearchHttpSearchAdapterPlugin` with `AlgoliaSearchAdapterPlugin` and remove `SearchHttpSearchContextExpanderPlugin`:
 
-- No data migration needed - data structure remains the same
-- Do full re-index using console command (see [Full Indexing](#full-indexing)) section)
-- Configure schedule for periodic exports if needed (see [Schedule Automatic Exports](#schedule-automatic-exports-recommended) section)
-- Test with products update in Back Office
-- Test with a CMS page update in Back Office
+```php
+// Remove:
+use Spryker\Client\SearchHttp\Plugin\Search\SearchHttpSearchAdapterPlugin;
+use Spryker\Client\SearchHttp\Plugin\Search\SearchHttpSearchContextExpanderPlugin;
+
+// Add:
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchAdapterPlugin;
+```
+
+In `getClientAdapterPlugins()` replace `new SearchHttpSearchAdapterPlugin()` with `new AlgoliaSearchAdapterPlugin()`.
+
+In `getSearchContextExpanderPlugins()` remove `new SearchHttpSearchContextExpanderPlugin()`.
+
+#### 1e. Update `src/Pyz/Client/Catalog/CatalogDependencyProvider.php`
+
+Replace SearchHttp query plugins with Algolia equivalents:
+
+```php
+// Remove:
+use Spryker\Client\SearchHttp\Plugin\Catalog\Query\ProductConcreteSearchHttpQueryPlugin;
+use Spryker\Client\SearchHttp\Plugin\Catalog\Query\SearchHttpQueryPlugin;
+use Spryker\Client\SearchHttp\Plugin\Catalog\Query\SuggestionSearchHttpQueryPlugin;
+
+// Add:
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaProductConcreteSearchQueryPlugin;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchQueryPlugin;
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSuggestionSearchQueryPlugin;
+```
+
+Replace plugin instantiations:
+- `createCatalogSearchQueryPluginVariants()`: `SearchHttpQueryPlugin` → `AlgoliaSearchQueryPlugin`
+- `createSuggestionQueryPluginVariants()`: `SuggestionSearchHttpQueryPlugin` → `AlgoliaSuggestionSearchQueryPlugin`
+- `createProductConcreteCatalogSearchQueryPluginVariants()`: `ProductConcreteSearchHttpQueryPlugin` → `AlgoliaProductConcreteSearchQueryPlugin`
+
+#### 1f. Update `src/Pyz/Client/CmsPageSearch/CmsPageSearchDependencyProvider.php`
+
+```php
+// Remove:
+use Spryker\Client\SearchHttp\Plugin\Catalog\Query\SearchHttpQueryPlugin;
+
+// Add:
+use SprykerEco\Client\Algolia\Plugin\Search\AlgoliaSearchQueryPlugin;
+```
+
+Replace `new SearchHttpQueryPlugin(...)` with `new AlgoliaSearchQueryPlugin(...)` in `getCmsPageSearchQueryPlugins()`.
+
+### Step 2: Add New Algolia Integration
+
+#### 2a. Register the console export command
+
+File: `src/Pyz/Zed/Console/ConsoleDependencyProvider.php`
+
+```php
+use SprykerEco\Zed\Algolia\Communication\Console\AlgoliaEntityExportConsole;
+
+// In getConsoleCommands():
+new AlgoliaEntityExportConsole(),
+```
+
+#### 2b. Create `src/Pyz/Zed/Algolia/AlgoliaDependencyProvider.php`
+
+```php
+<?php
+
+namespace Pyz\Zed\Algolia;
+
+use SprykerEco\Zed\Algolia\AlgoliaDependencyProvider as SprykerEcoAlgoliaDependencyProvider;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\CmsPageAlgoliaEntityExporterPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Algolia\ProductAlgoliaEntityExporterPlugin;
+
+class AlgoliaDependencyProvider extends SprykerEcoAlgoliaDependencyProvider
+{
+    /**
+     * @return array<\SprykerEco\Zed\Algolia\Dependency\Plugin\AlgoliaEntityExporterPluginInterface>
+     */
+    protected function getAlgoliaEntityExporterPlugins(): array
+    {
+        return [
+            new ProductAlgoliaEntityExporterPlugin(),
+            new CmsPageAlgoliaEntityExporterPlugin(),
+        ];
+    }
+}
+```
+
+#### 2c. Register real-time publisher plugins
+
+File: `src/Pyz/Zed/Publisher/PublisherDependencyProvider.php`
+
+Add a new `getAlgoliaPlugins()` method and call it from `getPublisherPlugins()`:
+
+```php
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPagePublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\AlgoliaCmsPageVersionPublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductAbstractPublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcreteDeletePublisherPlugin;
+use SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\Product\AlgoliaProductConcretePublisherPlugin;
+
+// ...
+
+protected function getAlgoliaPlugins(): array
+{
+    return [
+        // CMS pages
+        new AlgoliaCmsPagePublisherPlugin(),
+        new AlgoliaCmsPageVersionPublisherPlugin(),
+
+        // Products
+        new AlgoliaProductAbstractPublisherPlugin(),
+        new AlgoliaProductConcretePublisherPlugin(),
+        new AlgoliaProductConcreteDeletePublisherPlugin(),
+        new ProductCategoryProductUpdatedEventTriggerPlugin(),
+        new ProductLabelProductUpdatedEventTriggerPlugin(),
+    ];
+}
+```
+
+#### 2d. Enable frontend search
+
+Create `src/Pyz/Client/Algolia/AlgoliaConfig.php`:
+
+```php
+<?php
+
+namespace Pyz\Client\Algolia;
+
+use SprykerEco\Client\Algolia\AlgoliaConfig as SprykerEcoAlgoliaConfig;
+
+class AlgoliaConfig extends SprykerEcoAlgoliaConfig
+{
+    public function isSearchInFrontendEnabledForProducts(): bool
+    {
+        return true;
+    }
+
+    public function isSearchInFrontendEnabledForCmsPages(): bool
+    {
+        return true;
+    }
+}
+```
+
+#### 2e. Generate transfers
+
+```bash
+vendor/bin/console transfer:generate
+```
+
+### Step 3: Initial Data Export and Verify
+
+```bash
+# Run full export to populate Algolia indices
+vendor/bin/console algolia:entity-export --all
+```
+
+- No data schema migration needed — the data structure is the same as the ACP app
+- If you want to reuse existing Algolia indices (avoid re-indexing), set `TENANT_IDENTIFIER` to match the ACP tenant ID (see note at top of this section)
+- Configure schedule for periodic exports (see [Schedule Automatic Exports](#schedule-automatic-exports-recommended))
+- Test a product update in Back Office and verify the change appears in Algolia
+- Test a CMS page publish in Back Office and verify the change appears in Algolia
 - Check Algolia dashboard for indexed content
 
 ### Benefits of Migration
@@ -792,19 +958,19 @@ Follow all integration steps from the [Installation](#installation) section.
 ## Performance Considerations
 
 ### Products
-- Published asynchronously via queue system
-- Multiple events for same product are deduplicated
-- Events from optional modules only registered if installed
+- Published asynchronously via the queue system
+- Multiple events for the same product are deduplicated
+- Events from optional modules are only registered if installed
 - Use `AlgoliaConfig` to limit events if needed
 
 ### CMS Pages
-- Published asynchronously via queue system
+- Published asynchronously via the queue system
 - Only active AND searchable pages indexed
 - Not searchable or inactive pages removed from indices
 
 ### General
 - All plugins check `AlgoliaConfig::getIsActive()` before subscribing
-- If Algolia disabled, no events processed
+- If Algolia is disabled, no events are processed
 - Initial export uses configurable batch sizes
 
 ---
@@ -826,7 +992,7 @@ composer cs-fix # can be used standalone
 composer phpstan # only works together with Spryker project (uses autoloader from it)
 ```
 
-for test execution check details in [tests/README.md](tests/README.md) file.
+For test execution, check the details in [tests/README.md](tests/README.md) file.
 
 
 ## License
