@@ -304,7 +304,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
 See [Real-time Synchronization](#real-time-synchronization) section for details on each plugin and its subscribed events.
 
 ### Step 11: Enable Search in Frontend & API
->WARNING: Please make sure you have data in the Algolia indices before enabling search in the frontend, otherwise search will return no results.
+> ⚠️ **WARNING**: Please ensure you have data in the Algolia indices before enabling search in the frontend; otherwise, search will return no results.
 
 
 Enable product and/or CMS page search in the frontend for Algolia integration at the project level.
