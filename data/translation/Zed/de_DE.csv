@@ -1,0 +1,19 @@
+Algolia,Algolia
+Credentials,Anmeldedaten
+"Algolia API credentials for search integration. Application ID, Search-only API key, and Admin API key must all be provided and valid — partial configuration is not supported.","Algolia API-Anmeldedaten für die Suchintegration. Anwendungs-ID, Nur-Such-API-Schlüssel und Admin-API-Schlüssel müssen alle angegeben und gültig sein — eine teilweise Konfiguration wird nicht unterstützt."
+"Application ID","Anwendungs-ID"
+"Your Algolia Application ID found in the Algolia Dashboard under API Keys.","Ihre Algolia-Anwendungs-ID finden Sie im Algolia-Dashboard unter API-Schlüssel."
+"Search-only API key","Nur-Such-API-Schlüssel"
+"Search-only API key used by the frontend for querying Algolia.","Nur-Such-API-Schlüssel, der vom Frontend für Algolia-Abfragen verwendet wird."
+"Admin API key","Admin-API-Schlüssel"
+"Admin API key used for indexing operations. Keep this secret.","Admin-API-Schlüssel für Indizierungsoperationen. Bitte geheim halten."
+"Search Provider","Suchanbieter"
+"Search provider selection is available once Algolia credentials are configured under Integrations → Credentials → Algolia.","Die Suchanbieterauswahl ist verfügbar, sobald Algolia-Anmeldedaten unter Integrationen → Anmeldedaten → Algolia konfiguriert sind."
+"Select the search engine used for product search.","Wählen Sie die Suchmaschine für die Produktsuche."
+"Select the search engine used for CMS page search.","Wählen Sie die Suchmaschine für die CMS-Seitensuche."
+ElasticSearch,ElasticSearch
+"Before switching to Algolia, ensure product data has been exported to Algolia indices — switching without indexed data will result in empty catalog search results.","🚨 Achtung: Stellen Sie vor dem Wechsel zu Algolia sicher, dass die Produktdaten in die Algolia-Indizes exportiert wurden — ein Wechsel ohne indizierte Daten führt zu leeren Katalogsuchergebnissen."
+"Before switching to Algolia, ensure CMS page data has been exported to Algolia indices — switching without indexed data will result in empty CMS search results.","🚨 Achtung: Stellen Sie vor dem Wechsel zu Algolia sicher, dass die CMS-Seitendaten in die Algolia-Indizes exportiert wurden — ein Wechsel ohne indizierte Daten führt zu leeren CMS-Suchergebnissen."
+"Algolia credentials are invalid. Application ID, Search-only API key, and Admin API key must all be provided and valid — partial configuration is not supported.","Algolia-Anmeldedaten sind ungültig. Anwendungs-ID, Nur-Such-API-Schlüssel und Admin-API-Schlüssel müssen alle angegeben und gültig sein — eine teilweise Konfiguration wird nicht unterstützt."
+"Cannot remove Algolia credentials while Algolia is selected as search provider. Please go to Catalog → Search or CMS → Search to disable it first.","Algolia-Anmeldedaten können nicht entfernt werden, solange Algolia als Suchanbieter ausgewählt ist. Bitte gehen Sie zu Katalog → Suche oder CMS → Suche, um es zuerst zu deaktivieren."
+"Cannot enable Algolia search without configured credentials. Please go to Integrations → Algolia to save your credentials first.","Algolia-Suche kann nicht ohne konfigurierte Anmeldedaten aktiviert werden. Bitte gehen Sie zu Integrationen → Algolia, um zuerst Ihre Anmeldedaten zu speichern."

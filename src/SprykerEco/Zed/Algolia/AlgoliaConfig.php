@@ -25,10 +25,19 @@ use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
  */
 class AlgoliaConfig extends AbstractBundleConfig
 {
-    /**
-     * @var string
-     */
-    public const FEATURE_PERSONALIZATION = 'personalization';
+    public const string FEATURE_PERSONALIZATION = 'personalization';
+
+    public const string CONFIGURATION_KEY_APPLICATION_ID = 'integrations:algolia:credentials:application_id';
+
+    public const string CONFIGURATION_KEY_SEARCH_ONLY_API_KEY = 'integrations:algolia:credentials:search_only_api_key';
+
+    public const string CONFIGURATION_KEY_ADMIN_API_KEY = 'integrations:algolia:credentials:admin_api_key';
+
+    public const string CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER = 'catalog:catalog_search:provider:search_provider';
+
+    public const string CONFIGURATION_KEY_CMS_SEARCH_PROVIDER = 'cms:cms_search:provider:search_provider';
+
+    public const string SEARCH_PROVIDER_ALGOLIA = 'algolia';
 
     /**
      * Specification:
@@ -65,7 +74,10 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getApplicationId(): string
     {
-        return $this->getSharedConfig()->getApplicationId();
+        return (string)$this->getModuleConfig(
+            static::CONFIGURATION_KEY_APPLICATION_ID,
+            $this->getSharedConfig()->getApplicationId(),
+        );
     }
 
     /**
@@ -79,7 +91,10 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getAdminApiKey(): string
     {
-        return $this->getSharedConfig()->getAdminApiKey();
+        return (string)$this->getModuleConfig(
+            static::CONFIGURATION_KEY_ADMIN_API_KEY,
+            $this->getSharedConfig()->getAdminApiKey(),
+        );
     }
 
     /**
@@ -93,7 +108,10 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getSearchOnlyApiKey(): string
     {
-        return $this->getSharedConfig()->getSearchOnlyApiKey();
+        return (string)$this->getModuleConfig(
+            static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
+            $this->getSharedConfig()->getSearchOnlyApiKey(),
+        );
     }
 
     /**
@@ -106,7 +124,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+        return $this->getModuleConfig(static::CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
@@ -132,7 +150,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+        return $this->getModuleConfig(static::CONFIGURATION_KEY_CMS_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
@@ -415,6 +433,23 @@ class AlgoliaConfig extends AbstractBundleConfig
         return [
             CmsEvents::CMS_VERSION_PUBLISH,
             CmsEvents::ENTITY_SPY_CMS_VERSION_CREATE,
+        ];
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of config keys needed to connect to Algolia.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getAlgoliaCredentialsKeys(): array
+    {
+        return [
+            static::CONFIGURATION_KEY_APPLICATION_ID,
+            static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
+            static::CONFIGURATION_KEY_ADMIN_API_KEY,
         ];
     }
 }

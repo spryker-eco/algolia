@@ -5,6 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
+declare(strict_types = 1);
+
 namespace SprykerEco\Client\Algolia;
 
 use Spryker\Client\Kernel\AbstractBundleConfig;
@@ -29,6 +31,16 @@ class AlgoliaConfig extends AbstractBundleConfig
     public const string SOURCE_IDENTIFIER_CMS_PAGE = 'cms-page';
 
     public const string FEATURE_PERSONALIZATION = 'personalization';
+
+    public const string CONFIGURATION_KEY_APPLICATION_ID = 'integrations:algolia:credentials:application_id';
+
+    public const string CONFIGURATION_KEY_SEARCH_ONLY_API_KEY = 'integrations:algolia:credentials:search_only_api_key';
+
+    public const string CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER = 'catalog:catalog_search:provider:search_provider';
+
+    public const string CONFIGURATION_KEY_CMS_SEARCH_PROVIDER = 'cms:cms_search:provider:search_provider';
+
+    public const string SEARCH_PROVIDER_ALGOLIA = 'algolia';
 
     /**
      * Specification:
@@ -65,7 +77,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getApplicationId(): string
     {
-        return $this->getSharedConfig()->getApplicationId();
+        return (string)$this->getModuleConfig(static::CONFIGURATION_KEY_APPLICATION_ID, '');
     }
 
     /**
@@ -79,7 +91,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getSearchOnlyApiKey(): string
     {
-        return $this->getSharedConfig()->getSearchOnlyApiKey();
+        return (string)$this->getModuleConfig(static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY, '');
     }
 
     /**
@@ -105,7 +117,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+        return $this->getModuleConfig(static::CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
@@ -118,7 +130,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+        return $this->getModuleConfig(static::CONFIGURATION_KEY_CMS_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
     }
 
     public function isPersonalizationEnabled(): bool
