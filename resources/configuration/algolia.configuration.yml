@@ -18,6 +18,7 @@ features:
                   order: 0
                   scopes:
                       - global
+                      - store
                   settings:
                       - key: application_id
                         name: Application ID
@@ -25,7 +26,7 @@ features:
                         type: string
                         enabled: true
                         secret: false
-                        storefront: false
+                        storefront: true
                         order: 0
                         default_value: ''
                         scopes:
@@ -39,8 +40,8 @@ features:
                         description: Search-only API key used by the frontend for querying Algolia.
                         type: string
                         enabled: true
-                        secret: true
-                        storefront: false
+                        secret: false
+                        storefront: true
                         order: 1
                         default_value: ''
                         scopes:
