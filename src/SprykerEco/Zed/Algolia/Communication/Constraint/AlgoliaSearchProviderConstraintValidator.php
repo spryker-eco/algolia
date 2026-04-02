@@ -29,7 +29,7 @@ class AlgoliaSearchProviderConstraintValidator extends AbstractConstraintValidat
             return;
         }
 
-        if ($this->hasAllCredentialsConfigured()) {
+        if ($this->isAlgoliaActive()) {
             return;
         }
 
