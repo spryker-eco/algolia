@@ -36,12 +36,8 @@ class AlgoliaSearchProviderConstraintValidator extends AbstractConstraintValidat
         $this->context->buildViolation($constraint->message)->addViolation();
     }
 
-    protected function hasAllCredentialsConfigured(): bool
+    protected function isAlgoliaActive(): bool
     {
-        $algoliaConfig = $this->getFactory()->getConfig();
-
-        return $algoliaConfig->getApplicationId() !== ''
-            && $algoliaConfig->getAdminApiKey() !== ''
-            && $algoliaConfig->getSearchOnlyApiKey() !== '';
+        return $this->getFactory()->getConfig()->getIsActive();
     }
 }

@@ -8,7 +8,7 @@ Credentials,Credentials
 "Admin API key","Admin API key"
 "Admin API key used for indexing operations. Keep this secret.","Admin API key used for indexing operations. Keep this secret."
 "Search Provider","Search Provider"
-"Search provider selection is available once Algolia credentials are configured under Integrations → Credentials → Algolia.","Search provider selection is available once Algolia credentials are configured under Integrations → Credentials → Algolia."
+"Search provider selection is available once Algolia credentials are configured under Integrations → Algolia.","Search provider selection is available once Algolia credentials are configured under Integrations → Algolia."
 "Select the search engine used for product search.","Select the search engine used for product search."
 "Select the search engine used for CMS page search.","Select the search engine used for CMS page search."
 ElasticSearch,ElasticSearch

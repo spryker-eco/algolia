@@ -265,11 +265,6 @@ class CredentialsPreSaveHandlerTest extends Unit
     ): AlgoliaConfig {
         $configMock = $this->createMock(AlgoliaConfig::class);
 
-        $configMock->method('getAlgoliaCredentialsKeys')->willReturn([
-            AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
-            AlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
-            AlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY,
-        ]);
         $configMock->method('getApplicationId')->willReturn('');
         $configMock->method('getSearchOnlyApiKey')->willReturn('');
         $configMock->method('getAdminApiKey')->willReturn('');

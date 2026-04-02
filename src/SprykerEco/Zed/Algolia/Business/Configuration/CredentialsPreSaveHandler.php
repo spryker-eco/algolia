@@ -46,7 +46,7 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
             return $this->markConfigurationValuesAsInvalid(
                 $configurationValueCollectionRequestTransfer,
                 AlgoliaCredentialsRemovalConstraint::INVALID_SENTINEL,
-                $this->algoliaConfig->getAlgoliaCredentialsKeys(),
+                AlgoliaConfig::ALGOLIA_CREDENTIALS_KEYS,
             );
         }
 
@@ -54,7 +54,7 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
             return $this->markConfigurationValuesAsInvalid(
                 $configurationValueCollectionRequestTransfer,
                 AlgoliaCredentialsConstraint::INVALID_SENTINEL,
-                $this->algoliaConfig->getAlgoliaCredentialsKeys(),
+                AlgoliaConfig::ALGOLIA_CREDENTIALS_KEYS,
             );
         }
 
@@ -67,9 +67,9 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         $deletionKeys = $configurationValueCollectionRequestTransfer->getDeletionKeys();
         $normalizedIndices = [];
 
-        $credentialKeys = $this->algoliaConfig->getAlgoliaCredentialsKeys();
+        $credentialKeys = AlgoliaConfig::ALGOLIA_CREDENTIALS_KEYS;
 
-        foreach ($configurationValueCollectionRequestTransfer->getDeletionKeys() as $index => $deletionKey) {
+        foreach ($deletionKeys as $index => $deletionKey) {
             if ($deletionKey->getSettingKey() === null || !in_array($deletionKey->getSettingKey(), $credentialKeys, true)) {
                 continue;
             }
@@ -87,13 +87,13 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
             unset($deletionKeys[$index]);
         }
 
-        return $configurationValueCollectionRequestTransfer;
+        return $configurationValueCollectionRequestTransfer->setDeletionKeys($deletionKeys);
     }
 
     protected function hasCredentialFieldsInRequest(
         ConfigurationValueCollectionRequestTransfer $configurationValueCollectionRequestTransfer,
     ): bool {
-        $credentialKeys = $this->algoliaConfig->getAlgoliaCredentialsKeys();
+        $credentialKeys = AlgoliaConfig::ALGOLIA_CREDENTIALS_KEYS;
 
         foreach ($configurationValueCollectionRequestTransfer->getConfigurationValues() as $configurationValueTransfer) {
             if (in_array($configurationValueTransfer->getSettingKey(), $credentialKeys, true)) {

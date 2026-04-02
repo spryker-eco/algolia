@@ -40,15 +40,26 @@ class AlgoliaConfig extends AbstractBundleConfig
     public const string SEARCH_PROVIDER_ALGOLIA = 'algolia';
 
     /**
+     * @var array<string>
+     */
+    public const array ALGOLIA_CREDENTIALS_KEYS = [
+        self::CONFIGURATION_KEY_APPLICATION_ID,
+        self::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
+        self::CONFIGURATION_KEY_ADMIN_API_KEY,
+    ];
+
+    /**
      * Specification:
      * - Returns whether Algolia integration is active.
-     * - Value is retrieved from shared configuration.
+     * - Derived from BO-configured credentials: active when all three credentials are non-empty.
      *
      * @api
      */
     public function getIsActive(): bool
     {
-        return $this->getSharedConfig()->getIsActive();
+        return $this->getApplicationId() !== ''
+            && $this->getSearchOnlyApiKey() !== ''
+            && $this->getAdminApiKey() !== '';
     }
 
     /**
@@ -68,7 +79,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns the Algolia application ID.
      * - Used to identify the Algolia application in API requests.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -76,7 +87,7 @@ class AlgoliaConfig extends AbstractBundleConfig
     {
         return (string)$this->getModuleConfig(
             static::CONFIGURATION_KEY_APPLICATION_ID,
-            $this->getSharedConfig()->getApplicationId(),
+            '',
         );
     }
 
@@ -85,7 +96,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the admin API key for Algolia.
      * - This key has write access and should be kept secure on the backend.
      * - Used for indexing and administrative operations.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -93,7 +104,7 @@ class AlgoliaConfig extends AbstractBundleConfig
     {
         return (string)$this->getModuleConfig(
             static::CONFIGURATION_KEY_ADMIN_API_KEY,
-            $this->getSharedConfig()->getAdminApiKey(),
+            '',
         );
     }
 
@@ -102,7 +113,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the search-only API key for Algolia.
      * - This key has read-only access and can be safely exposed to frontend.
      * - Used for search operations in client-side code.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -110,7 +121,7 @@ class AlgoliaConfig extends AbstractBundleConfig
     {
         return (string)$this->getModuleConfig(
             static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
-            $this->getSharedConfig()->getSearchOnlyApiKey(),
+            '',
         );
     }
 
@@ -118,7 +129,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns whether frontend search is enabled for products.
      * - When enabled, product searches are performed directly from frontend using Algolia.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -144,7 +155,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns whether frontend search is enabled for CMS pages.
      * - When enabled, CMS page searches are performed directly from frontend using Algolia.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -433,23 +444,6 @@ class AlgoliaConfig extends AbstractBundleConfig
         return [
             CmsEvents::CMS_VERSION_PUBLISH,
             CmsEvents::ENTITY_SPY_CMS_VERSION_CREATE,
-        ];
-    }
-
-    /**
-     * Specification:
-     * - Returns the list of config keys needed to connect to Algolia.
-     *
-     * @api
-     *
-     * @return array<string>
-     */
-    public function getAlgoliaCredentialsKeys(): array
-    {
-        return [
-            static::CONFIGURATION_KEY_APPLICATION_ID,
-            static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
-            static::CONFIGURATION_KEY_ADMIN_API_KEY,
         ];
     }
 }

@@ -45,13 +45,14 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * Specification:
      * - Returns whether Algolia integration is active.
-     * - Value is retrieved from shared configuration.
+     * - Derived from BO-configured credentials: active when application ID and search-only API key are non-empty.
      *
      * @api
      */
     public function getIsActive(): bool
     {
-        return $this->getSharedConfig()->getIsActive();
+        return $this->getApplicationId() !== ''
+            && $this->getSearchOnlyApiKey() !== '';
     }
 
     /**
@@ -71,7 +72,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns the Algolia application ID.
      * - Used to identify the Algolia application in API requests.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
@@ -85,7 +86,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the search-only API key for Algolia.
      * - This key has read-only access and can be safely exposed to frontend.
      * - Used for search operations in client-side code.
-     * - Value is retrieved from shared configuration.
+     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */

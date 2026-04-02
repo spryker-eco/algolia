@@ -75,7 +75,7 @@ features:
             groups:
                 - key: provider
                   name: Search Provider
-                  description: "Search provider selection is available once Algolia credentials are configured under Integrations → Credentials → Algolia."
+                  description: "Search provider selection is available once Algolia credentials are configured under Integrations → Algolia."
                   enabled: true
                   order: 0
                   scopes:
@@ -113,7 +113,7 @@ features:
             groups:
                 - key: provider
                   name: Search Provider
-                  description: "Search provider selection is available once Algolia credentials are configured under Integrations → Credentials → Algolia."
+                  description: "Search provider selection is available once Algolia credentials are configured under Integrations → Algolia."
                   enabled: true
                   order: 0
                   scopes:
@@ -131,6 +131,7 @@ features:
                         default_value: elasticsearch
                         scopes:
                             - global
+                            - store
                         options:
                             - value: elasticsearch
                               label: ElasticSearch
