@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace SprykerEco\Zed\Algolia\Business\Configuration;
 
-use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\ConfigurationValueCollectionRequestTransfer;
 use Generated\Shared\Transfer\ConfigurationValueTransfer;
@@ -40,7 +39,15 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         $algoliaConfigTransfer = $this->buildAlgoliaConfigTransfer($configurationValueCollectionRequestTransfer);
 
         if ($this->areAllCredentialsEmpty($algoliaConfigTransfer)) {
-            return $this->handleEmptyCredentials($configurationValueCollectionRequestTransfer);
+            if (!$this->isAlgoliaSearchProviderEnabled()) {
+                return $configurationValueCollectionRequestTransfer;
+            }
+
+            return $this->markConfigurationValuesAsInvalid(
+                $configurationValueCollectionRequestTransfer,
+                AlgoliaCredentialsRemovalConstraint::INVALID_SENTINEL,
+                $this->algoliaConfig->getAlgoliaCredentialsKeys(),
+            );
         }
 
         if (!$this->areAllCredentialsFilled($algoliaConfigTransfer)) {
@@ -51,9 +58,7 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
             );
         }
 
-        $validationTransfer = $this->apiCredentialsValidator->validate($algoliaConfigTransfer);
-
-        return $this->markInvalidConfigurationValueCredentialFields($configurationValueCollectionRequestTransfer, $validationTransfer);
+        return $this->handleConfigurationValidation($configurationValueCollectionRequestTransfer, $algoliaConfigTransfer);
     }
 
     protected function normalizeDeletionKeysToEmptyValues(
@@ -62,8 +67,10 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         $deletionKeys = $configurationValueCollectionRequestTransfer->getDeletionKeys();
         $normalizedIndices = [];
 
+        $credentialKeys = $this->algoliaConfig->getAlgoliaCredentialsKeys();
+
         foreach ($configurationValueCollectionRequestTransfer->getDeletionKeys() as $index => $deletionKey) {
-            if ($deletionKey->getSettingKey() === null) {
+            if ($deletionKey->getSettingKey() === null || !in_array($deletionKey->getSettingKey(), $credentialKeys, true)) {
                 continue;
             }
 
@@ -145,24 +152,12 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
             || $this->algoliaConfig->isSearchInFrontendEnabledForCmsPages();
     }
 
-    protected function handleEmptyCredentials(
+    protected function handleConfigurationValidation(
         ConfigurationValueCollectionRequestTransfer $configurationValueCollectionRequestTransfer,
+        AlgoliaConfigTransfer $algoliaConfigTransfer,
     ): ConfigurationValueCollectionRequestTransfer {
-        if (!$this->isAlgoliaSearchProviderEnabled()) {
-            return $configurationValueCollectionRequestTransfer;
-        }
+        $algoliaApiCredentialsValidationTransfer = $this->apiCredentialsValidator->validate($algoliaConfigTransfer);
 
-        return $this->markConfigurationValuesAsInvalid(
-            $configurationValueCollectionRequestTransfer,
-            AlgoliaCredentialsRemovalConstraint::INVALID_SENTINEL,
-            $this->algoliaConfig->getAlgoliaCredentialsKeys(),
-        );
-    }
-
-    protected function markInvalidConfigurationValueCredentialFields(
-        ConfigurationValueCollectionRequestTransfer $configurationValueCollectionRequestTransfer,
-        AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer,
-    ): ConfigurationValueCollectionRequestTransfer {
         $validationResultIndexedByKey = [
             AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID => $algoliaApiCredentialsValidationTransfer->getIsAccountIdValid(),
             AlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY => $algoliaApiCredentialsValidationTransfer->getIsSearchOnlyApiKeyValid(),
