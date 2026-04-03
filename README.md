@@ -41,7 +41,7 @@ composer require spryker-eco/algolia
 Set the values in your config file.
 
 ```php
-// config/Shared/config_default.php
+// config/Shared/config_default.php or config_local.php (for local development)
 use SprykerEco\Shared\Algolia\AlgoliaConstants;
 
 $config[AlgoliaConstants::APPLICATION_ID] = getenv('ALGOLIA_APPLICATION_ID');
@@ -52,7 +52,7 @@ $config[AlgoliaConstants::IS_ACTIVE] = $config[AlgoliaConstants::APPLICATION_ID]
 
 #### Option B: Back Office configuration
 
-Requires the [Spryker Configuration feature](https://docs.spryker.com/docs/dg/dev/integrate-and-configure/integrate-confguration-feature) to be installed. 
+Requires the [Spryker Configuration feature](https://docs.spryker.com/docs/dg/dev/integrate-and-configure/integrate-confguration-feature) to be installed.
 Once installed, activate it for this module by creating `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
 
 ```php
@@ -75,7 +75,7 @@ Run the following command to sync the configuration settings to the database. Th
 vendor/bin/console configuration:sync
 ```
 
-Configure Algolia credentials in the Back Office under **Configuration > Integrations > Algolia**. Enter the Application ID, Admin API Key, and Search-Only API Key. The integration activates automatically once all three credentials are saved.
+Configure Algolia credentials in the Back Office under **Configuration > Integrations > Algolia**. Enter the Application ID, Admin API Key, and Search-Only API Key.
 
 To enable credential validation on save, register `AlgoliaCredentialsPreSavePlugin` in `src/Pyz/Zed/Configuration/ConfigurationDependencyProvider.php`:
 
@@ -361,7 +361,7 @@ See [Real-time Synchronization](#real-time-synchronization) section for details 
 
 Set the search provider to `Algolia` using one of the following approaches:
 
-**Option A users (environment variables):** add to `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
+**Option A (code-level configuration):** add to `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
 
 ```php
 public function isSearchInFrontendEnabledForProducts(): bool
@@ -375,7 +375,7 @@ public function isSearchInFrontendEnabledForCmsPages(): bool
 }
 ```
 
-**Option B users (Configuration module):** set the search provider in the Back Office under **Configuration > Catalog > Search** and **Configuration > CMS > Search**.
+**Option B (Configuration module):** set the search provider in the Back Office under **Configuration > Catalog > Search** and **Configuration > CMS > Search**.
 
 ---
 
@@ -749,7 +749,7 @@ console transfer:generate
 **Problem**: Search queries return errors or no results
 
 **Solution**:
-1. Verify Algolia credentials in the Back Office (**Integrations > Algolia**) are correct
+1. Verify Algolia credentials in the config/Back Office (**Configuration > Integrations > Algolia**) are correct
 2. Ensure indices exist in Algolia dashboard
 3. Disable personalization `getIsPersonalizationEnabled()` if you do not use an Algolia premium plan.
 
@@ -941,7 +941,7 @@ protected function getAlgoliaPlugins(): array
 
 Set the search provider to `Algolia` using one of the following approaches:
 
-**Option A users (environment variables):** add to `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
+**Option A (code-level configuration):** add to `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
 
 ```php
 public function isSearchInFrontendEnabledForProducts(): bool
@@ -955,7 +955,7 @@ public function isSearchInFrontendEnabledForCmsPages(): bool
 }
 ```
 
-**Option B users (Configuration module):** set it in the Back Office under **Configuration > Catalog > Search** and **Configuration > CMS > Search**.
+**Option B (Configuration module):** set it in the Back Office under **Configuration > Catalog > Search** and **Configuration > CMS > Search**.
 
 #### 2e. Generate transfers
 
