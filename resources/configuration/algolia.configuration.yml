@@ -18,7 +18,6 @@ features:
                   order: 0
                   scopes:
                       - global
-                      - store
                   settings:
                       - key: application_id
                         name: Application ID
@@ -31,7 +30,6 @@ features:
                         default_value: ''
                         scopes:
                             - global
-                            - store
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
@@ -46,7 +44,6 @@ features:
                         default_value: ''
                         scopes:
                             - global
-                            - store
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
@@ -61,7 +58,6 @@ features:
                         order: 2
                         scopes:
                             - global
-                            - store
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
@@ -81,7 +77,6 @@ features:
                   order: 0
                   scopes:
                       - global
-                      - store
                   settings:
                       - key: search_provider
                         name: Search Provider
@@ -94,7 +89,6 @@ features:
                         default_value: elasticsearch
                         scopes:
                             - global
-                            - store
                         options:
                             - value: elasticsearch
                               label: ElasticSearch
