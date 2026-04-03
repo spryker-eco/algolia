@@ -19,6 +19,7 @@ use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Configuration\CredentialsPreSaveHandler;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
 use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint;
+use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint;
 use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint;
 use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 
@@ -138,6 +139,7 @@ class CredentialsPreSaveHandlerTest extends Unit
     public static function handleCredentialsPreSaveDataProvider(): array
     {
         $inv = AlgoliaCredentialsConstraint::INVALID_SENTINEL;
+        $mis = AlgoliaCredentialsMissingConstraint::INVALID_SENTINEL;
         $rem = AlgoliaCredentialsRemovalConstraint::INVALID_SENTINEL;
 
         $appKey = SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID;
@@ -177,12 +179,33 @@ class CredentialsPreSaveHandlerTest extends Unit
                 'validationResult' => null,
                 'expectedValues' => [$appKey => $rem, $searchKey => $rem, $adminKey => $rem],
             ],
-            'partial credentials filled marks invalid sentinel on all credential keys' => [
+            'partial credentials filled marks missing sentinel only on empty credential keys' => [
                 'requestValues' => [$appKey => $appId, $searchKey => '', $adminKey => ''],
                 'searchForProductsEnabled' => false,
                 'searchForCmsEnabled' => false,
                 'validationResult' => null,
-                'expectedValues' => [$appKey => $inv, $searchKey => $inv, $adminKey => $inv],
+                'expectedValues' => [$appKey => $appId, $searchKey => $mis, $adminKey => $mis],
+            ],
+            'only application ID empty marks missing sentinel only on application ID key' => [
+                'requestValues' => [$appKey => '', $searchKey => $searchOnlyApiKey, $adminKey => $adminApiKey],
+                'searchForProductsEnabled' => false,
+                'searchForCmsEnabled' => false,
+                'validationResult' => null,
+                'expectedValues' => [$appKey => $mis, $searchKey => $searchOnlyApiKey, $adminKey => $adminApiKey],
+            ],
+            'only search key empty marks missing sentinel only on search key' => [
+                'requestValues' => [$appKey => $appId, $searchKey => '', $adminKey => $adminApiKey],
+                'searchForProductsEnabled' => false,
+                'searchForCmsEnabled' => false,
+                'validationResult' => null,
+                'expectedValues' => [$appKey => $appId, $searchKey => $mis, $adminKey => $adminApiKey],
+            ],
+            'only admin key empty marks missing sentinel only on admin key' => [
+                'requestValues' => [$appKey => $appId, $searchKey => $searchOnlyApiKey, $adminKey => ''],
+                'searchForProductsEnabled' => false,
+                'searchForCmsEnabled' => false,
+                'validationResult' => null,
+                'expectedValues' => [$appKey => $appId, $searchKey => $searchOnlyApiKey, $adminKey => $mis],
             ],
             'all credentials filled and all valid returns original values' => [
                 'requestValues' => [$appKey => $appId, $searchKey => $searchOnlyApiKey, $adminKey => $adminApiKey],
