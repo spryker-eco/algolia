@@ -6,9 +6,9 @@ Credentials,Credentials
 "Search-only API key","Search-only API key"
 "Search-only API key used by the frontend for querying Algolia.","Search-only API key used by the frontend for querying Algolia."
 "Admin API key","Admin API key"
-"Admin API key used for indexing operations. Keep this secret.","Admin API key used for indexing operations. Keep this secret."
+"Admin API key used for indexing operations.","Admin API key used for indexing operations."
 "Search Provider","Search Provider"
-"Search provider selection is available once Algolia credentials are configured under Integrations → Algolia.","Search provider selection is available once Algolia credentials are configured under Integrations → Algolia."
+"Select the search provider. Selecting Algolia requires credentials configured under Integrations → Algolia.","Select the search provider. Selecting Algolia requires credentials configured under Integrations → Algolia."
 "Select the search engine used for product search.","Select the search engine used for product search."
 "Select the search engine used for CMS page search.","Select the search engine used for CMS page search."
 ElasticSearch,ElasticSearch

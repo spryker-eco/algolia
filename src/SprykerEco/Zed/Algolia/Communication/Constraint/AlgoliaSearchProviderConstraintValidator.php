@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace SprykerEco\Zed\Algolia\Communication\Constraint;
 
 use Spryker\Zed\Kernel\Communication\Validator\AbstractConstraintValidator;
-use SprykerEco\Zed\Algolia\AlgoliaConfig;
+use SprykerEco\Shared\Algolia\AlgoliaConfig;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 

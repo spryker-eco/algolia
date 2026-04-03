@@ -6,9 +6,9 @@ Credentials,Anmeldedaten
 "Search-only API key","Nur-Such-API-Schlüssel"
 "Search-only API key used by the frontend for querying Algolia.","Nur-Such-API-Schlüssel, der vom Frontend für Algolia-Abfragen verwendet wird."
 "Admin API key","Admin-API-Schlüssel"
-"Admin API key used for indexing operations. Keep this secret.","Admin-API-Schlüssel für Indizierungsoperationen. Bitte geheim halten."
+"Admin API key used for indexing operations.","Admin-API-Schlüssel für Indizierungsoperationen."
 "Search Provider","Suchanbieter"
-"Search provider selection is available once Algolia credentials are configured under Integrations → Algolia.","Die Suchanbieterauswahl ist verfügbar, sobald Algolia-Anmeldedaten unter Integrationen → Algolia konfiguriert sind."
+"Select the search provider. Selecting Algolia requires credentials configured under Integrations → Algolia.","Suchanbieter auswählen. Algolia erfordert konfigurierte Anmeldedaten unter Integrationen → Algolia."
 "Select the search engine used for product search.","Wählen Sie die Suchmaschine für die Produktsuche."
 "Select the search engine used for CMS page search.","Wählen Sie die Suchmaschine für die CMS-Seitensuche."
 ElasticSearch,ElasticSearch

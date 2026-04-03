@@ -12,6 +12,7 @@ namespace SprykerEco\Zed\Algolia\Business\Configuration;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\ConfigurationValueCollectionRequestTransfer;
 use Generated\Shared\Transfer\ConfigurationValueTransfer;
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
 use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint;
@@ -119,15 +120,15 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
 
         return (new AlgoliaConfigTransfer())
             ->setApplicationId(
-                $changeConfigurationRequestValuesByKey[AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID]
+                $changeConfigurationRequestValuesByKey[SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID]
                     ?? $this->algoliaConfig->getApplicationId(),
             )
             ->setSearchOnlyApiKey(
-                $changeConfigurationRequestValuesByKey[AlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY]
+                $changeConfigurationRequestValuesByKey[SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY]
                     ?? $this->algoliaConfig->getSearchOnlyApiKey(),
             )
             ->setAdminApiKey(
-                $changeConfigurationRequestValuesByKey[AlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY]
+                $changeConfigurationRequestValuesByKey[SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY]
                     ?? $this->algoliaConfig->getAdminApiKey(),
             );
     }
@@ -159,9 +160,9 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         $algoliaApiCredentialsValidationTransfer = $this->apiCredentialsValidator->validate($algoliaConfigTransfer);
 
         $validationResultIndexedByKey = [
-            AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID => $algoliaApiCredentialsValidationTransfer->getIsAccountIdValid(),
-            AlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY => $algoliaApiCredentialsValidationTransfer->getIsSearchOnlyApiKeyValid(),
-            AlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY => $algoliaApiCredentialsValidationTransfer->getIsAdminApiKeyValid(),
+            SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID => $algoliaApiCredentialsValidationTransfer->getIsAccountIdValid(),
+            SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY => $algoliaApiCredentialsValidationTransfer->getIsSearchOnlyApiKeyValid(),
+            SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY => $algoliaApiCredentialsValidationTransfer->getIsAdminApiKeyValid(),
         ];
 
         $invalidKeys = array_keys(array_filter($validationResultIndexedByKey, fn (?bool $isValid) => $isValid === false));

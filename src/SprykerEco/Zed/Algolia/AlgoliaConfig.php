@@ -18,6 +18,7 @@ use Spryker\Zed\ProductCategory\Dependency\ProductCategoryEvents;
 use Spryker\Zed\ProductImage\Dependency\ProductImageEvents;
 use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 
 /**
@@ -27,31 +28,19 @@ class AlgoliaConfig extends AbstractBundleConfig
 {
     public const string FEATURE_PERSONALIZATION = 'personalization';
 
-    public const string CONFIGURATION_KEY_APPLICATION_ID = 'integrations:algolia:credentials:application_id';
-
-    public const string CONFIGURATION_KEY_SEARCH_ONLY_API_KEY = 'integrations:algolia:credentials:search_only_api_key';
-
-    public const string CONFIGURATION_KEY_ADMIN_API_KEY = 'integrations:algolia:credentials:admin_api_key';
-
-    public const string CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER = 'catalog:catalog_search:provider:search_provider';
-
-    public const string CONFIGURATION_KEY_CMS_SEARCH_PROVIDER = 'cms:cms_search:provider:search_provider';
-
-    public const string SEARCH_PROVIDER_ALGOLIA = 'algolia';
-
     /**
      * @var array<string>
      */
     public const array ALGOLIA_CREDENTIALS_KEYS = [
-        self::CONFIGURATION_KEY_APPLICATION_ID,
-        self::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
-        self::CONFIGURATION_KEY_ADMIN_API_KEY,
+        SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
+        SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
+        SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY,
     ];
 
     /**
      * Specification:
      * - Returns whether Algolia integration is active.
-     * - Derived from BO-configured credentials: active when all three credentials are non-empty.
+     * - Active when all three credentials are non-empty.
      *
      * @api
      */
@@ -79,14 +68,17 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns the Algolia application ID.
      * - Used to identify the Algolia application in API requests.
-     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
     public function getApplicationId(): string
     {
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->getApplicationId();
+        }
+
         return (string)$this->getModuleConfig(
-            static::CONFIGURATION_KEY_APPLICATION_ID,
+            SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
             '',
         );
     }
@@ -96,14 +88,17 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the admin API key for Algolia.
      * - This key has write access and should be kept secure on the backend.
      * - Used for indexing and administrative operations.
-     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
     public function getAdminApiKey(): string
     {
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->getAdminApiKey();
+        }
+
         return (string)$this->getModuleConfig(
-            static::CONFIGURATION_KEY_ADMIN_API_KEY,
+            SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY,
             '',
         );
     }
@@ -113,14 +108,17 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the search-only API key for Algolia.
      * - This key has read-only access and can be safely exposed to frontend.
      * - Used for search operations in client-side code.
-     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
     public function getSearchOnlyApiKey(): string
     {
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->getSearchOnlyApiKey();
+        }
+
         return (string)$this->getModuleConfig(
-            static::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
+            SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY,
             '',
         );
     }
@@ -129,13 +127,16 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns whether frontend search is enabled for products.
      * - When enabled, product searches are performed directly from frontend using Algolia.
-     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->getModuleConfig(static::CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+        }
+
+        return $this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER) === SharedAlgoliaConfig::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
@@ -155,13 +156,16 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns whether frontend search is enabled for CMS pages.
      * - When enabled, CMS page searches are performed directly from frontend using Algolia.
-     * - Value is retrieved from Back Office configuration.
      *
      * @api
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->getModuleConfig(static::CONFIGURATION_KEY_CMS_SEARCH_PROVIDER) === static::SEARCH_PROVIDER_ALGOLIA;
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+        }
+
+        return $this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_CMS_SEARCH_PROVIDER) === SharedAlgoliaConfig::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
