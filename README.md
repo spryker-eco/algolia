@@ -734,7 +734,7 @@ console transfer:generate
 **Problem**: Changes not appearing in Algolia
 
 **Solution**:
-1. Check `AlgoliaConfig::getIsActive()` returns `true` — it is derived from BO credentials, so ensure Application ID, Admin API Key, and Search-Only API Key are all saved in the Back Office
+1. Check `AlgoliaConfig::getIsActive()` returns `true` — ensure Application ID, Admin API Key, and Search-Only API Key are all set up
 2. Verify publisher plugins are registered in `PublisherDependencyProvider`
 3. Check queue workers are running:
    ```bash
@@ -1000,7 +1000,8 @@ vendor/bin/console algolia:entity-export --all
 - Not searchable or inactive pages removed from indices
 
 ### General
-- All plugins check `AlgoliaConfig::getIsActive()` before subscribing
+- All plugins check `AlgoliaConfig::getIsActive()` before subscribing. By default, it returns true only when Application ID, Admin API Key, and Search-Only API Key are all
+  configured (non-empty). This behavior can be overridden in the project-level config.
 - If Algolia is disabled, no events are processed
 - Initial export uses configurable batch sizes
 
