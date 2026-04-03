@@ -14,6 +14,7 @@ use Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer;
 use Generated\Shared\Transfer\ConfigurationValueCollectionRequestTransfer;
 use Generated\Shared\Transfer\ConfigurationValueDeletionTransfer;
 use Generated\Shared\Transfer\ConfigurationValueTransfer;
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Configuration\CredentialsPreSaveHandler;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
@@ -85,9 +86,9 @@ class CredentialsPreSaveHandlerTest extends Unit
                 'expectedValue' => null,
             ],
             'credential settingKey is converted to a config value with empty string' => [
-                'settingKey' => AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
+                'settingKey' => SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
                 'expectedConfigValuesCount' => 1,
-                'expectedSettingKey' => AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
+                'expectedSettingKey' => SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID,
                 'expectedValue' => '',
             ],
         ];
@@ -139,9 +140,9 @@ class CredentialsPreSaveHandlerTest extends Unit
         $inv = AlgoliaCredentialsConstraint::INVALID_SENTINEL;
         $rem = AlgoliaCredentialsRemovalConstraint::INVALID_SENTINEL;
 
-        $appKey = AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID;
-        $searchKey = AlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY;
-        $adminKey = AlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY;
+        $appKey = SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID;
+        $searchKey = SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY;
+        $adminKey = SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY;
 
         $appId = static::APP_ID;
         $searchOnlyApiKey = static::SEARCH_ONLY_API_KEY;
@@ -234,7 +235,7 @@ class CredentialsPreSaveHandlerTest extends Unit
         $configMock = $this->createConfigMock(searchForProductsEnabled: false, searchForCmsEnabled: false);
         $handler = $this->createHandler(configMock: $configMock);
         $deletionKey = (new ConfigurationValueDeletionTransfer())
-            ->setSettingKey(AlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID);
+            ->setSettingKey(SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID);
         $request = (new ConfigurationValueCollectionRequestTransfer())->addDeletionKey($deletionKey);
 
         // Act
