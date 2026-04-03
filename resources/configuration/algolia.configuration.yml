@@ -33,6 +33,7 @@ features:
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
                       - key: search_only_api_key
                         name: Search-only API key
                         description: Search-only API key used by the frontend for querying Algolia.
@@ -47,6 +48,7 @@ features:
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
                       - key: admin_api_key
                         name: Admin API key
                         description: Admin API key used for indexing operations.
@@ -61,6 +63,7 @@ features:
                         constraints:
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
                             - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
 
     - key: catalog
       name: Catalog
@@ -113,7 +116,6 @@ features:
                   order: 0
                   scopes:
                       - global
-                      - store
                   settings:
                       - key: search_provider
                         name: Search Provider
@@ -126,7 +128,6 @@ features:
                         default_value: elasticsearch
                         scopes:
                             - global
-                            - store
                         options:
                             - value: elasticsearch
                               label: ElasticSearch

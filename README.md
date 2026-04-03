@@ -468,16 +468,16 @@ Located in: `SprykerEco\Zed\Algolia\Communication\Plugin\Publisher\CmsPage\`
 
 ```bash
 # Export all products to Algolia
-console algolia:entity:export product
+console algolia:entity-export product
 
 # Export all CMS pages
-console algolia:entity:export cms-page --store=DE
+console algolia:entity-export cms-page --store=DE
 
 # Export for specific store
-console algolia:entity:export product --locale=en_US
+console algolia:entity-export product --locale=en_US
 
 # Export with custom chunk size
-console algolia:entity:export product --chunk-size=200
+console algolia:entity-export product --chunk-size=200
 
 ```
 

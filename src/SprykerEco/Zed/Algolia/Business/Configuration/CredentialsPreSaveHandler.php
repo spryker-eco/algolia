@@ -16,6 +16,7 @@ use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Validator\ApiCredentialsValidatorInterface;
 use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint;
+use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint;
 use SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint;
 
 class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
@@ -54,8 +55,8 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         if (!$this->areAllCredentialsFilled($algoliaConfigTransfer)) {
             return $this->markConfigurationValuesAsInvalid(
                 $configurationValueCollectionRequestTransfer,
-                AlgoliaCredentialsConstraint::INVALID_SENTINEL,
-                AlgoliaConfig::ALGOLIA_CREDENTIALS_KEYS,
+                AlgoliaCredentialsMissingConstraint::INVALID_SENTINEL,
+                $this->getEmptyCredentialKeys($algoliaConfigTransfer),
             );
         }
 
@@ -145,6 +146,28 @@ class CredentialsPreSaveHandler implements CredentialsPreSaveHandlerInterface
         return !empty($algoliaConfigTransfer->getApplicationId())
             && !empty($algoliaConfigTransfer->getSearchOnlyApiKey())
             && !empty($algoliaConfigTransfer->getAdminApiKey());
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getEmptyCredentialKeys(AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    {
+        $emptyKeys = [];
+
+        if (empty($algoliaConfigTransfer->getApplicationId())) {
+            $emptyKeys[] = SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID;
+        }
+
+        if (empty($algoliaConfigTransfer->getSearchOnlyApiKey())) {
+            $emptyKeys[] = SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY;
+        }
+
+        if (empty($algoliaConfigTransfer->getAdminApiKey())) {
+            $emptyKeys[] = SharedAlgoliaConfig::CONFIGURATION_KEY_ADMIN_API_KEY;
+        }
+
+        return $emptyKeys;
     }
 
     protected function isAlgoliaSearchProviderEnabled(): bool
