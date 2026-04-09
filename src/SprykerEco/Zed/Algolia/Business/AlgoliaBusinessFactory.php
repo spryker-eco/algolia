@@ -27,6 +27,8 @@ use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilder;
 use SprykerEco\Zed\Algolia\Business\Builder\CmsPagePublishedTransferBuilderInterface;
 use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolver;
 use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
+use SprykerEco\Zed\Algolia\Business\Configuration\CredentialsPreSaveHandler;
+use SprykerEco\Zed\Algolia\Business\Configuration\CredentialsPreSaveHandlerInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
@@ -290,6 +292,14 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
         return new AlgoliaEntityExporter(
             $this->getAlgoliaEntityExporterPlugins(),
             $this->getConfig(),
+        );
+    }
+
+    public function createCredentialsPreSaveHandler(): CredentialsPreSaveHandlerInterface
+    {
+        return new CredentialsPreSaveHandler(
+            $this->getConfig(),
+            $this->createApiCredentialsValidator(),
         );
     }
 

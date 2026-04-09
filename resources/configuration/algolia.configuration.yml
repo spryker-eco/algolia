@@ -1,0 +1,138 @@
+# yaml-language-server: $schema=../../../../Spryker/Configuration/resources/configuration/configuration-schema-v1.json
+features:
+    - key: integrations
+      name: Integrations
+      description: Third-party integrations configuration.
+      enabled: true
+      order: 100
+      tabs:
+          - key: algolia
+            name: Algolia
+            enabled: true
+            order: 0
+            groups:
+                - key: credentials
+                  name: Credentials
+                  description: "Algolia API credentials for search integration. Application ID, Search-only API key, and Admin API key must all be provided and valid — partial configuration is not supported."
+                  enabled: true
+                  order: 0
+                  scopes:
+                      - global
+                  settings:
+                      - key: application_id
+                        name: Application ID
+                        description: Your Algolia Application ID found in the Algolia Dashboard under API Keys.
+                        type: string
+                        enabled: true
+                        secret: false
+                        storefront: true
+                        order: 0
+                        default_value: ''
+                        scopes:
+                            - global
+                        constraints:
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
+                      - key: search_only_api_key
+                        name: Search-only API key
+                        description: Search-only API key used by the frontend for querying Algolia.
+                        type: string
+                        enabled: true
+                        secret: false
+                        storefront: true
+                        order: 1
+                        default_value: ''
+                        scopes:
+                            - global
+                        constraints:
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
+                      - key: admin_api_key
+                        name: Admin API key
+                        description: Admin API key used for indexing operations.
+                        type: string
+                        enabled: true
+                        secret: true
+                        storefront: false
+                        default_value: ''
+                        order: 2
+                        scopes:
+                            - global
+                        constraints:
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsRemovalConstraint'
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaCredentialsMissingConstraint'
+
+    - key: catalog
+      name: Catalog
+      enabled: true
+      tabs:
+          - key: catalog_search
+            name: Search
+            enabled: true
+            groups:
+                - key: provider
+                  name: Search Provider
+                  description: "Select the search provider. Selecting Algolia requires credentials configured under Integrations → Algolia."
+                  enabled: true
+                  order: 0
+                  scopes:
+                      - global
+                  settings:
+                      - key: search_provider
+                        name: Search Provider
+                        description: Select the search engine used for product search.
+                        type: radio
+                        enabled: true
+                        secret: false
+                        storefront: true
+                        order: 0
+                        default_value: elasticsearch
+                        scopes:
+                            - global
+                        options:
+                            - value: elasticsearch
+                              label: ElasticSearch
+                            - value: algolia
+                              label: Algolia
+                              description: "Before switching to Algolia, ensure product data has been exported to Algolia indices — switching without indexed data will result in empty catalog search results."
+                        constraints:
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaSearchProviderConstraint'
+
+    - key: cms
+      name: CMS
+      enabled: true
+      tabs:
+          - key: cms_search
+            name: Search
+            enabled: true
+            groups:
+                - key: provider
+                  name: Search Provider
+                  description: "Select the search provider. Selecting Algolia requires credentials configured under Integrations → Algolia."
+                  enabled: true
+                  order: 0
+                  scopes:
+                      - global
+                  settings:
+                      - key: search_provider
+                        name: Search Provider
+                        description: Select the search engine used for CMS page search.
+                        type: radio
+                        enabled: true
+                        secret: false
+                        storefront: true
+                        order: 0
+                        default_value: elasticsearch
+                        scopes:
+                            - global
+                        options:
+                            - value: elasticsearch
+                              label: ElasticSearch
+                            - value: algolia
+                              label: Algolia
+                              description: "Before switching to Algolia, ensure CMS page data has been exported to Algolia indices — switching without indexed data will result in empty CMS search results."
+                        constraints:
+                            - type: 'SprykerEco\Zed\Algolia\Communication\Constraint\AlgoliaSearchProviderConstraint'

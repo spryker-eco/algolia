@@ -40,6 +40,10 @@ class FilterConverterTest extends Unit
     protected function _before()
     {
         $this->tester->mockConfigMethod('getTenantIdentifier', static::ID_TENANT);
+        $this->tester->mockConfigMethod('getApplicationId', '');
+        $this->tester->mockConfigMethod('getSearchOnlyApiKey', '');
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForProducts', false);
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForCmsPages', false);
     }
 
     /**

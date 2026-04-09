@@ -39,6 +39,14 @@ class AlgoliaClientTest extends Unit
      */
     protected $tester;
 
+    protected function _before(): void
+    {
+        $this->tester->mockConfigMethod('getApplicationId', '');
+        $this->tester->mockConfigMethod('getSearchOnlyApiKey', '');
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForProducts', false);
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForCmsPages', false);
+    }
+
     protected function _after(): void
     {
         Algolia::resetHttpClient();

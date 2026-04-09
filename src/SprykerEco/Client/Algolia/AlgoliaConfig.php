@@ -5,9 +5,12 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
+declare(strict_types = 1);
+
 namespace SprykerEco\Client\Algolia;
 
 use Spryker\Client\Kernel\AbstractBundleConfig;
+use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 
 /**
  * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
@@ -33,13 +36,14 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * Specification:
      * - Returns whether Algolia integration is active.
-     * - Value is retrieved from shared configuration.
+     * - Active when application ID and search-only API key are non-empty.
      *
      * @api
      */
     public function getIsActive(): bool
     {
-        return $this->getSharedConfig()->getIsActive();
+        return $this->getApplicationId() !== ''
+            && $this->getSearchOnlyApiKey() !== '';
     }
 
     /**
@@ -59,13 +63,16 @@ class AlgoliaConfig extends AbstractBundleConfig
      * Specification:
      * - Returns the Algolia application ID.
      * - Used to identify the Algolia application in API requests.
-     * - Value is retrieved from shared configuration.
      *
      * @api
      */
     public function getApplicationId(): string
     {
-        return $this->getSharedConfig()->getApplicationId();
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->getApplicationId();
+        }
+
+        return (string)$this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_APPLICATION_ID, '');
     }
 
     /**
@@ -73,13 +80,16 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Returns the search-only API key for Algolia.
      * - This key has read-only access and can be safely exposed to frontend.
      * - Used for search operations in client-side code.
-     * - Value is retrieved from shared configuration.
      *
      * @api
      */
     public function getSearchOnlyApiKey(): string
     {
-        return $this->getSharedConfig()->getSearchOnlyApiKey();
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->getSearchOnlyApiKey();
+        }
+
+        return (string)$this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_SEARCH_ONLY_API_KEY, '');
     }
 
     /**
@@ -105,7 +115,11 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForProducts(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->isSearchInFrontendEnabledForProducts();
+        }
+
+        return $this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER) === SharedAlgoliaConfig::SEARCH_PROVIDER_ALGOLIA;
     }
 
     /**
@@ -118,7 +132,11 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function isSearchInFrontendEnabledForCmsPages(): bool
     {
-        return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+        if (!$this->getSharedConfig()->isConfigurationModuleUsed()) {
+            return $this->getSharedConfig()->isSearchInFrontendEnabledForCmsPages();
+        }
+
+        return $this->getModuleConfig(SharedAlgoliaConfig::CONFIGURATION_KEY_CMS_SEARCH_PROVIDER) === SharedAlgoliaConfig::SEARCH_PROVIDER_ALGOLIA;
     }
 
     public function isPersonalizationEnabled(): bool

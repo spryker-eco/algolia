@@ -11,6 +11,18 @@ use Spryker\Shared\Kernel\AbstractSharedConfig;
 
 class AlgoliaConfig extends AbstractSharedConfig
 {
+    public const string CONFIGURATION_KEY_APPLICATION_ID = 'integrations:algolia:credentials:application_id';
+
+    public const string CONFIGURATION_KEY_SEARCH_ONLY_API_KEY = 'integrations:algolia:credentials:search_only_api_key';
+
+    public const string CONFIGURATION_KEY_ADMIN_API_KEY = 'integrations:algolia:credentials:admin_api_key';
+
+    public const string CONFIGURATION_KEY_CATALOG_SEARCH_PROVIDER = 'catalog:catalog_search:provider:search_provider';
+
+    public const string CONFIGURATION_KEY_CMS_SEARCH_PROVIDER = 'cms:cms_search:provider:search_provider';
+
+    public const string SEARCH_PROVIDER_ALGOLIA = 'algolia';
+
  /**
   * Specification:
   * - Returns whether Algolia integration is active.
@@ -124,5 +136,18 @@ class AlgoliaConfig extends AbstractSharedConfig
     public function getIsPersonalizationEnabled(): bool
     {
         return true;
+    }
+
+    /**
+     * Specification:
+     * - Returns whether the Configuration module is used for Algolia configuration.
+     * - When enabled, configuration values are retrieved from the Configuration module.
+     * - When disabled, configuration values are retrieved from static Shared config.
+     *
+     * @api
+     */
+    public function isConfigurationModuleUsed(): bool
+    {
+        return false;
     }
 }
