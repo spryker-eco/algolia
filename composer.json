@@ -15,7 +15,7 @@
         "spryker/customer": "^7.70.0",
         "spryker/event-behavior": "^1.32.0",
         "spryker/http": "^1.15.0",
-        "spryker/kernel": "^3.85.0",
+        "spryker/kernel": "^3.84.0",
         "spryker/locale": "^4.12.0",
         "spryker/log": "^3.18.0",
         "spryker/product": "^6.53.0",
@@ -24,7 +24,7 @@
         "spryker/publisher-extension": "^1.0.0",
         "spryker/search-extension": "^1.4.0",
         "spryker/search-http": "^0.5.9",
-        "spryker/store": "^1.36.2",
+        "spryker/store": "^1.36.1",
         "spryker/symfony": "^3.19.2"
     },
     "require-dev": {
