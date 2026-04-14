@@ -51,7 +51,7 @@ class ProductExporter implements ProductExporterInterface
             ->setFailedCount(0);
 
         $chunkSize = $criteriaTransfer->getChunkSize();
-        $offset = 0;
+        $offset = $criteriaTransfer->getOffset() ?? 0;
         $totalProcessed = 0;
 
         $productConcreteConditionsTransfer = new ProductConcreteConditionsTransfer();
