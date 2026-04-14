@@ -87,9 +87,9 @@ class ProductExporter implements ProductExporterInterface
 
                 if ($output !== null) {
                     $output->writeln(sprintf(
-                        'Processed %d products (offset: %d)',
-                        $productsCount,
-                        $offset,
+                        'Totally processed %d products (next offset: %d)',
+                        $totalProcessed,
+                        $offset + $chunkSize,
                     ));
                 }
             }
