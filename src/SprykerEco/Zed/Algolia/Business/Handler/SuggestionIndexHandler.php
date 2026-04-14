@@ -48,8 +48,8 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
                     'minHits' => 1,
                     'minLetters' => 2,
                     'generate' => [
-                        'category',
-                        'attributes.brand',
+                        ['category'],
+                        ['attributes.brand'],
                     ],
                 ],
             ],

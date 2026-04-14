@@ -61,6 +61,11 @@ class AlgoliaEntityExportConsole extends Console
     /**
      * @var string
      */
+    protected const OPTION_OFFSET = 'offset';
+
+    /**
+     * @var string
+     */
     protected const OPTION_DRY_RUN = 'dry-run';
 
     protected function configure(): void
@@ -97,6 +102,12 @@ class AlgoliaEntityExportConsole extends Console
                 'Number of entities to process per batch',
             )
             ->addOption(
+                static::OPTION_OFFSET,
+                'o',
+                InputOption::VALUE_OPTIONAL,
+                'Number of entities to skip before starting export',
+            )
+            ->addOption(
                 static::OPTION_DRY_RUN,
                 'd',
                 InputOption::VALUE_NONE,
@@ -109,6 +120,12 @@ class AlgoliaEntityExportConsole extends Console
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption(static::OPTION_ALL)) {
+            if ($input->getOption(static::OPTION_OFFSET) !== null) {
+                $this->error('Option --offset cannot be used with --all. Provide a specific entity type instead.');
+
+                return static::CODE_ERROR;
+            }
+
             return $this->exportAllEntityTypes($input, $output);
         }
 
@@ -197,6 +214,12 @@ class AlgoliaEntityExportConsole extends Console
             $criteriaTransfer->setChunkSize((int)$chunkSize);
         }
 
+        /** @var string|null $offset */
+        $offset = $input->getOption(static::OPTION_OFFSET);
+        if ($offset !== null) {
+            $criteriaTransfer->setOffset((int)$offset);
+        }
+
         $criteriaTransfer->setIsDryRun((bool)$input->getOption(static::OPTION_DRY_RUN));
 
         return $criteriaTransfer;
@@ -240,6 +263,10 @@ class AlgoliaEntityExportConsole extends Console
 
         if ($criteriaTransfer->getChunkSize()) {
             $output->writeln(sprintf('  <info>Chunk size:</info> %d', $criteriaTransfer->getChunkSize()));
+        }
+
+        if ($criteriaTransfer->getOffset()) {
+            $output->writeln(sprintf('  <info>Offset:</info> %d', $criteriaTransfer->getOffset()));
         }
     }
 

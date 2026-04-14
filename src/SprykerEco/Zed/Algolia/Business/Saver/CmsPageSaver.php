@@ -49,7 +49,8 @@ class CmsPageSaver implements CmsPageSaverInterface
             (new IndexConfigurationTransfer())
                 ->setAlgoliaConfig($algoliaConfigTransfer)
                 ->setIndexName($indexName)
-                ->setLocale($locale),
+                ->setLocale($locale)
+                ->setSkipIndexConfiguration(true),
         );
 
         // Configure index settings and replicas

@@ -144,7 +144,7 @@ class CmsPageExporter implements CmsPageExporterInterface
     protected function getCmsPageIdChunks(AlgoliaExportCriteriaTransfer $criteriaTransfer): Generator
     {
         $chunkSize = $criteriaTransfer->getChunkSize();
-        $offset = 0;
+        $offset = $criteriaTransfer->getOffset() ?? 0;
 
         do {
             $query = $this->createCmsPageQuery($criteriaTransfer)

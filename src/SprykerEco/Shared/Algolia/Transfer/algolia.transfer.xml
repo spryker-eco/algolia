@@ -398,6 +398,7 @@
         <property name="indexName" type="string"/>
         <property name="locale" type="string"/>
         <property name="algoliaConfig" type="AlgoliaConfig"/>
+        <property name="skipIndexConfiguration" type="bool"/>
     </transfer>
 
     <transfer name="AlgoliaResponse">
@@ -566,6 +567,7 @@
         <property name="storeName" type="string"/>
         <property name="locale" type="string"/>
         <property name="chunkSize" type="int"/>
+        <property name="offset" type="int"/>
         <property name="isDryRun" type="bool"/>
     </transfer>
 

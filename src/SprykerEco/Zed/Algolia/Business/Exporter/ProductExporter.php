@@ -51,7 +51,7 @@ class ProductExporter implements ProductExporterInterface
             ->setFailedCount(0);
 
         $chunkSize = $criteriaTransfer->getChunkSize();
-        $offset = 0;
+        $offset = $criteriaTransfer->getOffset() ?? 0;
         $totalProcessed = 0;
 
         $productConcreteConditionsTransfer = new ProductConcreteConditionsTransfer();
@@ -87,9 +87,9 @@ class ProductExporter implements ProductExporterInterface
 
                 if ($output !== null) {
                     $output->writeln(sprintf(
-                        'Processed %d products (offset: %d)',
-                        $productsCount,
-                        $offset,
+                        'Totally processed %d products (next offset: %d)',
+                        $totalProcessed,
+                        $offset + $chunkSize,
                     ));
                 }
             }
