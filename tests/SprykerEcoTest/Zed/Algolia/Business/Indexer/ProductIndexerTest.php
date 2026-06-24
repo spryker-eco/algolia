@@ -103,16 +103,27 @@ class ProductIndexerTest extends Unit
     public function testIndexProductsConcreteByStoreAndLocaleIndexesProvidedArrayWithMatchingLocales(): void
     {
         // Arrange
+        // Locales must be set explicitly: without a seed the helper falls back to LocaleBuilder's
+        // Faker `locale()`, whose random names occasionally collide and drop the unique-locale count
+        // from 3 to 2, making this test flaky (CC-39397). Distinct, fixed locales keep it deterministic.
         $productConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full',
                 ProductConcreteTransfer::SKU => 'full-sku',
+                ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
+                    [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_DE']],
+                    [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_US']],
+                ],
             ],
         );
         $anotherProductConcreteTransfer = $this->tester->haveFullProductConcreteTransfer(
             [
                 ProductConcreteTransfer::NAME => 'full-another',
                 ProductConcreteTransfer::SKU => 'full-sku-another',
+                ProductConcreteTransfer::LOCALIZED_ATTRIBUTES => [
+                    [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'de_CH']],
+                    [LocalizedAttributesTransfer::LOCALE => [LocaleTransfer::LOCALE_NAME => 'en_GB']],
+                ],
             ],
         );
 
