@@ -7,10 +7,10 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Handler;
 
+use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Configuration\SearchConfig;
 use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\Support\Helpers;
 use Codeception\Test\Unit;
 use Exception;
 use InvalidArgumentException;
@@ -51,15 +51,6 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         // Arrange
         $suggestionIndexHandler = $this->tester->getFactory()->createSuggestionIndexHandler();
         $searchClientMock = $this->getSearchClientMock();
-        $searchClientMock->expects($this->exactly($methodInvocationNumber))
-            ->method('custom')
-            ->willReturnCallback(function ($method, $url, $options, $hosts) use ($exception, $isRegionException) {
-                if (!$isRegionException || $hosts[0] !== self::QUERY_SUGGESTION_BASE_URL_EU) {
-                    throw $exception;
-                }
-
-                return true;
-            });
 
         // Assert
         if (!$isRegionException) {
@@ -83,19 +74,6 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         // Arrange
         $suggestionIndexHandler = $this->tester->getFactory()->createSuggestionIndexHandler();
         $searchClientMock = $this->getSearchClientMock();
-        $searchClientMock->expects($this->exactly(($isRegionException ? 2 : 1) * $methodInvocationNumber))
-            ->method('custom')
-            ->willReturnCallback(function ($method, $url, $options, $hosts) use ($exception, $isRegionException) {
-                if (!$isRegionException || $hosts[0] !== self::QUERY_SUGGESTION_BASE_URL_EU) {
-                    throw $exception;
-                }
-
-                if (str_starts_with($url, '/1/configs/')) {
-                    throw new NotFoundException();
-                }
-
-                return true;
-            });
 
         // Assert
         if (!$isRegionException) {
@@ -119,15 +97,6 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         // Arrange
         $suggestionIndexHandler = $this->tester->getFactory()->createSuggestionIndexHandler();
         $searchClientMock = $this->getSearchClientMock();
-        $searchClientMock->expects($this->exactly($methodInvocationNumber))
-            ->method('custom')
-            ->willReturnCallback(function ($method, $url, $options, $hosts) use ($exception, $isRegionException) {
-                if (!$isRegionException || $hosts[0] !== self::QUERY_SUGGESTION_BASE_URL_EU) {
-                    throw $exception;
-                }
-
-                return [];
-            });
 
         // Assert
         if (!$isRegionException) {
@@ -160,7 +129,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
                 'methodInvocationNumber' => 1,
             ],
             'invalid argument caused by wrong region' => [
-                'exception' => $this->getWrongRegionExceptionMessage(),
+                'exception' => new InvalidArgumentException('json_decode_error'),
                 'isRegionException' => true,
                 'methodInvocationNumber' => 2,
             ],
@@ -172,25 +141,17 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         ];
     }
 
-    protected function getWrongRegionExceptionMessage(): Exception
-    {
-        $str = 'any non-json string';
-        try {
-            Helpers::json_decode($str, true);
-        } catch (Exception $e) {
-            return $e;
-        }
-
-        return new Exception('Failed to get an exception');
-    }
-
-    /**
-     * @return \Algolia\AlgoliaSearch\SearchClient|\PHPUnit\Framework\MockObject\MockObject
-     */
     protected function getSearchClientMock(): SearchClient
     {
-        return $this->getMockBuilder(SearchClient::class)
+        $configMock = SearchConfig::create('test-app-id', 'test-api-key');
+
+        $searchClientMock = $this->getMockBuilder(SearchClient::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $searchClientMock->method('getClientConfig')
+            ->willReturn($configMock);
+
+        return $searchClientMock;
     }
 }

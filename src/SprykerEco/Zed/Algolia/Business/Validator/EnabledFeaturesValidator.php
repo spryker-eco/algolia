@@ -35,10 +35,12 @@ class EnabledFeaturesValidator implements ApiKeyValidatorInterface
 
         $searchClient = $this->searchClientCreator->createSearchClientWithCredentials($algoliaApiCredentialsTransfer);
 
+        $testIndexName = 'test';
+
         try {
-            $testIndex = $searchClient->initIndex('test');
-            $testIndex->setSettings(['enablePersonalization' => true])->wait();
-            $testIndex->delete();
+            $response = $searchClient->setSettings($testIndexName, ['enablePersonalization' => true]);
+            $searchClient->waitForTask($testIndexName, $response['taskID']);
+            $searchClient->deleteIndex($testIndexName);
 
             $algoliaConfigTransfer->setEnabledFeatures([AlgoliaConfig::FEATURE_PERSONALIZATION]);
         } catch (BadRequestException $e) {

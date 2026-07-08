@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
@@ -54,9 +54,6 @@ class SearchIndexClientTest extends Unit
         'attributesForFaceting' => ['category', 'brand'],
     ];
 
-    /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
-     */
     protected AlgoliaBusinessTester $tester;
 
     public function testSaveObjectsSuccessfullyCallsAlgoliaAndReturnsSuccessResponse(): void
@@ -67,13 +64,13 @@ class SearchIndexClientTest extends Unit
             ['objectID' => '2', 'name' => 'Test Product 2'],
         ];
 
-        $searchIndexMock = $this->createSearchIndexMock();
-        $searchIndexMock
+        $searchClientMock = $this->createSearchClientMock();
+        $searchClientMock
             ->expects($this->once())
             ->method('saveObjects')
-            ->with($algoliaObjectTransfers);
+            ->with(static::TEST_INDEX_NAME, $algoliaObjectTransfers);
 
-        $searchIndexClient = new SearchIndexClient($searchIndexMock);
+        $searchIndexClient = new SearchIndexClient($searchClientMock, static::TEST_INDEX_NAME);
 
         // Act
         $result = $searchIndexClient->saveObjects($algoliaObjectTransfers);
@@ -88,13 +85,13 @@ class SearchIndexClientTest extends Unit
         // Arrange
         $objectIds = ['1', '2', '3'];
 
-        $searchIndexMock = $this->createSearchIndexMock();
-        $searchIndexMock
+        $searchClientMock = $this->createSearchClientMock();
+        $searchClientMock
             ->expects($this->once())
             ->method('deleteObjects')
-            ->with($objectIds);
+            ->with(static::TEST_INDEX_NAME, $objectIds);
 
-        $searchIndexClient = new SearchIndexClient($searchIndexMock);
+        $searchIndexClient = new SearchIndexClient($searchClientMock, static::TEST_INDEX_NAME);
 
         // Act
         $result = $searchIndexClient->deleteObjects($objectIds);
@@ -110,14 +107,14 @@ class SearchIndexClientTest extends Unit
         $query = 'test query';
         $searchParameters = ['filters' => 'category:electronics'];
 
-        $searchIndexMock = $this->createSearchIndexMock();
-        $searchIndexMock
+        $searchClientMock = $this->createSearchClientMock();
+        $searchClientMock
             ->expects($this->once())
-            ->method('search')
-            ->with($query, $searchParameters)
+            ->method('searchSingleIndex')
+            ->with(static::TEST_INDEX_NAME, ['query' => $query] + $searchParameters)
             ->willReturn(static::TEST_SEARCH_RESULTS);
 
-        $searchIndexClient = new SearchIndexClient($searchIndexMock);
+        $searchIndexClient = new SearchIndexClient($searchClientMock, static::TEST_INDEX_NAME);
 
         // Act
         $result = $searchIndexClient->search($query, $searchParameters);
@@ -128,11 +125,8 @@ class SearchIndexClientTest extends Unit
         $this->assertEquals(static::TEST_SEARCH_RESULTS, $result->getSearchResults());
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Algolia\AlgoliaSearch\SearchIndex
-     */
-    protected function createSearchIndexMock(): MockObject|SearchIndex
+    protected function createSearchClientMock(): MockObject|SearchClient
     {
-        return $this->createMock(SearchIndex::class);
+        return $this->createMock(SearchClient::class);
     }
 }

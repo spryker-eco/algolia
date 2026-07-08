@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace SprykerEco\Client\Algolia\Searcher;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use ArrayObject;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
@@ -110,12 +110,13 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
             $result[$index] = [];
 
             try {
-                $indexResult = $searchClient
-                    ->initIndex($indexName)
-                    ->search(
-                        $searchRequestTransfer->getQuery() ?? '',
-                        $searchParameters,
-                    );
+                $indexResult = $searchClient->searchSingleIndex(
+                    $indexName,
+                    [
+                        'query' => $searchRequestTransfer->getQuery() ?? '',
+                        ...$searchParameters,
+                    ],
+                );
 
                 $result[$index] = $indexResult;
             } catch (Throwable $throwable) {
@@ -214,12 +215,14 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         }
 
         try {
-            $completions = $searchClient
-                ->initIndex($suggestionIndexName)
-                ->search(
-                    $searchRequestTransfer->getQuery() ?? '',
-                    ['hitsPerPage' => 10, ...$personalizationParameters],
-                );
+            $completions = $searchClient->searchSingleIndex(
+                $suggestionIndexName,
+                [
+                    'query' => $searchRequestTransfer->getQuery() ?? '',
+                    'hitsPerPage' => 10,
+                    ...$personalizationParameters,
+                ],
+            );
 
             $result['completions'] = $completions;
         } catch (Throwable $throwable) {
@@ -227,16 +230,15 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         }
 
         try {
-            $suggestions = $searchClient
-                ->initIndex($productIndexName)
-                ->search(
-                    $searchRequestTransfer->getQuery() ?? '',
-                    [
-                        'hitsPerPage' => 10,
-                        'attributesToHighlight' => $this->algoliaConfig->getAttributesToHighlight(),
-                        ...$personalizationParameters,
-                    ],
-                );
+            $suggestions = $searchClient->searchSingleIndex(
+                $productIndexName,
+                [
+                    'query' => $searchRequestTransfer->getQuery() ?? '',
+                    'hitsPerPage' => 10,
+                    'attributesToHighlight' => $this->algoliaConfig->getAttributesToHighlight(),
+                    ...$personalizationParameters,
+                ],
+            );
 
             $result['suggestions'] = $suggestions;
         } catch (Throwable $throwable) {
@@ -244,17 +246,14 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         }
 
         try {
-            $categories = $searchClient
-                ->initIndex($productIndexName)
-                ->searchForFacetValues(
-                    'category',
-                    $searchRequestTransfer->getQuery() ?? '',
-                    [
-                        'hitsPerPage' => 10,
-                        'X-Forwarded-For' => $searchRequestTransfer->getUserIp() ?? null,
-                        ...$personalizationParameters,
-                    ],
-                );
+            $categories = $searchClient->searchForFacetValues(
+                $productIndexName,
+                'category',
+                [
+                    'facetQuery' => $searchRequestTransfer->getQuery() ?? '',
+                    'maxFacetHits' => 10,
+                ],
+            );
 
             $result['categories'] = $categories;
         } catch (Throwable $throwable) {

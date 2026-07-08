@@ -7,7 +7,7 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 

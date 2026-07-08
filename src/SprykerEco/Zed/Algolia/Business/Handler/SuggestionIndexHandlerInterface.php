@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Handler;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 
 interface SuggestionIndexHandlerInterface
 {

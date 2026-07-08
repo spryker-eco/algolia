@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 
@@ -38,6 +37,4 @@ interface SearchIndexClientInterface
      * @param array<string, mixed> $settings
      */
     public function setSettings(array $settings): AlgoliaResponseTransfer;
-
-    public function getSearchIndex(): SearchIndex;
 }

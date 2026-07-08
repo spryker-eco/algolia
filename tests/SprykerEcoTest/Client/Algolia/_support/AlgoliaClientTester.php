@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerEcoTest\Client\Algolia;
 
-use Algolia\AlgoliaSearch\Response\AbstractResponse;
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Actor;
 use Codeception\Test\Feature\Stub;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
@@ -195,24 +193,6 @@ class AlgoliaClientTester extends Actor
             ->willReturn($searchClient);
 
         return $mock;
-    }
-
-    public function createSearchIndexMock(string $indexName): SearchIndex
-    {
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('getIndexName')->willReturn($indexName);
-
-        // IndexResponse is final, but has no additional methods compared to abstract class
-        $searchIndexMock
-            ->method('setSettings')
-            ->willReturn(
-                $this->makeEmpty(AbstractResponse::class, [
-                    'wait' => function () {
-                    },
-                ]),
-            );
-
-        return $searchIndexMock;
     }
 
     public function mockSearchIndexClient(SearchIndexClientInterface $searchIndexClientMock): void

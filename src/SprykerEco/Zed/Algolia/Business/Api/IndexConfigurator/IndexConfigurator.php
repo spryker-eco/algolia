@@ -7,8 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator;
 
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\IndexConfigurationResponseTransfer;
@@ -57,22 +56,21 @@ class IndexConfigurator implements IndexConfiguratorInterface
     {
     }
 
-    public function configureIndex(SearchIndex $index, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void
+    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void
     {
-        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($index, $algoliaConfigTransfer);
-        $indexResponse = $index->setSettings(
+        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($indexName, $algoliaConfigTransfer);
+        $response = $searchClient->setSettings(
+            $indexName,
             [
                 'replicas' => array_keys($replicaNamesWithRankingAttributes),
             ],
         );
 
         // must wait for index to be created before creating suggestion indexes and settings
-        $indexResponse->wait();
+        $searchClient->waitForTask($indexName, $response['taskID']);
 
         // Create settings for existing indexes
-        $indexResponse = $index->setSettings($this->getSettings($locale), [
-            'forwardToReplicas' => true,
-        ]);
+        $response = $searchClient->setSettings($indexName, $this->getSettings($locale), true);
 
         // replica configuration can be queued for later execution
         $this->configureReplicasRankingAttributes(
@@ -80,9 +78,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
             $searchClient,
         );
 
-        $indexResponse->wait();
+        $searchClient->waitForTask($indexName, $response['taskID']);
 
-        $this->suggestionIndexHandler->createProductSuggestionsIndex($index->getIndexName(), $searchClient);
+        $this->suggestionIndexHandler->createProductSuggestionsIndex($indexName, $searchClient);
     }
 
     /**
@@ -150,22 +148,22 @@ class IndexConfigurator implements IndexConfiguratorInterface
     /**
      * @return array<array>
      */
-    protected function getReplicaNamesWithRankingAttributes(SearchIndex $index, AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    protected function getReplicaNamesWithRankingAttributes(string $indexName, AlgoliaConfigTransfer $algoliaConfigTransfer): array
     {
         $replicaNamesWithRankingAttributes = [
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
+            $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_RATING) => [
                 $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_RATING),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
+            $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_RATING) => [
                 $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_RATING),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
+            $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_NAME) => [
                 $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
                 ...$this->getDefaultRankingOrder(),
             ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
+            $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_NAME) => [
                 $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
                 ...$this->getDefaultRankingOrder(),
             ],
@@ -175,19 +173,19 @@ class IndexConfigurator implements IndexConfiguratorInterface
             $replicaNamesWithRankingAttributes = array_merge(
                 $replicaNamesWithRankingAttributes,
                 [
-                    $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
+                    $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
                         $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
                         ...$this->getDefaultRankingOrder(),
                     ],
-                    $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
+                    $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
                         $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
                         ...$this->getDefaultRankingOrder(),
                     ],
-                    $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
+                    $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
                         $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
                         ...$this->getDefaultRankingOrder(),
                     ],
-                    $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
+                    $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
                         $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
                         ...$this->getDefaultRankingOrder(),
                     ],
@@ -209,9 +207,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ->setIsSuccessful(true);
 
         foreach ($replicaNamesWithRankingAttributes as $replicaName => $rankingAttributes) {
-            $replica = $searchClient->initIndex($replicaName);
             $indexConfigurationResponse = $this->setIndexSettings(
-                $replica,
+                $searchClient,
+                $replicaName,
                 [
                     'ranking' => $rankingAttributes,
                 ],
@@ -264,19 +262,18 @@ class IndexConfigurator implements IndexConfiguratorInterface
 
     /**
      * @param array<string, mixed> $settings
-     * @param array<string, mixed> $requestOptions
      */
-    protected function setIndexSettings(SearchIndex $index, array $settings, array $requestOptions = []): IndexConfigurationResponseTransfer
+    protected function setIndexSettings(SearchClient $searchClient, string $indexName, array $settings): IndexConfigurationResponseTransfer
     {
         $indexConfigurationResponseTransfer = (new IndexConfigurationResponseTransfer())
             ->setIsSuccessful(true);
 
         try {
-            $index->setSettings($settings, $requestOptions);
+            $searchClient->setSettings($indexName, $settings);
         } catch (Exception $e) {
             return $indexConfigurationResponseTransfer
                 ->setIsSuccessful(false)
-                ->setErrorMessage($this->getFormattedErrorMessage($index->getIndexName(), $e->getMessage()));
+                ->setErrorMessage($this->getFormattedErrorMessage($indexName, $e->getMessage()));
         }
 
         return $indexConfigurationResponseTransfer;

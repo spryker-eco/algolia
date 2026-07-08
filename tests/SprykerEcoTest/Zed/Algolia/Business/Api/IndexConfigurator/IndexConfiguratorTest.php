@@ -7,7 +7,7 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\IndexConfigurator;
 
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use ReflectionClass;
@@ -49,13 +49,11 @@ class IndexConfiguratorTest extends Unit
         // Arrange
         $searchClientMock = $this->tester->createSearchClientMock();
 
-        $indexMock = $this->tester->createSearchIndexMock(static::TEST_INDEX_NAME);
-
         $callCount = 0;
-        $indexMock
+        $searchClientMock
             ->expects($this->exactly(2))
             ->method('setSettings')
-            ->willReturnCallback(function ($settings, $options = []) use (&$callCount, $expectedLanguage) {
+            ->willReturnCallback(function ($indexName, $settings, $forwardToReplicas = false) use (&$callCount, $expectedLanguage) {
                 $callCount++;
 
                 // Second call should have the language settings
@@ -65,17 +63,19 @@ class IndexConfiguratorTest extends Unit
                     $this->assertArrayHasKey('indexLanguages', $settings);
                     $this->assertEquals([$expectedLanguage], $settings['queryLanguages']);
                     $this->assertEquals([$expectedLanguage], $settings['indexLanguages']);
-                    $this->assertArrayHasKey('forwardToReplicas', $options);
-                    $this->assertTrue($options['forwardToReplicas']);
+                    $this->assertTrue($forwardToReplicas);
                 }
+
+                return ['taskID' => 1];
             });
 
-        $searchClientMock->method('initIndex')->willReturn($indexMock);
+        $searchClientMock->method('waitForTask')->willReturn(null);
+
         $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
-        $indexConfigurator->configureIndex($indexMock, $searchClientMock, $locale, $algoliaConfigTransfer);
+        $indexConfigurator->configureIndex(static::TEST_INDEX_NAME, $searchClientMock, $locale, $algoliaConfigTransfer);
 
         // Assert is part of the expected method call
     }
@@ -115,16 +115,13 @@ class IndexConfiguratorTest extends Unit
         $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
             ->setIsProductPriceSynced(true);
 
-        $indexMock = $this->createMock(SearchIndex::class);
-        $indexMock->method('getIndexName')->willReturn(static::TEST_INDEX_NAME);
-
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, $indexMock, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
 
         // Assert
         $this->assertIsArray($result);
@@ -151,16 +148,13 @@ class IndexConfiguratorTest extends Unit
         $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
             ->setIsProductPriceSynced(false);
 
-        $indexMock = $this->createMock(SearchIndex::class);
-        $indexMock->method('getIndexName')->willReturn(static::TEST_INDEX_NAME);
-
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, $indexMock, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
 
         // Assert
         $this->assertIsArray($result);
@@ -186,16 +180,13 @@ class IndexConfiguratorTest extends Unit
         $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
             ->setIsProductPriceSynced(true);
 
-        $indexMock = $this->createMock(SearchIndex::class);
-        $indexMock->method('getIndexName')->willReturn(static::TEST_INDEX_NAME);
-
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, $indexMock, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
 
         // Assert
         $expectedDefaultRankingItems = ['typo', 'geo', 'words', 'filters', 'proximity', 'attribute', 'exact', 'custom'];

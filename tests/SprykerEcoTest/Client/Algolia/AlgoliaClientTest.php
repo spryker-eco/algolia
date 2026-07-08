@@ -207,14 +207,12 @@ class AlgoliaClientTest extends Unit
         $categoriesResponseFixture = $normalResponseFixtures['categories'];
         unset($normalResponseFixtures['categories']);
         $searchClientMock = $this->tester->createSearchClientMock();
-        $searchIndexMock = $this->tester->createSearchIndexMock('test');
-        $searchIndexMock->method('searchForFacetValues')
+
+        $searchClientMock->method('searchForFacetValues')
             ->willReturn($categoriesResponseFixture);
-        $searchIndexMock->method('search')
+
+        $searchClientMock->method('searchSingleIndex')
             ->willReturnOnConsecutiveCalls($normalResponseFixtures['completions'], $normalResponseFixtures['suggestions']);
-        $searchClientMock
-            ->method('initIndex')
-            ->willReturn($searchIndexMock);
 
         $this->tester->mockFactoryMethod(
             'createSearchClientCreator',
@@ -252,7 +250,7 @@ class AlgoliaClientTest extends Unit
         // Arrange
         $searchClientMock = $this->tester->createSearchClientMock();
         $searchClientMock
-            ->method('search')
+            ->method('searchSingleIndex')
             ->willThrowException(new NotFoundException());
         $this->tester->mockFactoryMethod(
             'createSearchClientCreator',

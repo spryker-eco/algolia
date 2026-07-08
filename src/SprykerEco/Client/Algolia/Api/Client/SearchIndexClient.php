@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Client\Algolia\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Spryker\Shared\Http\Logger\ExternalHttpInMemoryLoggerTrait;
@@ -19,8 +19,10 @@ class SearchIndexClient implements SearchIndexClientInterface
     use LoggerTrait;
     use ExternalHttpInMemoryLoggerTrait;
 
-    public function __construct(protected SearchIndex $searchIndex)
-    {
+    public function __construct(
+        protected SearchClient $searchClient,
+        protected string $indexName,
+    ) {
     }
 
     /**
@@ -28,7 +30,7 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function saveObjects(array $algoliaObjectTransfers): AlgoliaResponseTransfer
     {
-        $this->searchIndex->saveObjects($algoliaObjectTransfers);
+        $this->searchClient->saveObjects($this->indexName, $algoliaObjectTransfers);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
@@ -38,7 +40,7 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function deleteObjects(array $objectIds): AlgoliaResponseTransfer
     {
-        $this->searchIndex->deleteObjects($objectIds);
+        $this->searchClient->deleteObjects($this->indexName, $objectIds);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
@@ -51,7 +53,7 @@ class SearchIndexClient implements SearchIndexClientInterface
         $requestData = ['query' => $query, 'searchParameters' => $searchParameters];
 
         try {
-            $result = $this->searchIndex->search($query, $searchParameters);
+            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParameters);
             $responseData = $result;
 
             return (new AlgoliaSearchResponseTransfer())
@@ -69,17 +71,17 @@ class SearchIndexClient implements SearchIndexClientInterface
 
     public function indexExists(): bool
     {
-        return $this->searchIndex->exists();
+        return $this->searchClient->indexExists($this->indexName);
     }
 
     public function getIndexName(): string
     {
-        return $this->searchIndex->getIndexName();
+        return $this->indexName;
     }
 
     public function getSettings(): array
     {
-        return $this->searchIndex->getSettings();
+        return $this->searchClient->getSettings($this->indexName);
     }
 
     /**
@@ -87,14 +89,9 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function setSettings(array $settings): AlgoliaResponseTransfer
     {
-        $this->searchIndex->setSettings($settings);
+        $this->searchClient->setSettings($this->indexName, $settings);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    public function getSearchIndex(): SearchIndex
-    {
-        return $this->searchIndex;
     }
 
     protected function createSuccessfulAlgoliaResponseTransfer(): AlgoliaResponseTransfer
@@ -113,7 +110,7 @@ class SearchIndexClient implements SearchIndexClientInterface
         array $requestData,
         ?array $responseData,
     ): void {
-        $url = sprintf('algolia://%s/%s', $this->searchIndex->getIndexName(), $endpoint);
+        $url = sprintf('algolia://%s/%s', $this->indexName, $endpoint);
 
         $this->getExternalHttpInMemoryLogger()->log(
             $method,

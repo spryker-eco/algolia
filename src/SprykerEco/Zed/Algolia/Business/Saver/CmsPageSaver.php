@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace SprykerEco\Zed\Algolia\Business\Saver;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
@@ -101,13 +101,11 @@ class CmsPageSaver implements CmsPageSaverInterface
     protected function configureReplicas(SearchClient $searchClient, array $replicaNames, array $baseSettings): void
     {
         foreach ($replicaNames as $replicaName => $rankingAttributes) {
-            $replicaIndex = $searchClient->initIndex($replicaName);
-
             $replicaSettings = $baseSettings + [
                     'ranking' => $rankingAttributes,
                 ];
 
-            $replicaIndex->setSettings($replicaSettings);
+            $searchClient->setSettings($replicaName, $replicaSettings);
         }
     }
 

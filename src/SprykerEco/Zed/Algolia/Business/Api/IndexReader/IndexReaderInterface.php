@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexReader;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 
 interface IndexReaderInterface
