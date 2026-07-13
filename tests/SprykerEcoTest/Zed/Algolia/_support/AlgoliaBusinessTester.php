@@ -221,7 +221,7 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    public function createSearchClientMockForNonExistingIndex(string $indexName): SearchClient
+    public function createSearchClientMockForNonExistingIndex(): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
 
@@ -230,7 +230,7 @@ class AlgoliaBusinessTester extends Actor
         return $searchClientMock;
     }
 
-    public function createSearchClientMockForExistingIndex(string $indexName): SearchClient
+    public function createSearchClientMockForExistingIndex(): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
 
@@ -239,7 +239,7 @@ class AlgoliaBusinessTester extends Actor
         return $searchClientMock;
     }
 
-    public function createSearchClientMockThrowingExceptionOnSetSettings(string $indexName, Exception $e): SearchClient
+    public function createSearchClientMockThrowingExceptionOnSetSettings(Exception $e): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
         $searchClientMock->method('setSettings')->willThrowException($e);

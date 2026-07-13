@@ -32,7 +32,7 @@ class CmsPageSaver implements CmsPageSaverInterface
     }
 
     /**
-     * @param array $indexData
+     * @param array<string, mixed> $indexData
      */
     public function saveCmsPage(array $indexData, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer
     {
@@ -54,7 +54,7 @@ class CmsPageSaver implements CmsPageSaverInterface
         );
 
         // Configure index settings and replicas
-         $this->configureIndexSettings($searchClient, $searchIndexClient, $indexName);
+        $this->configureIndexSettings($searchClient, $searchIndexClient, $indexName);
 
         $algoliaDataArray = $indexData['data'] ?? null;
         if ($algoliaDataArray === null) {
@@ -93,10 +93,8 @@ class CmsPageSaver implements CmsPageSaverInterface
     }
 
     /**
-     * Configure replicas with base settings plus specific ranking
-     *
-     * @param array $replicaNames
-     * @param array $baseSettings
+     * @param array<string, array<string>> $replicaNames
+     * @param array<string, mixed> $baseSettings
      */
     protected function configureReplicas(SearchClient $searchClient, array $replicaNames, array $baseSettings): void
     {
@@ -138,7 +136,7 @@ class CmsPageSaver implements CmsPageSaverInterface
     }
 
     /**
-     * @return array
+     * @return array<string, array<string>>
      */
     protected function getCmsPageReplicaNames(string $indexName): array
     {

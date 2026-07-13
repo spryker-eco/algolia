@@ -20,10 +20,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
 
     protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
 
-    public function __construct()
-    {
-    }
-
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
         $suggestionIndexName = sprintf('%s_%s', $sourceIndex, static::QUERY_SUGGESTIONS_SUFFIX);
@@ -65,9 +61,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getAllConfigurations(SearchClient $searchClient): array
     {
         $querySuggestionsClient = $this->createQuerySuggestionsClient($searchClient);

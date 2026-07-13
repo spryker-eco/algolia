@@ -8,49 +8,31 @@
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
-use Exception;
+use Algolia\AlgoliaSearch\Exceptions\AlgoliaException;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\IndexConfigurationResponseTransfer;
 use Locale;
+use Spryker\Shared\Log\LoggerTrait;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 
 class IndexConfigurator implements IndexConfiguratorInterface
 {
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
+    use LoggerTrait;
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_RATING = 'rating';
+    protected const string ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_NAME = 'name';
+    protected const string ATTRIBUTE_NAME_RATING = 'rating';
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
+    protected const string ATTRIBUTE_NAME_NAME = 'name';
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRICES_EUR_GROSS = 'prices.eur.gross';
+    protected const string ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRICES_EUR_NET = 'prices.eur.net';
+    protected const string ATTRIBUTE_NAME_PRICES_EUR_GROSS = 'prices.eur.gross';
 
-    /**
-     * @var string
-     */
-    protected const ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
+    protected const string ATTRIBUTE_NAME_PRICES_EUR_NET = 'prices.eur.net';
+
+    protected const string ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
 
     public function __construct(protected SuggestionIndexHandlerInterface $suggestionIndexHandler, protected AlgoliaConfig $algoliaConfig)
     {
@@ -270,7 +252,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
 
         try {
             $searchClient->setSettings($indexName, $settings);
-        } catch (Exception $e) {
+        } catch (AlgoliaException $e) {
+            $this->getLogger()->error(sprintf('Algolia setSettings failed for index %s', $indexName), ['exception' => $e]);
+
             return $indexConfigurationResponseTransfer
                 ->setIsSuccessful(false)
                 ->setErrorMessage($this->getFormattedErrorMessage($indexName, $e->getMessage()));

@@ -102,7 +102,10 @@ class SearchIndexClient implements SearchIndexClientInterface
     }
 
     /**
-     * @param array<string, mixed> $searchParameters
+     * Extracts non-search parameters (headers) from $searchParameters by reference,
+     * removing them from the body so v4 strict validation does not reject them.
+     *
+     * @param array<string, mixed> $searchParameters Modified in place — extracted keys are unset.
      *
      * @return array<string, mixed>
      */

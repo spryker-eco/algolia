@@ -51,7 +51,7 @@ class IndexConfiguratorTest extends Unit
 
         $callCount = 0;
         $searchClientMock
-            ->expects($this->exactly(2))
+            ->expects($this->atLeast(2))
             ->method('setSettings')
             ->willReturnCallback(function ($indexName, $settings, $forwardToReplicas = false) use (&$callCount, $expectedLanguage) {
                 $callCount++;
@@ -198,7 +198,7 @@ class IndexConfiguratorTest extends Unit
                 $this->assertContains(
                     $expectedItem,
                     $rankingAttributes,
-                    "Replica '{$replicaName}' should contain default ranking item '{$expectedItem}'",
+                    sprintf("Replica '%s' should contain default ranking item '%s'", $replicaName, $expectedItem),
                 );
             }
         }

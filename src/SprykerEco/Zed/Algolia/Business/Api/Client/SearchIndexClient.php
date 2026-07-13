@@ -10,12 +10,9 @@ namespace SprykerEco\Zed\Algolia\Business\Api\Client;
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
-use Spryker\Shared\Log\LoggerTrait;
 
 class SearchIndexClient implements SearchIndexClientInterface
 {
-    use LoggerTrait;
-
     public function __construct(
         protected SearchClient $searchClient,
         protected string $indexName,

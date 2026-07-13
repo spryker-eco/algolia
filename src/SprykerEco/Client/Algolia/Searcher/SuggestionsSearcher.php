@@ -246,13 +246,20 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         }
 
         try {
+            $requestOptions = [];
+            if ($searchRequestTransfer->getUserIp()) {
+                $requestOptions['headers']['X-Forwarded-For'] = $searchRequestTransfer->getUserIp();
+            }
+
             $categories = $searchClient->searchForFacetValues(
                 $productIndexName,
                 'category',
                 [
                     'facetQuery' => $searchRequestTransfer->getQuery() ?? '',
                     'maxFacetHits' => 10,
+                    ...$personalizationParameters,
                 ],
+                $requestOptions,
             );
 
             $result['categories'] = $categories;
