@@ -71,6 +71,7 @@ class IndexConfiguratorTest extends Unit
 
         $searchClientMock->method('waitForTask')->willReturn(null);
 
+        $this->tester->mockFactoryMethod('createSuggestionIndexHandler', $this->tester->mockSuggestionIndexHandler());
         $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 

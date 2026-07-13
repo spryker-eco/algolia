@@ -50,10 +50,13 @@ class SearchClientCreatorTest extends Unit
     {
         // Arrange
         $searchClientCreator = $this->tester->getFactory()->createSearchClientCreator();
+        $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
+            ->setApplicationId('test-app-id')
+            ->setAdminApiKey('test-api-key');
 
         // Act
         $searchClient = $searchClientCreator
-            ->createSearchClientFromConfig((new AlgoliaConfigTransfer()));
+            ->createSearchClientFromConfig($algoliaConfigTransfer);
 
         // Assert
         $this->assertInstanceOf(

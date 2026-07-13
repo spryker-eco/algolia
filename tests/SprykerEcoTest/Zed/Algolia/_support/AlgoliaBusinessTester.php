@@ -247,7 +247,7 @@ class AlgoliaBusinessTester extends Actor
         return $searchClientMock;
     }
 
-    protected function mockSuggestionIndexHandler(): SuggestionIndexHandlerInterface
+    public function mockSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
         return $this->makeEmpty(SuggestionIndexHandlerInterface::class);
     }

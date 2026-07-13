@@ -195,6 +195,10 @@ class AlgoliaFacadeTest extends Unit
 
     public function testExportProductsThrowsBadRequestExceptionOnRateLimitDuringIndexSetup(): void
     {
+        // Arrange
+        $this->tester->mockConfigMethod('getApplicationId', 'test-app-id');
+        $this->tester->mockConfigMethod('getAdminApiKey', 'test-api-key');
+
         $productConcreteTransfers = new ArrayObject();
         $productConcreteTransfers->append($this->tester->haveFullProductConcreteTransfer([
                 ProductConcreteTransfer::NAME => 'product1',
@@ -259,6 +263,10 @@ class AlgoliaFacadeTest extends Unit
      */
     public function testRetriableExceptionIsConvertedToUnreachableExceptionByAlgoliaRetryApiWrapper(): void
     {
+        // Arrange
+        $this->tester->mockConfigMethod('getApplicationId', 'test-app-id');
+        $this->tester->mockConfigMethod('getAdminApiKey', 'test-api-key');
+
         $productConcreteTransfers = new ArrayObject();
         $productConcreteTransfers->append(
             $this->tester->haveFullProductConcreteTransfer([

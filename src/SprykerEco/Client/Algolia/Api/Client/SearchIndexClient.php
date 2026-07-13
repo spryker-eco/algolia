@@ -51,9 +51,10 @@ class SearchIndexClient implements SearchIndexClientInterface
     public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
     {
         $requestData = ['query' => $query, 'searchParameters' => $searchParameters];
+        $requestOptions = $this->extractRequestOptions($searchParameters);
 
         try {
-            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParameters);
+            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParameters, $requestOptions);
             $responseData = $result;
 
             return (new AlgoliaSearchResponseTransfer())
@@ -98,6 +99,23 @@ class SearchIndexClient implements SearchIndexClientInterface
     {
         return (new AlgoliaResponseTransfer())
             ->setIsSuccessful(true);
+    }
+
+    /**
+     * @param array<string, mixed> $searchParameters
+     *
+     * @return array<string, mixed>
+     */
+    protected function extractRequestOptions(array &$searchParameters): array
+    {
+        $requestOptions = [];
+
+        if (isset($searchParameters['X-Forwarded-For'])) {
+            $requestOptions['headers']['X-Forwarded-For'] = $searchParameters['X-Forwarded-For'];
+            unset($searchParameters['X-Forwarded-For']);
+        }
+
+        return $requestOptions;
     }
 
     /**
