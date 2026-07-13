@@ -132,9 +132,9 @@ class Searcher implements SearcherInterface
         SearchIndexClientInterface $searchIndexClient,
         AlgoliaConfigTransfer $algoliaConfigTransfer
     ): SearchResponseTransfer {
-        $searchParameters = $this->searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
+        $algoliaSearchParametersTransfer = $this->searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
 
-        $algoliaResponseTransfer = $searchIndexClient->search($searchRequestTransfer->getQuery() ?? '', $searchParameters);
+        $algoliaResponseTransfer = $searchIndexClient->search($searchRequestTransfer->getQuery() ?? '', $algoliaSearchParametersTransfer);
 
         return $this->searchResponseBuilder->buildSuccessfulResponse($algoliaResponseTransfer, $searchRequestTransfer);
     }

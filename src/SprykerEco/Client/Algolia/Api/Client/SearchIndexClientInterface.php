@@ -8,6 +8,7 @@
 namespace SprykerEco\Client\Algolia\Api\Client;
 
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
+use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 
 interface SearchIndexClientInterface
@@ -22,10 +23,7 @@ interface SearchIndexClientInterface
      */
     public function deleteObjects(array $objectIds): AlgoliaResponseTransfer;
 
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer;
+    public function search(string $query, AlgoliaSearchParametersTransfer $algoliaSearchParametersTransfer): AlgoliaSearchResponseTransfer;
 
     public function indexExists(): bool;
 

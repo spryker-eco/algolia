@@ -9,6 +9,7 @@ namespace SprykerEco\Client\Algolia\Api\Client;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
+use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Spryker\Shared\Http\Logger\ExternalHttpInMemoryLoggerTrait;
 use Spryker\Shared\Log\LoggerTrait;
@@ -45,16 +46,14 @@ class SearchIndexClient implements SearchIndexClientInterface
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
 
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
+    public function search(string $query, AlgoliaSearchParametersTransfer $algoliaSearchParametersTransfer): AlgoliaSearchResponseTransfer
     {
-        $requestData = ['query' => $query, 'searchParameters' => $searchParameters];
-        $requestOptions = $this->extractRequestOptions($searchParameters);
+        $searchParams = $algoliaSearchParametersTransfer->getSearchParams();
+        $requestOptions = $algoliaSearchParametersTransfer->getRequestOptions();
+        $requestData = ['query' => $query, 'searchParameters' => $searchParams];
 
         try {
-            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParameters, $requestOptions);
+            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParams, $requestOptions);
             $responseData = $result;
 
             return (new AlgoliaSearchResponseTransfer())
@@ -99,26 +98,6 @@ class SearchIndexClient implements SearchIndexClientInterface
     {
         return (new AlgoliaResponseTransfer())
             ->setIsSuccessful(true);
-    }
-
-    /**
-     * Extracts non-search parameters (headers) from $searchParameters by reference,
-     * removing them from the body so v4 strict validation does not reject them.
-     *
-     * @param array<string, mixed> $searchParameters Modified in place — extracted keys are unset.
-     *
-     * @return array<string, mixed>
-     */
-    protected function extractRequestOptions(array &$searchParameters): array
-    {
-        $requestOptions = [];
-
-        if (isset($searchParameters['X-Forwarded-For'])) {
-            $requestOptions['headers']['X-Forwarded-For'] = $searchParameters['X-Forwarded-For'];
-            unset($searchParameters['X-Forwarded-For']);
-        }
-
-        return $requestOptions;
     }
 
     /**
