@@ -75,9 +75,6 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         );
     }
 
-    /**
-     * @return array
-     */
     protected function expandResultUsingAdditionalIndexes(
         SearchClient $searchClient,
         SearchRequestTransfer $searchRequestTransfer,
@@ -174,9 +171,6 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
         return $entities;
     }
 
-    /**
-     * @return array
-     */
     protected function getProductsResult(
         SearchRequestTransfer $searchRequestTransfer,
         SearchClient $searchClient,

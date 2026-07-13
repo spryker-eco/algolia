@@ -13,16 +13,10 @@ use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 
 interface SuggestionsSearchResponseBuilderInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
-     */
     public function buildSuccessfulResponse(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer
     ): SuggestionsSearchResponseTransfer;
 
-    /**
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
-     */
     public function buildUnsuccessfulResponse(string $errorMessage, int $statusCode): SuggestionsSearchResponseTransfer;
 }

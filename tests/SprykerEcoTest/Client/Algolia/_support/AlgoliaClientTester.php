@@ -131,9 +131,6 @@ class AlgoliaClientTester extends Actor
             ->setSearchResults($result);
     }
 
-    /**
-     * @return array
-     */
     public function loadNormalCategorySuggestionsSearchResponseFixtures(): array
     {
         return json_decode(
@@ -159,9 +156,6 @@ class AlgoliaClientTester extends Actor
         $this->mockFactoryMethod('createCache', $filesystemAdapterMock);
     }
 
-    /**
-     * @param array $settings
-     */
     public function haveSearchIndexResolver(array $settings): void
     {
         $searchIndexResolverMock = $this->makeEmpty(SearchIndexResolver::class);

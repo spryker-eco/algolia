@@ -52,9 +52,6 @@ class ProductsExtractor implements SearchResponseExtractorInterface
         return $searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value;
     }
 
-    /**
-     * @return array
-     */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array
     {
         $result = [];

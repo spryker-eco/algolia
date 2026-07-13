@@ -34,9 +34,6 @@ class ProductExporter implements ProductExporterInterface
     ) {
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     */
     public function exportProducts(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null

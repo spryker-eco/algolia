@@ -91,9 +91,6 @@ class ProductMapper implements ProductMapperInterface
         }, $algoliaProductTransfers);
     }
 
-    /**
-     * @return array
-     */
     protected function getStoreToLocaleIndices(ProductConcreteTransfer $productConcreteTransfer): array
     {
         $storeToLocaleIndices = [];
@@ -197,9 +194,6 @@ class ProductMapper implements ProductMapperInterface
             ->setObject($algoliaObjectTransfer);
     }
 
-    /**
-     * @param array $localizedAttributesCollection
-     */
     protected function getLocalizedAttributesForLocale(array $localizedAttributesCollection, string $locale): LocalizedAttributesTransfer
     {
         foreach ($localizedAttributesCollection as $localizedAttributes) {

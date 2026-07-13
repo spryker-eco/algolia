@@ -134,9 +134,6 @@ class FilterConverter implements FilterConverterInterface
         throw new FacetTypeUnknownException(sprintf('Facet type unknown, "%s" type given', $facetEntryTransfer->getType()));
     }
 
-    /**
-     * @return array
-     */
     protected function getFacetWhiteList(SearchRequestTransfer $searchRequestTransfer): array
     {
         $algoliaConfigTransfer = $this->configResolver->getConfig();

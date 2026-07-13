@@ -12,9 +12,6 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 interface ApiKeyValidatorInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaApiCredentialsValidationTransfer
-     */
     public function validate(
         AlgoliaConfigTransfer $algoliaConfigTransfer,
         AlgoliaApiCredentialsValidationTransfer $algoliaApiCredentialsValidationTransfer

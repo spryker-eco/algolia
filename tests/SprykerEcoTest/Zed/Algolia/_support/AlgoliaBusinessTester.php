@@ -12,7 +12,6 @@ use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\RetriableException;
 use Algolia\AlgoliaSearch\Http\HttpClientInterface;
 use Codeception\Actor;
-use Codeception\Stub\Expected;
 use Codeception\Test\Feature\Stub;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
@@ -252,9 +251,6 @@ class AlgoliaBusinessTester extends Actor
         return $this->makeEmpty(SuggestionIndexHandlerInterface::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Algolia\AlgoliaSearch\Http\HttpClientInterface
-     */
     public function haveRateLimitedAlgoliaHttpClient(): HttpClientInterface&MockObject
     {
         $responseString = '{"message":"Too many requests"}';
@@ -270,9 +266,6 @@ class AlgoliaBusinessTester extends Actor
         return $httpClientMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Algolia\AlgoliaSearch\Http\HttpClientInterface
-     */
     public function haveRetriableExceptionAlgoliaHttpClient(): HttpClientInterface&MockObject
     {
         $httpClientMock = $this->makeEmpty(HttpClientInterface::class);
@@ -306,9 +299,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\Rule\InvokedCount $invokedCount
-     */
     public function createIndexConfiguratorMock(InvokedCountMatcher $invokedCount): IndexConfigurator
     {
         $indexConfigurator = $this->makeEmpty(IndexConfigurator::class);

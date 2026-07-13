@@ -13,9 +13,6 @@ use Generated\Shared\Transfer\SearchResponsePaginationTransfer;
 
 interface PaginationExtractorInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\SearchResponsePaginationTransfer
-     */
     public function extract(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer

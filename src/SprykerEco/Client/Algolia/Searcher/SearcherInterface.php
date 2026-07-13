@@ -12,8 +12,5 @@ use Generated\Shared\Transfer\SearchResponseTransfer;
 
 interface SearcherInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
-     */
     public function search(SearchRequestTransfer $searchRequestTransfer): SearchResponseTransfer;
 }

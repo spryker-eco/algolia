@@ -40,8 +40,10 @@ class SearchParametersResolver implements SearchParametersResolverInterface
         $this->searchParametersExpanders = $searchParametersExpander;
     }
 
-    public function getSearchParameters(SearchRequestTransfer $searchRequestTransfer, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaSearchParametersTransfer
-    {
+    public function getSearchParameters(
+        SearchRequestTransfer $searchRequestTransfer,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): AlgoliaSearchParametersTransfer {
         $searchParametersExpander = $this->getSearchParametersExpanders($searchRequestTransfer->getSourceIdentifier());
         $filters = $this->filterConverter->convertFacetCollectionTransferToAlgoliaFiltersString($searchRequestTransfer);
 

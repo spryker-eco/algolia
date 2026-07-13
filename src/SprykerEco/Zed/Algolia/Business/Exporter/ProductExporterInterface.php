@@ -13,11 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 interface ProductExporterInterface
 {
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     *
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
-     */
     public function exportProducts(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null

@@ -13,9 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 interface AlgoliaEntityExporterInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaExportResultTransfer
-     */
     public function exportEntities(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         OutputInterface $output

@@ -395,9 +395,6 @@ class ConcreteProductFilterTest extends Unit
         return $productsConcrete;
     }
 
-    /**
-     * @return array
-     */
     protected function extractFilteredProductsConcreteTypes(ArrayObject $filteredProductsConcrete): array
     {
         $result = [];

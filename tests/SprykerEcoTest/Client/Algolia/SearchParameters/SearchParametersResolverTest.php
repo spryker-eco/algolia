@@ -295,9 +295,6 @@ class SearchParametersResolverTest extends Unit
         return $this->createMock(FilterConverterInterface::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Client\Algolia\Api\SearchParameters\Pagination\PaginationConverterInterface
-     */
     protected function createPaginationConverterMock(): MockObject|PaginationConverterInterface
     {
         return $this->createMock(PaginationConverterInterface::class);

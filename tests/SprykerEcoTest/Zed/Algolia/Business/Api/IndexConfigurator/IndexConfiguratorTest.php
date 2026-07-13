@@ -7,7 +7,6 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\IndexConfigurator;
 
-use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use ReflectionClass;

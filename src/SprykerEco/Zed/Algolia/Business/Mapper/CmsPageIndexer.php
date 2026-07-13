@@ -25,11 +25,6 @@ class CmsPageIndexer implements CmsPageIndexerInterface
     ) {
     }
 
-    /**
-     * @param array $flattenedLocaleCmsPageData
-     *
-     * @return array
-     */
     public function buildIndexData(
         CmsPagePublishedTransfer $cmsPagePublishedTransfer,
         string $locale,

@@ -62,10 +62,6 @@ class IndexNameResolver implements IndexNameResolverInterface
         ));
     }
 
-    /**
-     * @param string|null $entityName
-     * @param string|null $storeName
-     */
     public function filterIndicesByIndexNameParts(
         AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer,
         string $tenantIdentifier,

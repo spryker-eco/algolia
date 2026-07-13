@@ -112,12 +112,12 @@ class FacetsExtractor implements FacetsExtractorInterface
     }
 
     /**
-     * @param $array
-     * @param $order
+     * @param array $array
+     * @param array $order
      *
      * @return void
      */
-    protected function sortArrayByKeys(&$array, $order)
+    protected function sortArrayByKeys(array &$array, array $order)
     {
         $orderIndex = array_flip($order);
         uksort($array, function ($a, $b) use ($orderIndex): int {

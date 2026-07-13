@@ -12,8 +12,5 @@ use Generated\Shared\Transfer\SuggestionsSearchResponseTransfer;
 
 interface SuggestionsSearcherInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\SuggestionsSearchResponseTransfer
-     */
     public function searchSuggestions(SearchRequestTransfer $searchRequestTransfer): SuggestionsSearchResponseTransfer;
 }

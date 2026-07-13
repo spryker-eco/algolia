@@ -13,5 +13,8 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 
 interface SearchParametersResolverInterface
 {
-    public function getSearchParameters(SearchRequestTransfer $searchRequestTransfer, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaSearchParametersTransfer;
+    public function getSearchParameters(
+        SearchRequestTransfer $searchRequestTransfer,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): AlgoliaSearchParametersTransfer;
 }

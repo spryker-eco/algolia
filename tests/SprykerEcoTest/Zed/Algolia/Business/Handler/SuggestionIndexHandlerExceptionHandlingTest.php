@@ -14,6 +14,7 @@ use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Codeception\Test\Unit;
 use Exception;
 use InvalidArgumentException;
+use ReflectionMethod;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
 use Throwable;
 
@@ -86,7 +87,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     ): void {
         // Arrange
         $handler = new SuggestionIndexHandler();
-        $reflection = new \ReflectionMethod($handler, 'isRegionMismatchException');
+        $reflection = new ReflectionMethod($handler, 'isRegionMismatchException');
 
         // Act
         $result = $reflection->invoke($handler, $exception);

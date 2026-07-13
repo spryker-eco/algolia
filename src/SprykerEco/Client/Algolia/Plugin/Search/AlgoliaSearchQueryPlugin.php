@@ -27,9 +27,6 @@ class AlgoliaSearchQueryPlugin extends AbstractPlugin implements QueryInterface,
 
     protected SearchContextTransfer $searchContextTransfer;
 
-    /**
-     * @param \Generated\Shared\Transfer\SearchContextTransfer|null $searchContextTransfer
-     */
     public function __construct(?SearchContextTransfer $searchContextTransfer = null)
     {
         $this->searchContextTransfer = $searchContextTransfer ?? (new SearchContextTransfer())

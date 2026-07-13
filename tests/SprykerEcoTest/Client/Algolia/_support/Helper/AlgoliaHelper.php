@@ -40,9 +40,6 @@ class AlgoliaHelper extends Module
             ->setParameters($facetParametersTransfer);
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveFacetParametersTransfer(array $seed = []): FacetParametersTransfer
     {
         return (new FacetParametersBuilder($seed))
