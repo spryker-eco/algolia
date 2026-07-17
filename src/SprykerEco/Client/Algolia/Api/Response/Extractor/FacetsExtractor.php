@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 class FacetsExtractor implements FacetsExtractorInterface
 {
@@ -59,8 +60,8 @@ class FacetsExtractor implements FacetsExtractorInterface
      * @var array<string>
      */
     protected const RESTRICTED_FACET_KEYS = [
-        'prices',
-        'concrete_prices',
+        AlgoliaProductObjectEnum::PRICES->value,
+        AlgoliaProductObjectEnum::CONCRETE_PRICES->value,
     ];
 
     /**
@@ -88,7 +89,7 @@ class FacetsExtractor implements FacetsExtractorInterface
             function (string $facet): string {
                 $facetKey = $this->adjustFacetKey($facet);
 
-                return $facetKey === 'prices' || str_starts_with($facetKey, 'prices.') ? static::FILTER_NAME_PRICE : $facetKey;
+                return $facetKey === AlgoliaProductObjectEnum::PRICES->value || str_starts_with($facetKey, AlgoliaProductObjectEnum::PRICES->value . '.') ? static::FILTER_NAME_PRICE : $facetKey;
             },
             $algoliaSearchResponseTransfer->getSearchResults()['renderingContent']['facetOrdering']['facets']['order'] ?? $this->getFilterableNameAttributes(),
         );

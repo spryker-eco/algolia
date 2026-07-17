@@ -20,6 +20,7 @@ use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
 use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 /**
  * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
@@ -306,14 +307,14 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getSearchableAttributes(): array
     {
         return [
-            'sku',
-            'product_abstract_sku',
-            'name',
-            'abstract_name',
-            'category',
-            'keywords',
+            AlgoliaProductObjectEnum::SKU->value,
+            AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
+            AlgoliaProductObjectEnum::NAME->value,
+            AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
+            AlgoliaProductObjectEnum::CATEGORY->value,
+            AlgoliaProductObjectEnum::KEYWORDS->value,
             'attributes.brand',
-            'description',
+            AlgoliaProductObjectEnum::DESCRIPTION->value,
         ];
     }
 
@@ -331,15 +332,15 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getFilterableAttributes(): array
     {
         $attributes = [
-            'searchable(category)',
-            'rating',
-            'label',
+            sprintf('searchable(%s)', AlgoliaProductObjectEnum::CATEGORY->value),
+            AlgoliaProductObjectEnum::RATING->value,
+            AlgoliaProductObjectEnum::LABEL->value,
             'attributes.color',
             'attributes.brand',
-            'merchant_name',
+            AlgoliaProductObjectEnum::MERCHANT_NAME->value,
         ];
         if ($this->getIsProductPriceSynced()) {
-            $attributes[] = 'prices';
+            $attributes[] = AlgoliaProductObjectEnum::PRICES->value;
         }
 
         $result = [];
@@ -362,7 +363,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getNonDisplayAttributes(): array
     {
-        return ['hierarchical_categories'];
+        return [AlgoliaProductObjectEnum::HIERARCHICAL_CATEGORIES->value];
     }
 
     /**

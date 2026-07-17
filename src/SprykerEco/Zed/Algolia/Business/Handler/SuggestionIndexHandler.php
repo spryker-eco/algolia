@@ -10,6 +10,7 @@ namespace SprykerEco\Zed\Algolia\Business\Handler;
 use Algolia\AlgoliaSearch\Api\QuerySuggestionsClient;
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use Throwable;
 
 class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
@@ -39,8 +40,8 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
                     'minHits' => 1,
                     'minLetters' => 2,
                     'generate' => [
-                        ['category'],
-                        ['attributes.brand'],
+                        [AlgoliaProductObjectEnum::CATEGORY->value],
+                        [AlgoliaProductObjectEnum::ATTRIBUTES->value . '.brand'],
                     ],
                 ],
             ],

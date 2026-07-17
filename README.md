@@ -628,8 +628,8 @@ Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
 public function getProductSortingAttributes(): array
 {
     $attributes = [
-        'rating' => 'rating',         // replica named by 'rating', sorted by 'rating'
-        'name' => 'abstract_name',    // replica named by 'name', sorted by 'abstract_name'
+        AlgoliaProductObjectEnum::RATING->value => AlgoliaProductObjectEnum::RATING->value,         // replica named by 'rating', sorted by 'rating'
+        AlgoliaProductObjectEnum::NAME->value => AlgoliaProductObjectEnum::ABSTRACT_NAME->value,    // replica named by 'name', sorted by 'abstract_name'
     ];
 
     if ($this->getIsProductPriceSynced()) {

@@ -12,14 +12,13 @@ use Algolia\AlgoliaSearch\Exceptions\AlgoliaException;
 use Generated\Shared\Transfer\IndexConfigurationResponseTransfer;
 use Locale;
 use Spryker\Shared\Log\LoggerTrait;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 
 class IndexConfigurator implements IndexConfiguratorInterface
 {
     use LoggerTrait;
-
-    protected const string ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
 
     protected const string ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
 
@@ -71,7 +70,7 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ],
             'searchableAttributes' => $this->algoliaConfig->getSearchableAttributes(),
             'attributesForFaceting' => $this->algoliaConfig->getFilterableAttributes(),
-            'attributeForDistinct' => static::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
+            'attributeForDistinct' => AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
             'distinct' => true,
             'indexLanguages' => $indexQueryLanguages,
             'queryLanguages' => $indexQueryLanguages,
