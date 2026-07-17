@@ -136,6 +136,13 @@ class Searcher implements SearcherInterface
 
         $algoliaResponseTransfer = $searchIndexClient->search($searchRequestTransfer->getQuery() ?? '', $algoliaSearchParametersTransfer);
 
+        if (!$algoliaResponseTransfer->getIsSuccessful()) {
+            return $this->searchResponseBuilder->buildUnsuccessfulResponse(
+                $algoliaResponseTransfer->getResponseMessage() ?? static::ERROR_MESSAGE,
+                static::ERROR_CODE,
+            );
+        }
+
         return $this->searchResponseBuilder->buildSuccessfulResponse($algoliaResponseTransfer, $searchRequestTransfer);
     }
 

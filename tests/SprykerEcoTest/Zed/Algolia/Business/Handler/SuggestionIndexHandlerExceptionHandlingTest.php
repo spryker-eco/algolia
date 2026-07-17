@@ -12,11 +12,7 @@ use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Codeception\Test\Unit;
-use Exception;
-use InvalidArgumentException;
-use ReflectionMethod;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
-use Throwable;
 
 /**
  * Auto-generated group annotations
@@ -78,61 +74,62 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         $this->assertSame($expectedConfigs, $result);
     }
 
-    /**
-     * @dataProvider regionMismatchExceptionDataProvider
-     */
-    public function testIsRegionMismatchExceptionIdentifiesRegionExceptionsCorrectly(
-        Throwable $exception,
-        bool $expectedResult,
-    ): void {
+    public function testGetAllConfigurationsRetriesWithEuRegionWhenUsRegionCallFails(): void
+    {
         // Arrange
-        $handler = new SuggestionIndexHandler();
-        $reflection = new ReflectionMethod($handler, 'isRegionMismatchException');
+        $expectedConfigs = [['indexName' => 'test_query_suggestions']];
+
+        $usQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
+        $usQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException(new BadRequestException('307: Temporary Redirect'));
+
+        $euQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
+        $euQuerySuggestionsClientMock->method('getAllConfigs')->willReturn($expectedConfigs);
+
+        $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
+            ->onlyMethods(['createQuerySuggestionsClientForRegion'])
+            ->getMock();
+
+        $handler->method('createQuerySuggestionsClientForRegion')
+            ->willReturnOnConsecutiveCalls($usQuerySuggestionsClientMock, $euQuerySuggestionsClientMock);
 
         // Act
-        $result = $reflection->invoke($handler, $exception);
+        $result = $handler->getAllConfigurations($this->createMock(SearchClient::class));
 
         // Assert
-        $this->assertSame($expectedResult, $result);
+        $this->assertSame($expectedConfigs, $result);
     }
 
-    /**
-     * @return array<string, array<string, mixed>>
-     */
-    public static function regionMismatchExceptionDataProvider(): array
+    public function testGetAllConfigurationsRethrowsExceptionWhenBothRegionsFail(): void
     {
-        return [
-            'bad request caused by wrong region' => [
-                'exception' => new BadRequestException('The log processing region does not match'),
-                'expectedResult' => true,
-            ],
-            'bad request for other reason' => [
-                'exception' => new BadRequestException('any other bad request'),
-                'expectedResult' => false,
-            ],
-            'invalid argument caused by wrong region (json_decode_error)' => [
-                'exception' => new InvalidArgumentException('json_decode_error'),
-                'expectedResult' => true,
-            ],
-            'invalid argument for other reason' => [
-                'exception' => new InvalidArgumentException('any other invalid argument'),
-                'expectedResult' => false,
-            ],
-            'common exception' => [
-                'exception' => new Exception('common exception'),
-                'expectedResult' => false,
-            ],
-        ];
+        // Arrange
+        $usQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
+        $usQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException(new BadRequestException('us region failed'));
+
+        $euQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
+        $euException = new BadRequestException('eu region failed');
+        $euQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException($euException);
+
+        $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
+            ->onlyMethods(['createQuerySuggestionsClientForRegion'])
+            ->getMock();
+
+        $handler->method('createQuerySuggestionsClientForRegion')
+            ->willReturnOnConsecutiveCalls($usQuerySuggestionsClientMock, $euQuerySuggestionsClientMock);
+
+        $this->expectExceptionObject($euException);
+
+        // Act
+        $handler->getAllConfigurations($this->createMock(SearchClient::class));
     }
 
     protected function createHandlerWithMockedQuerySuggestionsClient(
         QuerySuggestionsClient $querySuggestionsClient,
     ): SuggestionIndexHandler {
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
-            ->onlyMethods(['createQuerySuggestionsClient'])
+            ->onlyMethods(['createQuerySuggestionsClientForRegion'])
             ->getMock();
 
-        $handler->method('createQuerySuggestionsClient')
+        $handler->method('createQuerySuggestionsClientForRegion')
             ->willReturn($querySuggestionsClient);
 
         return $handler;
