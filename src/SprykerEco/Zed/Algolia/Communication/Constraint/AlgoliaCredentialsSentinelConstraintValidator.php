@@ -25,6 +25,6 @@ class AlgoliaCredentialsSentinelConstraintValidator extends ConstraintValidator
             return;
         }
 
-        $this->context->buildViolation($constraint->message)->addViolation();
+        $this->context->buildViolation($constraint->getMessage())->addViolation();
     }
 }

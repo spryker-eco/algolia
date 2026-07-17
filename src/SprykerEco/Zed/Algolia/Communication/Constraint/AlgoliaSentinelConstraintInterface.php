@@ -15,4 +15,9 @@ interface AlgoliaSentinelConstraintInterface
      * Returns the sentinel value that marks a field as invalid.
      */
     public function getInvalidSentinel(): string;
+
+    /**
+     * Returns the violation message to use when the sentinel value is detected.
+     */
+    public function getMessage(): string;
 }

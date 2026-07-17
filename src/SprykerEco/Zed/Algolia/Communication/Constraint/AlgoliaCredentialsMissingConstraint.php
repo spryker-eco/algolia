@@ -22,6 +22,11 @@ class AlgoliaCredentialsMissingConstraint extends Constraint implements AlgoliaS
         return static::INVALID_SENTINEL;
     }
 
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
     public function validatedBy(): string
     {
         return AlgoliaCredentialsSentinelConstraintValidator::class;
