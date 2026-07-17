@@ -8,7 +8,6 @@
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\IndexConfigurator;
 
 use Codeception\Test\Unit;
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use ReflectionClass;
 
 /**
@@ -71,11 +70,13 @@ class IndexConfiguratorTest extends Unit
         $searchClientMock->method('waitForTask')->willReturn(null);
 
         $this->tester->mockFactoryMethod('createSuggestionIndexHandler', $this->tester->mockSuggestionIndexHandler());
-        $algoliaConfigTransfer = $this->tester->haveAlgoliaConfigTransfer([AlgoliaConfigTransfer::IS_PRODUCT_PRICE_SYNCED => $withPrices]);
+        $this->tester->mockConfigMethod('getProductSortingAttributes', $withPrices
+            ? ['rating' => 'rating', 'name' => 'abstract_name', 'prices.eur.gross' => 'prices.eur.gross', 'prices.eur.net' => 'prices.eur.net']
+            : ['rating' => 'rating', 'name' => 'abstract_name']);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
-        $indexConfigurator->configureIndex(static::TEST_INDEX_NAME, $searchClientMock, $locale, $algoliaConfigTransfer);
+        $indexConfigurator->configureIndex(static::TEST_INDEX_NAME, $searchClientMock, $locale);
 
         // Assert is part of the expected method call
     }
@@ -112,27 +113,30 @@ class IndexConfiguratorTest extends Unit
     public function testGetReplicaNamesWithRankingAttributesReturnsCorrectStructureWithPrices(): void
     {
         // Arrange
-        $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
-            ->setIsProductPriceSynced(true);
-
+        $this->tester->mockConfigMethod('getProductSortingAttributes', [
+            'rating' => 'rating',
+            'name' => 'abstract_name',
+            'prices.eur.gross' => 'prices.eur.gross',
+            'prices.eur.net' => 'prices.eur.net',
+        ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME);
 
         // Assert
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
 
-        // Check that price-related replicas are included when productsWithoutPrice is false
+        // Check that price-related replicas are included
         $replicaNames = array_keys($result);
         $priceRelatedReplicas = array_filter($replicaNames, function ($name) {
             return strpos($name, 'prices.eur.gross') !== false || strpos($name, 'prices.eur.net') !== false;
         });
-        $this->assertNotEmpty($priceRelatedReplicas, 'Price-related replicas should be present when productsWithoutPrice is false');
+        $this->assertNotEmpty($priceRelatedReplicas, 'Price-related replicas should be present when configured');
 
         // Check that each replica has proper ranking attributes structure
         foreach ($result as $replicaName => $rankingAttributes) {
@@ -142,51 +146,70 @@ class IndexConfiguratorTest extends Unit
         }
     }
 
-    public function testGetReplicaNamesWithRankingAttributesExcludesPricesWhenConfigured(): void
+    public function testGetReplicaNamesWithRankingAttributesExcludesPricesWhenNotConfigured(): void
     {
         // Arrange
-        $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
-            ->setIsProductPriceSynced(false);
-
+        $this->tester->mockConfigMethod('getProductSortingAttributes', [
+            'rating' => 'rating',
+            'name' => 'abstract_name',
+        ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME);
 
         // Assert
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
 
-        // Check that price-related replicas are excluded when productsWithoutPrice is true
+        // Check that price-related replicas are excluded
         $replicaNames = array_keys($result);
         $priceRelatedReplicas = array_filter($replicaNames, function ($name) {
             return strpos($name, 'prices.eur.gross') !== false || strpos($name, 'prices.eur.net') !== false;
         });
-        $this->assertEmpty($priceRelatedReplicas, 'Price-related replicas should not be present when productsWithoutPrice is true');
+        $this->assertEmpty($priceRelatedReplicas, 'Price-related replicas should not be present when not configured');
 
         // Check that basic replicas (rating, name) are still present
         $basicReplicas = array_filter($replicaNames, function ($name) {
             return strpos($name, 'rating') !== false || strpos($name, 'name') !== false;
         });
-        $this->assertNotEmpty($basicReplicas, 'Basic replicas (rating, name) should always be present');
+        $this->assertNotEmpty($basicReplicas, 'Basic replicas (rating, name) should be present when configured');
     }
 
-    public function testGetReplicaNamesWithRankingAttributesIncludesDefaultRankingOrder(): void
+    public function testGetReplicaNamesWithRankingAttributesReturnsEmptyWhenNoSortingConfigured(): void
     {
         // Arrange
-        $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
-            ->setIsProductPriceSynced(true);
-
+        $this->tester->mockConfigMethod('getProductSortingAttributes', []);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
         $reflection = new ReflectionClass($indexConfigurator);
         $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
         $method->setAccessible(true);
-        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME, $algoliaConfigTransfer);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME);
+
+        // Assert
+        $this->assertIsArray($result);
+        $this->assertEmpty($result, 'No replicas should be created when no sorting attributes are configured');
+    }
+
+    public function testGetReplicaNamesWithRankingAttributesIncludesDefaultRankingOrder(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getProductSortingAttributes', [
+            'rating' => 'rating',
+            'name' => 'abstract_name',
+        ]);
+        $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
+
+        // Act
+        $reflection = new ReflectionClass($indexConfigurator);
+        $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
+        $method->setAccessible(true);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME);
 
         // Assert
         $expectedDefaultRankingItems = ['typo', 'geo', 'words', 'filters', 'proximity', 'attribute', 'exact', 'custom'];
@@ -201,5 +224,34 @@ class IndexConfiguratorTest extends Unit
                 );
             }
         }
+    }
+
+    public function testGetReplicaNamesWithRankingAttributesUsesKeyForReplicaNameAndValueForRanking(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getProductSortingAttributes', [
+            'name' => 'abstract_name',
+        ]);
+        $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
+
+        // Act
+        $reflection = new ReflectionClass($indexConfigurator);
+        $method = $reflection->getMethod('getReplicaNamesWithRankingAttributes');
+        $method->setAccessible(true);
+        $result = $method->invoke($indexConfigurator, static::TEST_INDEX_NAME);
+
+        // Assert
+        $replicaNames = array_keys($result);
+
+        // Replica names should use the key ('name'), not the value ('abstract_name')
+        $this->assertContains(static::TEST_INDEX_NAME . '-desc-name', $replicaNames);
+        $this->assertContains(static::TEST_INDEX_NAME . '-asc-name', $replicaNames);
+
+        // Ranking attributes should use the value ('abstract_name')
+        $descRanking = $result[static::TEST_INDEX_NAME . '-desc-name'];
+        $this->assertSame('desc(abstract_name)', $descRanking[0]);
+
+        $ascRanking = $result[static::TEST_INDEX_NAME . '-asc-name'];
+        $this->assertSame('asc(abstract_name)', $ascRanking[0]);
     }
 }

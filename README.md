@@ -618,6 +618,34 @@ For a complete implementation guide with examples, see [Custom Entity Index Mapp
 - `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend; set via `src/Pyz/Shared/Algolia/AlgoliaConfig.php` (Option A) or via Back Office **Configuration > Catalog > Search** (Option B)
 - `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend; set via `src/Pyz/Shared/Algolia/AlgoliaConfig.php` (Option A) or via Back Office **Configuration > CMS > Search** (Option B)
 
+**Sorting (Replica Indices):**
+- `getProductSortingAttributes()` - Configures product sorting replicas. Returns a `key => value` mapping where keys are field names used in replica index naming and values are the Algolia attribute names used for ranking. Empty by default; override in project-level config.
+- `getCmsPageSortingAttributes()` - Configures CMS page sorting replicas. Returns a list of attribute names. Empty by default; override in project-level config.
+
+Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
+
+```php
+public function getProductSortingAttributes(): array
+{
+    $attributes = [
+        'rating' => 'rating',         // replica named by 'rating', sorted by 'rating'
+        'name' => 'abstract_name',    // replica named by 'name', sorted by 'abstract_name'
+    ];
+
+    if ($this->getIsProductPriceSynced()) {
+        $attributes['prices.eur.gross'] = 'prices.eur.gross';
+        $attributes['prices.eur.net'] = 'prices.eur.net';
+    }
+
+    return $attributes;
+}
+
+public function getCmsPageSortingAttributes(): array
+{
+    return [AlgoliaCmsPageObjectEnum::NAME->value];
+}
+```
+
 **Insights & Analytics & Personalization:**
 - `getIsPersonalizationEnabled()` - Enable/disable Algolia Personalization for search. This feature requires a premium Algolia plan.
 - `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking (via TraceableEventWidget).

@@ -8,11 +8,10 @@
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 interface IndexConfiguratorInterface
 {
-    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void;
+    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale): void;
 
     /**
      * @return array<string, mixed>

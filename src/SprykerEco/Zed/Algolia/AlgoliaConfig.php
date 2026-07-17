@@ -406,8 +406,26 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
+     * - Returns the mapping of sortable fields for product indices.
+     * - Keys are the field names used in replica index naming (matching client sort field).
+     * - Values are the actual Algolia attribute names used for ranking.
+     * - When key and value differ, the replica is named by key but sorted by value.
+     * - Empty by default; override in project-level config to enable sorting.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getProductSortingAttributes(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
      * - Returns the sorting attributes available for CMS pages.
      * - These attributes can be used to create replica indices for different sort orders.
+     * - Empty by default; override in project-level config to enable sorting.
      *
      * @api
      *
@@ -415,7 +433,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getCmsPageSortingAttributes(): array
     {
-        return [AlgoliaCmsPageObjectEnum::NAME->value];
+        return [];
     }
 
     /**

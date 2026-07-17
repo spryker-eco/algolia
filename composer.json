@@ -4,7 +4,7 @@
     "description": "Algolia module",
     "license": "proprietary",
     "require": {
-        "algolia/algoliasearch-client-php": "^4.46.1",
+        "algolia/algoliasearch-client-php": "4.46.1",
         "ext-curl": "*",
         "ext-intl": "*",
         "ext-json": "*",
