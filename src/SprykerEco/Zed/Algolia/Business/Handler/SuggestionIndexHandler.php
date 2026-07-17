@@ -68,14 +68,6 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
         return true;
     }
 
-    public function getAllConfigurations(SearchClient $searchClient): array
-    {
-        return $this->executeWithRegionFallback(
-            $searchClient,
-            fn (QuerySuggestionsClient $querySuggestionsClient): array => $querySuggestionsClient->getAllConfigs(),
-        );
-    }
-
     /**
      * Query Suggestions is only available in the `us`/`eu` regions and the v4 SDK does not expose a
      * reliable, typed way to detect a region mismatch up front (it no longer throws the message-based

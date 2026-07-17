@@ -58,32 +58,15 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         $handler->createProductSuggestionsIndex('test', $this->createMock(SearchClient::class));
     }
 
-    public function testGetAllConfigurationsDelegatesToQuerySuggestionsClient(): void
+    public function testCreateSuggestionsIndexRetriesWithEuRegionWhenUsRegionCallFails(): void
     {
         // Arrange
-        $expectedConfigs = [['indexName' => 'test_query_suggestions']];
-        $querySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
-        $querySuggestionsClientMock->method('getAllConfigs')->willReturn($expectedConfigs);
-
-        $handler = $this->createHandlerWithMockedQuerySuggestionsClient($querySuggestionsClientMock);
-
-        // Act
-        $result = $handler->getAllConfigurations($this->createMock(SearchClient::class));
-
-        // Assert
-        $this->assertSame($expectedConfigs, $result);
-    }
-
-    public function testGetAllConfigurationsRetriesWithEuRegionWhenUsRegionCallFails(): void
-    {
-        // Arrange
-        $expectedConfigs = [['indexName' => 'test_query_suggestions']];
-
         $usQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
-        $usQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException(new BadRequestException('307: Temporary Redirect'));
+        $usQuerySuggestionsClientMock->method('getConfig')->willThrowException(new BadRequestException('307: Temporary Redirect'));
 
         $euQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
-        $euQuerySuggestionsClientMock->method('getAllConfigs')->willReturn($expectedConfigs);
+        $euQuerySuggestionsClientMock->method('getConfig')->willReturn(['indexName' => 'test_query_suggestions']);
+        $euQuerySuggestionsClientMock->expects($this->never())->method('createConfig');
 
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
             ->onlyMethods(['createQuerySuggestionsClientForRegion'])
@@ -93,21 +76,18 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
             ->willReturnOnConsecutiveCalls($usQuerySuggestionsClientMock, $euQuerySuggestionsClientMock);
 
         // Act
-        $result = $handler->getAllConfigurations($this->createMock(SearchClient::class));
-
-        // Assert
-        $this->assertSame($expectedConfigs, $result);
+        $handler->createProductSuggestionsIndex('test', $this->createMock(SearchClient::class));
     }
 
-    public function testGetAllConfigurationsRethrowsExceptionWhenBothRegionsFail(): void
+    public function testCreateSuggestionsIndexRethrowsExceptionWhenBothRegionsFail(): void
     {
         // Arrange
         $usQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
-        $usQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException(new BadRequestException('us region failed'));
+        $usQuerySuggestionsClientMock->method('getConfig')->willThrowException(new BadRequestException('us region failed'));
 
         $euQuerySuggestionsClientMock = $this->createMock(QuerySuggestionsClient::class);
         $euException = new BadRequestException('eu region failed');
-        $euQuerySuggestionsClientMock->method('getAllConfigs')->willThrowException($euException);
+        $euQuerySuggestionsClientMock->method('getConfig')->willThrowException($euException);
 
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
             ->onlyMethods(['createQuerySuggestionsClientForRegion'])
@@ -119,7 +99,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         $this->expectExceptionObject($euException);
 
         // Act
-        $handler->getAllConfigurations($this->createMock(SearchClient::class));
+        $handler->createProductSuggestionsIndex('test', $this->createMock(SearchClient::class));
     }
 
     protected function createHandlerWithMockedQuerySuggestionsClient(

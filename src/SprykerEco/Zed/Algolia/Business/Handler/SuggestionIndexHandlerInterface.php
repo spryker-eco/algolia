@@ -12,6 +12,4 @@ use Algolia\AlgoliaSearch\Api\SearchClient;
 interface SuggestionIndexHandlerInterface
 {
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void;
-
-    public function getAllConfigurations(SearchClient $searchClient): array;
 }

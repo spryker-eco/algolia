@@ -8,7 +8,6 @@
 namespace SprykerEco\Client\Algolia\Api\Client;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
-use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Spryker\Shared\Http\Logger\ExternalHttpInMemoryLoggerTrait;
@@ -24,26 +23,6 @@ class SearchIndexClient implements SearchIndexClientInterface
         protected SearchClient $searchClient,
         protected string $indexName,
     ) {
-    }
-
-    /**
-     * @param array<array<string, mixed>> $algoliaObjectTransfers
-     */
-    public function saveObjects(array $algoliaObjectTransfers): AlgoliaResponseTransfer
-    {
-        $this->searchClient->saveObjects($this->indexName, $algoliaObjectTransfers);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    /**
-     * @param array<string> $objectIds
-     */
-    public function deleteObjects(array $objectIds): AlgoliaResponseTransfer
-    {
-        $this->searchClient->deleteObjects($this->indexName, $objectIds);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
     }
 
     public function search(string $query, AlgoliaSearchParametersTransfer $algoliaSearchParametersTransfer): AlgoliaSearchResponseTransfer
@@ -69,35 +48,9 @@ class SearchIndexClient implements SearchIndexClientInterface
         }
     }
 
-    public function indexExists(): bool
-    {
-        return $this->searchClient->indexExists($this->indexName);
-    }
-
-    public function getIndexName(): string
-    {
-        return $this->indexName;
-    }
-
     public function getSettings(): array
     {
         return $this->searchClient->getSettings($this->indexName);
-    }
-
-    /**
-     * @param array<string, mixed> $settings
-     */
-    public function setSettings(array $settings): AlgoliaResponseTransfer
-    {
-        $this->searchClient->setSettings($this->indexName, $settings);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    protected function createSuccessfulAlgoliaResponseTransfer(): AlgoliaResponseTransfer
-    {
-        return (new AlgoliaResponseTransfer())
-            ->setIsSuccessful(true);
     }
 
     /**
