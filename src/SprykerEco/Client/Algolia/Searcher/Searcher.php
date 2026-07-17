@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace SprykerEco\Client\Algolia\Searcher;
 
-use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SearchResponseTransfer;
@@ -68,22 +67,6 @@ class Searcher implements SearcherInterface
             $searchIndexClient = $this->searchIndexResolver->getSearchIndexClientForSearchRequest($searchRequestTransfer, $algoliaConfigTransfer);
 
             return $this->performSearch($searchRequestTransfer, $searchIndexClient, $algoliaConfigTransfer);
-        } catch (NotFoundException $notFoundException) {
-            if (!$searchRequestTransfer->getSort()) {
-                $this->logUnexpectedThrowable($notFoundException, $searchRequestTransfer);
-
-                // If sorting was not provided it means that primary index already bean asked.
-                return $this->searchResponseBuilder->buildUnsuccessfulResponse(static::ERROR_MESSAGE, static::ERROR_CODE);
-            }
-
-            $this->getLogger()->warning('Algolia replica index not found for product sort, falling back to primary index.', [
-                'searchRequest' => $searchRequestTransfer,
-                'exception' => $notFoundException,
-            ]);
-
-            $searchIndexClient = $this->searchIndexResolver->getSearchIndexClientWithPrimarySearchIndex($searchRequestTransfer, $algoliaConfigTransfer);
-
-            return $this->performSearch($searchRequestTransfer, $searchIndexClient, $algoliaConfigTransfer);
         } catch (Throwable $throwable) {
             $this->logUnexpectedThrowable($throwable, $searchRequestTransfer);
 
@@ -108,21 +91,6 @@ class Searcher implements SearcherInterface
             $searchResponseTransfer->setFacets($facets);
 
             return $searchResponseTransfer;
-        } catch (NotFoundException $notFoundException) {
-            if (!$searchRequestTransfer->getSort()) {
-                $this->logUnexpectedThrowable($notFoundException, $searchRequestTransfer);
-
-                return $this->searchResponseBuilder->buildUnsuccessfulResponse(static::ERROR_MESSAGE, static::ERROR_CODE);
-            }
-
-            $this->getLogger()->warning('Algolia replica index not found for CMS page sort, falling back to primary index.', [
-                'searchRequest' => $searchRequestTransfer,
-                'exception' => $notFoundException,
-            ]);
-
-            $searchIndexClient = $this->searchIndexResolver->getSearchIndexClientWithPrimarySearchIndex($searchRequestTransfer, $algoliaConfigTransfer);
-
-            return $this->performSearch($searchRequestTransfer, $searchIndexClient, $algoliaConfigTransfer);
         } catch (Throwable $throwable) {
             $this->logUnexpectedThrowable($throwable, $searchRequestTransfer);
 
