@@ -80,7 +80,8 @@ class AlgoliaBusinessTester extends Actor
                 ],
             );
 
-        // In v4, credential validation uses setSettings/waitForTask on SearchClient directly
+        // EnabledFeaturesValidator runs after Admin/SearchOnly key validation succeeds and probes
+        // a temporary index via setSettings/waitForTask/deleteIndex to detect Personalization support.
         $algoliaSearchClientMock->method('setSettings')->willReturn(['taskID' => 1]);
         $algoliaSearchClientMock->method('waitForTask')->willReturn(null);
         $algoliaSearchClientMock->method('deleteIndex')->willReturn(null);
@@ -121,7 +122,8 @@ class AlgoliaBusinessTester extends Actor
                 throw new Exception();
             });
 
-        // In v4, credential validation uses setSettings/waitForTask on SearchClient directly
+        // EnabledFeaturesValidator runs after Admin/SearchOnly key validation succeeds and probes
+        // a temporary index via setSettings/waitForTask/deleteIndex to detect Personalization support.
         $algoliaSearchClientMock->method('setSettings')->willReturn(['taskID' => 1]);
         $algoliaSearchClientMock->method('waitForTask')->willReturn(null);
         $algoliaSearchClientMock->method('deleteIndex')->willReturn(null);

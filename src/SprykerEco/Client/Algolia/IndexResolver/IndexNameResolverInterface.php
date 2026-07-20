@@ -8,7 +8,6 @@
 namespace SprykerEco\Client\Algolia\IndexResolver;
 
 use ArrayObject;
-use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
 
@@ -26,13 +25,6 @@ interface IndexNameResolverInterface
         string $locale,
         string $tenantIdentifier
     ): string;
-
-    public function filterIndicesByIndexNameParts(
-        AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer,
-        string $tenantIdentifier,
-        ?string $entityName = null,
-        ?string $storeName = null
-    ): AlgoliaIndicesCollectionTransfer;
 
     public function getIndexReplicaNameForSorting(
         string $indexName,

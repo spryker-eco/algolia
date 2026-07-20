@@ -9,7 +9,6 @@ namespace SprykerEco\Zed\Algolia\Business\Api\Client;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 
 class SearchIndexClient implements SearchIndexClientInterface
 {
@@ -37,28 +36,6 @@ class SearchIndexClient implements SearchIndexClientInterface
         $this->searchClient->deleteObjects($this->indexName, $objectIds);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
-    {
-        $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParameters);
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result)
-            ->setIsSuccessful(true);
-    }
-
-    public function indexExists(): bool
-    {
-        return $this->searchClient->indexExists($this->indexName);
-    }
-
-    public function getIndexName(): string
-    {
-        return $this->indexName;
     }
 
     public function getSettings(): array

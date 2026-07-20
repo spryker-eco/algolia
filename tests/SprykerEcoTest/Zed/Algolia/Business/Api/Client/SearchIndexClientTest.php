@@ -12,7 +12,6 @@ namespace SprykerEcoTest\Zed\Algolia\Business\Api\Client;
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use PHPUnit\Framework\MockObject\MockObject;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClient;
 use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
@@ -34,17 +33,6 @@ class SearchIndexClientTest extends Unit
      * @var string
      */
     protected const TEST_INDEX_NAME = 'test-index';
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected const TEST_SEARCH_RESULTS = [
-        'hits' => [
-            ['objectID' => '1', 'name' => 'Test Product 1'],
-            ['objectID' => '2', 'name' => 'Test Product 2'],
-        ],
-        'nbHits' => 2,
-    ];
 
     /**
      * @var array<string, mixed>
@@ -99,30 +87,6 @@ class SearchIndexClientTest extends Unit
         // Assert
         $this->assertInstanceOf(AlgoliaResponseTransfer::class, $result);
         $this->assertTrue($result->getIsSuccessful());
-    }
-
-    public function testSearchSuccessfullyCallsAlgoliaAndReturnsSearchResponse(): void
-    {
-        // Arrange
-        $query = 'test query';
-        $searchParameters = ['filters' => 'category:electronics'];
-
-        $searchClientMock = $this->createSearchClientMock();
-        $searchClientMock
-            ->expects($this->once())
-            ->method('searchSingleIndex')
-            ->with(static::TEST_INDEX_NAME, ['query' => $query] + $searchParameters)
-            ->willReturn(static::TEST_SEARCH_RESULTS);
-
-        $searchIndexClient = new SearchIndexClient($searchClientMock, static::TEST_INDEX_NAME);
-
-        // Act
-        $result = $searchIndexClient->search($query, $searchParameters);
-
-        // Assert
-        $this->assertInstanceOf(AlgoliaSearchResponseTransfer::class, $result);
-        $this->assertTrue($result->getIsSuccessful());
-        $this->assertEquals(static::TEST_SEARCH_RESULTS, $result->getSearchResults());
     }
 
     protected function createSearchClientMock(): MockObject|SearchClient

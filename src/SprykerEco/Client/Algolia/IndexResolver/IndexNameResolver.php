@@ -9,7 +9,6 @@ namespace SprykerEco\Client\Algolia\IndexResolver;
 
 use ArrayObject;
 use Exception;
-use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
@@ -60,35 +59,6 @@ class IndexNameResolver implements IndexNameResolverInterface
             $tenantIdentifier,
             $locale,
         ));
-    }
-
-    public function filterIndicesByIndexNameParts(
-        AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer,
-        string $tenantIdentifier,
-        ?string $entityName = null,
-        ?string $storeName = null
-    ): AlgoliaIndicesCollectionTransfer {
-        $tenantIdentifier = strtolower($tenantIdentifier);
-
-        $filteredAlgoliaIndicesCollectionTransfer = new AlgoliaIndicesCollectionTransfer();
-
-        foreach ($algoliaIndicesCollectionTransfer->getIndices() as $index) {
-            if (!str_contains($index->getName(), $tenantIdentifier)) {
-                continue;
-            }
-
-            if ($entityName && !str_contains($index->getName(), $entityName)) {
-                continue;
-            }
-
-            if ($storeName && !str_contains($index->getName(), strtolower($storeName))) {
-                continue;
-            }
-
-            $filteredAlgoliaIndicesCollectionTransfer->addIndex($index);
-        }
-
-        return $filteredAlgoliaIndicesCollectionTransfer;
     }
 
     public function getIndexReplicaNameForSorting(

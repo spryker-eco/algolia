@@ -134,7 +134,7 @@ class AlgoliaClientTest extends Unit
             ->method('search')
             ->willReturn(
                 (new AlgoliaSearchResponseTransfer())
-                    ->setIsSuccessful(false),
+                    ->setIsSuccessful(true),
             );
 
         $this->tester->mockSearchIndexClient($searchIndexClientMock);
@@ -159,7 +159,7 @@ class AlgoliaClientTest extends Unit
             ->method('search')
             ->willReturn(
                 (new AlgoliaSearchResponseTransfer())
-                    ->setIsSuccessful(false),
+                    ->setIsSuccessful(true),
             );
 
         $this->tester->mockSearchIndexClient($searchIndexClientMock);
@@ -247,6 +247,8 @@ class AlgoliaClientTest extends Unit
             'createSearchClientCreator',
             $this->tester->createSearchClientCreatorMock($searchClientMock),
         );
+
+        $this->tester->mockConfigMethod('isSearchInFrontendEnabledForProducts', true);
 
         $searchRequestTransfer = $this->tester->haveSearchRequestTransfer();
 

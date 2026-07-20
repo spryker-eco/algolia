@@ -28,9 +28,11 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
         $suggestionIndexName = sprintf('%s_%s', $sourceIndex, static::QUERY_SUGGESTIONS_SUFFIX);
-        $querySuggestionsClient = $this->createQuerySuggestionsClient($searchClient);
 
-        $isConfigurationExist = $this->checkSuggestionIndexConfigurationExist($suggestionIndexName, $querySuggestionsClient);
+        $isConfigurationExist = $this->executeWithRegionFallback(
+            $searchClient,
+            fn (QuerySuggestionsClient $querySuggestionsClient): bool => $this->checkSuggestionIndexConfigurationExist($suggestionIndexName, $querySuggestionsClient),
+        );
 
         if ($isConfigurationExist) {
             return;
@@ -55,7 +57,12 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
             'allowSpecialCharacters' => true,
         ];
 
-        $querySuggestionsClient->createConfig($suggestionsIndexOptions);
+        $this->executeWithRegionFallback(
+            $searchClient,
+            function (QuerySuggestionsClient $querySuggestionsClient) use ($suggestionsIndexOptions): void {
+                $querySuggestionsClient->createConfig($suggestionsIndexOptions);
+            },
+        );
     }
 
     protected function checkSuggestionIndexConfigurationExist(string $configurationName, QuerySuggestionsClient $querySuggestionsClient): bool
@@ -69,47 +76,31 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
         return true;
     }
 
-    public function getAllConfigurations(SearchClient $searchClient): array
+    /**
+     * Query Suggestions is only available in the `us`/`eu` regions and the v4 SDK does not expose a
+     * reliable, typed way to detect a region mismatch up front (it no longer throws the message-based
+     * exceptions the previous SDK version did), so the correct region is resolved by attempting the
+     * real operation against `REGION_US` first and retrying once against `REGION_EU` on any failure.
+     *
+     * @template T
+     *
+     * @param callable(\Algolia\AlgoliaSearch\Api\QuerySuggestionsClient): T $operation
+     *
+     * @return T
+     */
+    protected function executeWithRegionFallback(SearchClient $searchClient, callable $operation)
     {
-        $querySuggestionsClient = $this->createQuerySuggestionsClient($searchClient);
-
-        return $querySuggestionsClient->getAllConfigs();
+        try {
+            return $operation($this->createQuerySuggestionsClientForRegion($searchClient, static::REGION_US));
+        } catch (Throwable $exception) {
+            return $operation($this->createQuerySuggestionsClientForRegion($searchClient, static::REGION_EU));
+        }
     }
 
-    protected function createQuerySuggestionsClient(SearchClient $searchClient): QuerySuggestionsClient
+    protected function createQuerySuggestionsClientForRegion(SearchClient $searchClient, string $region): QuerySuggestionsClient
     {
         $config = $searchClient->getClientConfig();
-        $appId = $config->getAppId();
-        $apiKey = $config->getAlgoliaApiKey();
 
-        try {
-            $client = QuerySuggestionsClient::create($appId, $apiKey, static::REGION_US);
-            // Verify the client works by making a lightweight call
-            $client->getAllConfigs();
-
-            return $client;
-        } catch (Throwable $exception) {
-            if ($this->isRegionMismatchException($exception)) {
-                return QuerySuggestionsClient::create($appId, $apiKey, static::REGION_EU);
-            }
-
-            throw $exception;
-        }
-    }
-
-    protected function isRegionMismatchException(Throwable $exception): bool
-    {
-        $message = $exception->getMessage();
-
-        if ($message === 'The log processing region does not match') {
-            return true;
-        }
-
-        // Algolia may return a redirect or JSON parse error for incorrect region
-        if (mb_stristr($message, 'json_decode_error') !== false) {
-            return true;
-        }
-
-        return false;
+        return QuerySuggestionsClient::create($config->getAppId(), $config->getAlgoliaApiKey(), $region);
     }
 }
