@@ -619,8 +619,8 @@ For a complete implementation guide with examples, see [Custom Entity Index Mapp
 - `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend; set via `src/Pyz/Shared/Algolia/AlgoliaConfig.php` (Option A) or via Back Office **Configuration > CMS > Search** (Option B)
 
 **Sorting (Replica Indices):**
-- `getProductSortingAttributes()` - Configures product sorting replicas. Returns a `key => value` mapping where keys are field names used in replica index naming and values are the Algolia attribute names used for ranking. Empty by default; override in project-level config.
-- `getCmsPageSortingAttributes()` - Configures CMS page sorting replicas. Returns a list of attribute names. Empty by default; override in project-level config.
+- `getProductSortingAttributes()` - Configures product sorting replicas. Returns a list of attribute names. Each attribute gets asc/desc replica indices created for it. Empty by default; override in project-level config.
+- `getCmsPageSortingAttributes()` - Configures CMS page sorting replicas. Returns a list of attribute names. Each attribute gets asc/desc replica indices created for it. Empty by default; override in project-level config.
 
 Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
 
@@ -628,16 +628,16 @@ Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
 public function getProductSortingAttributes(): array
 {
     return [
-        AlgoliaProductObjectEnum::RATING->value => AlgoliaProductObjectEnum::RATING->value,
-        AlgoliaProductObjectEnum::NAME->value => AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
-        'prices.eur.gross' => 'prices.eur.gross',
-        'prices.eur.net' => 'prices.eur.net',
+        'rating',
+        'abstract_name',
+        'prices.eur.gross',
+        'prices.eur.net',
     ];
 }
 
 public function getCmsPageSortingAttributes(): array
 {
-    return [AlgoliaCmsPageObjectEnum::NAME->value];
+    return ['name'];
 }
 ```
 
@@ -649,8 +649,8 @@ Example:
 public function getSuggestionGenerateAttributes(): array
 {
     return [
-        [AlgoliaProductObjectEnum::CATEGORY->value],
-        [AlgoliaProductObjectEnum::ATTRIBUTES->value . '.brand'],
+        ['category'],
+        ['attributes.brand'],
     ];
 }
 ```

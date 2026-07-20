@@ -122,13 +122,13 @@ class IndexConfigurator implements IndexConfiguratorInterface
     {
         $replicaNamesWithRankingAttributes = [];
 
-        foreach ($this->algoliaConfig->getProductSortingAttributes() as $replicaFieldName => $rankingAttributeName) {
-            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeDesc($indexName, $replicaFieldName)] = [
-                $this->getRankingByAttributeDesc($rankingAttributeName),
+        foreach ($this->algoliaConfig->getProductSortingAttributes() as $attributeName) {
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeDesc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeDesc($attributeName),
                 ...$this->getDefaultRankingOrder(),
             ];
-            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeAsc($indexName, $replicaFieldName)] = [
-                $this->getRankingByAttributeAsc($rankingAttributeName),
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeAsc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeAsc($attributeName),
                 ...$this->getDefaultRankingOrder(),
             ];
         }

@@ -71,8 +71,8 @@ class IndexConfiguratorTest extends Unit
 
         $this->tester->mockFactoryMethod('createSuggestionIndexHandler', $this->tester->mockSuggestionIndexHandler());
         $this->tester->mockConfigMethod('getProductSortingAttributes', $withPrices
-            ? ['rating' => 'rating', 'name' => 'abstract_name', 'prices.eur.gross' => 'prices.eur.gross', 'prices.eur.net' => 'prices.eur.net']
-            : ['rating' => 'rating', 'name' => 'abstract_name']);
+            ? ['rating', 'abstract_name', 'prices.eur.gross', 'prices.eur.net']
+            : ['rating', 'abstract_name']);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
         // Act
@@ -114,10 +114,10 @@ class IndexConfiguratorTest extends Unit
     {
         // Arrange
         $this->tester->mockConfigMethod('getProductSortingAttributes', [
-            'rating' => 'rating',
-            'name' => 'abstract_name',
-            'prices.eur.gross' => 'prices.eur.gross',
-            'prices.eur.net' => 'prices.eur.net',
+            'rating',
+            'abstract_name',
+            'prices.eur.gross',
+            'prices.eur.net',
         ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
@@ -150,8 +150,8 @@ class IndexConfiguratorTest extends Unit
     {
         // Arrange
         $this->tester->mockConfigMethod('getProductSortingAttributes', [
-            'rating' => 'rating',
-            'name' => 'abstract_name',
+            'rating',
+            'abstract_name',
         ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
@@ -172,11 +172,11 @@ class IndexConfiguratorTest extends Unit
         });
         $this->assertEmpty($priceRelatedReplicas, 'Price-related replicas should not be present when not configured');
 
-        // Check that basic replicas (rating, name) are still present
+        // Check that basic replicas (rating, abstract_name) are still present
         $basicReplicas = array_filter($replicaNames, function ($name) {
-            return strpos($name, 'rating') !== false || strpos($name, 'name') !== false;
+            return strpos($name, 'rating') !== false || strpos($name, 'abstract_name') !== false;
         });
-        $this->assertNotEmpty($basicReplicas, 'Basic replicas (rating, name) should be present when configured');
+        $this->assertNotEmpty($basicReplicas, 'Basic replicas (rating, abstract_name) should be present when configured');
     }
 
     public function testGetReplicaNamesWithRankingAttributesReturnsEmptyWhenNoSortingConfigured(): void
@@ -200,8 +200,8 @@ class IndexConfiguratorTest extends Unit
     {
         // Arrange
         $this->tester->mockConfigMethod('getProductSortingAttributes', [
-            'rating' => 'rating',
-            'name' => 'abstract_name',
+            'rating',
+            'abstract_name',
         ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
@@ -226,11 +226,11 @@ class IndexConfiguratorTest extends Unit
         }
     }
 
-    public function testGetReplicaNamesWithRankingAttributesUsesKeyForReplicaNameAndValueForRanking(): void
+    public function testGetReplicaNamesWithRankingAttributesUsesAttributeForBothReplicaNameAndRanking(): void
     {
         // Arrange
         $this->tester->mockConfigMethod('getProductSortingAttributes', [
-            'name' => 'abstract_name',
+            'abstract_name',
         ]);
         $indexConfigurator = $this->tester->getFactory()->createIndexConfigurator();
 
@@ -243,15 +243,13 @@ class IndexConfiguratorTest extends Unit
         // Assert
         $replicaNames = array_keys($result);
 
-        // Replica names should use the key ('name'), not the value ('abstract_name')
-        $this->assertContains(static::TEST_INDEX_NAME . '-desc-name', $replicaNames);
-        $this->assertContains(static::TEST_INDEX_NAME . '-asc-name', $replicaNames);
+        $this->assertContains(static::TEST_INDEX_NAME . '-desc-abstract_name', $replicaNames);
+        $this->assertContains(static::TEST_INDEX_NAME . '-asc-abstract_name', $replicaNames);
 
-        // Ranking attributes should use the value ('abstract_name')
-        $descRanking = $result[static::TEST_INDEX_NAME . '-desc-name'];
+        $descRanking = $result[static::TEST_INDEX_NAME . '-desc-abstract_name'];
         $this->assertSame('desc(abstract_name)', $descRanking[0]);
 
-        $ascRanking = $result[static::TEST_INDEX_NAME . '-asc-name'];
+        $ascRanking = $result[static::TEST_INDEX_NAME . '-asc-abstract_name'];
         $this->assertSame('asc(abstract_name)', $ascRanking[0]);
     }
 }
