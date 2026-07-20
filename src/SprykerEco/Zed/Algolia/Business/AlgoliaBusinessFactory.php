@@ -86,6 +86,8 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
             $this->createProductDataFilterApplier(),
             $this->createAlgoliaConfigResolver(),
             $this->getProductFacade(),
+            $this->createSearchClientCreator(),
+            $this->createIndexConfigurator(),
         );
     }
 
