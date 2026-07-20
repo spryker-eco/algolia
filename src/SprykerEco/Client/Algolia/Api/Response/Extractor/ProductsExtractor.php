@@ -14,6 +14,7 @@ use Generated\Shared\Transfer\SearchResponseProductAttributeTransfer;
 use Generated\Shared\Transfer\SearchResponseProductPriceTransfer;
 use Generated\Shared\Transfer\SearchResponseProductTransfer;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 class ProductsExtractor implements SearchResponseExtractorInterface
 {
@@ -22,20 +23,11 @@ class ProductsExtractor implements SearchResponseExtractorInterface
         return AlgoliaEntityNameEnum::PRODUCT->value;
     }
 
-    /**
-     * @var string
-     */
-    protected const FIELD_IMAGES = 'images';
+    protected const string FIELD_IMAGES = AlgoliaProductObjectEnum::IMAGES->value;
 
-    /**
-     * @var string
-     */
-    protected const FIELD_PRICES = 'prices';
+    protected const string FIELD_PRICES = AlgoliaProductObjectEnum::PRICES->value;
 
-    /**
-     * @var string
-     */
-    protected const FIELD_ATTRIBUTES = 'attributes';
+    protected const string FIELD_ATTRIBUTES = AlgoliaProductObjectEnum::ATTRIBUTES->value;
 
     /**
      * @var string

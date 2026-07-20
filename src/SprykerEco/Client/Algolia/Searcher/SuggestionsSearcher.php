@@ -24,6 +24,7 @@ use SprykerEco\Client\Algolia\IndexResolver\IndexNameResolverInterface;
 use SprykerEco\Client\Algolia\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use Throwable;
 
 class SuggestionsSearcher implements SuggestionsSearcherInterface
@@ -247,7 +248,7 @@ class SuggestionsSearcher implements SuggestionsSearcherInterface
 
             $categories = $searchClient->searchForFacetValues(
                 $productIndexName,
-                'category',
+                AlgoliaProductObjectEnum::CATEGORY->value,
                 [
                     'facetQuery' => $searchRequestTransfer->getQuery() ?? '',
                     'maxFacetHits' => 10,

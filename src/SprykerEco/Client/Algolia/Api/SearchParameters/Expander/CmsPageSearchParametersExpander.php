@@ -54,9 +54,9 @@ class CmsPageSearchParametersExpander implements SearchParametersExpanderInterfa
     public function expandSourceIdentifierParameters(array $additionalParameters, SearchRequestTransfer $searchRequestTransfer): array
     {
         return array_merge($additionalParameters, [
-            'attributesToSnippet' => ['content:50'],
+            'attributesToSnippet' => [AlgoliaCmsPageObjectEnum::CONTENT->value . ':50'],
             'snippetEllipsisText' => '...',
-            'attributesToHighlight' => ['name'],
+            'attributesToHighlight' => [AlgoliaCmsPageObjectEnum::NAME->value],
         ]);
     }
 

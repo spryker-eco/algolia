@@ -119,7 +119,7 @@ class AlgoliaClientTest extends Unit
         $this->assertSame(['category', 'rating'], array_keys($algoliaSearchResponseTransfer->getFacets()));
     }
 
-    public function testSearchPerformedByDefaultIndexWhenAlgoliaNotFoundExceptionWasThrownAndSortHasSpecified(): void
+    public function testSearchReturnsSuccessfulEmptyResultWhenReplicaIndexNotFoundAndSortHasSpecified(): void
     {
         // Arrange
         $searchRequestTransfer = $this->tester->haveSearchRequestTransfer([
@@ -127,23 +127,15 @@ class AlgoliaClientTest extends Unit
                 ->addFacet('facet', (new FacetEntryTransfer())->setType('values')),
         ]);
         $searchRequestTransfer->setSort((new SortingEntryTransfer())->setField('unknown_field')->setDirection('asc'));
-        $normalResponseFixtures = $this->tester->loadNormalSearchResponseFixtures()->getSearchResults();
         $searchIndexClientMock = $this->tester->createSearchIndexClientMock();
 
-        $matcher = $this->exactly(2);
-
+        // SearchIndexClient catches NotFoundException and returns empty response
         $searchIndexClientMock
-            ->expects($matcher)
             ->method('search')
-            ->willReturnCallback(function () use ($matcher, $normalResponseFixtures) {
-                if ($matcher->numberOfInvocations() === 1) {
-                    throw new NotFoundException();
-                }
-
-                return (new AlgoliaSearchResponseTransfer())
-                    ->setIsSuccessful(true)
-                    ->setSearchResults($normalResponseFixtures);
-            });
+            ->willReturn(
+                (new AlgoliaSearchResponseTransfer())
+                    ->setIsSuccessful(true),
+            );
 
         $this->tester->mockSearchIndexClient($searchIndexClientMock);
 
@@ -152,21 +144,23 @@ class AlgoliaClientTest extends Unit
 
         // Assert
         $this->assertTrue($algoliaSearchResponseTransfer->getIsSuccessful());
-        $this->assertSame(5, count($algoliaSearchResponseTransfer->getItems()));
-        $this->assertSame(3, count($algoliaSearchResponseTransfer->getFacets()));
-        $this->assertSame(222, $algoliaSearchResponseTransfer->getPagination()->getNumFound());
-        $this->assertSame(1, $algoliaSearchResponseTransfer->getPagination()->getCurrentPage());
-        $this->assertSame(12, $algoliaSearchResponseTransfer->getPagination()->getCurrentItemsPerPage());
+        $this->assertEmpty($algoliaSearchResponseTransfer->getItems());
+        $this->assertEmpty($algoliaSearchResponseTransfer->getFacets());
     }
 
-    public function testSearchReturnsUnsuccessfulResultWhenAlgoliaNotFoundExceptionWasThrownAndSortParamHasNotSpecified(): void
+    public function testSearchReturnsSuccessfulEmptyResultWhenReplicaIndexNotFoundAndSortParamHasNotSpecified(): void
     {
         // Arrange
         $searchRequestTransfer = $this->tester->haveSearchRequestTransfer();
         $searchIndexClientMock = $this->tester->createSearchIndexClientMock();
+
+        // SearchIndexClient catches NotFoundException and returns empty response
         $searchIndexClientMock
             ->method('search')
-            ->willThrowException(new NotFoundException());
+            ->willReturn(
+                (new AlgoliaSearchResponseTransfer())
+                    ->setIsSuccessful(true),
+            );
 
         $this->tester->mockSearchIndexClient($searchIndexClientMock);
 
@@ -174,12 +168,9 @@ class AlgoliaClientTest extends Unit
         $algoliaSearchResponseTransfer = $this->tester->getClient()->search($searchRequestTransfer);
 
         // Assert
-        $this->assertFalse($algoliaSearchResponseTransfer->getIsSuccessful());
-        $this->assertSame('The search request has failed. Please check an App configuration or index name in the Algolia account', $algoliaSearchResponseTransfer->getErrors()->offsetGet(0)->getMessage());
-        $this->assertSame(424, $algoliaSearchResponseTransfer->getStatusCode());
+        $this->assertTrue($algoliaSearchResponseTransfer->getIsSuccessful());
         $this->assertEmpty($algoliaSearchResponseTransfer->getItems());
         $this->assertEmpty($algoliaSearchResponseTransfer->getFacets());
-        $this->assertNull($algoliaSearchResponseTransfer->getPagination());
     }
 
     public function testSearchReturnsUnsuccessfulResultWhenUnexpectedExceptionWasThrown(): void

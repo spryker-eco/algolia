@@ -12,6 +12,7 @@ use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Codeception\Test\Unit;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
 
 /**
@@ -68,7 +69,11 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         $euQuerySuggestionsClientMock->method('getConfig')->willReturn(['indexName' => 'test_query_suggestions']);
         $euQuerySuggestionsClientMock->expects($this->never())->method('createConfig');
 
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getSuggestionGenerateAttributes')->willReturn([['category'], ['attributes.brand']]);
+
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
+            ->setConstructorArgs([$algoliaConfigMock])
             ->onlyMethods(['createQuerySuggestionsClientForRegion'])
             ->getMock();
 
@@ -89,7 +94,11 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         $euException = new BadRequestException('eu region failed');
         $euQuerySuggestionsClientMock->method('getConfig')->willThrowException($euException);
 
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getSuggestionGenerateAttributes')->willReturn([['category'], ['attributes.brand']]);
+
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
+            ->setConstructorArgs([$algoliaConfigMock])
             ->onlyMethods(['createQuerySuggestionsClientForRegion'])
             ->getMock();
 
@@ -105,8 +114,12 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     protected function createHandlerWithMockedQuerySuggestionsClient(
         QuerySuggestionsClient $querySuggestionsClient,
     ): SuggestionIndexHandler {
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getSuggestionGenerateAttributes')->willReturn([['category'], ['attributes.brand']]);
+
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
             ->onlyMethods(['createQuerySuggestionsClientForRegion'])
+            ->setConstructorArgs([$algoliaConfigMock])
             ->getMock();
 
         $handler->method('createQuerySuggestionsClientForRegion')

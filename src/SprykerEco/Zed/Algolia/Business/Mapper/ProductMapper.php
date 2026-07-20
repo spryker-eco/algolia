@@ -21,6 +21,7 @@ use Generated\Shared\Transfer\ProductImageSetTransfer;
 use Generated\Shared\Transfer\ProductImageTransfer;
 use Generated\Shared\Transfer\ProductOfferTransfer;
 use Spryker\Shared\Log\LoggerTrait;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 class ProductMapper implements ProductMapperInterface
 {
@@ -79,12 +80,12 @@ class ProductMapper implements ProductMapperInterface
     {
         return array_map(function (AlgoliaProductTransfer $algoliaProductTransfer) use ($algoliaConfigTransfer) {
             $arrayData = $algoliaProductTransfer->getObjectOrFail()->modifiedToArray();
-            $arrayData['objectID'] = $arrayData['object_id'];
+            $arrayData[AlgoliaProductObjectEnum::OBJECT_ID->value] = $arrayData['object_id'];
             unset($arrayData['object_id']);
 
             if (!$algoliaConfigTransfer->getIsProductPriceSynced()) {
-                unset($arrayData['concrete_prices']);
-                unset($arrayData['prices']);
+                unset($arrayData[AlgoliaProductObjectEnum::CONCRETE_PRICES->value]);
+                unset($arrayData[AlgoliaProductObjectEnum::PRICES->value]);
             }
 
             return $arrayData;
