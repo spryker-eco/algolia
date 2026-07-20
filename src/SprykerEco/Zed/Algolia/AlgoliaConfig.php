@@ -407,6 +407,21 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
+     * - Returns the list of facet attributes used for Query Suggestions generation.
+     * - Each entry is an array of attribute names forming one facet group.
+     * - Empty by default; override in project-level config to enable suggestion facets.
+     *
+     * @api
+     *
+     * @return array<array<string>>
+     */
+    public function getSuggestionGenerateAttributes(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
      * - Returns the mapping of sortable fields for product indices.
      * - Keys are the field names used in replica index naming (matching client sort field).
      * - Values are the actual Algolia attribute names used for ranking.

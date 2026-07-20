@@ -627,22 +627,31 @@ Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
 ```php
 public function getProductSortingAttributes(): array
 {
-    $attributes = [
-        AlgoliaProductObjectEnum::RATING->value => AlgoliaProductObjectEnum::RATING->value,         // replica named by 'rating', sorted by 'rating'
-        AlgoliaProductObjectEnum::NAME->value => AlgoliaProductObjectEnum::ABSTRACT_NAME->value,    // replica named by 'name', sorted by 'abstract_name'
+    return [
+        AlgoliaProductObjectEnum::RATING->value => AlgoliaProductObjectEnum::RATING->value,
+        AlgoliaProductObjectEnum::NAME->value => AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
+        'prices.eur.gross' => 'prices.eur.gross',
+        'prices.eur.net' => 'prices.eur.net',
     ];
-
-    if ($this->getIsProductPriceSynced()) {
-        $attributes['prices.eur.gross'] = 'prices.eur.gross';
-        $attributes['prices.eur.net'] = 'prices.eur.net';
-    }
-
-    return $attributes;
 }
 
 public function getCmsPageSortingAttributes(): array
 {
     return [AlgoliaCmsPageObjectEnum::NAME->value];
+}
+```
+
+**Query Suggestions:**
+- `getSuggestionGenerateAttributes()` - Configures facet attributes for Algolia Query Suggestions generation. Each entry is an array of attribute names forming one facet group. Empty by default; override in project-level config.
+
+Example:
+```php
+public function getSuggestionGenerateAttributes(): array
+{
+    return [
+        [AlgoliaProductObjectEnum::CATEGORY->value],
+        [AlgoliaProductObjectEnum::ATTRIBUTES->value . '.brand'],
+    ];
 }
 ```
 

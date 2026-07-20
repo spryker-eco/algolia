@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Algolia\Business\Handler;
 use Algolia\AlgoliaSearch\Api\QuerySuggestionsClient;
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
-use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use Throwable;
 
 class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
@@ -20,6 +20,10 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
     protected const string REGION_EU = 'eu';
 
     protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
+
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
+    {
+    }
 
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
@@ -32,6 +36,12 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
             return;
         }
 
+        $generateAttributes = $this->algoliaConfig->getSuggestionGenerateAttributes();
+
+        if (!$generateAttributes) {
+            return;
+        }
+
         $suggestionsIndexOptions = [
             'indexName' => $suggestionIndexName,
             'sourceIndices' => [
@@ -39,10 +49,7 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
                     'indexName' => $sourceIndex,
                     'minHits' => 1,
                     'minLetters' => 2,
-                    'generate' => [
-                        [AlgoliaProductObjectEnum::CATEGORY->value],
-                        [AlgoliaProductObjectEnum::ATTRIBUTES->value . '.brand'],
-                    ],
+                    'generate' => $generateAttributes,
                 ],
             ],
             'allowSpecialCharacters' => true,
