@@ -86,6 +86,8 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
             $this->createProductDataFilterApplier(),
             $this->createAlgoliaConfigResolver(),
             $this->getProductFacade(),
+            $this->createSearchClientCreator(),
+            $this->createIndexConfigurator(),
         );
     }
 
@@ -147,7 +149,7 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
 
     public function createSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
-        return new SuggestionIndexHandler();
+        return new SuggestionIndexHandler($this->getConfig());
     }
 
     public function createIndexNameResolver(): IndexNameResolverInterface

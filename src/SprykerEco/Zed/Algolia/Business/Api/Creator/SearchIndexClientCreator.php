@@ -26,7 +26,7 @@ class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
         $indexName = $indexConfigurationTransfer->getIndexNameOrFail();
 
         if (!$client->indexExists($indexName) && $indexConfigurationTransfer->getLocaleOrFail() && !$indexConfigurationTransfer->getSkipIndexConfiguration()) {
-            $this->indexConfigurator->configureIndex($indexName, $client, $indexConfigurationTransfer->getLocale(), $indexConfigurationTransfer->getAlgoliaConfigOrFail());
+            $this->indexConfigurator->configureIndex($indexName, $client, $indexConfigurationTransfer->getLocale());
         }
 
         return new SearchIndexClient($client, $indexName);

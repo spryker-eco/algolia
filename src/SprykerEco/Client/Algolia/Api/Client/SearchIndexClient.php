@@ -8,6 +8,7 @@
 namespace SprykerEco\Client\Algolia\Api\Client;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
@@ -59,8 +60,23 @@ class SearchIndexClient implements SearchIndexClientInterface
             return (new AlgoliaSearchResponseTransfer())
                 ->setSearchResults($result)
                 ->setIsSuccessful(true);
+        } catch (NotFoundException $notFoundException) {
+            $responseData = ['error' => $notFoundException->getMessage()];
+
+            $this->getLogger()->warning('Algolia replica index not found for sort, returning empty result.', [
+                'indexName' => $this->indexName,
+                'exception' => $notFoundException,
+            ]);
+
+            return (new AlgoliaSearchResponseTransfer())
+                ->setIsSuccessful(false);
         } catch (Throwable $e) {
             $responseData = ['error' => $e->getMessage()];
+
+            $this->getLogger()->warning('Algolia search request failed.', [
+                'indexName' => $this->indexName,
+                'exception' => $e,
+            ]);
 
             return (new AlgoliaSearchResponseTransfer())
                 ->setIsSuccessful(false);

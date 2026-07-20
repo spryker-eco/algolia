@@ -15,6 +15,7 @@ use Codeception\Test\Unit;
 use Exception;
 use InvalidArgumentException;
 use ReflectionMethod;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandler;
 use Throwable;
 
@@ -86,7 +87,7 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
         bool $expectedResult,
     ): void {
         // Arrange
-        $handler = new SuggestionIndexHandler();
+        $handler = new SuggestionIndexHandler($this->createMock(AlgoliaConfig::class));
         $reflection = new ReflectionMethod($handler, 'isRegionMismatchException');
 
         // Act
@@ -128,7 +129,11 @@ class SuggestionIndexHandlerExceptionHandlingTest extends Unit
     protected function createHandlerWithMockedQuerySuggestionsClient(
         QuerySuggestionsClient $querySuggestionsClient,
     ): SuggestionIndexHandler {
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getSuggestionGenerateAttributes')->willReturn([['category'], ['attributes.brand']]);
+
         $handler = $this->getMockBuilder(SuggestionIndexHandler::class)
+            ->setConstructorArgs([$algoliaConfigMock])
             ->onlyMethods(['createQuerySuggestionsClient'])
             ->getMock();
 

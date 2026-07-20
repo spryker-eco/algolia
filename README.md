@@ -618,6 +618,43 @@ For a complete implementation guide with examples, see [Custom Entity Index Mapp
 - `isSearchInFrontendEnabledForProducts()` - Enable product search in frontend; set via `src/Pyz/Shared/Algolia/AlgoliaConfig.php` (Option A) or via Back Office **Configuration > Catalog > Search** (Option B)
 - `isSearchInFrontendEnabledForCmsPages()` - Enable CMS page search in frontend; set via `src/Pyz/Shared/Algolia/AlgoliaConfig.php` (Option A) or via Back Office **Configuration > CMS > Search** (Option B)
 
+**Sorting (Replica Indices):**
+- `getProductSortingAttributes()` - Configures product sorting replicas. Returns a list of attribute names. Each attribute gets asc/desc replica indices created for it. Empty by default; override in project-level config.
+- `getCmsPageSortingAttributes()` - Configures CMS page sorting replicas. Returns a list of attribute names. Each attribute gets asc/desc replica indices created for it. Empty by default; override in project-level config.
+
+Example project-level configuration in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
+
+```php
+public function getProductSortingAttributes(): array
+{
+    return [
+        'rating',
+        'abstract_name',
+        'prices.eur.gross',
+        'prices.eur.net',
+    ];
+}
+
+public function getCmsPageSortingAttributes(): array
+{
+    return ['name'];
+}
+```
+
+**Query Suggestions:**
+- `getSuggestionGenerateAttributes()` - Configures facet attributes for Algolia Query Suggestions generation. Each entry is an array of attribute names forming one facet group. Empty by default; override in project-level config.
+
+Example:
+```php
+public function getSuggestionGenerateAttributes(): array
+{
+    return [
+        ['category'],
+        ['attributes.brand'],
+    ];
+}
+```
+
 **Insights & Analytics & Personalization:**
 - `getIsPersonalizationEnabled()` - Enable/disable Algolia Personalization for search. This feature requires a premium Algolia plan.
 - `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking (via TraceableEventWidget).

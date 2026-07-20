@@ -9,10 +9,10 @@ namespace SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\AlgoliaException;
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\IndexConfigurationResponseTransfer;
 use Locale;
 use Spryker\Shared\Log\LoggerTrait;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 
@@ -20,27 +20,15 @@ class IndexConfigurator implements IndexConfiguratorInterface
 {
     use LoggerTrait;
 
-    protected const string ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
-
-    protected const string ATTRIBUTE_NAME_RATING = 'rating';
-
-    protected const string ATTRIBUTE_NAME_NAME = 'name';
-
-    protected const string ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
-
-    protected const string ATTRIBUTE_NAME_PRICES_EUR_GROSS = 'prices.eur.gross';
-
-    protected const string ATTRIBUTE_NAME_PRICES_EUR_NET = 'prices.eur.net';
-
     protected const string ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
 
     public function __construct(protected SuggestionIndexHandlerInterface $suggestionIndexHandler, protected AlgoliaConfig $algoliaConfig)
     {
     }
 
-    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void
+    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale): void
     {
-        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($indexName, $algoliaConfigTransfer);
+        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($indexName);
         $response = $searchClient->setSettings(
             $indexName,
             [
@@ -82,7 +70,7 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ],
             'searchableAttributes' => $this->algoliaConfig->getSearchableAttributes(),
             'attributesForFaceting' => $this->algoliaConfig->getFilterableAttributes(),
-            'attributeForDistinct' => static::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
+            'attributeForDistinct' => AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
             'distinct' => true,
             'indexLanguages' => $indexQueryLanguages,
             'queryLanguages' => $indexQueryLanguages,
@@ -130,49 +118,19 @@ class IndexConfigurator implements IndexConfiguratorInterface
     /**
      * @return array<array>
      */
-    protected function getReplicaNamesWithRankingAttributes(string $indexName, AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    protected function getReplicaNamesWithRankingAttributes(string $indexName): array
     {
-        $replicaNamesWithRankingAttributes = [
-            $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_RATING),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_RATING),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
-                ...$this->getDefaultRankingOrder(),
-            ],
-        ];
+        $replicaNamesWithRankingAttributes = [];
 
-        if ($algoliaConfigTransfer->getIsProductPriceSynced()) {
-            $replicaNamesWithRankingAttributes = array_merge(
-                $replicaNamesWithRankingAttributes,
-                [
-                    $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
-                        $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
-                        $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeAsc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
-                        $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeDesc($indexName, static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
-                        $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                ],
-            );
+        foreach ($this->algoliaConfig->getProductSortingAttributes() as $attributeName) {
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeDesc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeDesc($attributeName),
+                ...$this->getDefaultRankingOrder(),
+            ];
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeAsc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeAsc($attributeName),
+                ...$this->getDefaultRankingOrder(),
+            ];
         }
 
         return $replicaNamesWithRankingAttributes;
