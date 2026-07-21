@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Algolia\Business\Exporter;
 
 use ArrayObject;
+use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaExportCriteriaTransfer;
 use Generated\Shared\Transfer\AlgoliaExportResultTransfer;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
@@ -15,6 +16,8 @@ use Generated\Shared\Transfer\PaginationTransfer;
 use Generated\Shared\Transfer\ProductConcreteConditionsTransfer;
 use Generated\Shared\Transfer\ProductConcreteCriteriaTransfer;
 use Spryker\Zed\Product\Business\ProductFacadeInterface;
+use SprykerEco\Zed\Algolia\Business\Api\Creator\SearchClientCreatorInterface;
+use SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator\IndexConfiguratorInterface;
 use SprykerEco\Zed\Algolia\Business\Config\AlgoliaConfigResolverInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductConcreteFilterInterface;
 use SprykerEco\Zed\Algolia\Business\Filter\ProductDataFilterApplierInterface;
@@ -24,19 +27,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ProductExporter implements ProductExporterInterface
 {
+    /**
+     * @var array<string, true>
+     */
+    protected array $configuredIndices = [];
+
     public function __construct(
         protected ProductIndexerInterface $algoliaProductIndexer,
         protected ProductSaverInterface $algoliaProductSaver,
         protected ProductConcreteFilterInterface $inactiveProductFilter,
         protected ProductDataFilterApplierInterface $productDataFilterApplier,
         protected AlgoliaConfigResolverInterface $algoliaConfigResolver,
-        protected ProductFacadeInterface $productFacade
+        protected ProductFacadeInterface $productFacade,
+        protected SearchClientCreatorInterface $searchClientCreator,
+        protected IndexConfiguratorInterface $indexConfigurator
     ) {
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     */
     public function exportProducts(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null
@@ -133,9 +140,30 @@ class ProductExporter implements ProductExporterInterface
             $algoliaConfigTransfer->getTenantIdentifier(),
         );
 
+        $this->configureIndices($indexedAlgoliaProductCollections, $algoliaConfigTransfer);
+
         return $this->algoliaProductSaver->saveAlgoliaProducts(
             $indexedAlgoliaProductCollections,
             $algoliaConfigTransfer,
         );
+    }
+
+    /**
+     * @param array<\Generated\Shared\Transfer\IndexedAlgoliaProductCollectionTransfer> $indexedAlgoliaProductCollections
+     */
+    protected function configureIndices(array $indexedAlgoliaProductCollections, AlgoliaConfigTransfer $algoliaConfigTransfer): void
+    {
+        $searchClient = $this->searchClientCreator->createSearchClientFromConfig($algoliaConfigTransfer);
+
+        foreach ($indexedAlgoliaProductCollections as $collection) {
+            $indexName = $collection->getIndexName();
+
+            if (isset($this->configuredIndices[$indexName])) {
+                continue;
+            }
+
+            $this->indexConfigurator->configureIndex($indexName, $searchClient, $collection->getLocale());
+            $this->configuredIndices[$indexName] = true;
+        }
     }
 }

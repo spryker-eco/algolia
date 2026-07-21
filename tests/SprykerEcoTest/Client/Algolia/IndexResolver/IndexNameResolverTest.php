@@ -12,7 +12,9 @@ use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\FacetEntryTransfer;
 use Generated\Shared\Transfer\FacetParametersTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Client\Algolia\IndexResolver\IndexNameResolver;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
@@ -59,20 +61,16 @@ class IndexNameResolverTest extends Unit
             ->setField('name')
             ->setDirection('asc');
 
-        $facetCollectionTransfer = new FacetCollectionTransfer();
-
         // Act
-        $result = (new IndexNameResolver())->getIndexReplicaNameForSorting(
+        $result = $this->createIndexNameResolver()->getIndexReplicaNameForSorting(
             static::TEST_INDEX_NAME,
             $sortingEntryTransfer,
-            $facetCollectionTransfer,
+            new FacetCollectionTransfer(),
+            AlgoliaEntityNameEnum::PRODUCT->value,
         );
 
         // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
-        $this->assertStringContainsString('name', $result);
-        $this->assertStringContainsString('asc', $result);
+        $this->assertSame(static::TEST_INDEX_NAME . '-asc-name', $result);
     }
 
     public function testGetIndexReplicaNameForSortingWithDescendingDirection(): void
@@ -82,20 +80,16 @@ class IndexNameResolverTest extends Unit
             ->setField('name')
             ->setDirection('desc');
 
-        $facetCollectionTransfer = new FacetCollectionTransfer();
-
         // Act
-        $result = (new IndexNameResolver())->getIndexReplicaNameForSorting(
+        $result = $this->createIndexNameResolver()->getIndexReplicaNameForSorting(
             static::TEST_INDEX_NAME,
             $sortingEntryTransfer,
-            $facetCollectionTransfer,
+            new FacetCollectionTransfer(),
+            AlgoliaEntityNameEnum::PRODUCT->value,
         );
 
         // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
-        $this->assertStringContainsString('name', $result);
-        $this->assertStringContainsString('desc', $result);
+        $this->assertSame(static::TEST_INDEX_NAME . '-desc-name', $result);
     }
 
     public function testGetIndexReplicaNameForSortingWithPriceField(): void
@@ -118,16 +112,64 @@ class IndexNameResolverTest extends Unit
                 );
 
         // Act
-        $result = (new IndexNameResolver())->getIndexReplicaNameForSorting(
+        $result = $this->createIndexNameResolver()->getIndexReplicaNameForSorting(
             static::TEST_INDEX_NAME,
             $sortingEntryTransfer,
             $facetCollectionTransfer,
+            AlgoliaEntityNameEnum::PRODUCT->value,
         );
 
         // Assert
-        $this->assertIsString($result);
-        $this->assertStringContainsString(static::TEST_INDEX_NAME, $result);
         $this->assertStringContainsString('prices.eur', $result);
         $this->assertStringContainsString('asc', $result);
+    }
+
+    public function testGetIndexReplicaNameForSortingAppliesMappingWhenConfigured(): void
+    {
+        // Arrange
+        $sortingEntryTransfer = (new SortingEntryTransfer())
+            ->setField('name')
+            ->setDirection('asc');
+
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getProductSortingParamToAttributeMapping')->willReturn(['name' => 'abstract_name']);
+
+        // Act
+        $result = (new IndexNameResolver($algoliaConfigMock))->getIndexReplicaNameForSorting(
+            static::TEST_INDEX_NAME,
+            $sortingEntryTransfer,
+            new FacetCollectionTransfer(),
+            AlgoliaEntityNameEnum::PRODUCT->value,
+        );
+
+        // Assert
+        $this->assertSame(static::TEST_INDEX_NAME . '-asc-abstract_name', $result);
+    }
+
+    public function testGetIndexReplicaNameForSortingDoesNotApplyMappingForUnmappedField(): void
+    {
+        // Arrange
+        $sortingEntryTransfer = (new SortingEntryTransfer())
+            ->setField('rating')
+            ->setDirection('desc');
+
+        $algoliaConfigMock = $this->createMock(AlgoliaConfig::class);
+        $algoliaConfigMock->method('getProductSortingParamToAttributeMapping')->willReturn(['name' => 'abstract_name']);
+
+        // Act
+        $result = (new IndexNameResolver($algoliaConfigMock))->getIndexReplicaNameForSorting(
+            static::TEST_INDEX_NAME,
+            $sortingEntryTransfer,
+            new FacetCollectionTransfer(),
+            AlgoliaEntityNameEnum::PRODUCT->value,
+        );
+
+        // Assert
+        $this->assertSame(static::TEST_INDEX_NAME . '-desc-rating', $result);
+    }
+
+    protected function createIndexNameResolver(): IndexNameResolver
+    {
+        return new IndexNameResolver($this->createMock(AlgoliaConfig::class));
     }
 }

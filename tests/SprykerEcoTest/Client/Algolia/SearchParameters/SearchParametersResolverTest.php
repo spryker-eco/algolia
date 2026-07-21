@@ -57,9 +57,6 @@ class SearchParametersResolverTest extends Unit
      */
     protected const TEST_USER_IP = '192.168.1.1';
 
-    /**
-     * @var \SprykerEcoTest\Client\Algolia\AlgoliaClientTester
-     */
     protected AlgoliaClientTester $tester;
 
     public function testGetSearchParametersReturnsBasicParametersWithoutPersonalization(): void
@@ -89,14 +86,15 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, new AlgoliaConfigTransfer());
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertEquals(static::TEST_FILTERS, $result['filters']);
-        $this->assertEquals(['*'], $result['facets']);
-        $this->assertTrue($result['clickAnalytics']);
-        $this->assertEquals(static::TEST_PAGINATION['offset'], $result['offset']);
-        $this->assertEquals(static::TEST_PAGINATION['length'], $result['length']);
-        $this->assertArrayNotHasKey('enablePersonalization', $result);
-        $this->assertArrayNotHasKey('userToken', $result);
+        $searchParams = $result->getSearchParams();
+        $this->assertEquals(static::TEST_FILTERS, $searchParams['filters']);
+        $this->assertEquals(['*'], $searchParams['facets']);
+        $this->assertTrue($searchParams['clickAnalytics']);
+        $this->assertEquals(static::TEST_PAGINATION['offset'], $searchParams['offset']);
+        $this->assertEquals(static::TEST_PAGINATION['length'], $searchParams['length']);
+        $this->assertArrayNotHasKey('enablePersonalization', $searchParams);
+        $this->assertArrayNotHasKey('userToken', $searchParams);
+        $this->assertEmpty($result->getRequestOptions());
     }
 
     public function testGetSearchParametersIncludesPersonalizationWhenEnabled(): void
@@ -126,12 +124,12 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertTrue($result['enablePersonalization']);
-        $this->assertEquals(static::TEST_USER_TOKEN, $result['userToken']);
+        $searchParams = $result->getSearchParams();
+        $this->assertTrue($searchParams['enablePersonalization']);
+        $this->assertEquals(static::TEST_USER_TOKEN, $searchParams['userToken']);
     }
 
-    public function testGetSearchParametersIncludesUserIpWhenProvided(): void
+    public function testGetSearchParametersIncludesUserIpInRequestOptions(): void
     {
         // Arrange
         $searchRequestTransfer = (new SearchRequestTransfer())
@@ -155,8 +153,9 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, new AlgoliaConfigTransfer());
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertEquals(static::TEST_USER_IP, $result['X-Forwarded-For']);
+        $requestOptions = $result->getRequestOptions();
+        $this->assertEquals(static::TEST_USER_IP, $requestOptions['headers']['X-Forwarded-For']);
+        $this->assertArrayNotHasKey('X-Forwarded-For', $result->getSearchParams());
     }
 
     public function testGetSearchParametersIncludesBothPersonalizationAndUserIp(): void
@@ -187,10 +186,12 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertTrue($result['enablePersonalization']);
-        $this->assertEquals(static::TEST_USER_TOKEN, $result['userToken']);
-        $this->assertEquals(static::TEST_USER_IP, $result['X-Forwarded-For']);
+        $searchParams = $result->getSearchParams();
+        $this->assertTrue($searchParams['enablePersonalization']);
+        $this->assertEquals(static::TEST_USER_TOKEN, $searchParams['userToken']);
+
+        $requestOptions = $result->getRequestOptions();
+        $this->assertEquals(static::TEST_USER_IP, $requestOptions['headers']['X-Forwarded-For']);
     }
 
     public function testGetSearchParametersExcludesPersonalizationWhenFeatureNotEnabled(): void
@@ -220,9 +221,9 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertArrayNotHasKey('enablePersonalization', $result);
-        $this->assertArrayNotHasKey('userToken', $result);
+        $searchParams = $result->getSearchParams();
+        $this->assertArrayNotHasKey('enablePersonalization', $searchParams);
+        $this->assertArrayNotHasKey('userToken', $searchParams);
     }
 
     public function testGetSearchParametersExcludesPersonalizationWhenUserTokenNotProvided(): void
@@ -252,9 +253,9 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, $algoliaConfigTransfer);
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertArrayNotHasKey('enablePersonalization', $result);
-        $this->assertArrayNotHasKey('userToken', $result);
+        $searchParams = $result->getSearchParams();
+        $this->assertArrayNotHasKey('enablePersonalization', $searchParams);
+        $this->assertArrayNotHasKey('userToken', $searchParams);
     }
 
     public function testGetSearchParametersWithEmptyFiltersAndPagination(): void
@@ -280,10 +281,10 @@ class SearchParametersResolverTest extends Unit
         $result = $searchParametersResolver->getSearchParameters($searchRequestTransfer, new AlgoliaConfigTransfer());
 
         // Assert
-        $this->assertIsArray($result);
-        $this->assertEquals('', $result['filters']);
-        $this->assertEquals(['*'], $result['facets']);
-        $this->assertTrue($result['clickAnalytics']);
+        $searchParams = $result->getSearchParams();
+        $this->assertEquals('', $searchParams['filters']);
+        $this->assertEquals(['*'], $searchParams['facets']);
+        $this->assertTrue($searchParams['clickAnalytics']);
     }
 
     /**
@@ -294,9 +295,6 @@ class SearchParametersResolverTest extends Unit
         return $this->createMock(FilterConverterInterface::class);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerEco\Client\Algolia\Api\SearchParameters\Pagination\PaginationConverterInterface
-     */
     protected function createPaginationConverterMock(): MockObject|PaginationConverterInterface
     {
         return $this->createMock(PaginationConverterInterface::class);

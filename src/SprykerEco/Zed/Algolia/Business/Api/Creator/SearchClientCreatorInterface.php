@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 

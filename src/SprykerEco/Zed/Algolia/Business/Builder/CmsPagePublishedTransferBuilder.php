@@ -33,9 +33,6 @@ class CmsPagePublishedTransferBuilder implements CmsPagePublishedTransferBuilder
         return $cmsPagePublishedTransfer;
     }
 
-    /**
-     * @return string|null
-     */
     protected function getCmsPageCreatedAt(int $idCmsPage): ?string
     {
         $firstCmsVersionTransfer = $this->cmsFacade->findCmsVersionByIdCmsPageAndVersion($idCmsPage, 1);

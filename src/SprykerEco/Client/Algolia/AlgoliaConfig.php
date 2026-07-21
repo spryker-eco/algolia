@@ -11,6 +11,7 @@ namespace SprykerEco\Client\Algolia;
 
 use Spryker\Client\Kernel\AbstractBundleConfig;
 use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 /**
  * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
@@ -191,11 +192,11 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getAttributesToHighlight(): array
     {
         return [
-            'product_abstract_sku',
-            'sku',
-            'name',
-            'abstract_name',
-            'category',
+            AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
+            AlgoliaProductObjectEnum::SKU->value,
+            AlgoliaProductObjectEnum::NAME->value,
+            AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
+            AlgoliaProductObjectEnum::CATEGORY->value,
         ];
     }
 
@@ -210,7 +211,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getNonDisplayAttributes(): array
     {
-        return ['hierarchical_categories'];
+        return [AlgoliaProductObjectEnum::HIERARCHICAL_CATEGORIES->value];
     }
 
     /**
@@ -227,15 +228,15 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getFilterableAttributes(): array
     {
         $attributes = [
-            'searchable(category)',
-            'rating',
-            'label',
+            sprintf('searchable(%s)', AlgoliaProductObjectEnum::CATEGORY->value),
+            AlgoliaProductObjectEnum::RATING->value,
+            AlgoliaProductObjectEnum::LABEL->value,
             'attributes.color',
             'attributes.brand',
-            'merchant_name',
+            AlgoliaProductObjectEnum::MERCHANT_NAME->value,
         ];
         if ($this->getIsProductPriceSynced()) {
-            $attributes[] = 'prices';
+            $attributes[] = AlgoliaProductObjectEnum::PRICES->value;
         }
 
         $result = [];
@@ -244,5 +245,35 @@ class AlgoliaConfig extends AbstractBundleConfig
         }
 
         return array_merge($result, $this->getNonDisplayAttributes());
+    }
+
+    /**
+     * Specification:
+     * - Returns a mapping of client-side sort parameter names to Algolia attribute names for product replicas.
+     * - When a sort field from the search request differs from the Algolia attribute used in the replica index name,
+     *   this mapping translates the sort field to the correct replica attribute.
+     * - Empty by default; override in project-level config when sort param names differ from Algolia attributes.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getProductSortingParamToAttributeMapping(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
+     * - Returns a mapping of client-side sort parameter names to Algolia attribute names for CMS page replicas.
+     * - Empty by default; override in project-level config when sort param names differ from Algolia attributes.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getCmsPageSortingParamToAttributeMapping(): array
+    {
+        return [];
     }
 }

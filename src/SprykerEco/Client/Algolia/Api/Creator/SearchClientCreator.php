@@ -7,8 +7,8 @@
 
 namespace SprykerEco\Client\Algolia\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\Support\UserAgent;
+use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Support\AlgoliaAgent;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
@@ -23,7 +23,7 @@ class SearchClientCreator implements SearchClientCreatorInterface
 
     public function createSearchClientWithCredentials(AlgoliaApiCredentialsTransfer $algoliaCredentialsTransfer): SearchClient
     {
-        UserAgent::addCustomUserAgent(AlgoliaConfig::USER_AGENT_SEGMENT_NAME, AlgoliaConfig::VERSION);
+        AlgoliaAgent::addAlgoliaAgent('Search', AlgoliaConfig::USER_AGENT_SEGMENT_NAME, AlgoliaConfig::VERSION);
 
         return SearchClient::create(
             $algoliaCredentialsTransfer->getApplicationId(),

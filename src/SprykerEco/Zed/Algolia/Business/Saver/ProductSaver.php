@@ -91,9 +91,6 @@ class ProductSaver implements ProductSaverInterface
         return $algoliaResponseTransfer;
     }
 
-    /**
-     * @param string|null $errorResponse
-     */
     protected function addIndexNameToErrorResponse(string $indexName, ?string $errorResponse): string
     {
         if ($errorResponse) {

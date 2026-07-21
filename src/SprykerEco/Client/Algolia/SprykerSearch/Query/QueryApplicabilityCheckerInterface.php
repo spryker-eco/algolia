@@ -11,8 +11,5 @@ use Generated\Shared\Transfer\SearchContextTransfer;
 
 interface QueryApplicabilityCheckerInterface
 {
-    /**
-     * @return bool
-     */
     public function isQueryApplicable(SearchContextTransfer $searchContextTransfer): bool;
 }

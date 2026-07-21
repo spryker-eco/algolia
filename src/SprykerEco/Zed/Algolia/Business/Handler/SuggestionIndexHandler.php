@@ -7,36 +7,40 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Handler;
 
-use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
+use Algolia\AlgoliaSearch\Api\QuerySuggestionsClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
-use Algolia\AlgoliaSearch\SearchClient;
-use InvalidArgumentException;
+use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use Throwable;
 
 class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
 {
-    /**
-     * @var string
-     */
-    protected const QUERY_SUGGESTION_BASE_URL_US = 'query-suggestions.us.algolia.com';
+    protected const string REGION_US = 'us';
 
-    /**
-     * @var string
-     */
-    protected const QUERY_SUGGESTION_BASE_URL_EU = 'query-suggestions.eu.algolia.com';
+    protected const string REGION_EU = 'eu';
 
     protected const string QUERY_SUGGESTIONS_SUFFIX = 'query_suggestions';
 
-    public function __construct()
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
     }
 
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void
     {
         $suggestionIndexName = sprintf('%s_%s', $sourceIndex, static::QUERY_SUGGESTIONS_SUFFIX);
-        $isConfigurationExist = $this->checkSuggestionIndexConfigurationExist($suggestionIndexName, $searchClient);
+
+        $isConfigurationExist = $this->executeWithRegionFallback(
+            $searchClient,
+            fn (QuerySuggestionsClient $querySuggestionsClient): bool => $this->checkSuggestionIndexConfigurationExist($suggestionIndexName, $querySuggestionsClient),
+        );
 
         if ($isConfigurationExist) {
+            return;
+        }
+
+        $generateAttributes = $this->algoliaConfig->getSuggestionGenerateAttributes();
+
+        if (!$generateAttributes) {
             return;
         }
 
@@ -47,79 +51,56 @@ class SuggestionIndexHandler implements SuggestionIndexHandlerInterface
                     'indexName' => $sourceIndex,
                     'minHits' => 1,
                     'minLetters' => 2,
-                    'generate' => [
-                        ['category'],
-                        ['attributes.brand'],
-                    ],
+                    'generate' => $generateAttributes,
                 ],
             ],
             'allowSpecialCharacters' => true,
         ];
 
-        $this->executeSearchClientCall($searchClient, 'POST', '/1/configs', $suggestionsIndexOptions);
+        $this->executeWithRegionFallback(
+            $searchClient,
+            function (QuerySuggestionsClient $querySuggestionsClient) use ($suggestionsIndexOptions): void {
+                $querySuggestionsClient->createConfig($suggestionsIndexOptions);
+            },
+        );
     }
 
-    /**
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     */
-    protected function checkSuggestionIndexConfigurationExist(string $configurationName, SearchClient $searchClient): bool
+    protected function checkSuggestionIndexConfigurationExist(string $configurationName, QuerySuggestionsClient $querySuggestionsClient): bool
     {
         try {
-            $this->executeSearchClientCall($searchClient, 'GET', '/1/configs/' . $configurationName);
-        } catch (BadRequestException $exception) {
-            if ($exception instanceof NotFoundException) {
-                return false;
-            }
-
-            throw $exception;
+            $querySuggestionsClient->getConfig($configurationName);
+        } catch (NotFoundException $exception) {
+            return false;
         }
 
         return true;
     }
 
     /**
-     * @return array
-     */
-    public function getAllConfigurations(SearchClient $searchClient): array
-    {
-        return $this->executeSearchClientCall($searchClient, 'GET', '/1/configs');
-    }
-
-    /**
-     * @param array $options
+     * Query Suggestions is only available in the `us`/`eu` regions and the v4 SDK does not expose a
+     * reliable, typed way to detect a region mismatch up front (it no longer throws the message-based
+     * exceptions the previous SDK version did), so the correct region is resolved by attempting the
+     * real operation against `REGION_US` first and retrying once against `REGION_EU` on any failure.
      *
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
+     * @template T
      *
-     * @return mixed
+     * @param callable(\Algolia\AlgoliaSearch\Api\QuerySuggestionsClient): T $operation
+     *
+     * @return T
      */
-    protected function executeSearchClientCall(SearchClient $searchClient, string $method, string $url, array $options = [])
+    protected function executeWithRegionFallback(SearchClient $searchClient, callable $operation)
     {
         try {
-            return $searchClient->custom($method, $url, $options, [static::QUERY_SUGGESTION_BASE_URL_US]);
-        } catch (BadRequestException $exception) {
-            if ($exception->getMessage() === 'The log processing region does not match') {
-                return $searchClient->custom($method, $url, $options, [static::QUERY_SUGGESTION_BASE_URL_EU]);
-            } else {
-                throw $exception;
-            }
-        } catch (InvalidArgumentException $exception) {
-            if ($this->isExceptionRelatedToIncorrectProcessingRegion($exception)) {
-                return $searchClient->custom($method, $url, $options, [static::QUERY_SUGGESTION_BASE_URL_EU]);
-            } else {
-                throw $exception;
-            }
+            return $operation($this->createQuerySuggestionsClientForRegion($searchClient, static::REGION_US));
+        } catch (Throwable $exception) {
+            return $operation($this->createQuerySuggestionsClientForRegion($searchClient, static::REGION_EU));
         }
     }
 
-    /**
-     * @see \Algolia\AlgoliaSearch\Support\Helpers::json_decode()
-     *
-     * Right now Algolia respond as:
-     * - GET requests: `<a href="https://query-suggestions.eu.algolia.com/1/configs">Temporary Redirect</a>.`
-     * - DELETE/POST requests: empty string
-     */
-    protected function isExceptionRelatedToIncorrectProcessingRegion(Throwable $exception): bool
+    protected function createQuerySuggestionsClientForRegion(SearchClient $searchClient, string $region): QuerySuggestionsClient
     {
-        return mb_stristr($exception->getMessage(), 'json_decode_error') !== false;
+        $config = $searchClient->getClientConfig();
+
+        return QuerySuggestionsClient::create($config->getAppId(), $config->getAlgoliaApiKey(), $region);
     }
 }

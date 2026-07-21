@@ -7,14 +7,11 @@
 
 namespace SprykerEcoTest\Zed\Algolia;
 
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\BadRequestException;
 use Algolia\AlgoliaSearch\Exceptions\RetriableException;
 use Algolia\AlgoliaSearch\Http\HttpClientInterface;
-use Algolia\AlgoliaSearch\Response\AbstractResponse;
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\SearchIndex;
 use Codeception\Actor;
-use Codeception\Stub\Expected;
 use Codeception\Test\Feature\Stub;
 use Exception;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
@@ -83,11 +80,11 @@ class AlgoliaBusinessTester extends Actor
                 ],
             );
 
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('setSettings')->willReturn($this->createIndexingResponseMock());
-        $searchIndexMock->method('delete');
-
-        $algoliaSearchClientMock->method('initIndex')->willReturn($searchIndexMock);
+        // EnabledFeaturesValidator runs after Admin/SearchOnly key validation succeeds and probes
+        // a temporary index via setSettings/waitForTask/deleteIndex to detect Personalization support.
+        $algoliaSearchClientMock->method('setSettings')->willReturn(['taskID' => 1]);
+        $algoliaSearchClientMock->method('waitForTask')->willReturn(null);
+        $algoliaSearchClientMock->method('deleteIndex')->willReturn(null);
 
         $this->mockFactoryMethod(
             'createSearchClientCreator',
@@ -125,11 +122,11 @@ class AlgoliaBusinessTester extends Actor
                 throw new Exception();
             });
 
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('setSettings')->willReturn($this->createIndexingResponseMock());
-        $searchIndexMock->method('delete');
-
-        $algoliaSearchClientMock->method('initIndex')->willReturn($searchIndexMock);
+        // EnabledFeaturesValidator runs after Admin/SearchOnly key validation succeeds and probes
+        // a temporary index via setSettings/waitForTask/deleteIndex to detect Personalization support.
+        $algoliaSearchClientMock->method('setSettings')->willReturn(['taskID' => 1]);
+        $algoliaSearchClientMock->method('waitForTask')->willReturn(null);
+        $algoliaSearchClientMock->method('deleteIndex')->willReturn(null);
 
         $this->mockFactoryMethod(
             'createSearchClientCreator',
@@ -225,74 +222,37 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    public function createSearchClientMockForNonExistingIndex(string $indexName): SearchClient
+    public function createSearchClientMockForNonExistingIndex(): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
 
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('exists')->willReturn(false);
-
-        $searchClientMock->expects(Expected::once()->getMatcher())->method('initIndex')->with($indexName)->willReturn($searchIndexMock);
+        $searchClientMock->method('indexExists')->willReturn(false);
 
         return $searchClientMock;
     }
 
-    public function createSearchClientMockForExistingIndex(string $indexName): SearchClient
+    public function createSearchClientMockForExistingIndex(): SearchClient
     {
         $searchClientMock = $this->makeEmpty(SearchClient::class);
 
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('exists')->willReturn(true);
-
-        $searchClientMock->expects(Expected::once()->getMatcher())->method('initIndex')->with($indexName)->willReturn($searchIndexMock);
+        $searchClientMock->method('indexExists')->willReturn(true);
 
         return $searchClientMock;
     }
 
-    public function createSearchIndexMockThrowingExceptionOnSetSettings(string $indexName, Exception $e): SearchIndex
+    public function createSearchClientMockThrowingExceptionOnSetSettings(Exception $e): SearchClient
     {
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('getIndexName')->willReturn($indexName);
-        $searchIndexMock->method('setSettings')->willThrowException($e);
+        $searchClientMock = $this->makeEmpty(SearchClient::class);
+        $searchClientMock->method('setSettings')->willThrowException($e);
 
-        return $searchIndexMock;
+        return $searchClientMock;
     }
 
-    public function createSearchIndexMock(string $indexName): SearchIndex
-    {
-        $searchIndexMock = $this->makeEmpty(SearchIndex::class);
-        $searchIndexMock->method('getIndexName')->willReturn($indexName);
-
-        // IndexResponse is final, but has no additional methods compared to abstract class
-        $searchIndexMock
-            ->method('setSettings')
-            ->willReturn(
-                $this->makeEmpty(AbstractResponse::class, [
-                    'wait' => function () {
-                    },
-                ]),
-            );
-
-        return $searchIndexMock;
-    }
-
-    protected function mockSuggestionIndexHandler(): SuggestionIndexHandlerInterface
+    public function mockSuggestionIndexHandler(): SuggestionIndexHandlerInterface
     {
         return $this->makeEmpty(SuggestionIndexHandlerInterface::class);
     }
 
-    protected function createIndexingResponseMock(): AbstractResponse
-    {
-        $indexingResponse = $this->makeEmpty(AbstractResponse::class);
-
-        $indexingResponse->method('wait')->willReturn($indexingResponse);
-
-        return $indexingResponse;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Algolia\AlgoliaSearch\Http\HttpClientInterface
-     */
     public function haveRateLimitedAlgoliaHttpClient(): HttpClientInterface&MockObject
     {
         $responseString = '{"message":"Too many requests"}';
@@ -308,9 +268,6 @@ class AlgoliaBusinessTester extends Actor
         return $httpClientMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Algolia\AlgoliaSearch\Http\HttpClientInterface
-     */
     public function haveRetriableExceptionAlgoliaHttpClient(): HttpClientInterface&MockObject
     {
         $httpClientMock = $this->makeEmpty(HttpClientInterface::class);
@@ -320,7 +277,7 @@ class AlgoliaBusinessTester extends Actor
     }
 
     /**
-     * @return \Algolia\AlgoliaSearch\SearchClient&\PHPUnit\Framework\MockObject\MockObject
+     * @return \Algolia\AlgoliaSearch\Api\SearchClient&\PHPUnit\Framework\MockObject\MockObject
      */
     public function haveRateLimitedAlgoliaSearchClient(): SearchClient&MockObject
     {
@@ -329,11 +286,9 @@ class AlgoliaBusinessTester extends Actor
         };
 
         $searchClient = $this->makeEmpty(SearchClient::class, [
-            'initIndex' => $this->makeEmpty(SearchIndex::class, [
-                'exists' => true,
-                'saveObjects' => $throwRateLimitException,
-                'deleteObjects' => $throwRateLimitException,
-            ]),
+            'indexExists' => true,
+            'saveObjects' => $throwRateLimitException,
+            'deleteObjects' => $throwRateLimitException,
         ]);
 
         $searchClientCreatorMock = $this->makeEmpty(SearchClientCreatorInterface::class, [
@@ -346,9 +301,6 @@ class AlgoliaBusinessTester extends Actor
         return $searchClient;
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\Rule\InvokedCount $invokedCount
-     */
     public function createIndexConfiguratorMock(InvokedCountMatcher $invokedCount): IndexConfigurator
     {
         $indexConfigurator = $this->makeEmpty(IndexConfigurator::class);

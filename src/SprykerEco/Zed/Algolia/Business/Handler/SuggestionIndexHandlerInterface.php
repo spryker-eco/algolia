@@ -7,21 +7,9 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Handler;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 
 interface SuggestionIndexHandlerInterface
 {
-    /**
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return void
-     */
     public function createProductSuggestionsIndex(string $sourceIndex, SearchClient $searchClient): void;
-
-    /**
-     * @throws \Algolia\AlgoliaSearch\Exceptions\BadRequestException
-     *
-     * @return array
-     */
-    public function getAllConfigurations(SearchClient $searchClient): array;
 }

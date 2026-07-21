@@ -141,9 +141,6 @@ class CmsPageMapper implements CmsPageMapperInterface
         return $truncatedText . '... [content truncated due to size limit]';
     }
 
-    /**
-     * @param string|null $validityDate
-     */
     protected function formatValidityDate(?string $validityDate): int
     {
         if (!$validityDate) {

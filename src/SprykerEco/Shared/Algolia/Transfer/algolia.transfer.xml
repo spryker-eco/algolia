@@ -571,6 +571,11 @@
         <property name="isDryRun" type="bool"/>
     </transfer>
 
+    <transfer name="AlgoliaSearchParameters" strict="true">
+        <property name="searchParams" type="array" singular="searchParam" description="Algolia search body parameters"/>
+        <property name="requestOptions" type="array" singular="requestOption" description="Algolia request options (headers, query parameters)"/>
+    </transfer>
+
     <transfer name="AlgoliaExportResult" strict="true">
         <property name="entityType" type="string"/>
         <property name="totalCount" type="int"/>

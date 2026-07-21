@@ -8,12 +8,13 @@
 namespace SprykerEco\Client\Algolia\Api\SearchParameters;
 
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\SearchRequestTransfer;
 
 interface SearchParametersResolverInterface
 {
-    /**
-     * @return array<string, mixed>
-     */
-    public function getSearchParameters(SearchRequestTransfer $searchRequestTransfer, AlgoliaConfigTransfer $algoliaConfigTransfer): array;
+    public function getSearchParameters(
+        SearchRequestTransfer $searchRequestTransfer,
+        AlgoliaConfigTransfer $algoliaConfigTransfer
+    ): AlgoliaSearchParametersTransfer;
 }

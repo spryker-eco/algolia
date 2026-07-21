@@ -22,9 +22,6 @@ abstract class AbstractFeatureExtractor implements SearchResponseExtractorInterf
         return true;
     }
 
-    /**
-     * @return array
-     */
     abstract public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array;
 
     /**

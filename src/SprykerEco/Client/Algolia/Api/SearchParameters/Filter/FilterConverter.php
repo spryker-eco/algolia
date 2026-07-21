@@ -17,6 +17,7 @@ use SprykerEco\Client\Algolia\Exception\FacetTypeUnknownException;
 use SprykerEco\Client\Algolia\IndexResolver\SearchIndexResolverInterface;
 use SprykerEco\Client\Algolia\Resolver\AlgoliaConfigResolverInterface;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class FilterConverter implements FilterConverterInterface
@@ -50,22 +51,22 @@ class FilterConverter implements FilterConverterInterface
      * @var array<string>
      */
     protected const NON_ATTRIBUTE_FIELDS = [
-        'product_abstract_sku',
-        'sku',
-        'name',
-        'description',
-        'keywords',
-        'abstract_name',
-        'merchant_name',
-        'merchant_reference',
-        'category',
+        AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
+        AlgoliaProductObjectEnum::SKU->value,
+        AlgoliaProductObjectEnum::NAME->value,
+        AlgoliaProductObjectEnum::DESCRIPTION->value,
+        AlgoliaProductObjectEnum::KEYWORDS->value,
+        AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
+        AlgoliaProductObjectEnum::MERCHANT_NAME->value,
+        AlgoliaProductObjectEnum::MERCHANT_REFERENCE->value,
+        AlgoliaProductObjectEnum::CATEGORY->value,
         'hierarchicalCategories',
-        'images',
-        'label',
-        'prices',
-        'rating',
-        'url',
-        'concrete_prices',
+        AlgoliaProductObjectEnum::IMAGES->value,
+        AlgoliaProductObjectEnum::LABEL->value,
+        AlgoliaProductObjectEnum::PRICES->value,
+        AlgoliaProductObjectEnum::RATING->value,
+        AlgoliaProductObjectEnum::URL->value,
+        AlgoliaProductObjectEnum::CONCRETE_PRICES->value,
     ];
 
     /**
@@ -96,7 +97,7 @@ class FilterConverter implements FilterConverterInterface
         $facetWhiteList = $this->getFacetWhiteList($searchRequestTransfer);
 
         if (
-            in_array('prices', $facetWhiteList) &&
+            in_array(AlgoliaProductObjectEnum::PRICES->value, $facetWhiteList) &&
             $searchRequestTransfer->getSourceIdentifier() === AlgoliaEntityNameEnum::PRODUCT->value
         ) {
             $filters[] = sprintf('%s>=0', $this->getPriceFacetKey($facetCollectionTransfer));
@@ -134,9 +135,6 @@ class FilterConverter implements FilterConverterInterface
         throw new FacetTypeUnknownException(sprintf('Facet type unknown, "%s" type given', $facetEntryTransfer->getType()));
     }
 
-    /**
-     * @return array
-     */
     protected function getFacetWhiteList(SearchRequestTransfer $searchRequestTransfer): array
     {
         $algoliaConfigTransfer = $this->configResolver->getConfig();

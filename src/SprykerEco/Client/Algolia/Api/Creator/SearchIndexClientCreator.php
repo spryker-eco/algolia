@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Client\Algolia\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\IndexConfigurationTransfer;
 use SprykerEco\Client\Algolia\Api\Client\SearchIndexClient;
 use SprykerEco\Client\Algolia\Api\Client\SearchIndexClientInterface;
@@ -22,8 +22,8 @@ class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer
     ): SearchIndexClientInterface {
-        $index = $client->initIndex($indexConfigurationTransfer->getIndexNameOrFail());
+        $indexName = $indexConfigurationTransfer->getIndexNameOrFail();
 
-        return new SearchIndexClient($index);
+        return new SearchIndexClient($client, $indexName);
     }
 }

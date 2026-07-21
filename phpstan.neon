@@ -5,3 +5,4 @@ parameters:
     bootstrapFiles:
         - "%rootDir%/../../autoload.php"
         - "%rootDir%/../../../../../autoload.php"
+        - phpstan-stubs/optional-modules.stub.php

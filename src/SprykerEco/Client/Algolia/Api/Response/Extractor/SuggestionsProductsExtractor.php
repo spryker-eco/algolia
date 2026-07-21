@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Generated\Shared\Transfer\SearchResponseProductTransfer;
 use Generated\Shared\Transfer\SuggestionsMatchesCollectionTransfer;
 use SprykerEco\Client\Algolia\AlgoliaConfig;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 class SuggestionsProductsExtractor extends ProductsExtractor implements SearchResponseExtractorInterface
 {
@@ -55,18 +56,18 @@ class SuggestionsProductsExtractor extends ProductsExtractor implements SearchRe
                     if ($data['matchLevel'] === 'none') {
                         continue;
                     }
-                    $matches[$field][] = $hit['sku'];
-                    $matchedItems[$hit['sku']] = $searchResponseProductTransfer->toArray();
+                    $matches[$field][] = $hit[AlgoliaProductObjectEnum::SKU->value];
+                    $matchedItems[$hit[AlgoliaProductObjectEnum::SKU->value]] = $searchResponseProductTransfer->toArray();
                 } else {
                     foreach ($data as $key => $datum) {
                         if ($datum['matchLevel'] === 'none') {
                             continue;
                         }
-                        if ($field === 'category') {
-                            $categories[$hit['category'][$key]] = $hit['category'][$key];
+                        if ($field === AlgoliaProductObjectEnum::CATEGORY->value) {
+                            $categories[$hit[AlgoliaProductObjectEnum::CATEGORY->value][$key]] = $hit[AlgoliaProductObjectEnum::CATEGORY->value][$key];
                         }
-                        $matches[$field][$hit['sku']] = $hit['sku'];
-                        $matchedItems[$hit['sku']] = $searchResponseProductTransfer->toArray();
+                        $matches[$field][$hit[AlgoliaProductObjectEnum::SKU->value]] = $hit[AlgoliaProductObjectEnum::SKU->value];
+                        $matchedItems[$hit[AlgoliaProductObjectEnum::SKU->value]] = $searchResponseProductTransfer->toArray();
                     }
                     if (array_key_exists($field, $matches)) {
                         $matches[$field] = array_values($matches[$field]);

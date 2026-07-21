@@ -7,9 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 
 interface SearchIndexClientInterface
 {
@@ -23,21 +21,10 @@ interface SearchIndexClientInterface
      */
     public function deleteObjects(array $objectIds): AlgoliaResponseTransfer;
 
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer;
-
-    public function indexExists(): bool;
-
-    public function getIndexName(): string;
-
     public function getSettings(): array;
 
     /**
      * @param array<string, mixed> $settings
      */
     public function setSettings(array $settings): AlgoliaResponseTransfer;
-
-    public function getSearchIndex(): SearchIndex;
 }

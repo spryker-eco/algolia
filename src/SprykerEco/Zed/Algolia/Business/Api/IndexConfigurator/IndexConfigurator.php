@@ -7,72 +7,40 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\IndexConfigurator;
 
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\SearchIndex;
-use Exception;
-use Generated\Shared\Transfer\AlgoliaConfigTransfer;
+use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Exceptions\AlgoliaException;
 use Generated\Shared\Transfer\IndexConfigurationResponseTransfer;
 use Locale;
+use Spryker\Shared\Log\LoggerTrait;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 use SprykerEco\Zed\Algolia\AlgoliaConfig;
 use SprykerEco\Zed\Algolia\Business\Handler\SuggestionIndexHandlerInterface;
 
 class IndexConfigurator implements IndexConfiguratorInterface
 {
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU = 'product_abstract_sku';
+    use LoggerTrait;
 
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_RATING = 'rating';
-
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_NAME = 'name';
-
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_ABSTRACT_NAME = 'abstract_name';
-
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRICES_EUR_GROSS = 'prices.eur.gross';
-
-    /**
-     * @var string
-     */
-    protected const ATTRIBUTE_NAME_PRICES_EUR_NET = 'prices.eur.net';
-
-    /**
-     * @var string
-     */
-    protected const ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
+    protected const string ERROR_MESSAGE_TEMPLATE = 'Error happened while saving settings for index %s; error text: %s';
 
     public function __construct(protected SuggestionIndexHandlerInterface $suggestionIndexHandler, protected AlgoliaConfig $algoliaConfig)
     {
     }
 
-    public function configureIndex(SearchIndex $index, SearchClient $searchClient, string $locale, AlgoliaConfigTransfer $algoliaConfigTransfer): void
+    public function configureIndex(string $indexName, SearchClient $searchClient, string $locale): void
     {
-        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($index, $algoliaConfigTransfer);
-        $indexResponse = $index->setSettings(
+        $replicaNamesWithRankingAttributes = $this->getReplicaNamesWithRankingAttributes($indexName);
+        $response = $searchClient->setSettings(
+            $indexName,
             [
                 'replicas' => array_keys($replicaNamesWithRankingAttributes),
             ],
         );
 
         // must wait for index to be created before creating suggestion indexes and settings
-        $indexResponse->wait();
+        $searchClient->waitForTask($indexName, $response['taskID']);
 
         // Create settings for existing indexes
-        $indexResponse = $index->setSettings($this->getSettings($locale), [
-            'forwardToReplicas' => true,
-        ]);
+        $response = $searchClient->setSettings($indexName, $this->getSettings($locale), true);
 
         // replica configuration can be queued for later execution
         $this->configureReplicasRankingAttributes(
@@ -80,9 +48,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
             $searchClient,
         );
 
-        $indexResponse->wait();
+        $searchClient->waitForTask($indexName, $response['taskID']);
 
-        $this->suggestionIndexHandler->createProductSuggestionsIndex($index->getIndexName(), $searchClient);
+        $this->suggestionIndexHandler->createProductSuggestionsIndex($indexName, $searchClient);
     }
 
     /**
@@ -102,7 +70,7 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ],
             'searchableAttributes' => $this->algoliaConfig->getSearchableAttributes(),
             'attributesForFaceting' => $this->algoliaConfig->getFilterableAttributes(),
-            'attributeForDistinct' => static::ATTRIBUTE_NAME_PRODUCT_ABSTRACT_SKU,
+            'attributeForDistinct' => AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
             'distinct' => true,
             'indexLanguages' => $indexQueryLanguages,
             'queryLanguages' => $indexQueryLanguages,
@@ -150,49 +118,19 @@ class IndexConfigurator implements IndexConfiguratorInterface
     /**
      * @return array<array>
      */
-    protected function getReplicaNamesWithRankingAttributes(SearchIndex $index, AlgoliaConfigTransfer $algoliaConfigTransfer): array
+    protected function getReplicaNamesWithRankingAttributes(string $indexName): array
     {
-        $replicaNamesWithRankingAttributes = [
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_RATING),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_RATING) => [
-                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_RATING),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
-                ...$this->getDefaultRankingOrder(),
-            ],
-            $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_NAME) => [
-                $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_ABSTRACT_NAME),
-                ...$this->getDefaultRankingOrder(),
-            ],
-        ];
+        $replicaNamesWithRankingAttributes = [];
 
-        if ($algoliaConfigTransfer->getIsProductPriceSynced()) {
-            $replicaNamesWithRankingAttributes = array_merge(
-                $replicaNamesWithRankingAttributes,
-                [
-                    $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
-                        $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_GROSS) => [
-                        $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_GROSS),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeAsc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
-                        $this->getRankingByAttributeAsc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                    $this->getReplicaNameAttributeDesc($index->getIndexName(), static::ATTRIBUTE_NAME_PRICES_EUR_NET) => [
-                        $this->getRankingByAttributeDesc(static::ATTRIBUTE_NAME_PRICES_EUR_NET),
-                        ...$this->getDefaultRankingOrder(),
-                    ],
-                ],
-            );
+        foreach ($this->algoliaConfig->getProductSortingAttributes() as $attributeName) {
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeDesc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeDesc($attributeName),
+                ...$this->getDefaultRankingOrder(),
+            ];
+            $replicaNamesWithRankingAttributes[$this->getReplicaNameAttributeAsc($indexName, $attributeName)] = [
+                $this->getRankingByAttributeAsc($attributeName),
+                ...$this->getDefaultRankingOrder(),
+            ];
         }
 
         return $replicaNamesWithRankingAttributes;
@@ -209,9 +147,9 @@ class IndexConfigurator implements IndexConfiguratorInterface
             ->setIsSuccessful(true);
 
         foreach ($replicaNamesWithRankingAttributes as $replicaName => $rankingAttributes) {
-            $replica = $searchClient->initIndex($replicaName);
             $indexConfigurationResponse = $this->setIndexSettings(
-                $replica,
+                $searchClient,
+                $replicaName,
                 [
                     'ranking' => $rankingAttributes,
                 ],
@@ -264,19 +202,20 @@ class IndexConfigurator implements IndexConfiguratorInterface
 
     /**
      * @param array<string, mixed> $settings
-     * @param array<string, mixed> $requestOptions
      */
-    protected function setIndexSettings(SearchIndex $index, array $settings, array $requestOptions = []): IndexConfigurationResponseTransfer
+    protected function setIndexSettings(SearchClient $searchClient, string $indexName, array $settings): IndexConfigurationResponseTransfer
     {
         $indexConfigurationResponseTransfer = (new IndexConfigurationResponseTransfer())
             ->setIsSuccessful(true);
 
         try {
-            $index->setSettings($settings, $requestOptions);
-        } catch (Exception $e) {
+            $searchClient->setSettings($indexName, $settings);
+        } catch (AlgoliaException $e) {
+            $this->getLogger()->error(sprintf('Algolia setSettings failed for index %s', $indexName), ['exception' => $e]);
+
             return $indexConfigurationResponseTransfer
                 ->setIsSuccessful(false)
-                ->setErrorMessage($this->getFormattedErrorMessage($index->getIndexName(), $e->getMessage()));
+                ->setErrorMessage($this->getFormattedErrorMessage($indexName, $e->getMessage()));
         }
 
         return $indexConfigurationResponseTransfer;

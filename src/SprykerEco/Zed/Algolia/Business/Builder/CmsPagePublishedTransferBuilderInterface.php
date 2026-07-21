@@ -13,9 +13,6 @@ use Generated\Shared\Transfer\CmsVersionTransfer;
 
 interface CmsPagePublishedTransferBuilderInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\CmsPagePublishedTransfer
-     */
     public function buildCmsPagePublishedTransfer(
         CmsPageTransfer $cmsPageTransfer,
         CmsVersionTransfer $cmsVersionTransfer

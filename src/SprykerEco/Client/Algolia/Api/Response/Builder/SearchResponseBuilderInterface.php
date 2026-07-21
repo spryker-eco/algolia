@@ -13,16 +13,10 @@ use Generated\Shared\Transfer\SearchResponseTransfer;
 
 interface SearchResponseBuilderInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
-     */
     public function buildSuccessfulResponse(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer
     ): SearchResponseTransfer;
 
-    /**
-     * @return \Generated\Shared\Transfer\SearchResponseTransfer
-     */
     public function buildUnsuccessfulResponse(string $errorMessage, int $statusCode): SearchResponseTransfer;
 }

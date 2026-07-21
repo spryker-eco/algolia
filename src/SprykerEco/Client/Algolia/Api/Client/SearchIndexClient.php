@@ -7,8 +7,9 @@
 
 namespace SprykerEco\Client\Algolia\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
-use Generated\Shared\Transfer\AlgoliaResponseTransfer;
+use Algolia\AlgoliaSearch\Api\SearchClient;
+use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
+use Generated\Shared\Transfer\AlgoliaSearchParametersTransfer;
 use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use Spryker\Shared\Http\Logger\ExternalHttpInMemoryLoggerTrait;
 use Spryker\Shared\Log\LoggerTrait;
@@ -19,46 +20,53 @@ class SearchIndexClient implements SearchIndexClientInterface
     use LoggerTrait;
     use ExternalHttpInMemoryLoggerTrait;
 
-    public function __construct(protected SearchIndex $searchIndex)
-    {
+    public function __construct(
+        protected SearchClient $searchClient,
+        protected string $indexName,
+    ) {
     }
 
-    /**
-     * @param array<array<string, mixed>> $algoliaObjectTransfers
-     */
-    public function saveObjects(array $algoliaObjectTransfers): AlgoliaResponseTransfer
+    public function search(string $query, AlgoliaSearchParametersTransfer $algoliaSearchParametersTransfer): AlgoliaSearchResponseTransfer
     {
-        $this->searchIndex->saveObjects($algoliaObjectTransfers);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    /**
-     * @param array<string> $objectIds
-     */
-    public function deleteObjects(array $objectIds): AlgoliaResponseTransfer
-    {
-        $this->searchIndex->deleteObjects($objectIds);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
-    {
-        $requestData = ['query' => $query, 'searchParameters' => $searchParameters];
+        $searchParams = $algoliaSearchParametersTransfer->getSearchParams();
+        $requestOptions = $algoliaSearchParametersTransfer->getRequestOptions();
+        $requestData = ['query' => $query, 'searchParameters' => $searchParams];
 
         try {
-            $result = $this->searchIndex->search($query, $searchParameters);
+            $result = $this->searchClient->searchSingleIndex($this->indexName, ['query' => $query] + $searchParams, $requestOptions);
             $responseData = $result;
 
             return (new AlgoliaSearchResponseTransfer())
                 ->setSearchResults($result)
                 ->setIsSuccessful(true);
+        } catch (NotFoundException $notFoundException) {
+            $responseData = ['error' => $notFoundException->getMessage()];
+
+            if ($this->isReplicaIndex()) {
+                $this->getLogger()->warning('Algolia replica index not found, returning empty result.', [
+                    'indexName' => $this->indexName,
+                    'exception' => $notFoundException,
+                ]);
+
+                return (new AlgoliaSearchResponseTransfer())
+                    ->setIsSuccessful(true);
+            }
+
+            $this->getLogger()->error('Algolia request failed with NotFoundException.', [
+                'indexName' => $this->indexName,
+                'exception' => $notFoundException,
+            ]);
+
+            return (new AlgoliaSearchResponseTransfer())
+                ->setIsSuccessful(false)
+                ->setResponseMessage(sprintf('Algolia index "%s" not found.', $this->indexName));
         } catch (Throwable $e) {
             $responseData = ['error' => $e->getMessage()];
+
+            $this->getLogger()->warning('Algolia search request failed.', [
+                'indexName' => $this->indexName,
+                'exception' => $e,
+            ]);
 
             return (new AlgoliaSearchResponseTransfer())
                 ->setIsSuccessful(false);
@@ -67,40 +75,14 @@ class SearchIndexClient implements SearchIndexClientInterface
         }
     }
 
-    public function indexExists(): bool
-    {
-        return $this->searchIndex->exists();
-    }
-
-    public function getIndexName(): string
-    {
-        return $this->searchIndex->getIndexName();
-    }
-
     public function getSettings(): array
     {
-        return $this->searchIndex->getSettings();
+        return $this->searchClient->getSettings($this->indexName);
     }
 
-    /**
-     * @param array<string, mixed> $settings
-     */
-    public function setSettings(array $settings): AlgoliaResponseTransfer
+    protected function isReplicaIndex(): bool
     {
-        $this->searchIndex->setSettings($settings);
-
-        return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    public function getSearchIndex(): SearchIndex
-    {
-        return $this->searchIndex;
-    }
-
-    protected function createSuccessfulAlgoliaResponseTransfer(): AlgoliaResponseTransfer
-    {
-        return (new AlgoliaResponseTransfer())
-            ->setIsSuccessful(true);
+        return str_contains($this->indexName, '-asc-') || str_contains($this->indexName, '-desc-');
     }
 
     /**
@@ -113,7 +95,7 @@ class SearchIndexClient implements SearchIndexClientInterface
         array $requestData,
         ?array $responseData,
     ): void {
-        $url = sprintf('algolia://%s/%s', $this->searchIndex->getIndexName(), $endpoint);
+        $url = sprintf('algolia://%s/%s', $this->indexName, $endpoint);
 
         $this->getExternalHttpInMemoryLogger()->log(
             $method,

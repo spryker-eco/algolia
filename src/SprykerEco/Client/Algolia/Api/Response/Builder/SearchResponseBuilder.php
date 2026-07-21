@@ -69,9 +69,6 @@ class SearchResponseBuilder implements SearchResponseBuilderInterface
             );
     }
 
-    /**
-     * @return array
-     */
     protected function getSourceIdentifierItems(
         AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer,
         SearchRequestTransfer $searchRequestTransfer

@@ -12,9 +12,6 @@ use Generated\Shared\Transfer\ProductDeletedTransfer;
 
 interface ProductDeleterInterface
 {
-    /**
-     * @return void
-     */
     public function deleteProduct(ProductDeletedTransfer $productDeletedTransfer): void;
 
     /**

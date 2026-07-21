@@ -12,10 +12,5 @@ use Generated\Shared\Transfer\AlgoliaResponseTransfer;
 
 interface CmsPageSaverInterface
 {
-    /**
-     * @param array $indexData
-
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     public function saveCmsPage(array $indexData, AlgoliaConfigTransfer $algoliaConfigTransfer): AlgoliaResponseTransfer;
 }

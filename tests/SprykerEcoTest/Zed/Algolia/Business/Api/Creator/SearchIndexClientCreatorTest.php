@@ -39,7 +39,7 @@ class SearchIndexClientCreatorTest extends Unit
     public function testCreateSearchIndexApiClientWillCallIndexConfiguratorIfIndexDoesNotExist(): void
     {
         // Arrange
-        $searchClientMock = $this->tester->createSearchClientMockForNonExistingIndex(static::INDEX_NAME_TEST);
+        $searchClientMock = $this->tester->createSearchClientMockForNonExistingIndex();
 
         $indexConfiguratorMock = $this->tester->createIndexConfiguratorMock($this->once());
 
@@ -61,7 +61,7 @@ class SearchIndexClientCreatorTest extends Unit
     public function testCreateSearchIndexApiClientWillNotCallIndexConfiguratorIfIndexDoesExist(): void
     {
         // Arrange
-        $searchClientMock = $this->tester->createSearchClientMockForExistingIndex(static::INDEX_NAME_TEST);
+        $searchClientMock = $this->tester->createSearchClientMockForExistingIndex();
 
         $indexConfiguratorMock = $this->tester->createIndexConfiguratorMock($this->never());
         // Act

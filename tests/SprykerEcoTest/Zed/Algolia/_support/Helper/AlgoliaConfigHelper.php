@@ -13,9 +13,6 @@ use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
 class AlgoliaConfigHelper extends Module
 {
-    /**
-     * @param array $seed
-     */
     public function haveAlgoliaConfigTransfer(array $seed = []): AlgoliaConfigTransfer
     {
         return (new AlgoliaConfigBuilder($seed))->build();

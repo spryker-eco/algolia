@@ -298,9 +298,6 @@ class CmsPageMapperTest extends Unit
             ->addStores($storeTransfer);
     }
 
-    /**
-     * @return array
-     */
     protected function createFlattenedLocaleCmsPageData(): array
     {
         return [

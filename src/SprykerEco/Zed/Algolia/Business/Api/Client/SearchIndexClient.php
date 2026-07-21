@@ -7,17 +7,15 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\Client;
 
-use Algolia\AlgoliaSearch\SearchIndex;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\AlgoliaResponseTransfer;
-use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
-use Spryker\Shared\Log\LoggerTrait;
 
 class SearchIndexClient implements SearchIndexClientInterface
 {
-    use LoggerTrait;
-
-    public function __construct(protected SearchIndex $searchIndex)
-    {
+    public function __construct(
+        protected SearchClient $searchClient,
+        protected string $indexName,
+    ) {
     }
 
     /**
@@ -25,7 +23,7 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function saveObjects(array $algoliaObjectTransfers): AlgoliaResponseTransfer
     {
-        $this->searchIndex->saveObjects($algoliaObjectTransfers);
+        $this->searchClient->saveObjects($this->indexName, $algoliaObjectTransfers);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
@@ -35,36 +33,14 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function deleteObjects(array $objectIds): AlgoliaResponseTransfer
     {
-        $this->searchIndex->deleteObjects($objectIds);
+        $this->searchClient->deleteObjects($this->indexName, $objectIds);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
     }
 
-    /**
-     * @param array<string, mixed> $searchParameters
-     */
-    public function search(string $query, array $searchParameters): AlgoliaSearchResponseTransfer
-    {
-        $result = $this->searchIndex->search($query, $searchParameters);
-
-        return (new AlgoliaSearchResponseTransfer())
-            ->setSearchResults($result)
-            ->setIsSuccessful(true);
-    }
-
-    public function indexExists(): bool
-    {
-        return $this->searchIndex->exists();
-    }
-
-    public function getIndexName(): string
-    {
-        return $this->searchIndex->getIndexName();
-    }
-
     public function getSettings(): array
     {
-        return $this->searchIndex->getSettings();
+        return $this->searchClient->getSettings($this->indexName);
     }
 
     /**
@@ -72,14 +48,9 @@ class SearchIndexClient implements SearchIndexClientInterface
      */
     public function setSettings(array $settings): AlgoliaResponseTransfer
     {
-        $this->searchIndex->setSettings($settings);
+        $this->searchClient->setSettings($this->indexName, $settings);
 
         return $this->createSuccessfulAlgoliaResponseTransfer();
-    }
-
-    public function getSearchIndex(): SearchIndex
-    {
-        return $this->searchIndex;
     }
 
     protected function createSuccessfulAlgoliaResponseTransfer(): AlgoliaResponseTransfer

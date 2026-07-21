@@ -47,9 +47,6 @@ use Generated\Shared\Transfer\StoreTransfer;
 
 class AlgoliaHelper extends Module
 {
-    /**
-     * @param array $seed
-     */
     public function haveFullProductConcreteTransfer(
         array $seed = []
     ): ProductConcreteTransfer {
@@ -282,9 +279,6 @@ class AlgoliaHelper extends Module
             ->addStores($storeEn);
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveAlgoliaObjectTransfer(array $seed = []): AlgoliaProductObjectTransfer
     {
         return (new AlgoliaProductObjectBuilder($seed))->build();
@@ -300,41 +294,26 @@ class AlgoliaHelper extends Module
             ->setMessageAttributes($messageAttributesTransfer);
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveProductExportedTransfer(array $seed = []): ProductExportedTransfer
     {
         return (new ProductExportedBuilder($seed))->build();
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveProductCreatedTransfer(array $seed = []): ProductCreatedTransfer
     {
         return (new ProductCreatedBuilder($seed))->build();
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveProductUpdatedTransfer(array $seed = []): ProductUpdatedTransfer
     {
         return (new ProductUpdatedBuilder($seed))->build();
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveProductDeletedTransfer(array $seed = []): ProductDeletedTransfer
     {
         return (new ProductDeletedBuilder($seed))->build();
     }
 
-    /**
-     * @param array $seed
-     */
     public function haveAlgoliaApiCredentialsTransfer(array $seed = []): AlgoliaApiCredentialsTransfer
     {
         return (new AlgoliaApiCredentialsBuilder($seed))->build();

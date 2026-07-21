@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Algolia\Business\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Generated\Shared\Transfer\IndexConfigurationTransfer;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClient;
 use SprykerEco\Zed\Algolia\Business\Api\Client\SearchIndexClientInterface;
@@ -23,12 +23,12 @@ class SearchIndexClientCreator implements SearchIndexClientCreatorInterface
         SearchClient $client,
         IndexConfigurationTransfer $indexConfigurationTransfer
     ): SearchIndexClientInterface {
-        $index = $client->initIndex($indexConfigurationTransfer->getIndexNameOrFail());
+        $indexName = $indexConfigurationTransfer->getIndexNameOrFail();
 
-        if (!$index->exists() && $indexConfigurationTransfer->getLocaleOrFail() && !$indexConfigurationTransfer->getSkipIndexConfiguration()) {
-            $this->indexConfigurator->configureIndex($index, $client, $indexConfigurationTransfer->getLocale(), $indexConfigurationTransfer->getAlgoliaConfigOrFail());
+        if (!$client->indexExists($indexName) && $indexConfigurationTransfer->getLocaleOrFail() && !$indexConfigurationTransfer->getSkipIndexConfiguration()) {
+            $this->indexConfigurator->configureIndex($indexName, $client, $indexConfigurationTransfer->getLocale());
         }
 
-        return new SearchIndexClient($index);
+        return new SearchIndexClient($client, $indexName);
     }
 }

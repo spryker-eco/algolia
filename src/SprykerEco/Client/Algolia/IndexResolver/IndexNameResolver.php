@@ -9,9 +9,9 @@ namespace SprykerEco\Client\Algolia\IndexResolver;
 
 use ArrayObject;
 use Exception;
-use Generated\Shared\Transfer\AlgoliaIndicesCollectionTransfer;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class IndexNameResolver implements IndexNameResolverInterface
@@ -31,7 +31,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         'NET_MODE' => 'net',
     ];
 
-    public function __construct()
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
     }
 
@@ -62,43 +62,11 @@ class IndexNameResolver implements IndexNameResolverInterface
         ));
     }
 
-    /**
-     * @param string|null $entityName
-     * @param string|null $storeName
-     */
-    public function filterIndicesByIndexNameParts(
-        AlgoliaIndicesCollectionTransfer $algoliaIndicesCollectionTransfer,
-        string $tenantIdentifier,
-        ?string $entityName = null,
-        ?string $storeName = null
-    ): AlgoliaIndicesCollectionTransfer {
-        $tenantIdentifier = strtolower($tenantIdentifier);
-
-        $filteredAlgoliaIndicesCollectionTransfer = new AlgoliaIndicesCollectionTransfer();
-
-        foreach ($algoliaIndicesCollectionTransfer->getIndices() as $index) {
-            if (!str_contains($index->getName(), $tenantIdentifier)) {
-                continue;
-            }
-
-            if ($entityName && !str_contains($index->getName(), $entityName)) {
-                continue;
-            }
-
-            if ($storeName && !str_contains($index->getName(), strtolower($storeName))) {
-                continue;
-            }
-
-            $filteredAlgoliaIndicesCollectionTransfer->addIndex($index);
-        }
-
-        return $filteredAlgoliaIndicesCollectionTransfer;
-    }
-
     public function getIndexReplicaNameForSorting(
         string $indexName,
         SortingEntryTransfer $sortingEntryTransfer,
-        FacetCollectionTransfer $facetCollectionTransfer
+        FacetCollectionTransfer $facetCollectionTransfer,
+        string $sourceIdentifier
     ): string {
         $fieldKey = $sortingEntryTransfer->getField();
 
@@ -106,11 +74,24 @@ class IndexNameResolver implements IndexNameResolverInterface
             $fieldKey = strtolower($this->getPriceFacetKey($facetCollectionTransfer));
         }
 
+        $fieldKey = $this->mapSortFieldToAttribute($fieldKey, $sourceIdentifier);
+
         if ($sortingEntryTransfer->getDirection() === 'asc') {
             return sprintf('%s-asc-%s', $indexName, $fieldKey);
         }
 
         return sprintf('%s-desc-%s', $indexName, $fieldKey);
+    }
+
+    protected function mapSortFieldToAttribute(string $fieldKey, string $sourceIdentifier): string
+    {
+        $mapping = match ($sourceIdentifier) {
+            AlgoliaEntityNameEnum::PRODUCT->value => $this->algoliaConfig->getProductSortingParamToAttributeMapping(),
+            AlgoliaEntityNameEnum::CMS_PAGE->value => $this->algoliaConfig->getCmsPageSortingParamToAttributeMapping(),
+            default => [],
+        };
+
+        return $mapping[$fieldKey] ?? $fieldKey;
     }
 
     protected function createProductIndexFromTemplate(

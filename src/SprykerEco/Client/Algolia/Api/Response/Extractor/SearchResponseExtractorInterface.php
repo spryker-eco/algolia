@@ -17,18 +17,9 @@ interface SearchResponseExtractorInterface
      */
     public const FIELD_HITS = 'hits';
 
-    /**
-     * @return bool
-     */
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool;
 
-    /**
-     * @return array
-     */
     public function extract(AlgoliaSearchResponseTransfer $algoliaSearchResponseTransfer): array;
 
-    /**
-     * @return string
-     */
     public function getName(): string;
 }

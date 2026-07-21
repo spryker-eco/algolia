@@ -12,8 +12,5 @@ use Generated\Shared\Transfer\CmsPagePublishedTransfer;
 
 interface CmsPagePublisherInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\AlgoliaResponseTransfer
-     */
     public function publishCmsPage(CmsPagePublishedTransfer $cmsPagePublishedTransfer): AlgoliaResponseTransfer;
 }

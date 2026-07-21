@@ -7,7 +7,7 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Api\Creator;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 
@@ -50,10 +50,13 @@ class SearchClientCreatorTest extends Unit
     {
         // Arrange
         $searchClientCreator = $this->tester->getFactory()->createSearchClientCreator();
+        $algoliaConfigTransfer = (new AlgoliaConfigTransfer())
+            ->setApplicationId('test-app-id')
+            ->setAdminApiKey('test-api-key');
 
         // Act
         $searchClient = $searchClientCreator
-            ->createSearchClientFromConfig((new AlgoliaConfigTransfer()));
+            ->createSearchClientFromConfig($algoliaConfigTransfer);
 
         // Assert
         $this->assertInstanceOf(

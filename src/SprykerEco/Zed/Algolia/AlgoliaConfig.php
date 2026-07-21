@@ -20,6 +20,7 @@ use Spryker\Zed\ProductLabel\Dependency\ProductLabelEvents;
 use Spryker\Zed\ProductReview\Dependency\ProductReviewEvents;
 use SprykerEco\Shared\Algolia\AlgoliaConfig as SharedAlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaCmsPageObjectEnum;
+use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
 /**
  * @method \SprykerEco\Shared\Algolia\AlgoliaConfig getSharedConfig()
@@ -306,14 +307,14 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getSearchableAttributes(): array
     {
         return [
-            'sku',
-            'product_abstract_sku',
-            'name',
-            'abstract_name',
-            'category',
-            'keywords',
+            AlgoliaProductObjectEnum::SKU->value,
+            AlgoliaProductObjectEnum::PRODUCT_ABSTRACT_SKU->value,
+            AlgoliaProductObjectEnum::NAME->value,
+            AlgoliaProductObjectEnum::ABSTRACT_NAME->value,
+            AlgoliaProductObjectEnum::CATEGORY->value,
+            AlgoliaProductObjectEnum::KEYWORDS->value,
             'attributes.brand',
-            'description',
+            AlgoliaProductObjectEnum::DESCRIPTION->value,
         ];
     }
 
@@ -331,15 +332,15 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getFilterableAttributes(): array
     {
         $attributes = [
-            'searchable(category)',
-            'rating',
-            'label',
+            sprintf('searchable(%s)', AlgoliaProductObjectEnum::CATEGORY->value),
+            AlgoliaProductObjectEnum::RATING->value,
+            AlgoliaProductObjectEnum::LABEL->value,
             'attributes.color',
             'attributes.brand',
-            'merchant_name',
+            AlgoliaProductObjectEnum::MERCHANT_NAME->value,
         ];
         if ($this->getIsProductPriceSynced()) {
-            $attributes[] = 'prices';
+            $attributes[] = AlgoliaProductObjectEnum::PRICES->value;
         }
 
         $result = [];
@@ -362,7 +363,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getNonDisplayAttributes(): array
     {
-        return ['hierarchical_categories'];
+        return [AlgoliaProductObjectEnum::HIERARCHICAL_CATEGORIES->value];
     }
 
     /**
@@ -406,8 +407,40 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
+     * - Returns the list of facet attributes used for Query Suggestions generation.
+     * - Each entry is an array of attribute names forming one facet group.
+     * - Empty by default; override in project-level config to enable suggestion facets.
+     *
+     * @api
+     *
+     * @return array<array<string>>
+     */
+    public function getSuggestionGenerateAttributes(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
+     * - Returns the list of sortable attribute names for product indices.
+     * - Each attribute gets asc/desc replica indices created for it.
+     * - The attribute name is used for both the replica index naming and the ranking.
+     * - Empty by default; override in project-level config to enable sorting.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getProductSortingAttributes(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
      * - Returns the sorting attributes available for CMS pages.
      * - These attributes can be used to create replica indices for different sort orders.
+     * - Empty by default; override in project-level config to enable sorting.
      *
      * @api
      *
@@ -415,7 +448,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getCmsPageSortingAttributes(): array
     {
-        return [AlgoliaCmsPageObjectEnum::NAME->value];
+        return [];
     }
 
     /**

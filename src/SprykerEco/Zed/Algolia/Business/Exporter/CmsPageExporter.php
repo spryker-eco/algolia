@@ -27,9 +27,6 @@ class CmsPageExporter implements CmsPageExporterInterface
     ) {
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
-     */
     public function exportCmsPages(
         AlgoliaExportCriteriaTransfer $criteriaTransfer,
         ?OutputInterface $output = null
