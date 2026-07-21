@@ -123,7 +123,7 @@ class AlgoliaFactory extends AbstractFactory
 
     public function createIndexNameResolver(): IndexNameResolverInterface
     {
-        return new IndexNameResolver();
+        return new IndexNameResolver($this->getConfig());
     }
 
     public function createSearchParametersResolver(): SearchParametersResolverInterface

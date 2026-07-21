@@ -29,7 +29,8 @@ interface IndexNameResolverInterface
     public function getIndexReplicaNameForSorting(
         string $indexName,
         SortingEntryTransfer $sortingEntryTransfer,
-        FacetCollectionTransfer $facetCollectionTransfer
+        FacetCollectionTransfer $facetCollectionTransfer,
+        string $sourceIdentifier
     ): string;
 
     /**

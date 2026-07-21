@@ -39,7 +39,7 @@ class AlgoliaConfig extends AbstractSharedConfig
      */
     public function getTenantIdentifier(): string
     {
-        return $this->get(AlgoliaConstants::TENANT_IDENTIFIER, 'production');
+        return $this->get(AlgoliaConstants::TENANT_IDENTIFIER, 'denisg');
     }
 
     /**
@@ -135,7 +135,7 @@ class AlgoliaConfig extends AbstractSharedConfig
      */
     public function getIsPersonalizationEnabled(): bool
     {
-        return true;
+        return false;
     }
 
     /**

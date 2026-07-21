@@ -43,7 +43,12 @@ class SearchIndexResolver implements SearchIndexResolverInterface
         );
 
         if ($searchRequestTransfer->getSort() && $searchRequestTransfer->getSort()->getField()) {
-            $indexName = $this->indexNameResolver->getIndexReplicaNameForSorting($indexName, $searchRequestTransfer->getSort(), $searchRequestTransfer->getFacets());
+            $indexName = $this->indexNameResolver->getIndexReplicaNameForSorting(
+                $indexName,
+                $searchRequestTransfer->getSort(),
+                $searchRequestTransfer->getFacets(),
+                $searchRequestTransfer->getSourceIdentifierOrFail(),
+            );
         }
 
         return $this->createSearchIndexClientWithIndexName($searchRequestTransfer, $indexName);

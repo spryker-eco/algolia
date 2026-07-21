@@ -11,6 +11,7 @@ use ArrayObject;
 use Exception;
 use Generated\Shared\Transfer\FacetCollectionTransfer;
 use Generated\Shared\Transfer\SortingEntryTransfer;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 
 class IndexNameResolver implements IndexNameResolverInterface
@@ -30,7 +31,7 @@ class IndexNameResolver implements IndexNameResolverInterface
         'NET_MODE' => 'net',
     ];
 
-    public function __construct()
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
     {
     }
 
@@ -64,7 +65,8 @@ class IndexNameResolver implements IndexNameResolverInterface
     public function getIndexReplicaNameForSorting(
         string $indexName,
         SortingEntryTransfer $sortingEntryTransfer,
-        FacetCollectionTransfer $facetCollectionTransfer
+        FacetCollectionTransfer $facetCollectionTransfer,
+        string $sourceIdentifier
     ): string {
         $fieldKey = $sortingEntryTransfer->getField();
 
@@ -72,11 +74,24 @@ class IndexNameResolver implements IndexNameResolverInterface
             $fieldKey = strtolower($this->getPriceFacetKey($facetCollectionTransfer));
         }
 
+        $fieldKey = $this->mapSortFieldToAttribute($fieldKey, $sourceIdentifier);
+
         if ($sortingEntryTransfer->getDirection() === 'asc') {
             return sprintf('%s-asc-%s', $indexName, $fieldKey);
         }
 
         return sprintf('%s-desc-%s', $indexName, $fieldKey);
+    }
+
+    protected function mapSortFieldToAttribute(string $fieldKey, string $sourceIdentifier): string
+    {
+        $mapping = match ($sourceIdentifier) {
+            AlgoliaEntityNameEnum::PRODUCT->value => $this->algoliaConfig->getProductSortingParamToAttributeMapping(),
+            AlgoliaEntityNameEnum::CMS_PAGE->value => $this->algoliaConfig->getCmsPageSortingParamToAttributeMapping(),
+            default => [],
+        };
+
+        return $mapping[$fieldKey] ?? $fieldKey;
     }
 
     protected function createProductIndexFromTemplate(

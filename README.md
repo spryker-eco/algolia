@@ -641,6 +641,20 @@ public function getCmsPageSortingAttributes(): array
 }
 ```
 
+**Sort Parameter Mapping (Client):**
+- `getProductSortingParamToAttributeMapping()` - Maps client-side sort field names to Algolia attribute names for product replicas. Use when the sort parameter (e.g., `name`) differs from the Algolia attribute used in the replica index name (e.g., `abstract_name`). Empty by default; override in `src/Pyz/Client/Algolia/AlgoliaConfig.php`.
+- `getCmsPageSortingParamToAttributeMapping()` - Same mapping for CMS page replicas.
+
+Example in `src/Pyz/Client/Algolia/AlgoliaConfig.php`:
+```php
+public function getProductSortingParamToAttributeMapping(): array
+{
+    return [
+        'name' => 'abstract_name', // sort param 'name' resolves to replica '-asc-abstract_name'
+    ];
+}
+```
+
 **Query Suggestions:**
 - `getSuggestionGenerateAttributes()` - Configures facet attributes for Algolia Query Suggestions generation. Each entry is an array of attribute names forming one facet group. Empty by default; override in project-level config.
 

@@ -246,4 +246,34 @@ class AlgoliaConfig extends AbstractBundleConfig
 
         return array_merge($result, $this->getNonDisplayAttributes());
     }
+
+    /**
+     * Specification:
+     * - Returns a mapping of client-side sort parameter names to Algolia attribute names for product replicas.
+     * - When a sort field from the search request differs from the Algolia attribute used in the replica index name,
+     *   this mapping translates the sort field to the correct replica attribute.
+     * - Empty by default; override in project-level config when sort param names differ from Algolia attributes.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getProductSortingParamToAttributeMapping(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
+     * - Returns a mapping of client-side sort parameter names to Algolia attribute names for CMS page replicas.
+     * - Empty by default; override in project-level config when sort param names differ from Algolia attributes.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getCmsPageSortingParamToAttributeMapping(): array
+    {
+        return [];
+    }
 }

@@ -52,7 +52,7 @@ class SearchIndexClient implements SearchIndexClientInterface
                     ->setIsSuccessful(true);
             }
 
-            $this->getLogger()->error('Algolia index not found.', [
+            $this->getLogger()->error('Algolia request failed with NotFoundException.', [
                 'indexName' => $this->indexName,
                 'exception' => $notFoundException,
             ]);
