@@ -173,6 +173,31 @@ class AlgoliaClientTest extends Unit
         $this->assertEmpty($algoliaSearchResponseTransfer->getFacets());
     }
 
+    public function testSearchReturnsUnsuccessfulResultWhenPrimaryIndexNotFound(): void
+    {
+        // Arrange
+        $searchRequestTransfer = $this->tester->haveSearchRequestTransfer();
+        $searchIndexClientMock = $this->tester->createSearchIndexClientMock();
+
+        // SearchIndexClient returns unsuccessful response when primary index is missing
+        $searchIndexClientMock
+            ->method('search')
+            ->willReturn(
+                (new AlgoliaSearchResponseTransfer())
+                    ->setIsSuccessful(false)
+                    ->setResponseMessage('Algolia index "test-index" not found.'),
+            );
+
+        $this->tester->mockSearchIndexClient($searchIndexClientMock);
+
+        // Act
+        $algoliaSearchResponseTransfer = $this->tester->getClient()->search($searchRequestTransfer);
+
+        // Assert
+        $this->assertFalse($algoliaSearchResponseTransfer->getIsSuccessful());
+        $this->assertEmpty($algoliaSearchResponseTransfer->getItems());
+    }
+
     public function testSearchReturnsUnsuccessfulResultWhenUnexpectedExceptionWasThrown(): void
     {
         // Arrange

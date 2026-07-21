@@ -42,13 +42,24 @@ class SearchIndexClient implements SearchIndexClientInterface
         } catch (NotFoundException $notFoundException) {
             $responseData = ['error' => $notFoundException->getMessage()];
 
-            $this->getLogger()->warning('Algolia replica index not found for sort, returning empty result.', [
+            if ($this->isReplicaIndex()) {
+                $this->getLogger()->warning('Algolia replica index not found, returning empty result.', [
+                    'indexName' => $this->indexName,
+                    'exception' => $notFoundException,
+                ]);
+
+                return (new AlgoliaSearchResponseTransfer())
+                    ->setIsSuccessful(true);
+            }
+
+            $this->getLogger()->error('Algolia index not found.', [
                 'indexName' => $this->indexName,
                 'exception' => $notFoundException,
             ]);
 
             return (new AlgoliaSearchResponseTransfer())
-                ->setIsSuccessful(true);
+                ->setIsSuccessful(false)
+                ->setResponseMessage(sprintf('Algolia index "%s" not found.', $this->indexName));
         } catch (Throwable $e) {
             $responseData = ['error' => $e->getMessage()];
 
@@ -67,6 +78,11 @@ class SearchIndexClient implements SearchIndexClientInterface
     public function getSettings(): array
     {
         return $this->searchClient->getSettings($this->indexName);
+    }
+
+    protected function isReplicaIndex(): bool
+    {
+        return str_contains($this->indexName, '-asc-') || str_contains($this->indexName, '-desc-');
     }
 
     /**
