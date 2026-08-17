@@ -29,11 +29,11 @@ class SearchResponseFormatter implements SearchResponseFormatterInterface
         array $resultFormatters = [],
         array $requestParameters = []
     ): array {
-        $searchHttpResponseTransfer = $this->mapSearchResponseToSearchHttpResponse($algoliaSearchResponseTransfer);
-
-        if ($requestParameters === []) {
+        if ($resultFormatters === []) {
             return [static::DEFAULT_PAGINATION_FORMATTER => $algoliaSearchResponseTransfer->getPagination()];
         }
+
+        $searchHttpResponseTransfer = $this->mapSearchResponseToSearchHttpResponse($algoliaSearchResponseTransfer);
 
         $formattedResults = [];
         foreach ($resultFormatters as $resultFormatter) {
