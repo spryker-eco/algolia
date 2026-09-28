@@ -368,35 +368,26 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
-     * - Returns the names of the product attributes that hold several values in one delimiter separated string
-     *   and therefore have to be indexed as an array.
-     * - Names are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
+     * - Returns the delimiter each multi-value product attribute is split by, keyed by attribute name.
+     * - The listed attributes hold several values in one delimiter separated string and are indexed as an array,
+     *   so the index produces one facet bucket per value instead of one per distinct combination.
+     * - Keys are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
      *   for example `color`, not `attributes.color`.
-     * - Splitting is opt-in per attribute because a delimiter can be part of a value itself, for example the comma
-     *   in the decimal number `1,5` or in a free text attribute.
+     * - The delimiter is configured per attribute because the same character can belong to the value of another
+     *   attribute, for example the comma in the decimal number `5,5` or in a free text attribute.
+     * - Splitting is opt-in: an attribute that is not listed here is indexed verbatim.
      * - Attribute values that are not strings are left untouched, which covers the values already stored as arrays
      *   by `multiselect` product attributes.
-     * - Changing this list requires a full product export before it takes effect on the storefront.
+     * - Changing this configuration requires a full product export before it takes effect on the storefront.
      * - Empty by default; override on project level.
      *
      * @api
      *
-     * @return array<string>
+     * @return array<string, non-empty-string>
      */
-    public function getMultiValueProductAttributeNames(): array
+    public function getMultiValueProductAttributeDelimiters(): array
     {
         return [];
-    }
-
-    /**
-     * Specification:
-     * - Returns the delimiter that separates the values of the attributes listed in `getMultiValueProductAttributeNames()`.
-     *
-     * @api
-     */
-    public function getMultiValueProductAttributeDelimiter(): string
-    {
-        return ',';
     }
 
     /**

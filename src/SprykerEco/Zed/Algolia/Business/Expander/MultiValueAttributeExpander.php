@@ -19,28 +19,24 @@ class MultiValueAttributeExpander implements MultiValueAttributeExpanderInterfac
     public function expandAlgoliaProductObjectWithMultiValueAttributes(
         AlgoliaProductObjectTransfer $algoliaProductObjectTransfer,
     ): AlgoliaProductObjectTransfer {
-        $multiValueAttributeNames = $this->algoliaConfig->getMultiValueProductAttributeNames();
+        $multiValueAttributeDelimiters = $this->algoliaConfig->getMultiValueProductAttributeDelimiters();
 
-        if ($multiValueAttributeNames === []) {
+        if ($multiValueAttributeDelimiters === []) {
             return $algoliaProductObjectTransfer;
         }
 
         $attributes = $algoliaProductObjectTransfer->getAttributes();
-        $delimiter = $this->algoliaConfig->getMultiValueProductAttributeDelimiter();
 
-        foreach ($multiValueAttributeNames as $multiValueAttributeName) {
+        foreach ($multiValueAttributeDelimiters as $attributeName => $delimiter) {
             if (
-                !isset($attributes[$multiValueAttributeName])
-                || !is_string($attributes[$multiValueAttributeName])
-                || !str_contains($attributes[$multiValueAttributeName], $delimiter)
+                !isset($attributes[$attributeName])
+                || !is_string($attributes[$attributeName])
+                || !str_contains($attributes[$attributeName], $delimiter)
             ) {
                 continue;
             }
 
-            $attributes[$multiValueAttributeName] = array_map(
-                'trim',
-                explode($delimiter, $attributes[$multiValueAttributeName]),
-            );
+            $attributes[$attributeName] = array_map('trim', explode($delimiter, $attributes[$attributeName]));
         }
 
         return $algoliaProductObjectTransfer->setAttributes($attributes);

@@ -30,7 +30,7 @@ class MultiValueAttributeExpanderTest extends Unit
     {
         // Arrange
         $attributes = ['color' => 'red,blue', 'brand' => 'Acme'];
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', []);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', []);
 
         // Act
         $algoliaProductObjectTransfer = $this->expandAttributes($attributes);
@@ -42,7 +42,7 @@ class MultiValueAttributeExpanderTest extends Unit
     public function testSplitsAConfiguredAttributeIntoOneValuePerFacetBucket(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
 
         // Act
         $algoliaProductObjectTransfer = $this->expandAttributes(['color' => 'red,blue']);
@@ -51,10 +51,29 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame(['red', 'blue'], $algoliaProductObjectTransfer->getAttributes()['color']);
     }
 
+    public function testSplitsEachAttributeByItsOwnDelimiter(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', [
+            'color' => ',',
+            'size' => '|',
+        ]);
+
+        // Act
+        $attributes = $this->expandAttributes([
+            'color' => 'red,blue',
+            'size' => '5,5Gb|6,5Gb',
+        ])->getAttributes();
+
+        // Assert
+        $this->assertSame(['red', 'blue'], $attributes['color']);
+        $this->assertSame(['5,5Gb', '6,5Gb'], $attributes['size']);
+    }
+
     public function testCollapsesBothSpellingsOfTheSameListIntoTheSameValues(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['material']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['material' => ',']);
 
         // Act
         $spacedAttributes = $this->expandAttributes(['material' => 'cotton, wool'])->getAttributes();
@@ -65,22 +84,22 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame($spacedAttributes['material'], $unspacedAttributes['material']);
     }
 
-    public function testWrapsASingleValueIntoAnArray(): void
+    public function testLeavesAValueWithoutTheDelimiterAsAString(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
 
         // Act
         $algoliaProductObjectTransfer = $this->expandAttributes(['color' => 'red']);
 
         // Assert
-        $this->assertSame(['red'], $algoliaProductObjectTransfer->getAttributes()['color']);
+        $this->assertSame('red', $algoliaProductObjectTransfer->getAttributes()['color']);
     }
 
     public function testLeavesAnAttributeThatIsAlreadyAnArrayUntouched(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
 
         // Act
         $algoliaProductObjectTransfer = $this->expandAttributes(['color' => ['red', 'blue']]);
@@ -92,7 +111,11 @@ class MultiValueAttributeExpanderTest extends Unit
     public function testLeavesAConfiguredAttributeThatIsNotStringValuedUntouched(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['megapixel', 'is_gift', 'size']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', [
+            'megapixel' => ',',
+            'is_gift' => ',',
+            'size' => ',',
+        ]);
 
         // Act
         $attributes = $this->expandAttributes([
@@ -110,7 +133,7 @@ class MultiValueAttributeExpanderTest extends Unit
     public function testIgnoresAConfiguredAttributeThatTheProductDoesNotCarry(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
 
         // Act
         $algoliaProductObjectTransfer = $this->expandAttributes(['brand' => 'Acme']);
@@ -123,7 +146,7 @@ class MultiValueAttributeExpanderTest extends Unit
     {
         // Arrange
         $careInstructions = 'Machine wash cold, tumble dry low.';
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
 
         // Act
         $attributes = $this->expandAttributes([
@@ -139,8 +162,7 @@ class MultiValueAttributeExpanderTest extends Unit
     public function testUsesTheConfiguredDelimiter(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['weight']);
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiter', '|');
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['weight' => '|']);
 
         // Act
         $attributes = $this->expandAttributes(['weight' => '1,5 kg | 2,5 kg'])->getAttributes();
@@ -152,7 +174,7 @@ class MultiValueAttributeExpanderTest extends Unit
     public function testReturnsTheGivenTransferInstance(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
         $algoliaProductObjectTransfer = (new AlgoliaProductObjectTransfer())
             ->setAttributes(['color' => 'red,blue']);
 

@@ -300,7 +300,7 @@ class ProductMapperTest extends Unit
     public function testGivenMultiValueAttributeInLocalizedAttributesWhenMappingThenValueIsSplitIntoOneValuePerFacetBucket(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['material']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['material' => ',']);
         $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
             ['brand' => 'Acme'],
             ['material' => 'cotton, wool'],
@@ -317,7 +317,7 @@ class ProductMapperTest extends Unit
     public function testGivenLocalizedMultiValueAttributeOverwritingConcreteOneWhenMappingThenSurvivingValueIsSplit(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => ',']);
         $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
             ['color' => 'red'],
             ['color' => 'red,blue'],
@@ -333,7 +333,7 @@ class ProductMapperTest extends Unit
     public function testGivenNoMultiValueAttributeConfiguredWhenMappingThenAttributesAreIndexedVerbatim(): void
     {
         // Arrange
-        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', []);
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', []);
         $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
             ['brand' => 'Acme'],
             ['color' => 'red,blue'],
