@@ -381,6 +381,13 @@ class AlgoliaConfig extends AbstractBundleConfig
      * - Changing this configuration requires a full product export before it takes effect on the storefront.
      * - Empty by default; override on project level.
      *
+     * @examples
+     * [
+     *     'color' => ',', // "red,blue" is indexed as ["red", "blue"]
+     *     'material' => ',', // "cotton, wool" is indexed as ["cotton", "wool"], every value is trimmed
+     *     'size' => '|', // "5,5Gb|6,5Gb" is indexed as ["5,5Gb", "6,5Gb"], the commas stay inside the values
+     * ]
+     *
      * @api
      *
      * @return array<string, string>
