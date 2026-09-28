@@ -15,6 +15,7 @@ use Generated\Shared\Transfer\LocaleTransfer;
 use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
 use Generated\Shared\Transfer\StoreTransfer;
+use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 
 /**
  * Auto-generated group annotations
@@ -29,25 +30,13 @@ use Generated\Shared\Transfer\StoreTransfer;
  */
 class ProductMapperTest extends Unit
 {
-    /**
-     * @var string
-     */
-    protected const STORE_REFERENCE_TEST = 'test-reference';
+    protected const string STORE_REFERENCE_TEST = 'test-reference';
 
-    /**
-     * @var string
-     */
-    protected const STORE_NAME = 'DE';
+    protected const string STORE_NAME = 'DE';
 
-    /**
-     * @var string
-     */
-    protected const LOCALE_NAME = 'de_DE';
+    protected const string LOCALE_NAME = 'de_DE';
 
-    /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
-     */
-    protected $tester;
+    protected AlgoliaBusinessTester $tester;
 
     public function testMapProductConcreteToAlgoliaProductCollectionTransferWithEmptyDataReturnsZeroTransfers(): void
     {
@@ -308,11 +297,6 @@ class ProductMapperTest extends Unit
         $this->assertCount(0, $algoliaProductsArray);
     }
 
-    /**
-     * Filterable product attributes are commonly localized, so they only reach the record through the
-     * localized attributes, which the mapper merges on top of the concrete ones. A fixture that only
-     * sets concrete attributes would pass while production stayed broken.
-     */
     public function testGivenMultiValueAttributeInLocalizedAttributesWhenMappingThenValueIsSplitIntoOneValuePerFacetBucket(): void
     {
         // Arrange
@@ -330,10 +314,6 @@ class ProductMapperTest extends Unit
         $this->assertSame('Acme', $attributes['brand']);
     }
 
-    /**
-     * A localized value overwrites the concrete one in the mapper's merge, so the split has to run on
-     * the value that survives the merge, not on the one it replaced.
-     */
     public function testGivenLocalizedMultiValueAttributeOverwritingConcreteOneWhenMappingThenSurvivingValueIsSplit(): void
     {
         // Arrange
@@ -384,7 +364,7 @@ class ProductMapperTest extends Unit
      */
     protected function createProductConcreteTransferWithAttributes(
         array $concreteAttributes,
-        array $localizedAttributes
+        array $localizedAttributes,
     ): ProductConcreteTransfer {
         $localizedAttributesTransfer = (new LocalizedAttributesTransfer())
             ->setLocale((new LocaleTransfer())->setLocaleName(static::LOCALE_NAME))

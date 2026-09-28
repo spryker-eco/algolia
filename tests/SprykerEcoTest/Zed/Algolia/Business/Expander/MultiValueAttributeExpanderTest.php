@@ -9,14 +9,9 @@ namespace SprykerEcoTest\Zed\Algolia\Business\Expander;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaProductObjectTransfer;
+use SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester;
 
 /**
- * Spryker stores a multi-value product attribute as a single delimiter separated string, for example
- * `color = "red,blue"`. Indexed verbatim, Algolia produces one facet bucket per distinct combination
- * instead of one per value, and the two spellings `"red, blue"` and `"red,blue"` become two separate
- * buckets with separate counts. Algolia cannot split a string facet value at query time, so the split
- * has to happen at index time.
- *
  * Auto-generated group annotations
  *
  * @group SprykerEcoTest
@@ -29,10 +24,7 @@ use Generated\Shared\Transfer\AlgoliaProductObjectTransfer;
  */
 class MultiValueAttributeExpanderTest extends Unit
 {
-    /**
-     * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
-     */
-    protected $tester;
+    protected AlgoliaBusinessTester $tester;
 
     public function testLeavesAttributesUntouchedWhenNoMultiValueAttributeIsConfigured(): void
     {
@@ -59,10 +51,6 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame(['red', 'blue'], $algoliaProductObjectTransfer->getAttributes()['color']);
     }
 
-    /**
-     * The same list written with and without a space after the delimiter ends up in two separate facet
-     * buckets when the raw string is indexed. Trimming is what merges them.
-     */
     public function testCollapsesBothSpellingsOfTheSameListIntoTheSameValues(): void
     {
         // Arrange
@@ -77,10 +65,6 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame($spacedAttributes['material'], $unspacedAttributes['material']);
     }
 
-    /**
-     * Matches `\Spryker\Zed\ProductAttribute\Communication\Formatter\MultiSelectAttributeFormatter`,
-     * which turns a `multiselect` attribute into an array regardless of how many values it holds.
-     */
     public function testWrapsASingleValueIntoAnArray(): void
     {
         // Arrange
@@ -93,10 +77,6 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame(['red'], $algoliaProductObjectTransfer->getAttributes()['color']);
     }
 
-    /**
-     * A `multiselect` product attribute is already stored as an array by the attribute writer, so
-     * there is nothing left to split.
-     */
     public function testLeavesAnAttributeThatIsAlreadyAnArrayUntouched(): void
     {
         // Arrange
@@ -139,10 +119,6 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame(['brand' => 'Acme'], $algoliaProductObjectTransfer->getAttributes());
     }
 
-    /**
-     * Splitting is opt-in per attribute because a comma belongs to the value itself in a decimal number
-     * written in a locale that uses the comma as a decimal separator, and in free text attributes.
-     */
     public function testDoesNotSplitAnAttributeThatIsNotConfigured(): void
     {
         // Arrange
@@ -160,9 +136,6 @@ class MultiValueAttributeExpanderTest extends Unit
         $this->assertSame($careInstructions, $attributes['care_instructions']);
     }
 
-    /**
-     * A non-comma delimiter is what makes an attribute splittable when a comma is part of its values.
-     */
     public function testUsesTheConfiguredDelimiter(): void
     {
         // Arrange

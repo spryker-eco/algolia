@@ -29,7 +29,6 @@ class MultiValueAttributeExpander implements MultiValueAttributeExpanderInterfac
         $delimiter = $this->algoliaConfig->getMultiValueProductAttributeDelimiter();
 
         foreach ($multiValueAttributeNames as $multiValueAttributeName) {
-            // Values that are not strings are already split, e.g. by a `multiselect` product attribute.
             if (
                 !isset($attributes[$multiValueAttributeName])
                 || !is_string($attributes[$multiValueAttributeName])
