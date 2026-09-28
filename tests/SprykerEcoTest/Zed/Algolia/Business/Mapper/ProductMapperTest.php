@@ -7,10 +7,14 @@
 
 namespace SprykerEcoTest\Zed\Algolia\Business\Mapper;
 
+use ArrayObject;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AlgoliaConfigTransfer;
 use Generated\Shared\Transfer\AlgoliaProductTransfer;
+use Generated\Shared\Transfer\LocaleTransfer;
+use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\ProductConcreteTransfer;
+use Generated\Shared\Transfer\StoreTransfer;
 
 /**
  * Auto-generated group annotations
@@ -29,6 +33,16 @@ class ProductMapperTest extends Unit
      * @var string
      */
     protected const STORE_REFERENCE_TEST = 'test-reference';
+
+    /**
+     * @var string
+     */
+    protected const STORE_NAME = 'DE';
+
+    /**
+     * @var string
+     */
+    protected const LOCALE_NAME = 'de_DE';
 
     /**
      * @var \SprykerEcoTest\Zed\Algolia\AlgoliaBusinessTester
@@ -292,5 +306,103 @@ class ProductMapperTest extends Unit
 
         // Assert
         $this->assertCount(0, $algoliaProductsArray);
+    }
+
+    /**
+     * Filterable product attributes are commonly localized, so they only reach the record through the
+     * localized attributes, which the mapper merges on top of the concrete ones. A fixture that only
+     * sets concrete attributes would pass while production stayed broken.
+     */
+    public function testGivenMultiValueAttributeInLocalizedAttributesWhenMappingThenValueIsSplitIntoOneValuePerFacetBucket(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['material']);
+        $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
+            ['brand' => 'Acme'],
+            ['material' => 'cotton, wool'],
+        );
+
+        // Act
+        $attributes = $this->mapProductConcreteToAttributes($productConcreteTransfer);
+
+        // Assert
+        $this->assertSame(['cotton', 'wool'], $attributes['material']);
+        $this->assertSame('Acme', $attributes['brand']);
+    }
+
+    /**
+     * A localized value overwrites the concrete one in the mapper's merge, so the split has to run on
+     * the value that survives the merge, not on the one it replaced.
+     */
+    public function testGivenLocalizedMultiValueAttributeOverwritingConcreteOneWhenMappingThenSurvivingValueIsSplit(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', ['color']);
+        $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
+            ['color' => 'red'],
+            ['color' => 'red,blue'],
+        );
+
+        // Act
+        $attributes = $this->mapProductConcreteToAttributes($productConcreteTransfer);
+
+        // Assert
+        $this->assertSame(['red', 'blue'], $attributes['color']);
+    }
+
+    public function testGivenNoMultiValueAttributeConfiguredWhenMappingThenAttributesAreIndexedVerbatim(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeNames', []);
+        $productConcreteTransfer = $this->createProductConcreteTransferWithAttributes(
+            ['brand' => 'Acme'],
+            ['color' => 'red,blue'],
+        );
+
+        // Act
+        $attributes = $this->mapProductConcreteToAttributes($productConcreteTransfer);
+
+        // Assert
+        $this->assertSame(['brand' => 'Acme', 'color' => 'red,blue'], $attributes);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function mapProductConcreteToAttributes(ProductConcreteTransfer $productConcreteTransfer): array
+    {
+        $algoliaProductsArray = $this->tester->getFactory()
+            ->createProductMapper()
+            ->mapProductConcreteToAlgoliaProductTransfersArrayIndexedByStoreAndLocale($productConcreteTransfer, []);
+
+        return $algoliaProductsArray[static::STORE_NAME][static::LOCALE_NAME][0]->getObjectOrFail()->getAttributes();
+    }
+
+    /**
+     * @param array<string, mixed> $concreteAttributes
+     * @param array<string, mixed> $localizedAttributes
+     */
+    protected function createProductConcreteTransferWithAttributes(
+        array $concreteAttributes,
+        array $localizedAttributes
+    ): ProductConcreteTransfer {
+        $localizedAttributesTransfer = (new LocalizedAttributesTransfer())
+            ->setLocale((new LocaleTransfer())->setLocaleName(static::LOCALE_NAME))
+            ->setIsSearchable(true)
+            ->setName('multi-value product')
+            ->setAttributes($localizedAttributes);
+
+        $storeTransfer = (new StoreTransfer())
+            ->setName(static::STORE_NAME)
+            ->setAvailableLocaleIsoCodes([static::LOCALE_NAME]);
+
+        return (new ProductConcreteTransfer())
+            ->setName('multi-value product')
+            ->setSku('multi-value-sku')
+            ->setAbstractSku('abstract-multi-value-sku')
+            ->setIsActive(true)
+            ->setAttributes($concreteAttributes)
+            ->setLocalizedAttributes(new ArrayObject([$localizedAttributesTransfer]))
+            ->setStores(new ArrayObject([$storeTransfer]));
     }
 }

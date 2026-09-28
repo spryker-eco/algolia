@@ -368,6 +368,39 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
+     * - Returns the names of the product attributes that hold several values in one delimiter separated string
+     *   and therefore have to be indexed as an array.
+     * - Names are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
+     *   for example `color`, not `attributes.color`.
+     * - Splitting is opt-in per attribute because a delimiter can be part of a value itself, for example the comma
+     *   in the decimal number `1,5` or in a free text attribute.
+     * - Attribute values that are not strings are left untouched, which covers the values already stored as arrays
+     *   by `multiselect` product attributes.
+     * - Changing this list requires a full product export before it takes effect on the storefront.
+     * - Empty by default; override on project level.
+     *
+     * @api
+     *
+     * @return array<string>
+     */
+    public function getMultiValueProductAttributeNames(): array
+    {
+        return [];
+    }
+
+    /**
+     * Specification:
+     * - Returns the delimiter that separates the values of the attributes listed in `getMultiValueProductAttributeNames()`.
+     *
+     * @api
+     */
+    public function getMultiValueProductAttributeDelimiter(): string
+    {
+        return ',';
+    }
+
+    /**
+     * Specification:
      * - Returns the searchable attributes for CMS pages.
      * - These attributes are indexed and can be searched by users.
      * - Includes content, metadata, and SEO-related fields.

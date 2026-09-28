@@ -669,6 +669,37 @@ public function getSuggestionGenerateAttributes(): array
 }
 ```
 
+**Multi-Value Attributes:**
+
+Spryker stores a multi-value product attribute as a single delimiter-separated string, for example
+`color = "red,blue"`. Indexed verbatim, Algolia creates one facet bucket per distinct *combination*
+of values instead of one per value, so `red, blue` shows up as a checkbox of its own next to `red`,
+and the two spellings `red, blue` and `red,blue` become two separate filters with separate counts.
+Algolia cannot split a string facet value at query time, so the split happens at index time.
+
+- `getMultiValueProductAttributeNames()` - Product attribute names whose value has to be indexed as an array. Names are plain attribute keys as they appear under `attributes` in the record (`color`, **not** `attributes.color`). Empty by default; override in project-level config.
+- `getMultiValueProductAttributeDelimiter()` - The delimiter the values are separated by. Defaults to `,`.
+
+Example in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
+```php
+public function getMultiValueProductAttributeNames(): array
+{
+    return [
+        'color',
+        'material',
+        'size',
+    ];
+}
+```
+
+Notes:
+- Splitting is **opt-in per attribute**, because a delimiter can be part of the value itself — a decimal number in a locale that uses the comma as a decimal separator (`"1,5 kg"`), or a free text attribute containing commas. Only list attributes whose delimiter genuinely separates values.
+- Values are trimmed, so `"red, blue"` and `"red,blue"` produce the same two buckets. This matches `\Spryker\Zed\ProductAttribute\Communication\Formatter\MultiSelectAttributeFormatter`, which does the same for `multiselect` product attributes.
+- A configured attribute always becomes an array, even when it holds a single value (`"red"` → `["red"]`), and empty parts are kept, so a trailing delimiter (`"red,blue,"`) produces an empty facet bucket. Clean the import data if that matters.
+- Attribute values that are not strings are left untouched, which covers values already stored as arrays by `multiselect` product attributes.
+- Use `getMultiValueProductAttributeDelimiter()` when the comma is part of the values themselves, for example `"1,5 kg | 2,5 kg"` with `|` as the delimiter.
+- Changing the list requires a **full product export** before it takes effect on the storefront.
+
 **Insights & Analytics & Personalization:**
 - `getIsPersonalizationEnabled()` - Enable/disable Algolia Personalization for search. This feature requires a premium Algolia plan.
 - `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking (via TraceableEventWidget).
