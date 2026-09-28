@@ -30,7 +30,11 @@ class MultiValueAttributeExpander implements MultiValueAttributeExpanderInterfac
 
         foreach ($multiValueAttributeNames as $multiValueAttributeName) {
             // Values that are not strings are already split, e.g. by a `multiselect` product attribute.
-            if (!isset($attributes[$multiValueAttributeName]) || !is_string($attributes[$multiValueAttributeName])) {
+            if (
+                !isset($attributes[$multiValueAttributeName])
+                || !is_string($attributes[$multiValueAttributeName])
+                || !str_contains($attributes[$multiValueAttributeName], $delimiter)
+            ) {
                 continue;
             }
 
