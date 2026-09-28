@@ -383,7 +383,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      *
      * @api
      *
-     * @return array<string, non-empty-string>
+     * @return array<string, string>
      */
     public function getMultiValueProductAttributeDelimiters(): array
     {
