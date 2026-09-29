@@ -153,7 +153,7 @@ class AlgoliaConfig extends AbstractSharedConfig
      */
     public function getMultiValueProductAttributeDelimiters(): array
     {
-        return ['audio_system' => ','];
+        return [];
     }
 
     /**
