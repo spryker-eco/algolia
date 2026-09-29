@@ -75,9 +75,6 @@ class SearchResponseFormatterTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testPaginationIsReturnedWhenNoResultFormattersAndNoRequestParametersAreGiven(): void
     {
         // Arrange
@@ -117,9 +114,6 @@ class SearchResponseFormatterTest extends Unit
         $this->assertArrayNotHasKey(static::DEFAULT_PAGINATION_FORMATTER, $formattedResults);
     }
 
-    /**
-     * @return void
-     */
     public function testResultFormattersAreAppliedWhenRequestParametersAreGiven(): void
     {
         // Arrange

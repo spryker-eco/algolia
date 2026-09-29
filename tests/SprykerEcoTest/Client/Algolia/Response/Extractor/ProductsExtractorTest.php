@@ -8,6 +8,7 @@
 namespace SprykerEcoTest\Client\Algolia\Api\Response\Extractor;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\AlgoliaSearchResponseTransfer;
 use SprykerEcoTest\Client\Algolia\AlgoliaClientTester;
 
 /**
@@ -81,5 +82,75 @@ class ProductsExtractorTest extends Unit
             $this->assertSame($rawPrices[$price['currency']]['gross'], $price['price_gross']);
             $this->assertSame($rawPrices[$price['currency']]['net'], $price['price_net']);
         }
+    }
+
+    public function testJoinsArrayValuedAttributesByTheirConfiguredDelimiter(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', [
+            'color' => ',',
+            'size' => '|',
+        ]);
+        $algoliaSearchResponseTransfer = $this->createSearchResponseTransferWithAttributes([
+            'color' => ['red', 'blue'],
+            'size' => ['5,5Gb', '6,5Gb'],
+            'brand' => 'Acme',
+        ]);
+
+        // Act
+        $products = $this->tester->getFactory()->createProductsExtractor()->extract($algoliaSearchResponseTransfer);
+
+        // Assert
+        $attributes = $products[0]['attributes'];
+        $this->assertSame('red,blue', $attributes['color']['value']);
+        $this->assertSame('5,5Gb|6,5Gb', $attributes['size']['value']);
+        $this->assertSame('Acme', $attributes['brand']['value']);
+    }
+
+    public function testJoinsAnArrayValuedAttributeWithoutAConfiguredDelimiterByTheDefaultOne(): void
+    {
+        // Arrange
+        $this->tester->mockConfigMethod('getMultiValueProductAttributeDelimiters', []);
+        $algoliaSearchResponseTransfer = $this->createSearchResponseTransferWithAttributes([
+            'color' => ['red', 'blue'],
+        ]);
+
+        // Act
+        $products = $this->tester->getFactory()->createProductsExtractor()->extract($algoliaSearchResponseTransfer);
+
+        // Assert
+        $this->assertSame('red, blue', $products[0]['attributes']['color']['value']);
+    }
+
+    public function testReadsTheDelimitersFromTheSharedConfiguration(): void
+    {
+        // Arrange
+        $this->tester->mockSharedConfigMethod('getMultiValueProductAttributeDelimiters', ['color' => '|']);
+        $algoliaSearchResponseTransfer = $this->createSearchResponseTransferWithAttributes([
+            'color' => ['red', 'blue'],
+        ]);
+
+        // Act
+        $products = $this->tester->getFactory()->createProductsExtractor()->extract($algoliaSearchResponseTransfer);
+
+        // Assert
+        $this->assertSame('red|blue', $products[0]['attributes']['color']['value']);
+    }
+
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    protected function createSearchResponseTransferWithAttributes(array $attributes): AlgoliaSearchResponseTransfer
+    {
+        return (new AlgoliaSearchResponseTransfer())->setSearchResults([
+            'hits' => [
+                [
+                    'sku' => 'multi-value-sku',
+                    'name' => 'multi-value product',
+                    'images' => [],
+                    'attributes' => $attributes,
+                ],
+            ],
+        ]);
     }
 }

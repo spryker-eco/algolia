@@ -22,10 +22,15 @@ use Generated\Shared\Transfer\ProductImageTransfer;
 use Generated\Shared\Transfer\ProductOfferTransfer;
 use Spryker\Shared\Log\LoggerTrait;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
+use SprykerEco\Zed\Algolia\Business\Expander\MultiValueAttributeExpanderInterface;
 
 class ProductMapper implements ProductMapperInterface
 {
     use LoggerTrait;
+
+    public function __construct(protected MultiValueAttributeExpanderInterface $multiValueAttributeExpander)
+    {
+    }
 
     /**
      * {@inheritDoc}
@@ -189,6 +194,9 @@ class ProductMapper implements ProductMapperInterface
             ->setKeywords($localizedAttributes->getMetaKeywords())
             ->setName($localizedAttributes->getName())
             ->setAbstractName($abstractLocalizedAttributes->getName());
+
+        $algoliaObjectTransfer = $this->multiValueAttributeExpander
+            ->expandAlgoliaProductObjectWithMultiValueAttributes($algoliaObjectTransfer);
 
         return (new AlgoliaProductTransfer())
             ->setMetadata($algoliaProductMetadataTransfer)

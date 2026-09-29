@@ -337,6 +337,7 @@ class AlgoliaConfig extends AbstractBundleConfig
             AlgoliaProductObjectEnum::LABEL->value,
             'attributes.color',
             'attributes.brand',
+            'attributes.audio_system',
             AlgoliaProductObjectEnum::MERCHANT_NAME->value,
         ];
         if ($this->getIsProductPriceSynced()) {
@@ -364,6 +365,22 @@ class AlgoliaConfig extends AbstractBundleConfig
     public function getNonDisplayAttributes(): array
     {
         return [AlgoliaProductObjectEnum::HIERARCHICAL_CATEGORIES->value];
+    }
+
+    /**
+     * Specification:
+     * - Returns the delimiter each multi-value product attribute is split by, keyed by attribute name.
+     * - Keys are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
+     *   for example `color`, not `attributes.color`.
+     * - Splitting is opt-in: an attribute that is not listed here is indexed verbatim.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getMultiValueProductAttributeDelimiters(): array
+    {
+        return $this->getSharedConfig()->getMultiValueProductAttributeDelimiters();
     }
 
     /**

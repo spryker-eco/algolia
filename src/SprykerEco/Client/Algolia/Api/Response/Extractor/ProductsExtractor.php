@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\SearchRequestTransfer;
 use Generated\Shared\Transfer\SearchResponseProductAttributeTransfer;
 use Generated\Shared\Transfer\SearchResponseProductPriceTransfer;
 use Generated\Shared\Transfer\SearchResponseProductTransfer;
+use SprykerEco\Client\Algolia\AlgoliaConfig;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaEntityNameEnum;
 use SprykerEco\Shared\Algolia\Enum\AlgoliaProductObjectEnum;
 
@@ -38,6 +39,15 @@ class ProductsExtractor implements SearchResponseExtractorInterface
      * @var string
      */
     protected const PRICE_FIELD_GROSS = 'gross';
+
+    /**
+     * @var string
+     */
+    protected const DEFAULT_MULTI_VALUE_DELIMITER = ', ';
+
+    public function __construct(protected AlgoliaConfig $algoliaConfig)
+    {
+    }
 
     public function isApplicable(SearchRequestTransfer $searchRequestTransfer): bool
     {
@@ -99,15 +109,20 @@ class ProductsExtractor implements SearchResponseExtractorInterface
     }
 
     /**
-     * @param array<string, string> $attributes
+     * @param array<string, mixed> $attributes
      *
      * @return \ArrayObject<int, \Generated\Shared\Transfer\SearchResponseProductAttributeTransfer>
      */
     protected function extractAttributes(array $attributes): ArrayObject
     {
         $searchResponseProductAttributeTransferCollection = new ArrayObject();
+        $multiValueAttributeDelimiters = $this->algoliaConfig->getMultiValueProductAttributeDelimiters();
 
         foreach ($attributes as $key => $value) {
+            if (is_array($value)) {
+                $value = implode($multiValueAttributeDelimiters[$key] ?? static::DEFAULT_MULTI_VALUE_DELIMITER, $value);
+            }
+
             $searchResponseProductAttributeTransferCollection->offsetSet(
                 $key,
                 (new SearchResponseProductAttributeTransfer())

@@ -33,6 +33,8 @@ use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\CmsPageDeleterInterface;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleter;
 use SprykerEco\Zed\Algolia\Business\Deleter\ProductDeleterInterface;
+use SprykerEco\Zed\Algolia\Business\Expander\MultiValueAttributeExpander;
+use SprykerEco\Zed\Algolia\Business\Expander\MultiValueAttributeExpanderInterface;
 use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporter;
 use SprykerEco\Zed\Algolia\Business\Exporter\AlgoliaEntityExporterInterface;
 use SprykerEco\Zed\Algolia\Business\Exporter\CmsPageExporter;
@@ -171,7 +173,12 @@ class AlgoliaBusinessFactory extends AbstractBusinessFactory
 
     public function createProductMapper(): ProductMapperInterface
     {
-        return new ProductMapper();
+        return new ProductMapper($this->createMultiValueAttributeExpander());
+    }
+
+    public function createMultiValueAttributeExpander(): MultiValueAttributeExpanderInterface
+    {
+        return new MultiValueAttributeExpander($this->getConfig());
     }
 
     public function createIndexMapper(): IndexMapperInterface

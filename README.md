@@ -669,6 +669,37 @@ public function getSuggestionGenerateAttributes(): array
 }
 ```
 
+**Multi-Value Attributes:**
+
+Spryker stores a multi-value product attribute as a single delimiter-separated string, for example
+`color = "red,blue"`. Indexed verbatim, Algolia creates one facet bucket per distinct *combination*
+of values instead of one per value, so `red, blue` shows up as a checkbox of its own next to `red`,
+and the two spellings `red, blue` and `red,blue` become two separate filters with separate counts.
+Algolia cannot split a string facet value at query time, so the split happens at index time.
+
+- `getMultiValueProductAttributeDelimiters()` - The delimiter each multi-value product attribute is split by, keyed by attribute name. Keys are plain attribute keys as they appear under `attributes` in the record (`color`, **not** `attributes.color`). Empty by default; override in project-level config.
+
+Example in `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
+```php
+public function getMultiValueProductAttributeDelimiters(): array
+{
+    return [
+        'color' => ',',
+        'material' => ',',
+        'size' => '|',
+    ];
+}
+```
+
+Notes:
+- Splitting is **opt-in per attribute**, because the same character can belong to the value of another attribute — a decimal number in a locale that uses the comma as a decimal separator (`"1,5 kg"`), or a free text attribute containing commas. Only list attributes whose delimiter genuinely separates values.
+- The delimiter is configured **per attribute**, so `color` can split on `,` while `size` splits on `|` and keeps the commas inside its values (`"5,5Gb|6,5Gb"` → `["5,5Gb", "6,5Gb"]`).
+- Values are trimmed, so `"red, blue"` and `"red,blue"` produce the same two buckets. This matches `\Spryker\Zed\ProductAttribute\Communication\Formatter\MultiSelectAttributeFormatter`, which does the same for `multiselect` product attributes.
+- A value that does not contain its configured delimiter is left as a string, so the records of products carrying a single value are unchanged.
+- Empty parts are kept, so a trailing delimiter (`"red,blue,"`) produces an empty facet bucket. Clean the import data if that matters.
+- Attribute values that are not strings are left untouched, which covers values already stored as arrays by `multiselect` product attributes.
+- Changing this configuration requires a **full product export** before it takes effect on the storefront.
+
 **Insights & Analytics & Personalization:**
 - `getIsPersonalizationEnabled()` - Enable/disable Algolia Personalization for search. This feature requires a premium Algolia plan.
 - `getProjectMappingFacets()` - Facet names mapping for Algolia Insights event tracking (via TraceableEventWidget).

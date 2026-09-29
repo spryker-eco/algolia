@@ -181,7 +181,7 @@ class AlgoliaFactory extends AbstractFactory
 
     public function createProductsExtractor(): SearchResponseExtractorInterface
     {
-        return new ProductsExtractor();
+        return new ProductsExtractor($this->getConfig());
     }
 
     public function createCmsPageExtractor(): SearchResponseExtractorInterface

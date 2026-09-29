@@ -249,6 +249,22 @@ class AlgoliaConfig extends AbstractBundleConfig
 
     /**
      * Specification:
+     * - Returns the delimiter each multi-value product attribute is split by, keyed by attribute name.
+     * - Keys are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
+     *   for example `color`, not `attributes.color`.
+     * - Splitting is opt-in: an attribute that is not listed here is indexed verbatim.
+     *
+     * @api
+     *
+     * @return array<string, string>
+     */
+    public function getMultiValueProductAttributeDelimiters(): array
+    {
+        return $this->getSharedConfig()->getMultiValueProductAttributeDelimiters();
+    }
+
+    /**
+     * Specification:
      * - Returns a mapping of client-side sort parameter names to Algolia attribute names for product replicas.
      * - When a sort field from the search request differs from the Algolia attribute used in the replica index name,
      *   this mapping translates the sort field to the correct replica attribute.
