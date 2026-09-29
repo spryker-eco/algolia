@@ -337,6 +337,7 @@ class AlgoliaConfig extends AbstractBundleConfig
             AlgoliaProductObjectEnum::LABEL->value,
             'attributes.color',
             'attributes.brand',
+            'attributes.audio_system',
             AlgoliaProductObjectEnum::MERCHANT_NAME->value,
         ];
         if ($this->getIsProductPriceSynced()) {
@@ -369,24 +370,9 @@ class AlgoliaConfig extends AbstractBundleConfig
     /**
      * Specification:
      * - Returns the delimiter each multi-value product attribute is split by, keyed by attribute name.
-     * - The listed attributes hold several values in one delimiter separated string and are indexed as an array,
-     *   so the index produces one facet bucket per value instead of one per distinct combination.
      * - Keys are plain attribute keys as they appear under the `attributes` key of the Algolia product record,
      *   for example `color`, not `attributes.color`.
-     * - The delimiter is configured per attribute because the same character can belong to the value of another
-     *   attribute, for example the comma in the decimal number `5,5` or in a free text attribute.
      * - Splitting is opt-in: an attribute that is not listed here is indexed verbatim.
-     * - Attribute values that are not strings are left untouched, which covers the values already stored as arrays
-     *   by `multiselect` product attributes.
-     * - Changing this configuration requires a full product export before it takes effect on the storefront.
-     * - Empty by default; override on project level.
-     *
-     * @examples
-     * [
-     *     'color' => ',', // "red,blue" is indexed as ["red", "blue"]
-     *     'material' => ',', // "cotton, wool" is indexed as ["cotton", "wool"], every value is trimmed
-     *     'size' => '|', // "5,5Gb|6,5Gb" is indexed as ["5,5Gb", "6,5Gb"], the commas stay inside the values
-     * ]
      *
      * @api
      *
@@ -394,7 +380,7 @@ class AlgoliaConfig extends AbstractBundleConfig
      */
     public function getMultiValueProductAttributeDelimiters(): array
     {
-        return [];
+        return $this->getSharedConfig()->getMultiValueProductAttributeDelimiters();
     }
 
     /**

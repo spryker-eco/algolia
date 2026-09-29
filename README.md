@@ -679,7 +679,7 @@ Algolia cannot split a string facet value at query time, so the split happens at
 
 - `getMultiValueProductAttributeDelimiters()` - The delimiter each multi-value product attribute is split by, keyed by attribute name. Keys are plain attribute keys as they appear under `attributes` in the record (`color`, **not** `attributes.color`). Empty by default; override in project-level config.
 
-Example in `src/Pyz/Zed/Algolia/AlgoliaConfig.php`:
+Example in `src/Pyz/Shared/Algolia/AlgoliaConfig.php`:
 ```php
 public function getMultiValueProductAttributeDelimiters(): array
 {
