@@ -401,10 +401,6 @@
         <property name="skipIndexConfiguration" type="bool"/>
     </transfer>
 
-    <transfer name="AlgoliaResponse">
-        <property name="isSuccessful" type="bool"/>
-    </transfer>
-
     <transfer name="PaginationEntry">
         <property name="page" type="int"/>
         <property name="hitsPerPage" type="int"/>
@@ -583,6 +579,59 @@
         <property name="failedCount" type="int"/>
         <property name="isSuccessful" type="bool"/>
         <property name="messages" type="string[]" singular="message"/>
+    </transfer>
+
+    <transfer name="ConfigurationValueCollectionRequest" strict="true">
+        <property name="deletionKeys" type="ConfigurationValueDeletion[]" singular="deletionKey"/>
+        <property name="configurationValues" type="ConfigurationValue[]" singular="configurationValue"/>
+    </transfer>
+
+    <transfer name="SearchQueryPagination">
+    </transfer>
+
+    <transfer name="SearchQueryRangeFacetFilter">
+    </transfer>
+
+    <transfer name="SearchQuerySorting">
+    </transfer>
+
+    <transfer name="SearchQueryValueFacetFilter">
+    </transfer>
+
+    <transfer name="SearchHttpResponsePagination">
+    </transfer>
+
+    <transfer name="SearchHttpResponse">
+    </transfer>
+
+    <transfer name="SuggestionsSearchHttpResponse" strict="true">
+    </transfer>
+
+    <transfer name="SearchContext">
+    </transfer>
+
+    <transfer name="SearchDocument">
+    </transfer>
+
+    <transfer name="CmsVersion">
+    </transfer>
+
+    <transfer name="Pagination">
+    </transfer>
+
+    <transfer name="ProductConcreteConditions" strict="true">
+    </transfer>
+
+    <transfer name="ProductConcreteCriteria" strict="true">
+    </transfer>
+
+    <transfer name="ConfigurationValue" strict="true">
+        <property name="value" type="string"/>
+        <property name="settingKey" type="string"/>
+    </transfer>
+
+    <transfer name="ConfigurationValueDeletion" strict="true">
+        <property name="settingKey" type="string"/>
     </transfer>
 
 </transfers>
