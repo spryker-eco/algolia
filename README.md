@@ -36,6 +36,13 @@ composer require spryker-eco/algolia
 
 ### Step 1: Configure Algolia Credentials
 
+> ⚠️ **WARNING**: Starting from version 1.1.0, `AlgoliaConfig::getIsActive()` returns `true` when the Algolia credentials are set and no longer depends on the `AlgoliaConstants::IS_ACTIVE` configuration. If the `ALGOLIA_APPLICATION_ID` and `ALGOLIA_SEARCH_API_KEY` values are still set in the AWS Parameter Store or in the Back Office, the module exports search data to Algolia after the upgrade.
+>
+> To prevent this, before you upgrade to version 1.1.0 or higher, do one of the following:
+>
+> - Remove the `ALGOLIA_APPLICATION_ID` and `ALGOLIA_SEARCH_API_KEY` values or set them to empty values in the AWS Parameter Store or, if you use the Back Office configuration, in **Configuration > Integrations > Algolia**.
+> - On the project level, override `getIsActive()` in `Pyz\Zed\Algolia\AlgoliaConfig` and `Pyz\Client\Algolia\AlgoliaConfig` to return `false` in the environments where the Algolia integration must stay inactive.
+
 #### Option A: Environment variable-based credentials
 
 Set the values in your config file.
