@@ -51,6 +51,11 @@
 
     <transfer name="SearchQuery">
         <property name="store" type="string" strict="true"/>
+        <property name="queryString" type="string"/>
+        <property name="locale" type="string"/>
+        <property name="userToken" type="string" strict="true"/>
+        <property name="pagination" type="SearchQueryPagination"/>
+        <property name="searchQueryFacetFilters" type="array" singular="searchQueryFacetFilter"/>
     </transfer>
 
     <transfer name="ProductConcrete">
@@ -146,6 +151,7 @@
         <property name="localeName" type="string"/>
         <property name="name" type="string"/>
         <property name="isActive" type="bool"/>
+        <property name="idLocale" type="int"/>
     </transfer>
 
     <transfer name="LocalizedAttributes">
@@ -587,42 +593,73 @@
     </transfer>
 
     <transfer name="SearchQueryPagination">
+        <property name="page" type="int"/>
+        <property name="itemsPerPage" type="int"/>
     </transfer>
 
     <transfer name="SearchQueryRangeFacetFilter">
+        <property name="fieldName" type="string"/>
+        <property name="from" type="string"/>
+        <property name="to" type="string"/>
     </transfer>
 
     <transfer name="SearchQuerySorting">
+        <property name="fieldName" type="string"/>
+        <property name="sortDirection" type="string"/>
     </transfer>
 
     <transfer name="SearchQueryValueFacetFilter">
+        <property name="fieldName" type="string"/>
+        <property name="values" type="array" singular="value"/>
     </transfer>
 
     <transfer name="SearchHttpResponsePagination">
+        <property name="numFound" type="int"/>
+        <property name="currentPage" type="int"/>
+        <property name="currentItemsPerPage" type="int"/>
     </transfer>
 
     <transfer name="SearchHttpResponse">
+        <property name="items" type="array" singular="item"/>
+        <property name="pagination" type="SearchHttpResponsePagination"/>
+        <property name="facets" type="array" singular="facet"/>
+        <property name="queryId" type="string"/>
     </transfer>
 
     <transfer name="SuggestionsSearchHttpResponse" strict="true">
+        <property name="completions" type="string[]" singular="completion"/>
+        <property name="matches" type="array" associative="true" singular="match"/>
+        <property name="matchedItems" type="array" singular="matchedItem"/>
+        <property name="categories" type="array" singular="category"/>
+        <property name="matchedItemsBySourceIdentifiers" type="array" singular="matchedItemsBySourceIdentifier"/>
     </transfer>
 
     <transfer name="SearchContext">
+        <property name="sourceIdentifier" type="string"/>
     </transfer>
 
     <transfer name="SearchDocument">
     </transfer>
 
     <transfer name="CmsVersion">
+        <property name="createdAt" type="string"/>
     </transfer>
 
     <transfer name="Pagination">
+        <property name="limit" type="int"/>
+        <property name="offset" type="int"/>
     </transfer>
 
     <transfer name="ProductConcreteConditions" strict="true">
+        <property name="localeNames" type="string[]" singular="localeName" description="A collection of locale names."/>
+        <property name="productIds" type="int[]" singular="idProduct" strict="true"/>
+        <property name="productAbstractIds" type="int[]" singular="idProductAbstract" strict="true"/>
     </transfer>
 
     <transfer name="ProductConcreteCriteria" strict="true">
+        <property name="productConcreteConditions" type="ProductConcreteConditions" description="Conditions for filtering concrete products."/>
+        <property name="pagination" type="Pagination"/>
+        <property name="withProductAbstractData" type="bool"/>
     </transfer>
 
     <transfer name="ConfigurationValue" strict="true">
@@ -632,6 +669,18 @@
 
     <transfer name="ConfigurationValueDeletion" strict="true">
         <property name="settingKey" type="string"/>
+    </transfer>
+
+    <transfer name="ProductConcreteCollection">
+        <property name="products" type="ProductConcrete[]" singular="product" description="A collection of products."/>
+    </transfer>
+
+    <transfer name="EventEntity">
+        <property name="foreignKeys" type="array" singular="foreignKeys"/>
+        <property name="name" type="string"/>
+        <property name="id" type="int"/>
+        <property name="originalValues" type="array" singular="originalValues"/>
+        <property name="modifiedColumns" type="array" singular="modifiedColumns"/>
     </transfer>
 
 </transfers>
