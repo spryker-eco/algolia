@@ -32,6 +32,7 @@ use Generated\Shared\DataBuilder\ProductUpdatedBuilder;
 use Generated\Shared\DataBuilder\StoreBuilder;
 use Generated\Shared\Transfer\AlgoliaApiCredentialsTransfer;
 use Generated\Shared\Transfer\AlgoliaProductObjectTransfer;
+use Generated\Shared\Transfer\LocaleTransfer;
 use Generated\Shared\Transfer\LocalizedAttributesTransfer;
 use Generated\Shared\Transfer\MessageAttributesTransfer;
 use Generated\Shared\Transfer\MoneyValueTransfer;
@@ -47,19 +48,22 @@ use Generated\Shared\Transfer\StoreTransfer;
 
 class AlgoliaHelper extends Module
 {
+    protected const string LOCALE_NAME_FIRST = 'de_DE';
+
+    protected const string LOCALE_NAME_SECOND = 'en_US';
+
     public function haveFullProductConcreteTransfer(
         array $seed = []
     ): ProductConcreteTransfer {
-        // Create locale seed data once, explicitly setting locale_name to ensure consistency
+        // Two distinct fixed locales: random Faker locales can match, which collapses the product into a single locale.
         $locale1Seed = $seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][0][LocalizedAttributesTransfer::LOCALE] ?? [];
         $locale2Seed = $seed[ProductConcreteTransfer::LOCALIZED_ATTRIBUTES][1][LocalizedAttributesTransfer::LOCALE] ?? [];
 
-        // Build locales once to get names, then add names back to seed to prevent Faker randomization
-        $tempLocale1 = (new LocaleBuilder($locale1Seed))->build();
-        $tempLocale2 = (new LocaleBuilder($locale2Seed))->build();
+        $locale1Seed[LocaleTransfer::LOCALE_NAME] ??= static::LOCALE_NAME_FIRST;
+        $locale2Seed[LocaleTransfer::LOCALE_NAME] ??= static::LOCALE_NAME_SECOND;
 
-        $locale1Seed['locale_name'] = $tempLocale1->getLocaleName();
-        $locale2Seed['locale_name'] = $tempLocale2->getLocaleName();
+        $locale1Seed['locale_name'] = $locale1Seed[LocaleTransfer::LOCALE_NAME];
+        $locale2Seed['locale_name'] = $locale2Seed[LocaleTransfer::LOCALE_NAME];
 
         $availableLocaleIsoCodes = array_unique([
             $locale1Seed['locale_name'],
